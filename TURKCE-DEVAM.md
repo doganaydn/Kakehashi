@@ -39,4 +39,6 @@ Telefon: Samsung Galaxy A55, SM-A556E/DS. Hedef ABI arm64-v8a. Windows uzun yol 
 
 ## Telefonda denenecekler
 
+10 Ekim 2026: Android release derlemesi tamamlandı. APK adı Kakehashi-Turkce-1.4.8-tr.1-arm64.apk; teslim klasörü üst projedeki paylasim/kakehashi-tr-android. Boyut 128.905.943 bayt; SHA-256 dde5c27e362183ec57e1c0e047c9e788f1ba58f91f030ef6c277401d1641ddcc. APK imzası v2 doğrulandı; uygulama kimliği com.portego00.kakehashi.tr, ad Kakehashi Türkçe, min Android API 24, hedef API 36, yalnız arm64-v8a. Derlenmiş pakette Türkçe veri ve editorial-reviewed durumu mevcut. Expo OTA kapalı ve kakehashitr şeması doğrulandı. Fiziksel telefon testi kullanıcıyla yapılacak. Kurulum yönergesi ve yapı kanıtı aynı teslim klasöründe.
+
 上げる (2490), まだ (9208), 改まる (4204), 宜しく (6338), 庄園 (7040), 升 (8599) ve kanji 一 (440). Türkçe anahtarı kapatıp aç; İngilizce kaynağı aç; çeviri gizleme ayarını dene. Paket dışında bir kelimede İngilizceye dönüşü kontrol et. Ders/tekrar açıklama ekranları ve uzaktan içerik güncellemesi sonraki kapsamdır.
