@@ -54,3 +54,11 @@ __pycache__/
 
 app-example
 .vercel
+
+# Personal Turkish build tools and checks
+.local-tools/
+.test-cache/
+.turkish-checks/
+.turkish-*.txt
+.turkish-*.log
+.turkish-*.json

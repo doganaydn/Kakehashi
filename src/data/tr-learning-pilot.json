@@ -1,0 +1,904 @@
+{
+  "$schema": "./translation-package.schema.json",
+  "schemaVersion": 1,
+  "packageId": "wanikani-tr-demo",
+  "language": "tr",
+  "name": "Turkish learning content — phone integration demo",
+  "version": "0.2.0",
+  "generatedAt": "2026-10-10T16:51:58.051760+00:00",
+  "purpose": "integration-demo",
+  "scope": "display-only",
+  "subjects": {
+    "440": {
+      "source": {
+        "type": "kanji",
+        "word": "一",
+        "meaningsEn": [
+          "One"
+        ],
+        "readingsJa": [
+          "いち",
+          "いつ",
+          "ひと",
+          "かず"
+        ],
+        "level": 1,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "c23c986cf6564a6b892eb6734d6aa37c9dfe5478dcda08d48208b0c18b23d9ed"
+      },
+      "meaning": {
+        "primary": "bir",
+        "alternatives": [
+          "1"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": []
+    },
+    "2467": {
+      "source": {
+        "type": "vocabulary",
+        "word": "一",
+        "meaningsEn": [
+          "One"
+        ],
+        "readingsJa": [
+          "いち"
+        ],
+        "level": 1,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "1c70293a53b55825308e569b6e0572ec106d7376e22713937b9bef3a7ded0e74"
+      },
+      "meaning": {
+        "primary": "bir",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "このレモン、一キログラム！？大きいですね！",
+            "en": "This lemon weighs a kilogram!? That's big!"
+          },
+          "sourceSha256": "1fab949d475ec9d0845caafbeec70348a0e94193f7f3edbe9477cd199bb4ef96",
+          "translation": "Bu limon bir kilogram mı!? Ne kadar büyük!",
+          "usage": "Bu cümlede 一, kilogram miktarını bir olarak belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "レベル一です。",
+            "en": "It's level 1."
+          },
+          "sourceSha256": "e83f8c58361578f85edae5226eda028236a15d6700932c2f5dfe9f8f00a5dc19",
+          "translation": "Seviye bir.",
+          "usage": "Bu cümlede 一, seviye numarasını belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "このメロンはアメリカ一の大きさです。",
+            "en": "This is the largest size melon in the United States."
+          },
+          "sourceSha256": "dd508a8a5075b22749832fc4c942b96c6fa004bd9cce1ba4b9c9b88e0dc99e2e",
+          "translation": "Bu kavun, ABD’deki en büyük kavun.",
+          "usage": "Bu cümlede 一, アメリカ一 ifadesinde Amerika genelinde birinci, yani en büyük anlamını verir.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "2480": {
+      "source": {
+        "type": "vocabulary",
+        "word": "入る",
+        "meaningsEn": [
+          "To Enter",
+          "To Go In"
+        ],
+        "readingsJa": [
+          "はいる"
+        ],
+        "level": 1,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "15b31e660337157fb0d3da750a25f3de80cc9f5ce06f6b06658702b5f73ac5d9"
+      },
+      "meaning": {
+        "primary": "girmek",
+        "alternatives": [
+          "içeri girmek"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "ジェニーはもうすぐインターナショナルスクールに入る。",
+            "en": "Jenny will go to an international school soon."
+          },
+          "sourceSha256": "45a590a34b371152012eb050ded287e1d24257860a9eb039d974ea325932ee4a",
+          "translation": "Jenny yakında uluslararası bir okula başlayacak.",
+          "usage": "Bu cümlede 入る, bir okula öğrenci olarak girmeyi anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "マイケルは一人でカラオケに入った。",
+            "en": "Michael went into karaoke alone."
+          },
+          "sourceSha256": "aae7a562289259d12c72191d0c2091af391a6be9b9c29550afcca6662bf4abb8",
+          "translation": "Michael karaoke mekânına tek başına girdi.",
+          "usage": "Bu cümlede 入る, 入った biçiminde bir yere girmiş olmayı anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "スキーのクラブに入ったんです。",
+            "en": "I joined the ski club."
+          },
+          "sourceSha256": "c6e08aa213af34f4dc34cd6bea6f064fa550fdc24b37c3302744417cd97047f5",
+          "translation": "Kayak kulübüne katıldım.",
+          "usage": "Bu cümlede 入る, kulübe üye olmak anlamında kullanılır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "2490": {
+      "source": {
+        "type": "vocabulary",
+        "word": "上げる",
+        "meaningsEn": [
+          "To Lift Something",
+          "To Raise Something",
+          "To Increase Something"
+        ],
+        "readingsJa": [
+          "あげる"
+        ],
+        "level": 1,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "47f1d805d0eb9bd07d2eeff1aa06e11acb2c62bd756d432b06ae49bc15748263"
+      },
+      "meaning": {
+        "primary": "bir şeyi kaldırmak",
+        "alternatives": [
+          "bir şeyi yükseltmek",
+          "bir şeyi artırmak"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "大きいブランケットをロフトに上げる。",
+            "en": "I lift a large blanket up to the loft."
+          },
+          "sourceSha256": "8797fe1326430cc6699d54b5fb24fc1fc349b56ac77141ff70e2596989624327",
+          "translation": "Büyük bir battaniyeyi asma kata çıkarıyorum.",
+          "usage": "Bu cümlede 上げる, battaniyeyi daha yüksek bir yere çıkarmayı anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "「スピーカーのボリューム、上げる？」「うん。」",
+            "en": "\"Should I turn up the volume on the speaker?\" \"Yeah.\""
+          },
+          "sourceSha256": "2632035a3b93b69a1f4b0db8a1d7bd4b4269f075b553a633129e63542732b4c2",
+          "translation": "“Hoparlörün sesini artırayım mı?” “Evet.”",
+          "usage": "Bu cümlede 上げる, ses düzeyini artırmak anlamında kullanılır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "ピカチュウのレベルを上げるには、どうしたらいいですか？",
+            "en": "What can I do to raise Pikachu's level?"
+          },
+          "sourceSha256": "fbfb8841f583af7295a21651cb109191acf822c8aa9d57f1360a015f96065753",
+          "translation": "Pikachu’nun seviyesini yükseltmek için ne yapabilirim?",
+          "usage": "Bu cümlede 上げる, oyun karakterinin seviyesini yükseltmek anlamındadır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "4204": {
+      "source": {
+        "type": "vocabulary",
+        "word": "改まる",
+        "meaningsEn": [
+          "To Be Renewed",
+          "To Be Altered",
+          "To Be Revised",
+          "To Be Formal"
+        ],
+        "readingsJa": [
+          "あらたまる"
+        ],
+        "level": 20,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "97bf51510e5bbd1496d8e3978748eaf8d390e0227a07bc04a9593a24268ae971"
+      },
+      "meaning": {
+        "primary": "Yenilenmek",
+        "alternatives": [
+          "Düzelmek",
+          "Resmileşmek"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "まさか日本の年号がワニカニに改まる日が来るなんて！",
+            "en": "I never thought I'd see the day that the Japanese era name was changed to WaniKani."
+          },
+          "sourceSha256": "83931362c8a6fbe80b2830ab84984ed3ef8c869dc54ace21091801be263599f5",
+          "translation": "Japonya’nın dönem adının WaniKani olarak değişeceği günü göreceğim hiç aklıma gelmezdi!",
+          "usage": "Bu cümlede 改まる, dönem adının yenisiyle değişmesini anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "そう改まるなよ。うちの社長は、とても気さくなんだから。",
+            "en": "Don’t be so formal! The president of our company is very friendly."
+          },
+          "sourceSha256": "50c22f8890fcbaeee0a1b1704a110f801f2dbc8cd450ca1a528f36ab7dcf0e28",
+          "translation": "Öyle resmî davranma. Bizim şirketin patronu çok samimidir.",
+          "usage": "Bu cümlede 改まる, tavrın resmîleşmesini anlatır; な yapısıyla bundan kaçınması istenir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "その山の上で空を見上げると、心が改まるような気持ちになりました。",
+            "en": "When I looked up at the sky from the top of that mountain, I felt my heart become solemn."
+          },
+          "sourceSha256": "d018da16f0fdfc6f8fc9d25876fc505d5f1e5ae62b01ed81394ade642c4c5d96",
+          "translation": "O dağın tepesinden gökyüzüne bakınca kendimi daha ciddi ve ağırbaşlı bir ruh hâline girmiş gibi hissettim.",
+          "usage": "Bu cümlede 改まる, kişinin iç dünyasında daha ciddi bir hâle geçmesini anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "アイツの悪いクセがすぐに改まるとは思えないよ。",
+            "en": "I don't see his bad habits changing anytime soon."
+          },
+          "sourceSha256": "409ba426d16aa29b197811deabeaa57dce35c3d57ac61803746be8b2808ce5bb",
+          "translation": "Onun kötü alışkanlıklarının hemen düzeleceğini sanmıyorum.",
+          "usage": "Bu cümlede 改まる, kötü alışkanlıkların düzelmesi anlamında kullanılır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "皆さんのお話を聞いて、考えが改まりました。",
+            "en": "After hearing everyone's stories, my thoughts have changed."
+          },
+          "sourceSha256": "f9480295b1fd34ea1808ec3d830e2fc5c4660a09a12a282c5d25bba925620fe7",
+          "translation": "Herkesin anlattıklarını dinledikten sonra düşüncem değişti.",
+          "usage": "Bu cümlede 改まる, 改まりました biçiminde düşüncenin değiştiğini anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "4255": {
+      "source": {
+        "type": "vocabulary",
+        "word": "余計",
+        "meaningsEn": [
+          "Unneeded",
+          "More Than Needed",
+          "Too Much"
+        ],
+        "readingsJa": [
+          "よけい"
+        ],
+        "level": 20,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "7c791a425807bb7754e342ef5fe9898d0de09f4dd0e99ccbe2267f5f9725460f"
+      },
+      "meaning": {
+        "primary": "Fazla",
+        "alternatives": [
+          "Gereksiz"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "このイス、一つ余計だったね。",
+            "en": "This is one too many chairs, isn't it?"
+          },
+          "sourceSha256": "5eb0f06a786f2a1204d7123a28a6cc87464808a5b9ec6bb1580e61a4492e72fe",
+          "translation": "Bir sandalye fazla olmuş, değil mi?",
+          "usage": "Bu cümlede 余計, ihtiyaçtan bir adet fazla olmayı anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "分かってるよね？余計なことはゼッタイに言わないでね！",
+            "en": "You know that, right? Don't say anything unnecessary, okay?"
+          },
+          "sourceSha256": "c9000d4179805f3dfeb9e7740c186dea878168bb96a28882a35a979520901e52",
+          "translation": "Anladın, değil mi? Sakın gereksiz bir şey söyleme!",
+          "usage": "Bu cümlede 余計, söylenmesine gerek olmayan şeyi nitelendirir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "息子から「余計なお世話だ」って言われて、余計にイライラしちゃったんですよね。",
+            "en": "My son told me I was meddling too much, and that just made me even more irritated."
+          },
+          "sourceSha256": "fcad00c25e53bae736139179621ed178c8e299fc25e19fe36de58ff46185eab2",
+          "translation": "Oğlum “İşime gereksiz yere karışıyorsun” deyince daha da sinirlendim.",
+          "usage": "Bu cümlede 余計, 余計なお世話 ifadesinde istenmeyen karışmayı; 余計に ifadesinde daha da artmayı anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "6323": {
+      "source": {
+        "type": "vocabulary",
+        "word": "飛躍",
+        "meaningsEn": [
+          "Leaping",
+          "Rapid Progress"
+        ],
+        "readingsJa": [
+          "ひやく"
+        ],
+        "level": 40,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "68fe1907939a9155282e5016fd444d2d72ec3e1d33da90716cf1b3088d538ee4"
+      },
+      "meaning": {
+        "primary": "Sıçrama",
+        "alternatives": [
+          "Hızlı gelişme"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "彼は陰謀論が好きなんですが、彼の論理はよく飛躍するんですよね。",
+            "en": "He likes conspiracies, but there is often a leap in his logic."
+          },
+          "sourceSha256": "c46afbee2e66c4c9c8bd1f50ab9cf787da5f9fedb8c3ef22054264fd1713a2f0",
+          "translation": "Komplo teorilerini seviyor ama akıl yürütmesinde sık sık mantık sıçramaları oluyor.",
+          "usage": "Bu cümlede 飛躍, gerekçeler arasındaki bağlantının atlanmasını anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "6338": {
+      "source": {
+        "type": "vocabulary",
+        "word": "宜しく",
+        "meaningsEn": [
+          "Best Regards",
+          "Well",
+          "Properly",
+          "Suitably"
+        ],
+        "readingsJa": [
+          "よろしく"
+        ],
+        "level": 40,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "b2e991e03b7cf89795f45724c3029632086787e7d10aba0ba2a5f8c66afd2195"
+      },
+      "meaning": {
+        "primary": "Selamlar",
+        "alternatives": [
+          "Uygun biçimde"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "お母様に宜しくお伝えくださいね。",
+            "en": "Please say thank you to your mother."
+          },
+          "sourceSha256": "e595dcc1f2c779d2022c32212a0234406fdf2587219e4188bd85894cb6f5e38a",
+          "translation": "Lütfen annenize selamlarımı iletin.",
+          "usage": "Bu cümlede 宜しく, başka bir kişiye selam veya iyi dilek iletme kalıbındadır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "6342": {
+      "source": {
+        "type": "vocabulary",
+        "word": "傾ける",
+        "meaningsEn": [
+          "To Lean Something",
+          "To Tilt Something"
+        ],
+        "readingsJa": [
+          "かたむける"
+        ],
+        "level": 40,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "909b27d62e3fcd16e362da06350e38d298dc5cd9098d45a43aef427980bf5acd"
+      },
+      "meaning": {
+        "primary": "Eğmek",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "みんな、コウイチの話に、一心に耳を傾けた。",
+            "en": "People hung on Koichi’s every word."
+          },
+          "sourceSha256": "865e76cf491c26c9aef435a5cd4fdb42ebb0d5162eaa1802a77e4d32bea3d276",
+          "translation": "Herkes Koichi’nin söylediklerini bütün dikkatini vererek dinledi.",
+          "usage": "Bu cümlede 傾ける, 耳を傾ける kalıbında kulak vermek, dikkatle dinlemek anlamındadır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "6344": {
+      "source": {
+        "type": "vocabulary",
+        "word": "遠慮する",
+        "meaningsEn": [
+          "To Decline",
+          "To Refrain"
+        ],
+        "readingsJa": [
+          "えんりょする"
+        ],
+        "level": 40,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "a728b032a0ba5303d0af1d00a9fc06cdc218f79c9d649931cd670cbaa0d4c0e8"
+      },
+      "meaning": {
+        "primary": "Çekinmek",
+        "alternatives": [
+          "Geri durmak"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "明日、健康診断なので、できれば今日はお酒はご遠慮させてください。",
+            "en": "Tomorrow is my physical check-up, so I'd rather not have alcohol today, if that's okay."
+          },
+          "sourceSha256": "796020018e8f9e6637d930af0367d09198363a636976ec3e8476ef5ea23acb82",
+          "translation": "Yarın sağlık kontrolüm var; mümkünse bugün alkol içmesem olur mu?",
+          "usage": "Bu cümlede 遠慮する, alkol içmekten kaçınmayı kibarca istemek anlamındadır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "6345": {
+      "source": {
+        "type": "vocabulary",
+        "word": "懸かる",
+        "meaningsEn": [
+          "To Hang",
+          "To Depend On",
+          "To Be At Stake"
+        ],
+        "readingsJa": [
+          "かかる"
+        ],
+        "level": 40,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "9f3db5048dd311d2e02f795ae5288043e24b37a81a136ca50f419ab86edd2e19"
+      },
+      "meaning": {
+        "primary": "Asılı olmak",
+        "alternatives": [
+          "Bağlı olmak"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "彼の安否が気に懸かります。",
+            "en": "I’m worried if he is okay."
+          },
+          "sourceSha256": "0356921233e4ee70398b4955bd83f09ed8b50e79e1a8281cbb748646a1543e95",
+          "translation": "Güvende ve iyi olup olmadığı konusunda endişeleniyorum.",
+          "usage": "Bu cümlede 懸かる, 気に懸かる ifadesinde bir şeyin zihni meşgul edip kaygı vermesini anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "6479": {
+      "source": {
+        "type": "vocabulary",
+        "word": "瀬戸",
+        "meaningsEn": [
+          "Seto"
+        ],
+        "readingsJa": [
+          "せと"
+        ],
+        "level": 41,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "1873d87d7398a6f972a21d53eca02fadaec0f5edf4e0e0ae968a914a7e09fb92"
+      },
+      "meaning": {
+        "primary": "Seto",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "赤西仁を瀬戸市で見たよ。",
+            "en": "I saw Jin Akanishi in Seto City."
+          },
+          "sourceSha256": "6b0cca0ced2bfcd60b07ec9d9deafc61eb88c097ed4184c149b368ce89b0d005",
+          "translation": "Seto şehrinde Jin Akanishi'yi gördüm.",
+          "usage": "瀬戸 burada bir yer adıdır. 瀬戸市, Seto şehri anlamındadır.",
+          "reviewStatus": "demo"
+        }
+      ]
+    },
+    "7040": {
+      "source": {
+        "type": "vocabulary",
+        "word": "庄園",
+        "meaningsEn": [
+          "Manor",
+          "Agricultural Estate"
+        ],
+        "readingsJa": [
+          "しょうえん"
+        ],
+        "level": 60,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "bc641b827c6447cf24d7bbb0d8881fd03a130bb139fd878baf863e6950d5f0c1"
+      },
+      "meaning": {
+        "primary": "Malikâne",
+        "alternatives": [
+          "Tarım mülkü"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "平安時代には多くの庄園が作られた。",
+            "en": "Many private estates were established during the Heian period."
+          },
+          "sourceSha256": "96effbd06dae26d95c95037040a900cd793cb41dc49dac5a06d21b4f98271697",
+          "translation": "Heian döneminde çok sayıda özel toprak mülkü oluşturuldu.",
+          "usage": "Bu cümlede 庄園, tarihsel Japonya’daki özel toprak mülklerini belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "この地域には昔、大きな庄園があったんです。",
+            "en": "Long ago, there was a large manor in this area."
+          },
+          "sourceSha256": "eeb7df12fa8e96b7c4910757b50acbc2d238fa4859c85cade40535c37fece35e",
+          "translation": "Eskiden bu bölgede büyük bir özel toprak mülkü vardı.",
+          "usage": "Bu cümlede 庄園, büyük bir arazi mülkünü belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "庄園制度導入への準備は全て整っています。",
+            "en": "Everything is in order for the introduction of manorialism."
+          },
+          "sourceSha256": "66dce804af8fe4bbe5851d82b6c9531facf66807610a267723f6df7a62b8ed63",
+          "translation": "Shōen toprak mülkleri sisteminin uygulanması için bütün hazırlıklar tamam.",
+          "usage": "Bu cümlede 庄園, 庄園制度 bileşiğinde bu mülkler üzerine kurulu sistemi belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "庄園制度は日本の中世社会に大きな影響を与えました。",
+            "en": "The manorial system had a major impact on medieval Japanese society."
+          },
+          "sourceSha256": "40937aee2cbac8f34b3607ff0ad25ba8eccb74aecd7de42bfa7eea2382a6bc26",
+          "translation": "Shōen toprak mülkleri sistemi, Orta Çağ Japon toplumunu büyük ölçüde etkiledi.",
+          "usage": "Bu cümlede 庄園, tarihsel shōen toprak mülkleri sisteminin adında kullanılır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "8579": {
+      "source": {
+        "type": "vocabulary",
+        "word": "蔑む",
+        "meaningsEn": [
+          "To Scorn",
+          "To Despise"
+        ],
+        "readingsJa": [
+          "さげすむ"
+        ],
+        "level": 60,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "f85ccdb6c788d08e88310c463a0f216584568703e745a2686c3f1b4a0feb9d72"
+      },
+      "meaning": {
+        "primary": "Hor görmek",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "あの男は、無意識に人のことを蔑んでいるのよ。",
+            "en": "That man unconsciously looks down on people."
+          },
+          "sourceSha256": "612f6f473f4e3b489e121f63ee420a20612e4ff93336689083298aa75aea0c92",
+          "translation": "O adam farkında olmadan insanları küçümsüyor.",
+          "usage": "Bu cümlede 蔑む, 蔑んでいる biçiminde insanlara yukarıdan bakmayı anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "8594": {
+      "source": {
+        "type": "vocabulary",
+        "word": "倹約",
+        "meaningsEn": [
+          "Thrift",
+          "Economy",
+          "Frugality"
+        ],
+        "readingsJa": [
+          "けんやく"
+        ],
+        "level": 60,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "a0aaff08e71cfec752f3a3b393d4ca230702caf8b99d726e53e763786fc0df96"
+      },
+      "meaning": {
+        "primary": "Tutumluluk",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "いくらマイホームを買いたいからって、度を過ぎた倹約を強いるのはどうかと思います。",
+            "en": "I don’t think it’s a good idea to force a higher amount of frugality on yourself just because you want to buy your own home."
+          },
+          "sourceSha256": "cf15a0cac89f41d1298b8d4849feab81a4d9bec6ae12f9c5fc46bbfc47bf04fa",
+          "translation": "Kendi evini almayı ne kadar istesen de kendini aşırı tutumlu yaşamaya zorlamanın doğru olduğunu sanmıyorum.",
+          "usage": "Bu cümlede 倹約, para harcamayı kısmayı anlatır; 度を過ぎた bunun aşırıya kaçtığını belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "8599": {
+      "source": {
+        "type": "vocabulary",
+        "word": "升",
+        "meaningsEn": [
+          "Grid",
+          "Box",
+          "Measuring Container",
+          "Measure"
+        ],
+        "readingsJa": [
+          "ます"
+        ],
+        "level": 60,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "8ab7f5fd0eef95e8f2eddfca5ee79a6dbc5d106b885f24d98a600fd6002064e0"
+      },
+      "meaning": {
+        "primary": "Ölçü kabı",
+        "alternatives": [
+          "Kare"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "作文の書き出しは、一升空けて下さい。",
+            "en": "When starting your composition, please leave the first box empty."
+          },
+          "sourceSha256": "c0b5502869490f843c037382c9975e4c71b32e46d426a683bd0cf1ef8c198928",
+          "translation": "Kompozisyona başlarken ilk kareyi boş bırakın.",
+          "usage": "Bu cümlede 升, ölçü kabı değil, yazı kâğıdındaki bir kare anlamındadır.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "9207": {
+      "source": {
+        "type": "kana_vocabulary",
+        "word": "でも",
+        "meaningsEn": [
+          "But",
+          "However"
+        ],
+        "readingsJa": [],
+        "level": 8,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "e2cd940e60d93d8efee7b596725b85401baca720b196162d1d552f3346ed7c95"
+      },
+      "meaning": {
+        "primary": "ama",
+        "alternatives": [
+          "fakat",
+          "ancak"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": []
+    },
+    "9208": {
+      "source": {
+        "type": "kana_vocabulary",
+        "word": "まだ",
+        "meaningsEn": [
+          "Still",
+          "Not Yet"
+        ],
+        "readingsJa": [],
+        "level": 8,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "3c04e208db4826c5f6d3adc2e0dedd5aaadf36efd473786a4502ef8aa76ceb02"
+      },
+      "meaning": {
+        "primary": "hâlâ",
+        "alternatives": [
+          "henüz"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "それはまだ分からないよ。",
+            "en": "I don't know that yet."
+          },
+          "sourceSha256": "3d3e36114d0c3848db7979c4fef9168edc72d65c46bfef2933603baa6412203c",
+          "translation": "Bunu henüz bilmiyorum.",
+          "usage": "Bu cümlede まだ, olumsuz ifadeyle henüz anlamını verir.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "え、まだトイレにいるの？",
+            "en": "What, are you still in the bathroom?"
+          },
+          "sourceSha256": "7d78a50ffc00e3d52a417ae4b003508721680c6f90156eaa3f5b76afaf902d68",
+          "translation": "Ne, hâlâ tuvalette misin?",
+          "usage": "Bu cümlede まだ, kişinin tuvalette bulunmasının devam ettiğini anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "ケンなら、まだシャワーしてるよ。",
+            "en": "If you're looking for Ken, he's still taking a shower."
+          },
+          "sourceSha256": "9804f2005a49155e7502c7b5e7c59549bb149c5f1f5301695bc55c0bd36119e7",
+          "translation": "Ken’i soruyorsan, hâlâ duş alıyor.",
+          "usage": "Bu cümlede まだ, duş alma eyleminin devam ettiğini belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "9210": {
+      "source": {
+        "type": "kana_vocabulary",
+        "word": "おやつ",
+        "meaningsEn": [
+          "Snack"
+        ],
+        "readingsJa": [],
+        "level": 8,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "4b6439d7ee516de10f77aa27ebaf514ae21bfb1c0d420b966c4b37c5187978ad"
+      },
+      "meaning": {
+        "primary": "atıştırmalık",
+        "alternatives": [
+          "ara öğün"
+        ],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "今日はおやつにマフィンを食べた。",
+            "en": "Today I ate a muffin as a snack."
+          },
+          "sourceSha256": "aa88b8559529afc1830fb31acb02788d65331f3bf3c207d61b7bed2e41257ae9",
+          "translation": "Bugün ara öğün olarak bir muffin yedim.",
+          "usage": "Bu cümlede おやつ, ana öğünler arasında yenilen yiyeceği anlatır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "そろそろおやつにする？",
+            "en": "Shall we take a snack break?"
+          },
+          "sourceSha256": "2973a62203e2bd4193dd003496b713c5ec4704cab8a5b68ea1abb1c5802be215",
+          "translation": "Artık bir şeyler atıştıralım mı?",
+          "usage": "Bu cümlede おやつにする, atıştırmaya geçmek anlamında kullanılır.",
+          "reviewStatus": "editorial-reviewed"
+        },
+        {
+          "source": {
+            "ja": "カオリちゃんのおやつは、いつも手作りだよ！",
+            "en": "Kaori's snacks are always homemade!"
+          },
+          "sourceSha256": "b188122483c7212bd890673517e80d98221846bf411760dc00c19de427476632",
+          "translation": "Kaori’nin atıştırmalıkları hep ev yapımı!",
+          "usage": "Bu cümlede おやつ, atıştırmak için hazırlanan yiyecekleri belirtir.",
+          "reviewStatus": "editorial-reviewed"
+        }
+      ]
+    },
+    "9236": {
+      "source": {
+        "type": "kana_vocabulary",
+        "word": "ホッチキス",
+        "meaningsEn": [
+          "Stapler"
+        ],
+        "readingsJa": [],
+        "level": 48,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "26cbcfdc9d36e6aa46dd893cde76ba0c96a22e83ae0bc3790e7d188f0676dc0f"
+      },
+      "meaning": {
+        "primary": "Zımba",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "あ、ホッチキスの針、切れちゃった。",
+            "en": "Ah, we're out of staples."
+          },
+          "sourceSha256": "49360ee9ac4e11a7a0054c55b185fa4f90540d234f66790769afe716c071c488",
+          "translation": "Ah, zımba teli bitmiş.",
+          "usage": "ホッチキス zımba aletidir; ホッチキスの針 ise zımba telini belirtir.",
+          "reviewStatus": "demo"
+        }
+      ]
+    },
+    "9334": {
+      "source": {
+        "type": "vocabulary",
+        "word": "漣斗",
+        "meaningsEn": [
+          "Rento"
+        ],
+        "readingsJa": [
+          "れんと"
+        ],
+        "level": 60,
+        "updatedAt": "2026-10-02T00:07:31.186411Z",
+        "meaningBasisSha256": "4c72ee2fef72ec8b2627a28ea860624301c51c2fff97dd37d18f5b3847fd1d20"
+      },
+      "meaning": {
+        "primary": "Rento",
+        "alternatives": [],
+        "reviewStatus": "editorial-reviewed"
+      },
+      "examples": [
+        {
+          "source": {
+            "ja": "ごめん、その日は漣斗と遊ぶ予定なんだ。",
+            "en": "Sorry, I'm planning to hang out with Rento that day."
+          },
+          "sourceSha256": "a3bb0eac6b464047e59c66c2c669cb79f1fa6ea92f6a30e3e136c604800be86c",
+          "translation": "Kusura bakma, o gün Rento'yla vakit geçirmeyi planlıyorum.",
+          "usage": "漣斗, Rento kişi adıdır; 予定 bir planı belirtir.",
+          "reviewStatus": "demo"
+        }
+      ]
+    }
+  }
+}

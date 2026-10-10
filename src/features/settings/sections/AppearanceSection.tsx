@@ -1,4 +1,5 @@
 import React from "react";
+import { ContentLanguageSetting } from "../../turkish-content/ContentLanguageSetting";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import type { Href } from "expo-router";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
@@ -41,6 +42,8 @@ export function AppearanceSection() {
         >
           Appearance
         </Text>
+
+        <ContentLanguageSetting />
 
         {showAppTextSizeSetting ? (
           <TouchableOpacity

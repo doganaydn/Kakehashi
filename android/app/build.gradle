@@ -88,11 +88,11 @@ android {
 
     namespace 'com.portego00.kakehashi'
     defaultConfig {
-        applicationId 'com.portego00.kakehashi'
+        applicationId 'com.portego00.kakehashi.tr'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 19
-        versionName "1.4.8"
+        versionName "1.4.8-tr.1"
     }
     signingConfigs {
         debug {

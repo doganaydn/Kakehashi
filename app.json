@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Kakehashi",
-    "slug": "kakehashi",
+    "name": "Kakehashi Türkçe",
+    "slug": "kakehashi-tr-personal",
     "version": "1.4.8",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "kakehashi",
+    "scheme": "kakehashitr",
     "userInterfaceStyle": "automatic",
     "ios": {
       "version": "1.4.8",
@@ -16,13 +16,17 @@
       "infoPlist": {
         "CFBundleURLTypes": [
           {
-            "CFBundleURLSchemes": ["kakehashi"]
+            "CFBundleURLSchemes": [
+              "kakehashi"
+            ]
           }
         ],
         "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera to scan Japanese text.",
         "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
         "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos",
-        "UIBackgroundModes": ["processing"],
+        "UIBackgroundModes": [
+          "processing"
+        ],
         "BGTaskSchedulerPermittedIdentifiers": [
           "com.expo.modules.backgroundtask.processing"
         ],
@@ -45,7 +49,7 @@
         "backgroundColor": "#ffffff"
       },
       "softwareKeyboardLayoutMode": "resize",
-      "package": "com.portego00.kakehashi",
+      "package": "com.portego00.kakehashi.tr",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.portego00.kakehashi&showAllReviews=true",
       "intentFilters": [
         {
@@ -56,7 +60,10 @@
               "scheme": "kakehashi"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "permissions": [
@@ -188,7 +195,9 @@
     "experiments": {
       "typedRoutes": true
     },
-    "assetBundlePatterns": ["assets/**/*"],
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
     "extra": {
       "router": {},
       "eas": {
@@ -208,14 +217,12 @@
               ]
             }
           }
-        },
-        "projectId": "22fd8bf2-11b1-439f-b818-80b2ef36b90b"
+        }
       }
     },
     "runtimeVersion": "1.4.8",
     "updates": {
-      "url": "https://u.expo.dev/22fd8bf2-11b1-439f-b818-80b2ef36b90b",
-      "checkAutomatically": "ON_ERROR_RECOVERY"
+      "enabled": false
     }
   }
 }

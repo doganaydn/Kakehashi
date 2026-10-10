@@ -1,5 +1,9 @@
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
 import { Ionicons } from "@expo/vector-icons";
+import { turkishContent } from "../features/turkish-content/content";
+import { resolveTurkishMeaning } from "../features/turkish-content/resolver";
+import { useLearningContentStore } from "../features/turkish-content/store";
+import { OriginalMeaning } from "../features/turkish-content/OriginalMeaning";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -479,10 +483,13 @@ export default function KanjiDetails({
   const readingPitchSnapInterval = readingPitchCardWidth + readingPitchCardGap;
 
   // Determine the primary meaning
-  const primaryMeaning =
+  const contentLanguage = useLearningContentStore(state => state.language);
+  const translatedMeaning = contentLanguage === "tr" ? resolveTurkishMeaning(turkishContent, kanji) : null;
+  const originalPrimaryMeaning =
     kanji.meanings.find((m) => m.primary)?.meaning ||
     kanji.meanings[0]?.meaning ||
     "";
+  const primaryMeaning = translatedMeaning?.primary ?? originalPrimaryMeaning;
 
   // Determine the primary reading (fallback to first available reading)
   const primaryReading =
@@ -976,6 +983,9 @@ export default function KanjiDetails({
                     {primaryMeaning}
                   </Text>
                 </View>
+
+                {translatedMeaning && <OriginalMeaning english={originalPrimaryMeaning}
+                  alternatives={translatedMeaning.alternatives} />}
 
                 {kanji.meanings.length > 1 && (
                   <View style={[styles.row, { marginBottom: 8 }]}>

@@ -1,4 +1,9 @@
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
+import { turkishContent } from "../features/turkish-content/content";
+import { resolveTurkishMeaning, resolveTurkishSentence } from "../features/turkish-content/resolver";
+import { useLearningContentStore } from "../features/turkish-content/store";
+import { OriginalMeaning } from "../features/turkish-content/OriginalMeaning";
+import { SentenceExplanation } from "../features/turkish-content/SentenceExplanation";
 import { Ionicons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { useNavigation } from "@react-navigation/native";
@@ -587,10 +592,13 @@ export default function VocabularyDetails({
     null;
 
   // Determine the primary meaning
-  const primaryMeaning =
+  const contentLanguage = useLearningContentStore(state => state.language);
+  const translatedMeaning = contentLanguage === "tr" ? resolveTurkishMeaning(turkishContent, vocabulary) : null;
+  const originalPrimaryMeaning =
     vocabulary.meanings.find((m) => m.primary)?.meaning ||
     vocabulary.meanings[0]?.meaning ||
     "";
+  const primaryMeaning = translatedMeaning?.primary ?? originalPrimaryMeaning;
 
   // Determine the primary reading
   const primaryReading =
@@ -1713,6 +1721,8 @@ export default function VocabularyDetails({
         >
           {contextSentences.map((sentence, index) => {
             const sentenceId = `wk-${index}`;
+            const translatedSentence = contentLanguage === "tr"
+              ? resolveTurkishSentence(turkishContent, vocabulary, sentence) : null;
             return (
               <View
                 key={sentenceId}
@@ -1764,10 +1774,13 @@ export default function VocabularyDetails({
                     style={styles.ankiExportAction}
                   />
                 </View>
-                {renderTranslation(sentence.en, sentenceId, [
+                {renderTranslation(translatedSentence?.translation ?? sentence.en, sentenceId, [
                   styles.englishSentence,
                   { color: theme.textSecondary },
                 ])}
+                {translatedSentence && !hideContextSentenceTranslationsCompletely &&
+                  (!hideContextSentenceTranslations || revealedTranslations.has(sentenceId)) &&
+                  <SentenceExplanation english={sentence.en} usage={translatedSentence.usage} />}
                 {renderSentenceSpeedControl(sentenceId)}
               </View>
             );
@@ -2114,6 +2127,9 @@ export default function VocabularyDetails({
                     {primaryMeaning}
                   </Text>
                 </View>
+
+                {translatedMeaning && <OriginalMeaning english={originalPrimaryMeaning}
+                  alternatives={translatedMeaning.alternatives} />}
 
                 {vocabulary.meanings.length > 1 && (
                   <View style={[styles.row, { marginBottom: 8 }]}>
