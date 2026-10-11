@@ -1,0 +1,53 @@
+{
+  "version": "1.5.0",
+  "generatedAt": "2026-10-11T18:21:26.881165+00:00",
+  "subjects": 9409,
+  "sentences": 5522,
+  "addedSentences": 2570,
+  "sentenceLevels": {
+    "1": 112,
+    "2": 238,
+    "3": 219,
+    "4": 350,
+    "5": 417,
+    "6": 383,
+    "7": 376,
+    "8": 409,
+    "9": 448,
+    "10": 492,
+    "11": 429,
+    "12": 457,
+    "13": 395,
+    "14": 401,
+    "15": 396
+  },
+  "masterSha256": {
+    "1": "66028d07f0e16578d05b466cf7b351563d69c1086a942d623dd05d1658ebec03",
+    "2": "6bb9563bbd9d8e3c4893889856f848b8561796fb58e8762b2a469e38ad64efc7",
+    "3": "a2557f3c73ba9fc072ad9de9bc79cb07e44faf054d234d524254067336a860e1",
+    "4": "97b99a361767700ad1eee8d4da0529675a05a5a007fff61732745c9e3706c094",
+    "5": "ab189f7bae86db9e59c6c3517b40f3cf0f0dcf82b14de4dab8c8831f96b919db",
+    "6": "8fad2470bea6959373c706731e91eca581b5653a966a26d9357eb29d8f21e954",
+    "7": "dfd5c19b3918c64e5d93135adabdc3ff990aeefdf4c953f66df0dc803895820f",
+    "8": "1d3966a5757edef795e7a533bc5bd799c9a66d37a0cb9cb9f23228233278c0ed",
+    "9": "9a76cdd249be75575d767a02f659490967d9d0bcba88e1ff488e7f442a28d260",
+    "10": "a7955cd1af2da906282c7579aee5096790ef1ac49634b08efe937e4fbf42255d",
+    "11": "595a8461b7ae0d2edcd4666fbca8f56fedf2b52bba8532470fe737de95d61849",
+    "12": "f05c05b571d4dedde5993c4d713988656705e2c1c0cb5457050d84f8ba67b149",
+    "13": "c9b7e8b9799e5f84cbee37ade3c8ab8e772393adae21b86e7f2db74aec56daf9",
+    "14": "b0e6426ab71a6283e210c3ff034e4a63f59e5bdea2439ee00703354679d2d8fe",
+    "15": "6b1a810368b089c1172cdcfb22381483128e939f343273603d55005ed406cd02"
+  },
+  "packageSha256": "8982af02762a5120f0702c770b45c2fc9f3b427ed5ee5e57bb7d3d69804507a7",
+  "bytes": 9621162,
+  "previousVersion": "1.4.0",
+  "meaningsAndSynonymAnswersUnchanged": true,
+  "previousExamplesUnchanged": true,
+  "secondReview": "same-model separate pass; not independent expert review",
+  "remoteWrites": 0,
+  "copies": [
+    "paylasim\\kakehashi-tr-dil-paketleri\\wanikani-tr-v3.json",
+    "paylasim\\kakehashi-tr-android\\dil-paketi\\wanikani-tr-v3.json",
+    "kakehashi-tr\\translation-packages\\wanikani-tr-v3.json"
+  ]
+}
