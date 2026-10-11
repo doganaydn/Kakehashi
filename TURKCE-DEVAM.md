@@ -5,7 +5,9 @@ Ana proje: https://github.com/Portego-00/Kakehashi
 Yerel dal: turkish-content. Ana proje uzak bağlantısı: upstream.
 GitHub fork: https://github.com/doganaydn/Kakehashi
 Uzak bağlantılar: origin = kişisel fork, upstream = Portego-00/Kakehashi.
-11 Ekim 2026: Fork doğrulandı ve origin bağlandı. Yerel değişiklikler henüz GitHub’a gönderilmedi.
+11 Ekim 2026: Fork doğrulandı; origin bağlandı. Türkçe paket desteği, bağımsız test verileri ve İngilizce açıklamalar turkish-content dalına gönderildi. main dalı upstream temelinde korundu.
+Dal: https://github.com/doganaydn/Kakehashi/tree/turkish-content
+111 ilgili test geçti; tam proje tip kontrolündeki önceki hatalar devam ediyor. APK release yayını ve ana geliştiriciye PR yapılmadı.
 
 ## İlk deneme
 
