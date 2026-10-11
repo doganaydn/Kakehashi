@@ -138,3 +138,10 @@ Kullanıcı tr.11 için toplu aktarım, pause, uygulamayı kapatıp yeniden açt
 tr.12 (30): Eski tr-learning-pilot gösterim paketi uygulamadan çıkarıldı ve yalnız test fixture olarak korundu. Paket yüklenmemişse İngilizce; Remove translation package çeviri dosyasını cihazdan kaldırır, hesaba dokunmaz. Yüklenmiş etkin JSON korunur. Synonym önerileri için tam uygulama kataloğu ayrı olarak kalır; rastgele içe aktarılan gösterim JSON’u hesaba yazma kaynağı değildir.
 
 Önizlemede yeni karşılığı olmayan konular varsayılan gizli, isteğe bağlı açılır. Seviye filtresi ve 30 konuluk sayfalama var; seçimler tüm seviyeler/sayfalar boyunca korunur. Konuyu işaret dışına almak görünümden çıkarmaz. Yalnız ulaşılmış seviyeler gösterilir, From/To alanları etiketli. 161 test / 18 grup geçti; hedefli lint sıfır hata. tr.12 fiziksel görünüm kontrolü kullanıcıda.
+
+
+## 11 Ekim 2026 — Review Complete ve Subject List çevirileri
+
+tr.13 (31): Review Complete sonuç kartlarının anlamları ve yazısız radikal metin karşılığı etkin içe aktarılmış çeviri paketinden çözülür. Subject List Browse/Manage ve konu ekleme listelerindeki anlamlar, erişilebilirlik adları ve metin tabanlı radikal gösterimi aynı pakete bağlı. Subject Lists ana ekranında yazısız konu önizlemesi de çeviriyle gösterilir. Kaynak doğrulaması, İngilizceye geri dönüş, mevcut tasarım, Japonca okumalar ve gizli cevapları açma davranışı korunur. Hesap synonyms/cevap değerlendirme/gönderim davranışı değişmez. Çoklu dil ve yüklenen JSON’dan aktarım önerisi alma bu değişiklikte yapılmadı; sonuncusu sonraki işlem için ertelendi. Fiziksel tr.13 ekran kontrolü kullanıcıda.
+
+172 test / 20 grup geçti; hedefli lint sıfır hata/uyarı. Genel tip kontrolünde önceki proje hataları var; değişen üretim modüllerinde hata raporlanmadı. tr.13 APK derlendi; 31 kodu, arm64-v8a, önceki sertifikayla aynı imza ve derleme kaynak kopyası doğrulandı. Ana JSON SHA aynı. Teslim kaydı BUILD-MANIFEST-tr.13.json.

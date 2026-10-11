@@ -29,3 +29,5 @@ The personal Android variant uses `com.portego00.kakehashi.tr`. Version 1.4.8-tr
 ## Upstream updates
 
 Keep `main` as the upstream baseline and changes on `turkish-content`. Fetch upstream, merge its main branch into a trial branch, resolve conflicts and run the translation tests and Android build before updating the personal branch. Do not force-sync the feature branch to upstream.
+
+Review Complete result cards and Subject List browse/manage/add-item screens also resolve meanings from the active imported package. Source mismatches and disabled translations retain original English; review grading and list membership are unaffected.
