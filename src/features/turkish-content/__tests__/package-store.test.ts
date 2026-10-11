@@ -1,6 +1,6 @@
 import { createPackageManager, PACKAGE_STORAGE_KEY } from "../package-store";
 import { parsePackageText, packageSummary, resolveTurkishMeaning } from "../resolver";
-import data from "../../../data/tr-learning-pilot.json";
+import data from "../../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 
 function memoryStorage() {
   const values = new Map<string, string>();
@@ -15,7 +15,7 @@ function memoryStorage() {
   };
 }
 const packet = parsePackageText(JSON.stringify(data));
-it("persists chunked content across restart and restores bundled content", async () => {
+it("persists chunked content across restart and removes imported content", async () => {
   const storage = memoryStorage();
   const manager = createPackageManager(storage as any);
   await manager.activate(packet);

@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { useEffect } from "react";
-import { turkishContent } from "./content";
 import { parsePackageText, type TranslationPackage } from "./resolver";
 
 export const PACKAGE_STORAGE_KEY = "kakehashi-learning-package-v2";
@@ -37,7 +36,7 @@ export function createPackageManager(storage = AsyncStorage) {
       }
       state.setState({packet, error: null});
     } catch {
-      state.setState({packet: null, error: "Could not read the saved package. Bundled content is being used."});
+      state.setState({packet: null, error: "Could not read the saved package. Original English is being used."});
     } finally { state.setState({hydrated: true}); }
   })();
   const enqueue = (operation: () => Promise<void>) => {
@@ -79,5 +78,5 @@ export const packageManager = createPackageManager();
 export function useActiveContent() {
   const packet = packageManager.state(s => s.packet);
   useEffect(() => { void packageManager.hydrate(); }, []);
-  return packet ?? turkishContent;
+  return packet;
 }

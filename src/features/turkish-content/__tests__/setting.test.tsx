@@ -1,7 +1,7 @@
 import { selectTranslationPackage } from "../import-file";
 import { packageManager } from "../package-store";
 import { parsePackageText } from "../resolver";
-import data from "../../../data/tr-learning-pilot.json";
+import data from "../../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 jest.mock("../import-file", () => ({selectTranslationPackage: jest.fn()}));
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
@@ -42,4 +42,11 @@ it("keeps current content after picker validation failure", async () => {
   fireEvent.press(screen.getByText("Import translation file"));
   await waitFor(() => expect(screen.getByText("The file is not valid JSON.")).toBeTruthy());
   expect(packageManager.state.getState().packet).toBeNull();
+});
+
+it("shows no demo content when no package is loaded", async () => {
+ await packageManager.reset();
+ const screen=render(<ContentLanguageSetting/>);
+ expect(screen.getByText("No translation package loaded")).toBeTruthy();
+ expect(screen.queryByText("Restore bundled content")).toBeNull();
 });

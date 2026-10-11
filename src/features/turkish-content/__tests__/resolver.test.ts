@@ -1,4 +1,4 @@
-import data from "../../../data/tr-learning-pilot.json";
+import data from "../../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 import { parseTranslationPackage, resolveTurkishMeaning, resolveTurkishSentence, type DisplaySubject } from "../resolver";
 
 const packet = parseTranslationPackage(data)!;

@@ -1,6 +1,6 @@
 import { learningDisplay } from "../display";
 import { parsePackageText, packageSummary } from "../resolver";
-import data from "../../../data/tr-learning-pilot.json";
+import data from "../../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
 

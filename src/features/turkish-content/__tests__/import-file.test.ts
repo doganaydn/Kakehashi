@@ -1,7 +1,7 @@
 import { File } from "expo-file-system";
 import { selectTranslationPackage } from "../import-file";
 import { MAX_PACKAGE_BYTES } from "../resolver";
-import data from "../../../data/tr-learning-pilot.json";
+import data from "../../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 jest.mock("expo-file-system", () => ({File: {pickFileAsync: jest.fn()}}));
 it("accepts JSON supplied as a picked file", async () => {
   (File.pickFileAsync as jest.Mock).mockResolvedValueOnce({size: 1000, text: async () => JSON.stringify(data)});

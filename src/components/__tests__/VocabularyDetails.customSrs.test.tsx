@@ -1,3 +1,5 @@
+import {packageManager} from "../../features/turkish-content/package-store";
+import {parseTranslationPackage} from "../../features/turkish-content/resolver";
 import {within} from "@testing-library/react-native";
 import {SentenceExplanation} from "../../features/turkish-content/SentenceExplanation";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
@@ -10,7 +12,7 @@ import VocabularyDetails from "../VocabularyDetails";
 import { Audio } from "../../utils/expoAvCompat";
 import { resolveCustomVocabularyAudioForPlayback } from "../../features/custom-srs/audio-cache";
 import { getWaniKaniVocabularyPatterns } from "../../utils/wanikaniVocabularyPatterns";
-import pilotContent from "../../data/tr-learning-pilot.json";
+import pilotContent from "../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 import { useLearningContentStore } from "../../features/turkish-content/store";
 
 const mockSetPage = jest.fn();
@@ -95,6 +97,7 @@ const vocabulary = {
 };
 
 beforeEach(() => {
+  packageManager.state.setState({packet: parseTranslationPackage(pilotContent), hydrated: true});
   jest.clearAllMocks();
   useLearningContentStore.setState({language: "tr"});
   mockSettings.showJLPTLevel = false;

@@ -26,6 +26,12 @@ A token with Study Materials create/update permissions is required. Network, per
 
 ## Validation and maintenance
 
-Tests use mocked API responses and storage only, covering filters, source changes, Turkish duplicates, confirmation gating, account switches, concurrent editors, durable intent failures, pause/resume, ambiguous success and receipt-based undo. No real account mutations are part of development validation. 158 focused tests pass across 18 suites. Targeted lint passes; the project-wide type check still reports pre-existing unrelated errors. Physical device verification is pending with a same-signed arm64 APK (1.4.8-tr.11).
+Tests use mocked API responses and storage only, covering filters, source changes, Turkish duplicates, confirmation gating, account switches, concurrent editors, durable intent failures, pause/resume, ambiguous success and receipt-based undo. No real account mutations are part of development validation. 161 focused tests pass across 18 suites. Targeted lint passes; the project-wide type check still reports pre-existing unrelated errors. Physical device verification is pending with a same-signed arm64 APK (1.4.8-tr.12).
 
 The UI is English and the original app design is retained. This implementation is on `turkish-content`; no upstream PR has been submitted. The earlier direct package-answer acceptance plan is deferred in favor of this explicitly confirmed synonym flow.
+
+## Preview navigation
+
+Only reached levels are shown, with labeled From/To range inputs. Topics with no new suggestions are hidden by default; they can be shown explicitly. Unchecking a topic never hides it merely because its selection is empty. Filter the preview by level and browse 30 topics per page. Filters and pages affect only display; final confirmation includes all selected topics across pages and levels.
+
+The user reports successful multi-topic transfer, pause, restart with explicit resume and undo on a Samsung Galaxy A55 for tr.11. The tr.12 navigation changes still require physical display verification.

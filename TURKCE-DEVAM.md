@@ -129,3 +129,12 @@ Kullanıcı bundan sonraki tüm geliştirmelerin kendi GitHub fork’una push ed
 158 test / 18 grup geçti; hedefli lint sıfır hata. Genel tip kontrolünde önceki proje hataları sürüyor; değişen modüller ayrıca kontrol edildi. Yeni APK teslim ve imza kaydı BUILD-MANIFEST-tr.11.json içinde tutulacak.
 
 tr.11 APK derlendi; 29 sürüm kodu, arm64-v8a, önceki sertifikayla aynı imza ve derleme kaynak kopyası doğrulandı. 158/158 test geçti. Ana JSON SHA aynı. BUILD-MANIFEST-tr.11.json teslim kaydı tamamlandı.
+
+
+## 11 Ekim 2026 — Eski demo kaldırıldı; kısa aktarım önizlemesi
+
+Kullanıcı tr.11 için toplu aktarım, pause, uygulamayı kapatıp yeniden açtıktan sonra açık Continue/Resume ile devam ve geri alma işlemlerini telefonda başarılı bildirdi. Bu sonuç kullanıcı testi olarak kaydedildi; geliştirici gerçek hesap aktarımı yapmadı.
+
+tr.12 (30): Eski tr-learning-pilot gösterim paketi uygulamadan çıkarıldı ve yalnız test fixture olarak korundu. Paket yüklenmemişse İngilizce; Remove translation package çeviri dosyasını cihazdan kaldırır, hesaba dokunmaz. Yüklenmiş etkin JSON korunur. Synonym önerileri için tam uygulama kataloğu ayrı olarak kalır; rastgele içe aktarılan gösterim JSON’u hesaba yazma kaynağı değildir.
+
+Önizlemede yeni karşılığı olmayan konular varsayılan gizli, isteğe bağlı açılır. Seviye filtresi ve 30 konuluk sayfalama var; seçimler tüm seviyeler/sayfalar boyunca korunur. Konuyu işaret dışına almak görünümden çıkarmaz. Yalnız ulaşılmış seviyeler gösterilir, From/To alanları etiketli. 161 test / 18 grup geçti; hedefli lint sıfır hata. tr.12 fiziksel görünüm kontrolü kullanıcıda.

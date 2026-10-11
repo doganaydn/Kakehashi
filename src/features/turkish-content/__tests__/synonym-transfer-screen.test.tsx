@@ -50,3 +50,20 @@ it("cannot start a confirmed old-account preview after switching accounts",async
  fireEvent.press(s.getByText("Add selected synonyms…"));const callback=jest.mocked(Alert.alert).mock.calls.at(-1)![2]![1].onPress!;
  mockAuth.userData.id="account-B";await act(async()=>{callback();});expect(transferRunner.run).not.toHaveBeenCalled();
 });
+
+it("hides fully existing topics without dropping unselected new suggestions", async () => {
+ jest.mocked(prepareSynonymPreview).mockResolvedValue([{...row(),id:81,word:"Already saved",candidates:["Hayalet"],selected:[]},row()] as any);
+ const s=render(<TurkishSynonyms/>);fireEvent.press(s.getByText("Prepare preview"));await waitFor(()=>expect(s.getByText("Ruh")).toBeTruthy());
+ expect(s.queryByText(/Already saved/)).toBeNull();
+ fireEvent.press(s.getByText("Include this topic"));expect(s.getByText("Ruh")).toBeTruthy();
+ fireEvent.press(s.getByText("Show topics with no new synonyms"));expect(s.getByText(/Already saved/)).toBeTruthy();
+ expect(transferRunner.run).not.toHaveBeenCalled();
+});
+it("shows reached levels only and paginates without changing selection", async () => {
+ jest.mocked(prepareSynonymPreview).mockResolvedValue(Array.from({length:35},(_,i)=>({...row(),id:100+i,word:`Topic${i}`})) as any);
+ const s=render(<TurkishSynonyms/>);expect(s.queryByLabelText("9")).toBeNull();
+ fireEvent.press(s.getByText("Prepare preview"));await waitFor(()=>expect(s.getByText(/Page 1 of 2/)).toBeTruthy());
+ expect(s.queryByText(/Topic34/)).toBeNull();fireEvent.press(s.getByText("Next page"));
+ expect(s.getByText(/Topic34/)).toBeTruthy();expect(s.getByText("35 selected topics · 70 new synonyms")).toBeTruthy();
+ expect(transferRunner.run).not.toHaveBeenCalled();
+});

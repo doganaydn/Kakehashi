@@ -10,7 +10,7 @@ The public sample `translation-packages/wanikani-tr.json` contains 491 radical n
 
 The parser in `src/features/turkish-content/resolver.ts` is the authoritative schema. Use the sample JSON for an exact example of metadata and subject records. Records carry original source information, a translated primary meaning and alternatives, and optional examples with separate translations and usage explanations. Version 2 supports image-only radicals using a null character value. The current parser accepts Turkish (`tr`) packages only. Extending the parser and language setting to other language identifiers remains future work; the English settings wording presents the intended general feature.
 
-A translation is displayed only if its original source matches the live subject. Both source sentences must match for an example. Missing translations and source mismatches use original English. Local imports use chunked storage and atomic activation, and Settings can restore the bundled sample.
+A translation is displayed only if its original source matches the live subject. Both source sentences must match for an example. Missing translations and source mismatches use original English. Local imports use chunked storage and atomic activation, and Settings can remove the imported package and return display meanings to original English. No demo package is bundled for display. The old pilot JSON is retained only as a test fixture.
 
 Mnemonic and hint translations are not implemented. Answer grading is unchanged. Imported meanings are not automatically accepted as review answers and are not sent to WaniKani. A separate [user-confirmed synonym transfer](turkish-synonym-transfer.md) uses the app-supplied Turkish catalog, independently of imported display packages.
 

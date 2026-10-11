@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Alert, AppState, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {router} from "expo-router";
@@ -19,9 +19,12 @@ export default function TurkishSynonyms() {
   const [filters, setFilters] = useState<TransferFilters>({levels: [maxLevel], types: ["radical", "kanji", "vocabulary"], states: ["learning"]});
   const [from, setFrom] = useState(String(maxLevel));
   const [to, setTo] = useState(String(maxLevel));
+  const listRef = useRef<FlatList<TransferRow>>(null);
   const [preview, setPreview] = useState<TransferRow[] | null>(null);
   const [job, setJob] = useState<TransferJob | null>(null);
   const [history, setHistory] = useState<TransferJob[]>([]);
+  const [showExisting, setShowExisting] = useState(false);
+  const [previewLevel, setPreviewLevel] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sameAccount = useCallback(() => useAuthStore.getState().apiToken === token && useAuthStore.getState().userData?.id === account, [token, account]);
@@ -66,7 +69,7 @@ export default function TurkishSynonyms() {
       if (jobs.some(saved => saved.rows.some(row => ["pending", "writing", "undoing"].includes(row.status))))
         throw new Error("Finish or undo the unfinished transfer in History before preparing another one.");
       const rows = await prepareSynonymPreview(token, filters);
-      if (sameAccount()) setPreview(rows);
+      if (sameAccount()) {setPreview(rows); setShowExisting(false); setPreviewLevel(null); setPage(0);}
     } catch (cause) {if (sameAccount()) fail(cause);}
     finally {setBusy(false);}
   }
@@ -103,15 +106,21 @@ export default function TurkishSynonyms() {
   }
   const rows = job?.rows ?? preview ?? [];
   const count = transferCounts(rows);
+  const availableRows = preview ? rows.filter(row => row.candidates.some(value => !row.existing.some(existing => synonymKey(existing) === synonymKey(value)))) : rows;
+  const visibleRows = preview ? (showExisting ? rows : availableRows).filter(row => previewLevel === null || row.level === previewLevel) : rows;
+  const pageSize = 30;
+  const [page, setPage] = useState(0);
+  const safePage = Math.min(page, Math.max(0, Math.ceil(visibleRows.length / pageSize) - 1));
+  useEffect(() => {setPage(0);}, [previewLevel, showExisting]);
   const header = <View style={{padding: 16}}>
     <Text style={[styles.title, {color: theme.textColor}]}>Turkish synonyms</Text>
     <Text style={{color: theme.textSecondary}}>Choose levels and topics, review each meaning, then confirm. This changes your WaniKani account. Suggestions come from the app&apos;s reviewed Turkish catalog, not imported display files.</Text>
     {!job && <>
       <Text style={[styles.heading, {color: theme.textColor}]}>Levels</Text>
-      <View style={styles.wrap}>{Array.from({length: 60}, (_, i) => i+1).map(level => chip(String(level), filters.levels.includes(level), () => toggle("levels", level), busy || level > maxLevel))}</View>
+      <View style={styles.wrap}>{Array.from({length: maxLevel}, (_, i) => i+1).map(level => chip(String(level), filters.levels.includes(level), () => toggle("levels", level), busy || level > maxLevel))}</View>
       <View style={styles.wrap}>
-        <TextInput accessibilityLabel="First level" value={from} onChangeText={setFrom} editable={!busy} keyboardType="number-pad" style={[styles.input, {color: theme.textColor, borderColor: theme.border}]} />
-        <TextInput accessibilityLabel="Last level" value={to} onChangeText={setTo} editable={!busy} keyboardType="number-pad" style={[styles.input, {color: theme.textColor, borderColor: theme.border}]} />
+        <Text style={{color: theme.textSecondary}}>From</Text><TextInput accessibilityLabel="First level" value={from} onChangeText={setFrom} editable={!busy} keyboardType="number-pad" style={[styles.input, {color: theme.textColor, borderColor: theme.border}]} />
+        <Text style={{color: theme.textSecondary}}>To</Text><TextInput accessibilityLabel="Last level" value={to} onChangeText={setTo} editable={!busy} keyboardType="number-pad" style={[styles.input, {color: theme.textColor, borderColor: theme.border}]} />
         {button("Select range", () => {
           const low = Number(from), high = Number(to);
           if (!Number.isInteger(low) || !Number.isInteger(high) || low < 1 || high < low || high > maxLevel) {setError(`Choose a range from 1 to ${maxLevel}.`); return;}
@@ -138,6 +147,10 @@ export default function TurkishSynonyms() {
     {preview && <>
       <Text style={[styles.heading, {color: theme.textColor}]}>{count.subjects} selected topics · {count.synonyms} new synonyms</Text>
       <Text style={{color: theme.textSecondary}}>Review the suggestions below. Uncheck a topic or an individual meaning. Existing synonyms are kept and are not added again.</Text>
+      <Text style={{color: theme.textSecondary}}>{rows.length - availableRows.length} topics have no new synonyms and are hidden by default.</Text>
+      {button(showExisting ? "Hide topics with no new synonyms" : "Show topics with no new synonyms", () => setShowExisting(value => !value))}
+      <View style={styles.wrap}>{chip("All selected levels", previewLevel === null, () => setPreviewLevel(null))}{[...new Set(rows.map(row => row.level))].sort((a,b) => a-b).map(level => chip(`Level ${level}`, previewLevel === level, () => setPreviewLevel(level)))}</View>
+      {availableRows.length === 0 && <Text style={{color: theme.textSecondary}}>All matching suggestions are already accepted or saved. Nothing new to add.</Text>}
       {button("Deselect all", () => setPreview(current => current!.map(row => ({...row, selected: []}))))}
       {button("Add selected synonyms…", start, busy || !count.synonyms)}
       {!preview.length && <Text style={{color: theme.textSecondary}}>No matching topics with reviewed translations.</Text>}
@@ -161,7 +174,7 @@ export default function TurkishSynonyms() {
   };
   return <View style={{flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom, backgroundColor: theme.backgroundColor}}>
     <TouchableOpacity accessibilityRole="button" accessibilityLabel="Back" onPress={() => router.back()} style={{padding: 16}}><Ionicons name="arrow-back" size={24} color={theme.textColor}/></TouchableOpacity>
-    <FlatList data={rows} keyExtractor={item => String(item.id)} renderItem={renderRow} ListHeaderComponent={header} extraData={{busy, preview, job}} />
+    <FlatList ref={listRef} data={visibleRows.slice(safePage * pageSize, (safePage + 1) * pageSize)} ListFooterComponent={<View style={{padding: 16}}><Text style={{color: theme.textSecondary}}>{visibleRows.length ? `Page ${safePage + 1} of ${Math.ceil(visibleRows.length / pageSize)} · ${visibleRows.length} topics` : "No topics to display"}</Text><View style={styles.wrap}>{button("Previous page", () => {setPage(safePage - 1); listRef.current?.scrollToOffset({offset: 0, animated: false});}, busy || safePage === 0)}{button("Next page", () => {setPage(safePage + 1); listRef.current?.scrollToOffset({offset: 0, animated: false});}, busy || (safePage + 1) * pageSize >= visibleRows.length)}</View></View>} keyExtractor={item => String(item.id)} renderItem={renderRow} ListHeaderComponent={header} extraData={{busy, preview, job}} />
   </View>;
 }
 const styles = StyleSheet.create({title: {fontSize: 24, fontWeight: "700", marginBottom: 8}, heading: {fontSize: 16, fontWeight: "600", marginTop: 14, marginBottom: 8},

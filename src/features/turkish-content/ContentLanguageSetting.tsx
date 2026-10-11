@@ -39,7 +39,7 @@ export function ContentLanguageSetting() {
   async function reset() {
     setBusy(true); setError(null);
     try { await packageManager.reset(); setCandidate(null); }
-    catch { setError("Could not restore bundled content. Your current package is unchanged."); }
+    catch { setError("Could not remove the translation package. Your current package is unchanged."); }
     finally { setBusy(false); }
   }
   const disabled = busy || !hydrated;
@@ -60,7 +60,7 @@ export function ContentLanguageSetting() {
         onValueChange={enabled => setLanguage(enabled ? "tr" : "en")} />
     </View>
     <View style={styles.packageArea}>
-      <Text style={{color: theme.textColor, fontWeight: "600"}}>{imported ? "Imported package" : "Bundled content"}</Text>
+      <Text style={{color: theme.textColor, fontWeight: "600"}}>{imported ? "Imported package" : "No translation package loaded"}</Text>
       {active && <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Language: Turkish (tr){"\n"}{active.name} · v{active.version}{"\n"}{summaryText(active)}</Text>}
       {button(busy ? "Processing…" : "Import translation file", () => {void pick();})}
       {candidate && <View style={[styles.preview, {borderColor: theme.border}]}>
@@ -70,9 +70,9 @@ export function ContentLanguageSetting() {
         {button("Use this package", () => {void activate();})}
         {button("Cancel", () => setCandidate(null))}
       </View>}
-      {imported && button("Restore bundled content", () => Alert.alert(
-        "Restore bundled content?", "The imported package will be replaced by the bundled content. Your account and study progress will stay the same.",
-        [{text: "Cancel", style: "cancel"}, {text: "Restore", onPress: () => {void reset();}}]))}
+      {imported && button("Remove translation package", () => Alert.alert(
+        "Remove translation package?", "Translations will use the original English. Your account and study progress will stay the same.",
+        [{text: "Cancel", style: "cancel"}, {text: "Remove", onPress: () => {void reset();}}]))}
       {(error || storageError) && <Text accessibilityRole="alert" style={[styles.settingSubtext, {color: theme.textColor}]}>{error || storageError}</Text>}
       <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Packages are stored on your device for offline use. Interface language and answer grading stay the same.</Text>
     </View>

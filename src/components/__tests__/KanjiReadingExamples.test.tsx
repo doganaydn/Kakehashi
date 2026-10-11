@@ -1,4 +1,4 @@
-import data from "../../data/tr-learning-pilot.json";
+import data from "../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 import {parseTranslationPackage} from "../../features/turkish-content/resolver";
 import {packageManager} from "../../features/turkish-content/package-store";
 import {useLearningContentStore} from "../../features/turkish-content/store";
