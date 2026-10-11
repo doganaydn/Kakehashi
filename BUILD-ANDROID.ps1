@@ -24,6 +24,15 @@ if ([IO.Path]::GetFullPath($BuildDirectory).TrimEnd('\') -eq $PSScriptRoot.TrimE
 New-Item -ItemType Directory -Force $BuildDirectory | Out-Null
 & robocopy.exe $PSScriptRoot $BuildDirectory /E /R:1 /W:1 /NFL /NDL /NJH /NJS /XD .git .local-tools .test-cache .turkish-checks .gradle .cxx "$PSScriptRoot\android\app\build" "$PSScriptRoot\android\build" /XF '.turkish-*'
 if ($LASTEXITCODE -ge 8) { throw 'Build staging copy failed.' }
+# Clear only generated bundle assets so old content-hashed DOM files cannot accumulate.
+$taskStageRoot = [IO.Path]::GetFullPath($BuildDirectory).TrimEnd('\')
+$taskGeneratedAssets = [IO.Path]::GetFullPath((Join-Path $taskStageRoot 'android/app/build/generated/assets/react/release'))
+if (-not $taskGeneratedAssets.StartsWith($taskStageRoot + '\', [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'Generated asset cleanup escaped the build directory.'
+}
+if (Test-Path -LiteralPath $taskGeneratedAssets) {
+    Remove-Item -LiteralPath $taskGeneratedAssets -Recurse -Force
+}
 Set-Location $BuildDirectory
 Set-Content -LiteralPath android/local.properties -Value ('sdk.dir=' + $env:ANDROID_HOME.Replace('\','/')) -Encoding utf8
 & ./android/gradlew.bat -p android assembleRelease "-PreactNativeArchitectures=$Architectures" --no-daemon --console=plain --max-workers=4

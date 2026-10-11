@@ -50,3 +50,11 @@ it("shows no demo content when no package is loaded", async () => {
  expect(screen.getByText("No translation package loaded")).toBeTruthy();
  expect(screen.queryByText("Restore bundled content")).toBeNull();
 });
+
+it("keeps package details collapsed and compresses contiguous levels", async () => {
+ await packageManager.activate(parsePackageText(JSON.stringify({...data,name:"Hidden long package name"})));
+ const screen=render(<ContentLanguageSetting/>);
+ expect(screen.queryByText(/Hidden long package name/)).toBeNull();
+ fireEvent.press(screen.getByText("Package details"));expect(screen.getByText(/Hidden long package name/)).toBeTruthy();
+ screen.unmount();await packageManager.reset();
+});

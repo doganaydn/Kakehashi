@@ -1,5 +1,5 @@
 import {displaySubject} from "./display";
-import {resolveTurkishMeaning, type TranslationPackage} from "./resolver";
+import {resolveSynonymAnswers, type TranslationPackage} from "./resolver";
 import {formatTurkishMeaning} from "./format";
 import type {SynonymSaveReceipt} from "../../utils/studyMaterialSynonyms";
 
@@ -33,9 +33,9 @@ export function prepareTransferRows(packet: TranslationPackage, subjects: any[],
     const type = subject.object === "kana_vocabulary" ? "vocabulary" : subject.object;
     if (!filters.levels.includes(subject.data.level) || !filters.types.includes(type) || !filters.states.includes(state)) continue;
     const normalized = displaySubject(subject);
-    const meaning = normalized && resolveTurkishMeaning(packet, normalized);
-    if (!meaning) continue;
-    const candidates = uniqueSynonyms([meaning.primary, ...meaning.alternatives].map(formatTurkishMeaning));
+    const answers = normalized && resolveSynonymAnswers(packet, normalized);
+    if (!answers?.length) continue;
+    const candidates = uniqueSynonyms(answers.map(formatTurkishMeaning));
     const existing = materialMap.get(subject.id)?.data?.meaning_synonyms ?? [];
     const existingKeys = new Set(existing.map(synonymKey));
     const sourceKeys = new Set(subject.data.meanings.filter((m: any) => m.accepted_answer !== false).map((m: any) => synonymKey(m.meaning)));

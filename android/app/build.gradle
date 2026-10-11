@@ -91,8 +91,8 @@ android {
         applicationId 'com.portego00.kakehashi.tr'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 31
-        versionName "1.4.8-tr.13"
+        versionCode 32
+        versionName "1.4.8-tr.14"
     }
     signingConfigs {
         debug {
@@ -183,5 +183,22 @@ dependencies {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
+    }
+}
+
+// DOM source maps are debugging artifacts, not runtime WebView resources.
+// Remove them before Expo Updates indexes the generated release assets.
+tasks.configureEach { task ->
+    if (task.name == "createBundleReleaseJsAndAssets") {
+        task.doLast {
+            def domAssets = layout.buildDirectory.dir("generated/assets/react/release/www.bundle").get().asFile
+            def generatedRoot = layout.buildDirectory.get().asFile.canonicalPath + File.separator
+            if (!domAssets.canonicalPath.startsWith(generatedRoot)) {
+                throw new GradleException("DOM cleanup escaped the generated build directory")
+            }
+            fileTree(domAssets) { include "**/*.map" }.files.each { sourceMap ->
+                if (!sourceMap.delete()) throw new GradleException("Could not remove generated source map: " + sourceMap.name)
+            }
+        }
     }
 }

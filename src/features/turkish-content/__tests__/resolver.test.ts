@@ -53,7 +53,7 @@ it("does not invalidate translations on catalog reordering", () => {
   const current = subject("440");
   expect(resolveTurkishMeaning(packet, {...current, readings: [...current.readings!].reverse()})).not.toBeNull();
 });
-it.each([null, {}, {...data, schemaVersion: 3}, {...data, scope: "write"}])("rejects unsupported or invalid package", value => {
+it.each([null, {}, {...data, schemaVersion: 4}, {...data, scope: "write"}])("rejects unsupported or invalid package", value => {
   expect(parseTranslationPackage(value)).toBeNull();
 });
 it("rejects a malformed child and duplicate example instead of partially loading an invalid package", () => {

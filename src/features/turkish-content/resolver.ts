@@ -9,6 +9,7 @@ const entrySchema = z.object({
     meaningsEn: z.array(text).min(1), readingsJa: z.array(text),
     level: z.number().int().min(1).max(60), updatedAt: z.string().nullable(), meaningBasisSha256: hash,
   }).strict(),
+  synonymAnswers: z.object({ values: z.array(text).max(20), reviewStatus: status }).strict().optional(),
   meaning: z.object({ primary: text, alternatives: z.array(text), reviewStatus: status }).strict(),
   examples: z.array(z.object({
     source: z.object({ ja: text, en: text }).strict(), sourceSha256: hash,
@@ -16,10 +17,10 @@ const entrySchema = z.object({
   }).strict()),
 }).strict();
 const packageSchema = z.object({
-  $schema: text, schemaVersion: z.union([z.literal(1), z.literal(2)]), packageId: text,
+  $schema: text, schemaVersion: z.union([z.literal(1), z.literal(2), z.literal(3)]), packageId: text,
   language: z.literal("tr"), name: text, version: text,
   generatedAt: z.iso.datetime({ offset: true }),
-  purpose: z.enum(["integration-demo", "learning-content"]), scope: z.literal("display-only"),
+  purpose: z.enum(["integration-demo", "learning-content"]), scope: z.enum(["display-only", "display-and-synonyms"]),
   subjects: z.record(z.string().regex(/^[1-9][0-9]*$/), entrySchema),
 }).strict();
 export type TranslationPackage = z.infer<typeof packageSchema>;
@@ -35,6 +36,7 @@ export function parseTranslationPackage(value: unknown): TranslationPackage | nu
   const result = packageSchema.safeParse(value);
   if (!result.success || !Object.keys(result.data.subjects).length) return null;
   if (Object.keys(result.data.subjects).length > 12000) return null;
+  if (result.data.schemaVersion < 3 && (result.data.scope !== "display-only" || Object.values(result.data.subjects).some(entry => entry.synonymAnswers))) return null;
   let totalExamples = 0;
   for (const entry of Object.values(result.data.subjects)) {
     if (entry.source.type !== "radical" && entry.source.word === null) return null;
@@ -65,6 +67,11 @@ function matchingEntry(packet: TranslationPackage | null, subject: DisplaySubjec
 export function resolveTurkishMeaning(packet: TranslationPackage | null, subject: DisplaySubject) {
   const entry = matchingEntry(packet, subject);
   return entry?.meaning.reviewStatus === "editorial-reviewed" ? entry.meaning : null;
+}
+export function resolveSynonymAnswers(packet: TranslationPackage | null, subject: DisplaySubject) {
+  if (packet?.schemaVersion !== 3 || packet.scope !== "display-and-synonyms") return null;
+  const entry = matchingEntry(packet, subject);
+  return entry?.synonymAnswers?.reviewStatus === "editorial-reviewed" ? entry.synonymAnswers.values : null;
 }
 export function resolveTurkishSentence(packet: TranslationPackage | null, subject: DisplaySubject, source: {ja: string; en: string}) {
   const entry = matchingEntry(packet, subject);

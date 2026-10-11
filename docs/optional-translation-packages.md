@@ -12,7 +12,7 @@ The parser in `src/features/turkish-content/resolver.ts` is the authoritative sc
 
 A translation is displayed only if its original source matches the live subject. Both source sentences must match for an example. Missing translations and source mismatches use original English. Local imports use chunked storage and atomic activation, and Settings can remove the imported package and return display meanings to original English. No demo package is bundled for display. The old pilot JSON is retained only as a test fixture.
 
-Mnemonic and hint translations are not implemented. Answer grading is unchanged. Imported meanings are not automatically accepted as review answers and are not sent to WaniKani. A separate [user-confirmed synonym transfer](turkish-synonym-transfer.md) uses the app-supplied Turkish catalog, independently of imported display packages.
+Mnemonic and hint translations are not implemented. Answer grading is unchanged. Imported meanings are not automatically accepted as review answers and are not sent to WaniKani. A separate [user-confirmed synonym transfer](turkish-synonym-transfer.md) uses explicit `synonymAnswers` from an imported format-v3 package. Legacy files remain display-only. No translation catalog is embedded in the app.
 
 ## Development and checks
 
@@ -31,3 +31,5 @@ The personal Android variant uses `com.portego00.kakehashi.tr`. Version 1.4.8-tr
 Keep `main` as the upstream baseline and changes on `turkish-content`. Fetch upstream, merge its main branch into a trial branch, resolve conflicts and run the translation tests and Android build before updating the personal branch. Do not force-sync the feature branch to upstream.
 
 Review Complete result cards and Subject List browse/manage/add-item screens also resolve meanings from the active imported package. Source mismatches and disabled translations retain original English; review grading and list membership are unaffected.
+
+Format v3 adds optional per-subject `synonymAnswers: {values: string[], reviewStatus: "editorial-reviewed"}` and `scope: "display-and-synonyms"`. The supplied `wanikani-tr-v3.json` works for display and user-confirmed account transfer; `translation-package-v3.schema.json` documents the format. Do not import the schema file itself. Settings shows a compact summary with expandable details and compressed level ranges.

@@ -10,7 +10,11 @@ Open **Settings → Appearance → Add Turkish synonyms to WaniKani**. Opening t
 4. Prepare a network-verified preview. Uncheck entire topics or individual suggestions. Existing case-equivalent synonyms cannot be added again.
 5. Confirm the account, selected levels and maximum number of new synonyms. Only then does the worker write.
 
-Suggestions come from the app-supplied reviewed Turkish catalog in `translation-packages/wanikani-tr.json`. Arbitrary imported display JSON never supplies writing candidates. Suggestions are shown for user review; linguistic correctness is not guaranteed by a schema or review flag. Explanations and example sentences are never imported as answers. This feature uses existing personal synonym support; it does not add a JSON-based answer whitelist or change Japanese reading grading. The existing Accept User Synonyms setting still controls synonym answers in this app.
+Suggestions come from the active **imported** format-v3 package, specifically each subject's `synonymAnswers.values` with an `editorial-reviewed` status. Display primary/alternatives and sentences never implicitly become transfer answers. The old app-supplied catalog is no longer bundled. Older v1/v2 packages still work for display but cannot prepare or resume additions; receipt-based undo remains available even with no package loaded.
+
+Import `translation-packages/wanikani-tr-v3.json` for both display and selective transfer. The file preserves the existing meanings/sentences and separately lists the existing reviewed meaning candidates; it is not a new translation pass. A schema/status marker is not a signature or a guarantee of linguistic accuracy. Review the file's suggestions before confirming account writes. This feature uses personal synonyms and leaves reading grading unchanged. The existing Accept User Synonyms setting still controls synonym answers.
+
+Changing/removing the active package invalidates an unconfirmed preview or stops further additions. Resuming history validates each stored selected answer against the currently imported explicit answer list and live subject source. Importing a file never writes to an account.
 
 ## Preservation and recovery
 
@@ -26,7 +30,7 @@ A token with Study Materials create/update permissions is required. Network, per
 
 ## Validation and maintenance
 
-Tests use mocked API responses and storage only, covering filters, source changes, Turkish duplicates, confirmation gating, account switches, concurrent editors, durable intent failures, pause/resume, ambiguous success and receipt-based undo. No real account mutations are part of development validation. 161 focused tests pass across 18 suites. Targeted lint passes; the project-wide type check still reports pre-existing unrelated errors. Physical device verification is pending with a same-signed arm64 APK (1.4.8-tr.12).
+Tests use mocked API responses and storage only, covering filters, source changes, Turkish duplicates, confirmation gating, account switches, concurrent editors, durable intent failures, pause/resume, ambiguous success and receipt-based undo. No real account mutations are part of development validation. 176 focused tests pass across 18 suites. Targeted lint passes; the project-wide type check still reports pre-existing unrelated errors. Physical device verification is pending with a same-signed arm64 APK (1.4.8-tr.14).
 
 The UI is English and the original app design is retained. This implementation is on `turkish-content`; no upstream PR has been submitted. The earlier direct package-answer acceptance plan is deferred in favor of this explicitly confirmed synonym flow.
 

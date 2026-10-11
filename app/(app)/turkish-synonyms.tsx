@@ -1,3 +1,4 @@
+import {packageManager} from "../../src/features/turkish-content/package-store";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Alert, AppState, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
@@ -19,6 +20,7 @@ export default function TurkishSynonyms() {
   const [filters, setFilters] = useState<TransferFilters>({levels: [maxLevel], types: ["radical", "kanji", "vocabulary"], states: ["learning"]});
   const [from, setFrom] = useState(String(maxLevel));
   const [to, setTo] = useState(String(maxLevel));
+  const previewPacket = useRef<unknown>(null);
   const listRef = useRef<FlatList<TransferRow>>(null);
   const [preview, setPreview] = useState<TransferRow[] | null>(null);
   const [job, setJob] = useState<TransferJob | null>(null);
@@ -68,6 +70,7 @@ export default function TurkishSynonyms() {
       const jobs = await transferJournal.load(account);
       if (jobs.some(saved => saved.rows.some(row => ["pending", "writing", "undoing"].includes(row.status))))
         throw new Error("Finish or undo the unfinished transfer in History before preparing another one.");
+      previewPacket.current = packageManager.state.getState().packet;
       const rows = await prepareSynonymPreview(token, filters);
       if (sameAccount()) {setPreview(rows); setShowExisting(false); setPreviewLevel(null); setPage(0);}
     } catch (cause) {if (sameAccount()) fail(cause);}
@@ -75,6 +78,7 @@ export default function TurkishSynonyms() {
   }
   async function execute(saved: TransferJob, operation: "add" | "undo", create = false) {
     if (!token || !sameAccount() || saved.account !== account) return;
+    if (create && previewPacket.current !== packageManager.state.getState().packet) {setError("The translation package changed. Prepare a new preview."); return;}
     if (transferRunner.isRunning()) {setError("Wait for the current transfer to pause."); return;}
     setBusy(true); setError(null); setJob(saved); setPreview(null);
     try {
@@ -83,7 +87,8 @@ export default function TurkishSynonyms() {
         if (!latest) throw new Error("Transfer history could not be verified.");
         saved = latest; setJob(saved);
       }
-      await transferRunner.run(saved, synonymTransport(token, sameAccount, saved.filters), sameAccount, () => {
+      const executionPacket = packageManager.state.getState().packet;
+      await transferRunner.run(saved, synonymTransport(token, () => sameAccount() && (operation === "undo" || packageManager.state.getState().packet === executionPacket), saved.filters, operation === "undo"), sameAccount, () => {
         if (sameAccount()) setJob({...saved, rows: [...saved.rows]});
       }, operation, 5500, create);
     } catch (cause) {if (sameAccount()) fail(cause);}
@@ -114,7 +119,7 @@ export default function TurkishSynonyms() {
   useEffect(() => {setPage(0);}, [previewLevel, showExisting]);
   const header = <View style={{padding: 16}}>
     <Text style={[styles.title, {color: theme.textColor}]}>Turkish synonyms</Text>
-    <Text style={{color: theme.textSecondary}}>Choose levels and topics, review each meaning, then confirm. This changes your WaniKani account. Suggestions come from the app&apos;s reviewed Turkish catalog, not imported display files.</Text>
+    <Text style={{color: theme.textSecondary}}>Choose levels and topics, review each meaning, then confirm. This changes your WaniKani account. Suggestions use the explicit synonym answers in your imported translation file. Review them before confirming.</Text>
     {!job && <>
       <Text style={[styles.heading, {color: theme.textColor}]}>Levels</Text>
       <View style={styles.wrap}>{Array.from({length: maxLevel}, (_, i) => i+1).map(level => chip(String(level), filters.levels.includes(level), () => toggle("levels", level), busy || level > maxLevel))}</View>

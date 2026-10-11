@@ -1,4 +1,4 @@
-import bundled from "../../../../translation-packages/wanikani-tr.json";
+import bundled from "../../../../translation-packages/wanikani-tr-v3.json";
 import {parseTranslationPackage} from "../resolver";
 import {createTransferJournal, createTransferRunner, prepareTransferRows, studyState, synonymKey, type TransferJob, type TransferRow, type TransferTransport} from "../synonym-transfer";
 import {mergeMeaningSynonymEdits} from "../../../utils/meaningSynonyms";
