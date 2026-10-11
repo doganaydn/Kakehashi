@@ -1,28 +1,29 @@
+import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
+import { SettingsLabel } from "../../../ui/settings/settings-search";
+import {
+  SettingsIcon as Ionicons,
+  SettingsIcon as MaterialCommunityIcons,
+} from "../../../ui/settings/settings-icon";
 import React from "react";
 import { ContentLanguageSetting } from "../../turkish-content/ContentLanguageSetting";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import type { Href } from "expo-router";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
 
 import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
-import {
-  formatAppTextSizeScale,
-  useSettingsStore,
-} from "../../../utils/store";
+import { formatAppTextSizeScale, useSettingsStore } from "../../../utils/store";
 
 const APP_TEXT_SIZE_SETTINGS_ROUTE = "/app-text-size-settings" as Href;
 
 export function AppearanceSection() {
-  const { router, theme, updateSectionOffset } =
-    useSettingsControllerContext();
+  const { router, theme, updateSectionOffset } = useSettingsControllerContext();
   const appTextSizeScale = useSettingsStore((state) => state.appTextSizeScale);
   const showAppTextSizeSetting = Platform.OS === "ios";
 
   return (
     <>
       {/* Appearance Section */}
-      <View
+      <SettingsSectionSurface
         style={[
           styles.section,
           {
@@ -49,7 +50,7 @@ export function AppearanceSection() {
           onPress={() => router.push("/turkish-synonyms" as Href)}>
           <Ionicons name="cloud-upload-outline" size={24} color={theme.primary} style={styles.settingIcon}/>
           <View style={{flex: 1}}>
-            <Text style={{color: theme.textColor, fontSize: 16}}>Add Turkish synonyms to WaniKani</Text>
+            <SettingsLabel style={{color: theme.textColor, fontSize: 16}}>Add Turkish synonyms to WaniKani</SettingsLabel>
             <Text style={{color: theme.textSecondary, fontSize: 14}}>Choose levels and review suggestions.</Text>
           </View>
           <Ionicons name="chevron-forward" size={20} color={theme.textSecondary}/>
@@ -69,9 +70,11 @@ export function AppearanceSection() {
               style={styles.settingIcon}
             />
             <View style={styles.settingTextContainer}>
-              <Text style={[styles.settingText, { color: theme.textColor }]}>
+              <SettingsLabel
+                style={[styles.settingText, { color: theme.textColor }]}
+              >
                 App Text Size
-              </Text>
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
@@ -102,9 +105,11 @@ export function AppearanceSection() {
             style={styles.settingIcon}
           />
           <View style={styles.settingTextContainer}>
-            <Text style={[styles.settingText, { color: theme.textColor }]}>
+            <SettingsLabel
+              style={[styles.settingText, { color: theme.textColor }]}
+            >
               Customize Tabs
-            </Text>
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
@@ -129,9 +134,11 @@ export function AppearanceSection() {
             style={styles.settingIcon}
           />
           <View style={styles.settingTextContainer}>
-            <Text style={[styles.settingText, { color: theme.textColor }]}>
+            <SettingsLabel
+              style={[styles.settingText, { color: theme.textColor }]}
+            >
               Subject Colors
-            </Text>
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
@@ -156,9 +163,11 @@ export function AppearanceSection() {
             style={styles.settingIcon}
           />
           <View style={styles.settingTextContainer}>
-            <Text style={[styles.settingText, { color: theme.textColor }]}>
+            <SettingsLabel
+              style={[styles.settingText, { color: theme.textColor }]}
+            >
               Home Customization
-            </Text>
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
@@ -171,7 +180,7 @@ export function AppearanceSection() {
             color={theme.textSecondary}
           />
         </TouchableOpacity>
-      </View>
+      </SettingsSectionSurface>
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { SettingsLabel } from "../../ui/settings/settings-search";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
@@ -66,7 +67,7 @@ export function ContentLanguageSetting() {
     <View style={styles.settingItem}>
       <Ionicons name="language-outline" size={24} color={theme.primary} style={styles.settingIcon} />
       <View style={styles.settingTextContainer}>
-        <Text style={[styles.settingText, {color: theme.textColor}]}>Optional translation package</Text>
+        <SettingsLabel style={[styles.settingText, {color: theme.textColor}]}>Optional translation package</SettingsLabel>
         <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Load meanings and example sentences from a file.</Text>
       </View>
       <Switch accessibilityLabel="Use translation package" value={language === "tr"}

@@ -1,5 +1,4 @@
 import React from "react";
-import * as SecureStore from "expo-secure-store";
 import { act, cleanup, fireEvent, render } from "@testing-library/react-native";
 
 import { permanentStorage } from "../../../../utils/permanentStorage";
@@ -85,7 +84,6 @@ const settingLabel = "Cycle through all Jitai fonts";
 const selectedFonts = ["reggae-one", "yuji-syuku", "custom-handwriting"];
 
 beforeEach(() => {
-  jest.mocked(SecureStore.getItemAsync).mockResolvedValue(null);
   useSettingsStore.setState(useSettingsStore.getInitialState(), true);
   useSettingsStore.setState({
     jitaiEnabled: true,
@@ -104,10 +102,10 @@ it("keeps full font cycling off and hidden until advanced settings are expanded"
   await act(async () => {});
 
   expect(screen.queryByLabelText(settingLabel)).toBeNull();
-  fireEvent.press(screen.getByLabelText("Advanced settings"));
+  fireEvent.press(screen.getByLabelText("Font practice"));
   expect(screen.getByLabelText(settingLabel).props.value).toBe(false);
 
-  fireEvent.press(screen.getByLabelText("Collapse advanced settings"));
+  fireEvent.press(screen.getByLabelText("Font practice"));
   expect(screen.queryByLabelText(settingLabel)).toBeNull();
 });
 
@@ -115,7 +113,7 @@ it("only shows the advanced font cycle setting while Jitai is enabled", async ()
   useSettingsStore.setState({ jitaiEnabled: false });
   const screen = render(<ReviewSettingsSection />);
   await act(async () => {});
-  fireEvent.press(screen.getByLabelText("Advanced settings"));
+  fireEvent.press(screen.getByLabelText("Font practice"));
   expect(screen.queryByLabelText(settingLabel)).toBeNull();
 
   act(() => useSettingsStore.getState().setJitaiEnabled(true));
@@ -127,7 +125,7 @@ it("only shows the advanced font cycle setting while Jitai is enabled", async ()
 it("persists both toggle choices without changing the selected fonts", async () => {
   const screen = render(<ReviewSettingsSection />);
   await act(async () => {});
-  fireEvent.press(screen.getByLabelText("Advanced settings"));
+  fireEvent.press(screen.getByLabelText("Font practice"));
 
   for (const enabled of [true, false]) {
     fireEvent(screen.getByLabelText(settingLabel), "valueChange", enabled);
@@ -173,6 +171,7 @@ it("shrinks review characters to 30% from the basic settings without changing ot
   useSettingsStore.setState({ appTextSizeScale: 1.15, reviewInputFontScale: 1.1 });
   const screen = render(<ReviewSettingsSection />);
   await act(async () => {});
+  fireEvent.press(screen.getByLabelText("Prompt & display"));
   const decrease = () => screen.getByLabelText("Decrease review character size");
   expect(screen.getByText("100%")).toBeTruthy();
   for (const percentage of [90, 80, 70, 60, 50, 40, 30]) {
@@ -191,24 +190,21 @@ it("shrinks review characters to 30% from the basic settings without changing ot
 });
 
 
-it("only shows the Bunpro furigana toggle with a saved key and persists its preference", async () => {
+it("keeps Bunpro preferences out of the general Reviews section", () => {
   const screen = render(<ReviewSettingsSection />);
-  await act(async () => {});
-  expect(screen.queryByLabelText("Hide Bunpro furigana")).toBeNull();
-  screen.unmount();
+  for (const label of ["Hide Bunpro furigana", "Show details on wrong answer", "Answer feedback sounds", "Bunpro keyboard shortcuts"]) {
+    expect(screen.queryByText(label)).toBeNull();
+  }
+});
 
-  jest.mocked(SecureStore.getItemAsync).mockResolvedValue("fixture-key");
-  const connectedScreen = render(<ReviewSettingsSection />);
-  const toggle = await connectedScreen.findByLabelText("Hide Bunpro furigana");
-  expect(toggle.props.value).toBe(false);
-  fireEvent(toggle, "valueChange", true);
-  expect(useSettingsStore.getState().bunproHideFurigana).toBe(true);
-  expect(JSON.parse(permanentStorage.getString("wanikani-settings")!).state.bunproHideFurigana).toBe(true);
-  connectedScreen.unmount();
-
-  jest.mocked(SecureStore.getItemAsync).mockResolvedValue(null);
-  const disconnectedScreen = render(<ReviewSettingsSection />);
-  await act(async () => {});
-  expect(disconnectedScreen.queryByLabelText("Hide Bunpro furigana")).toBeNull();
-  expect(useSettingsStore.getState().bunproHideFurigana).toBe(true);
+it("keeps multiple choice as the fallback when Anki applies only to meanings", async()=>{
+ useSettingsStore.setState({reviewMultipleChoiceEnabled:true,ankiCardMode:false,ankiCardModeScope:'both',ankiGroupQuestions:true});
+ const screen=render(<ReviewSettingsSection/>);await act(async()=>{});
+ fireEvent.press(screen.getByRole('radio',{name:'Anki cards'}));
+ expect(useSettingsStore.getState()).toMatchObject({ankiCardMode:true,reviewMultipleChoiceEnabled:true});
+ fireEvent.press(screen.getByRole('radio',{name:'Meanings'}));
+ expect(useSettingsStore.getState()).toMatchObject({ankiCardModeScope:'meaning',ankiGroupQuestions:false,reviewMultipleChoiceEnabled:true});
+ expect(screen.getByText('Other questions use')).toBeTruthy();
+ fireEvent.press(screen.getAllByRole('radio',{name:'Type answers'})[0]);
+ expect(useSettingsStore.getState()).toMatchObject({ankiCardMode:false,reviewMultipleChoiceEnabled:false});
 });

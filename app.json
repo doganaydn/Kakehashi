@@ -2,13 +2,13 @@
   "expo": {
     "name": "Kakehashi Türkçe",
     "slug": "kakehashi-tr-personal",
-    "version": "1.4.8",
+    "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "kakehashitr",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "version": "1.4.8",
+      "version": "1.5.0",
       "supportsTablet": true,
       "bundleIdentifier": "com.portego00.kakehashi",
       "icon": "./ios/Kakehashi.icon",
@@ -42,7 +42,7 @@
       "appleTeamId": "854C975NWV"
     },
     "android": {
-      "version": "1.4.8",
+      "version": "1.5.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon-foreground.png",
         "backgroundImage": "./assets/images/adaptive-icon-background.png",
@@ -220,7 +220,7 @@
         }
       }
     },
-    "runtimeVersion": "1.4.8",
+    "runtimeVersion": "1.5.0",
     "updates": {
       "enabled": false
     }

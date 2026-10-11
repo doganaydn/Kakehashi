@@ -292,6 +292,17 @@ export default function VocabularyDetails({
       ? "meaning"
       : initialTab
   );
+  const [visitedPages, setVisitedPages] = useState<{
+    subjectId: number;
+    tabs: readonly ("meaning" | "reading" | "context")[];
+  }>(() => ({ subjectId: vocabulary.id, tabs: [activeTab] }));
+  const visitTab = (tab: "meaning" | "reading" | "context") => {
+    setVisitedPages((previous) => {
+      const tabs = previous.subjectId === vocabulary.id ? previous.tabs : [];
+      return tabs.includes(tab) ? previous : { subjectId: vocabulary.id, tabs: [...tabs, tab] };
+    });
+    setActiveTab(tab);
+  };
   const navigation = useNavigation();
   const [sound, setSound] = useState<AudioSound | null>(null);
   const soundRef = useRef<AudioSound | null>(null);
@@ -425,8 +436,12 @@ export default function VocabularyDetails({
 
     // Cleanup when component unmounts
     return () => {
-      if (sound) {
-        sound.unloadAsync();
+      ++audioPlaybackRequestIdRef.current;
+      const currentSound = soundRef.current;
+      soundRef.current = null;
+      if (currentSound) {
+        currentSound.setOnPlaybackStatusUpdate(null);
+        void Promise.resolve(currentSound.unloadAsync()).catch(() => {});
       }
       // Stop Azure TTS if playing
       azureSpeechService.stop();
@@ -990,6 +1005,7 @@ export default function VocabularyDetails({
         vocabulary.id,
         pronunciationAudio ?? { url: audioUrl }
       );
+      if (requestId !== audioPlaybackRequestIdRef.current) return;
 
       // Load and play the new audio
       const { sound: newSound } = await Audio.Sound.createAsync(
@@ -1077,6 +1093,7 @@ export default function VocabularyDetails({
     index: number,
     sentenceId: string
   ) {
+    const requestId = ++audioPlaybackRequestIdRef.current;
     try {
       const speedMultiplier =
         showContextSentenceSpeedControl
@@ -1085,10 +1102,12 @@ export default function VocabularyDetails({
 
       // If this sentence is currently playing, stop it
       if (playingMediaSentence === index) {
-        if (sound) {
-          sound.setOnPlaybackStatusUpdate(null);
-          await sound.stopAsync();
-          await sound.unloadAsync();
+        const currentSound = soundRef.current;
+        soundRef.current = null;
+        if (currentSound) {
+          currentSound.setOnPlaybackStatusUpdate(null);
+          await currentSound.stopAsync();
+          await currentSound.unloadAsync();
           setSound(null);
         }
         setPlayingAudioId(null);
@@ -1099,14 +1118,15 @@ export default function VocabularyDetails({
       }
 
       // Stop any currently playing media sentence
-      if (playingMediaSentence !== null) {
-        if (sound) {
-          sound.setOnPlaybackStatusUpdate(null);
-          await sound.stopAsync();
-          await sound.unloadAsync();
-          setSound(null);
-        }
+      const currentSound = soundRef.current;
+      soundRef.current = null;
+      if (currentSound) {
+        currentSound.setOnPlaybackStatusUpdate(null);
+        await currentSound.stopAsync();
+        await currentSound.unloadAsync();
+        setSound(null);
       }
+      if (requestId !== audioPlaybackRequestIdRef.current) return;
 
       setPlayingAudioId(null);
       setLoadingAudioId(null);
@@ -1132,20 +1152,23 @@ export default function VocabularyDetails({
             shouldCorrectPitch: true,
           }
         );
+        if (requestId !== audioPlaybackRequestIdRef.current) {
+          newSound.setOnPlaybackStatusUpdate(null);
+          await newSound.unloadAsync();
+          return;
+        }
 
+        soundRef.current = newSound;
         setSound(newSound);
         setLoadingMediaSentence(null);
 
         newSound.setOnPlaybackStatusUpdate((status) => {
-          if (status.isLoaded && status.didJustFinish) {
-            setSound((currentSound) => {
-              if (currentSound === newSound) {
-                setPlayingMediaSentence(null);
-                void newSound.unloadAsync();
-                return null;
-              }
-              return currentSound;
-            });
+          if (status.isLoaded && status.didJustFinish && soundRef.current === newSound) {
+            soundRef.current = null;
+            setSound(null);
+            setPlayingMediaSentence(null);
+            newSound.setOnPlaybackStatusUpdate(null);
+            void newSound.unloadAsync();
           }
         });
       } else {
@@ -1154,6 +1177,7 @@ export default function VocabularyDetails({
         setLoadingMediaSentence(null);
       }
     } catch (error) {
+      if (requestId !== audioPlaybackRequestIdRef.current) return;
       console.error("Error playing media sentence:", error);
       setPlayingMediaSentence(null);
       setLoadingMediaSentence(null);
@@ -2091,7 +2115,7 @@ export default function VocabularyDetails({
       return;
     }
 
-    setActiveTab(tabOrder[targetIndex]);
+    visitTab(tabOrder[targetIndex]);
     pagerRef.current?.setPage(targetIndex);
   };
 
@@ -2102,7 +2126,7 @@ export default function VocabularyDetails({
       return;
     }
 
-    setActiveTab(nextTab);
+    visitTab(nextTab);
   };
 
   const renderTabBody = (tab: "meaning" | "reading" | "context") => {
@@ -3266,7 +3290,9 @@ export default function VocabularyDetails({
         indicatorStyle={theme.isDark ? "white" : "black"}
         scrollEventThrottle={16}
       >
-        {renderTabBody(tab)}
+        {tab === activeTab || (visitedPages.subjectId === vocabulary.id && visitedPages.tabs.includes(tab))
+          ? renderTabBody(tab)
+          : null}
       </Animated.ScrollView>
     </View>
   );
