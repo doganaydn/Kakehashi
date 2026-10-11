@@ -1,9 +1,11 @@
+import { useLearningDisplay } from "../features/turkish-content/display";
+import { formatTurkishMeaning } from "../features/turkish-content/format";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
 import { Ionicons } from "@expo/vector-icons";
-import { turkishContent } from "../features/turkish-content/content";
+import { useActiveContent } from "../features/turkish-content/package-store";
 import { resolveTurkishMeaning } from "../features/turkish-content/resolver";
 import { useLearningContentStore } from "../features/turkish-content/store";
-import { OriginalMeaning } from "../features/turkish-content/OriginalMeaning";
+import { MeaningRows } from "../features/turkish-content/MeaningRows";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -111,6 +113,7 @@ interface KanjiDetailsProps {
       id: number;
       characters: string;
       meanings: string[];
+      readings?: { reading: string; primary?: boolean }[];
       level: number;
     }[];
     userSynonyms?: string[];
@@ -180,6 +183,8 @@ const RadicalComponent = React.memo(
     radicalContentColor = "#ffffff",
   }: RadicalComponentProps) {
     const [processedImageUrl, setProcessedImageUrl] = useState<string | null>(null);
+    const contentDisplay = useLearningDisplay();
+    const componentMeaning = contentDisplay.meaning({...component, object: "radical"}, component.meanings[0] || "radical");
 
     // Pick best image from characterImages
     const bestImg = pickBestImage(component.characterImages);
@@ -220,10 +225,10 @@ const RadicalComponent = React.memo(
             ? undefined
             : reminderEnabled
               ? `${isExpanded ? "Hide" : "Show"} ${
-                  component.meanings[0] || "radical"
+                  componentMeaning
                 } radical reminder`
               : `Open full details for ${
-                  component.meanings[0] || "radical"
+                  componentMeaning
                 } radical`
         }
         accessibilityState={
@@ -262,7 +267,7 @@ const RadicalComponent = React.memo(
           numberOfLines={2}
           ellipsizeMode="tail"
         >
-          {component.meanings[0]}
+          {componentMeaning}
         </Text>
         {isAboveUserLevel && (
           <View style={styles.itemLevelBadgeRadical}>
@@ -484,12 +489,14 @@ export default function KanjiDetails({
 
   // Determine the primary meaning
   const contentLanguage = useLearningContentStore(state => state.language);
+  const contentDisplay = useLearningDisplay();
+  const turkishContent = useActiveContent();
   const translatedMeaning = contentLanguage === "tr" ? resolveTurkishMeaning(turkishContent, kanji) : null;
   const originalPrimaryMeaning =
     kanji.meanings.find((m) => m.primary)?.meaning ||
     kanji.meanings[0]?.meaning ||
     "";
-  const primaryMeaning = translatedMeaning?.primary ?? originalPrimaryMeaning;
+  const primaryMeaning = translatedMeaning ? formatTurkishMeaning(translatedMeaning.primary) : originalPrimaryMeaning;
 
   // Determine the primary reading (fallback to first available reading)
   const primaryReading =
@@ -970,38 +977,13 @@ export default function KanjiDetails({
                   { backgroundColor: theme.cardBackground },
                 ]}
               >
-                <View
-                  style={[
-                    styles.row,
-                    { marginBottom: kanji.meanings.length > 1 ? 8 : 8 },
-                  ]}
-                >
-                  <Text style={[styles.label, { color: theme.textSecondary }]}>
-                    Primary
-                  </Text>
-                  <Text style={[styles.value, { color: theme.textColor }]}>
-                    {primaryMeaning}
-                  </Text>
-                </View>
-
-                {translatedMeaning && <OriginalMeaning english={originalPrimaryMeaning}
-                  alternatives={translatedMeaning.alternatives} />}
-
-                {kanji.meanings.length > 1 && (
-                  <View style={[styles.row, { marginBottom: 8 }]}>
-                    <Text
-                      style={[styles.label, { color: theme.textSecondary }]}
-                    >
-                      Alternative
-                    </Text>
-                    <Text style={[styles.value, { color: theme.textColor }]}>
-                      {kanji.meanings
-                        .filter((m) => !m.primary)
-                        .map((m) => m.meaning)
-                        .join(", ")}
-                    </Text>
-                  </View>
-                )}
+                {translatedMeaning ? <MeaningRows key={JSON.stringify([originalPrimaryMeaning, translatedMeaning])}
+                  primary={translatedMeaning.primary} alternatives={translatedMeaning.alternatives}
+                  english={originalPrimaryMeaning} englishAlternatives={kanji.meanings.filter(m => !m.primary && m.meaning !== originalPrimaryMeaning).map(m => m.meaning)}
+                  rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
+                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Primary</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
+                  {kanji.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Alternative</Text><Text style={[styles.value, {color: theme.textColor}]}>{kanji.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
+                </>}
 
                 <View style={styles.row}>
                   <Text
@@ -1422,7 +1404,7 @@ export default function KanjiDetails({
                           { color: theme.textColor },
                         ]}
                       >
-                        {expandedComponent.meanings[0] || "Radical"}
+                        {contentDisplay.meaning({...expandedComponent, object: "radical"}, "Radical")}
                       </Text>
                       <Text
                         style={[
@@ -1485,7 +1467,7 @@ export default function KanjiDetails({
                       onPress={() => onSubjectPress(expandedComponent.id)}
                       accessibilityRole="button"
                       accessibilityLabel={`Open full details for ${
-                        expandedComponent.meanings[0] || "radical"
+                        contentDisplay.meaning({...expandedComponent, object: "radical"}, "radical")
                       }`}
                     >
                       <Text
@@ -1565,7 +1547,7 @@ export default function KanjiDetails({
                           numberOfLines={1}
                           ellipsizeMode="tail"
                         >
-                          {similarKanji.meanings[0]}
+                          {contentDisplay.meaning({...similarKanji, object: "kanji"}, similarKanji.meanings[0])}
                         </Text>
                         {isAboveUserLevel && (
                           <View style={styles.itemLevelBadge}>

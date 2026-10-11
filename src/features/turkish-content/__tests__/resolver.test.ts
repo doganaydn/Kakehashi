@@ -9,16 +9,16 @@ function subject(id: string): DisplaySubject {
     readings: source.readingsJa.map(reading => ({reading}))};
 }
 
-it("loads the pilot but only exposes reviewed content", () => {
+it("loads level 8 and preserved pilot but only exposes reviewed content", () => {
   expect(packet).not.toBeNull();
-  expect(Object.keys(packet.subjects)).toHaveLength(21);
+  expect(Object.keys(packet.subjects)).toHaveLength(151);
   let count = 0;
   for (const [id, entry] of Object.entries(packet.subjects)) {
     for (const example of entry.examples) {
       if (resolveTurkishSentence(packet, subject(id), example.source)) count++;
     }
   }
-  expect(count).toBe(35);
+  expect(count).toBe(438);
   const demo = packet.subjects["6479"].examples[0];
   expect(resolveTurkishSentence(packet, subject("6479"), demo.source)).toBeNull();
 });
@@ -41,7 +41,7 @@ it("falls back independently for a missing subject, missing example and meaning-
   expect(resolveTurkishMeaning(packet, {...subject("2490"), id: 999999})).toBeNull();
   expect(resolveTurkishSentence(packet, subject("2490"), {ja: "missing", en: "missing"})).toBeNull();
   expect(resolveTurkishMeaning(packet, subject("9207"))?.primary).toBe("ama");
-  expect(resolveTurkishSentence(packet, subject("9207"), {ja: "でも、できないよ。", en: "But I can't."})).toBeNull();
+  expect(resolveTurkishSentence(packet, subject("440"), {ja: "missing", en: "missing"})).toBeNull();
 });
 it.each(["characters", "meanings", "readings"] as const)("rejects stale lexical %s", field => {
   const current = subject("2490");
@@ -51,9 +51,9 @@ it.each(["characters", "meanings", "readings"] as const)("rejects stale lexical 
 });
 it("does not invalidate translations on catalog reordering", () => {
   const current = subject("440");
-  expect(resolveTurkishMeaning(packet, {...current, readings: [...current.readings].reverse()})).not.toBeNull();
+  expect(resolveTurkishMeaning(packet, {...current, readings: [...current.readings!].reverse()})).not.toBeNull();
 });
-it.each([null, {}, {...data, schemaVersion: 2}, {...data, scope: "write"}])("rejects unsupported or invalid package", value => {
+it.each([null, {}, {...data, schemaVersion: 3}, {...data, scope: "write"}])("rejects unsupported or invalid package", value => {
   expect(parseTranslationPackage(value)).toBeNull();
 });
 it("rejects a malformed child and duplicate example instead of partially loading an invalid package", () => {
@@ -70,4 +70,20 @@ it("falls back cleanly with an invalid package and never mutates originals", () 
   resolveTurkishMeaning(packet, current);
   resolveTurkishSentence(packet, current, packet.subjects["2490"].examples[0].source);
   expect(JSON.stringify(data)).toBe(before);
+});
+
+it("resolves every level 8 sentence and retains usage explanations", () => {
+  const entries = Object.entries(packet.subjects).filter(([, entry]) => entry.source.level === 8);
+  expect(entries).toHaveLength(133);
+  let count = 0;
+  for (const [id, entry] of entries) {
+    expect(resolveTurkishMeaning(packet, subject(id))).not.toBeNull();
+    for (const example of entry.examples) {
+      const result = resolveTurkishSentence(packet, subject(id), example.source);
+      expect(result?.translation).toBe(example.translation);
+      expect(result?.usage).toBe(example.usage);
+      count++;
+    }
+  }
+  expect(count).toBe(409);
 });

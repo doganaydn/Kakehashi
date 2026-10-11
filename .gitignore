@@ -62,3 +62,6 @@ app-example
 .turkish-*.txt
 .turkish-*.log
 .turkish-*.json
+
+# Local build, validation and signature logs
+/.*.log

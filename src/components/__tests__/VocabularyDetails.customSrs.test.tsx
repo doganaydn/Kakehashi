@@ -1,3 +1,5 @@
+import {within} from "@testing-library/react-native";
+import {SentenceExplanation} from "../../features/turkish-content/SentenceExplanation";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -114,11 +116,12 @@ const turkishFixture = () => {
 
 it("shows Turkish meaning and checked sentence usage, with optional original English", async () => {
   const screen = render(<VocabularyDetails vocabulary={turkishFixture()} progressionStatus="success" initialTab="context" />);
-  expect(screen.getAllByText("hâlâ").length).toBeGreaterThan(0);
+  expect(screen.getAllByText("Hâlâ").length).toBeGreaterThan(0);
   expect(screen.getByText("Bunu henüz bilmiyorum.")).toBeTruthy();
   expect(screen.getByText(pilotContent.subjects["9208"].examples[0].usage)).toBeTruthy();
   expect(screen.queryByText("I don't know that yet.")).toBeNull();
-  fireEvent.press(screen.getAllByText("İngilizce kaynağı göster")[0]);
+  const explanation = screen.UNSAFE_getAllByType(SentenceExplanation).find(node => node.props.english === "I don't know that yet.")!;
+  fireEvent.press(within(explanation).getByText("Show original English"));
   expect(screen.getByText("I don't know that yet.")).toBeTruthy();
   await waitFor(() => expect(searchImmersionKit).toHaveBeenCalled());
 });

@@ -3,7 +3,9 @@
 Kaynak sürüm: 69244d9747325c04ae70694f96053ecc376672bc (10 Ekim 2026).
 Ana proje: https://github.com/Portego-00/Kakehashi
 Yerel dal: turkish-content. Ana proje uzak bağlantısı: upstream.
-Henüz kullanıcının GitHub hesabında uzak fork veya origin bağlantısı oluşturulmadı.
+GitHub fork: https://github.com/doganaydn/Kakehashi
+Uzak bağlantılar: origin = kişisel fork, upstream = Portego-00/Kakehashi.
+11 Ekim 2026: Fork doğrulandı ve origin bağlandı. Yerel değişiklikler henüz GitHub’a gönderilmedi.
 
 ## İlk deneme
 
@@ -42,3 +44,70 @@ Telefon: Samsung Galaxy A55, SM-A556E/DS. Hedef ABI arm64-v8a. Windows uzun yol 
 10 Ekim 2026: Android release derlemesi tamamlandı. APK adı Kakehashi-Turkce-1.4.8-tr.1-arm64.apk; teslim klasörü üst projedeki paylasim/kakehashi-tr-android. Boyut 128.905.943 bayt; SHA-256 dde5c27e362183ec57e1c0e047c9e788f1ba58f91f030ef6c277401d1641ddcc. APK imzası v2 doğrulandı; uygulama kimliği com.portego00.kakehashi.tr, ad Kakehashi Türkçe, min Android API 24, hedef API 36, yalnız arm64-v8a. Derlenmiş pakette Türkçe veri ve editorial-reviewed durumu mevcut. Expo OTA kapalı ve kakehashitr şeması doğrulandı. Fiziksel telefon testi kullanıcıyla yapılacak. Kurulum yönergesi ve yapı kanıtı aynı teslim klasöründe.
 
 上げる (2490), まだ (9208), 改まる (4204), 宜しく (6338), 庄園 (7040), 升 (8599) ve kanji 一 (440). Türkçe anahtarı kapatıp aç; İngilizce kaynağı aç; çeviri gizleme ayarını dene. Paket dışında bir kelimede İngilizceye dönüşü kontrol et. Ders/tekrar açıklama ekranları ve uzaktan içerik güncellemesi sonraki kapsamdır.
+
+
+## 10 Ekim 2026 — Kakehashi Türkçe: seviye 8 entegrasyonu
+
+Kullanıcının yeni isteğiyle uygulama çalışması yalnız mevcut seviye 8 içeriğini kişisel Android sürümüne eklemek için yeniden açıldı. kakehashi-seviye08-aktar.py güncel kaynağa ve sürüme bağlı kontrollerden sonra 133 kelime/409 cümleyi dışa aktarıyor; ana çeviri dosyasına yazmıyor. Önceki pilot korunuyor: pakette 151 anlam, 438 kontrollü ve 3 gösterilmeyen demo cümle var. Kelime ayrıntı ekranında Türkçe çeviri ve hedef kullanım; özgün İngilizceyi açma ve çeviriyi gizleme mevcut. Ders/tekrar ekranı genişletilmedi.
+
+Galaxy A55 ARM64 APK 1.4.8-tr.2, versionCode 20 üretildi. Aynı com.portego00.kakehashi.tr kimliği ve önceki APK ile aynı imza doğrulandı; mevcut kişisel kurulumun üzerine güncellenebilir. 53 test geçti; derlenmiş pakette 409 seviye 8 kayıt parmakizi bulundu. Teslim: paylasim/kakehashi-tr-android/seviye-08; APK, KURULUM.md, içerik ve yapı manifestleri burada. Fiziksel telefon doğrulaması kullanıcıda. Yerel geçmiş planlar saklandı, kullanıcı onayı veya WaniKani gönderimi yapılmadı; ana çeviri dosyası aynı. Çeviri işinin sonraki önceliği seviye 1–7; yeni içerik kontrolü tekrar uygulanmadı.
+
+
+## 10 Ekim 2026 — Kakehashi Türkçe arayüz düzenlemesi
+
+1.4.8-tr.3 / versionCode 21: Türkçe kelime anlamlarının her sözcüğünün ilk harfi tr-TR kurallarıyla büyütülür; i→İ ve ı→I korunur. Bu yalnız görüntüleme dönüşümüdür, ana çeviri verisi değişmez. Alternatif anlam etiketinin yeni metni Türkçe:. Türkçe öğrenme içeriği ayarı, diğer Appearance satırlarının 16px yatay boşlukları, simge, esneyen metin ve sağ anahtar düzeniyle hizalandı; eski 21 anlam/35 örnek açıklaması kaldırıldı. Ortak ayar denetleyicisini içeri aktarmadan aynı görünüm uygulanır.
+
+58 ilgili test ve hedefli kod kontrolü geçti. Seviye 8 içeriği önceki sürümle aynı; onay/gönderim değişmedi. Fiziksel telefondaki görünüm kullanıcı tarafından doğrulanacak. APK ve kurulum yönergesi paylasim/kakehashi-tr-android/seviye-08 içinde tutulur.
+
+
+## 11 Ekim 2026 — Kakehashi Türkçe: dosyadan öğrenme paketi
+
+Kullanıcının onayladığı plan uygulandı: ayarlarda Çeviri dosyası yükle → özet → Bu paketi kullan; çevrimdışı yerel kayıt, yeniden açınca geri yükleme ve Uygulamayla gelen içeriğe dön. Yüklenen paket tüm gömülü paketin yerine geçer; eksik kaynaklar İngilizce. Kanji/kelime ekranları etkin paketi takip eder. Veri yapısı sürüm 2 görsel radikallerde null yazılışı destekler; radikal ekranı ve gerçek radikal çevirileri ileride, ilk pakette radikal yok. Menü dili ve cevap kabulü değişmez; hesap/gönderim/çeviri ana kayıtlarına yazmaz.
+
+Dışa aktarım aracı kakehashi-dil-paketi-hazirla.py --levels 8. İlk ayrı JSON paylasim/kakehashi-tr-dil-paketleri/wanikani-tr-seviye-08.json: 34 kanji, 127 vocabulary, 6 kana_vocabulary, 409 kontrollü cümle. 8. seviye ana çeviri parmakizi korundu. Paket şeması ve manifest, kurulum yönergesi aynı klasörde. Kakehashi-tr/DIL-PAKETI-PLANI.md uygulama sözleşmesi ve gelecek aşamaları içerir. Eski v1 paketleri kanji/kelime için kabul edilir; radikaller v2 gerektirir. Biçim kontrolü çeviri doğruluğu veya bağımsız uzman onayı değildir.
+
+71 ilgili test geçti: gerçek paket, dosya seçici/iptal/büyük dosya, etkinleştirme önizlemesi, kanji/kelime, bozuk önbellek, başarısız kayıtta önceki paketi koruma, yeniden açma ve geri dönüş. Hedefli kod kontrolü geçti. Genel tip kontrolünün önceki proje hataları sürüyor; Türkçe modülünde hata yok. Fiziksel telefon görünümü/dosya seçimi/çevrimdışı test kullanıcıyla yapılacak. Yeni kişisel ARM64 sürüm 1.4.8-tr.4, versionCode 22; önceki uygulamayı kaldırmadan güncelle. APK teslim klasörü paylasim/kakehashi-tr-android/dil-paketi.
+
+
+## 11 Ekim 2026 — genel çeviri paketi arayüzü İngilizce
+
+Kullanıcı, uygulama arayüzünün bütünüyle İngilizce kalmasını ve yalnız dil verilerinin hedef dilde olmasını istedi. Kişisel sürüm 1.4.8-tr.5 / versionCode 23: Optional translation package, Import translation file, Use this package, Restore bundled content. Paket özetleri, dosya/kayıt hata mesajları ve erişilebilirlik etiketleri İngilizce. Kelime ekranında English:, Translation:, Show original English / Hide original English. Türkçe anlamlar, cümleler ve kullanım notları değişmedi. Bu, genel arayüz metni düzenlemesidir; mevcut prototipin doğrulayıcısı hâlâ Türkçe paketleri destekler, diğer dilleri desteklediği iddia edilmez.
+
+8. seviye JSON paketinin adı da İngilizce metadata olarak düzenlendi; sürümü 1.0.1, içerik aynı. Önceki telefonda yüklenen paket kendiliğinden değiştirilmez; İngilizce paket adı için dosya yeniden seçilip etkinleştirilir. 71 test ve hedefli kod kontrolü geçti. Ana çeviri dosyası ve hesap/onay/gönderim davranışı aynı.
+
+
+## 11 Ekim 2026 — birleşik paket ve öğrenme ekranları
+
+Kakehashi 1.4.8-tr.6 (24), arm64 APK hazır; önceki sertifika doğrulandı. Lessons tek sayfa/sekmeli görünümü, ilgili kelime kartları, kanji okunuş örnekleri ve Review anlam açıklaması aktif paketi kullanır. Cümle çevirisi, kullanım açıklaması ve açılabilir İngilizce kaynak ayrı tutulur. UI İngilizce. Cevap değerlendirmesi değiştirilmedi; Türkçe cevap kabulü ayrı kullanıcı kararıdır.
+
+Birleşik test dosyası: paylasim/kakehashi-tr-dil-paketleri/wanikani-tr-01-60-seviye08-cumleler.json. 2.101 kanji + 6.757 vocabulary + 60 kana_vocabulary = 8.918 anlam; seviye 8 için 409 cümle. SHA256 a6bc1c0f56dac5c6801cb526eb63533e5fa0c9fe328c05fa1c30dcb6f0c95040. Dışa aktarım manifestindeki eski hash güncel dosyaya göre düzeltildi. Ana çeviri/kontrol dosyaları değiştirilmedi, hazır kontroller yeniden uygulanmadı; kullanıcı onayı ve WaniKani gönderim durumu değişmedi, gönderim başlatılmadı.
+
+257 test / 12 grup geçti; APK derlemesi, sürümü ve imzası doğrulandı. Genel TypeScript kontrolünde mevcut proje hataları sürüyor; değişen üretim modüllerinde yeni hata yok. AsyncStorage kapasitesi 64 MB; tam birleşik paketin kalıcı kayıt ve yeniden yükleme testi geçti. Fiziksel telefonda tr.6 testi bekliyor. Kurulum: paylasim/kakehashi-tr-dil-paketleri/KURULUM.md.
+
+
+## 11 Ekim 2026 — mobil radikal ekranı ve 9. seviye cümleleri
+
+Kullanıcı isteğiyle 1.4.8-tr.7 (25), arm64-v8a APK hazırlandı. Radikal ayrıntı ekranının başlığı, Name/Primary alanı ve sabit başlığı etkin çeviri paketini kullanır; English: özgün ad ve varsa Translation: alternatifler gösterilir. Found In Kanji kartları Türkçe anlamları gösterir. Kaynak okunuşları ana ayrıntı hazırlığında da taşınır; ID/tür/yazılış/anlam/okunuş eşleşmesi gevşetilmedi. Ders/tekrar gömülü ayrıntı ekranı aynı bileşenle güncellenir. Kart yüksekliği metin için esner. Dil kapalı, paket kaldırılmış veya kaynak değişmişse İngilizce. UI İngilizce, Türkçe büyük harf biçimi önceki tercihle aynı. Cevap değerlendirmesi ve hesap gönderimi değiştirilmedi.
+
+Yeni JSON: paylasim/kakehashi-tr-dil-paketleri/wanikani-tr-01-60-seviye08-09-cumleler-radikaller.json; sürüm 1.2.0, 9.409 konu, 857 cümle (8:409, 9:448), 6131237 bayt, SHA256 8506a1a2b6ac3610d005f35f72f3bd7dbd0f8100865f2c43dcdf76e360a4d22c. Radikal/kanji/kelime anlamları ve 8. seviye örnekleri önceki paketle aynı; yalnız 9. seviye 448 kontrollü örnek eklendi. Önceki JSON ve APK korunur. APK tek başına bu yeni tam paketi gömmez; güncellemeden sonra JSON ayrıca içe aktarılır.
+
+66 ilgili test geçti: gerçek 491 radikal/2.101 kanji kaynak eşleşmesi, 857 örnek, eski içerik karşılaştırması, parçalı kayıt ve yeniden açma, gerçek radikal bileşeni gösterimi, dil/paket değişimi ve değişen kaynakta geri dönüş. APK derlendi; uygulama kimliği, 25 kodu, arm64-v8a ve önceki sertifikayla aynı imza doğrulandı. Genel tip kontrolünde önceki proje hataları sürüyor; değişen modüllerde hata yok. Hedefli lint sıfır hata, eski useMemo uyarısı. Fiziksel telefon kontrolü kullanıcıda. Ana çeviri ve ikinci kontrol kayıtları korundu; kullanıcı onayı/gönderimi başlatılmadı.
+
+
+## 11 Ekim 2026 — Composition radikal adları
+
+1.4.8-tr.8 (26), arm64-v8a: KanjiDetails Composition radikal kartları, açılan radikal hatırlatıcısının başlığı ve erişilebilirlik etiketleri etkin çeviri paketine bağlı. Paket/dil değişimi anında yansır; kaynak eşleşmesi kontrolleri aynı, İngilizce mnemonic metni değişmez. 23 ilgili test geçti (Composition bileşeni, dil kapatma, radikal ekranı, kaynak değişimi, paket kayıt/yeniden açma ve konu sayfası). Derleme ve önceki sürümle aynı imza doğrulandı. Fiziksel telefon testi kullanıcıda. JSON değişmedi; kullanıcı tarafından wanikani-tr.json olarak adlandırılmış, SHA önceki teslimle aynı. Yeni APK için aynı etkin paket kullanılabilir. UI düzenlemesi henüz uygulanmadı; öncelik önerileri anlam kartı tekrarları, alt alta etiket/değer düzeni, kısa paket özeti, daha kompakt başlık. UI İngilizce kalır.
+
+
+## 11 Ekim 2026 — Primary/Alternative satır içi çeviri
+
+Kullanıcının onayladığı düzen: 1.4.8-tr.9 (27), arm64-v8a APK. Kelime/kanji/radikal ayrıntı Name bölümünün mevcut Primary ve Alternative satırlarında Türkçe; Show original English ile İngilizce aynı Text alanında soluk ve ayraçlı, Hide original English ile gizlenir. Boş Türkçe alternatifte gereksiz satır yok; kullanıcı açarsa özgün alternatif aynı satırda gösterilir. Ayrı English:/Translation: blokları kaldırıldı. Ders tek sayfa ve sekmeli ekranları aynı gösterimi kullanır; tekrar eden özgün alternatif kartları çeviri aktifken gizlidir. Renkler, başlık, sekmeler, kişisel eş anlamlılar, cümle gösterimi ve kaynak kontrolü korunur. Çevirisiz veya kapalı dilde İngilizce. Türkçe büyük harf biçimi öncekiyle aynı.
+
+63 ilgili ekran ve satır testi geçti; hedefli lint sıfır hata, 5 mevcut uyarı. APK derlemesi, uygulama kimliği, 27 sürüm kodu, arm64-v8a ve önceki imzayla eşleşme doğrulandı. Fiziksel telefon görünümü kullanıcıda. Yeni JSON gerekmez; etkin wanikani-tr.json ve ana çeviri dosyaları aynı. Cevap değerlendirme, hesap onayı ve WaniKani gönderimi değiştirilmedi.
+
+
+## 11 Ekim 2026 — İlgili konular ve Items çeviri gösterimi
+
+1.4.8-tr.10 (28), arm64-v8a: Kelimelerin Composition kanjileri, kanjilerin Visually Similar Kanji kartları, Choose Lessons List View ve Items (Recent Unlocks, Critical, Burned ve View All listeleri) etkin dil paketinin Türkçe birincil anlamını kullanır. Ders/Items listelerinde orijinal anlam düğmesi yoktur; özgün tasarım ve İngilizce UI korunur. İlgili kanjilerde tam kaynak okumaları taşınır. Özet Items kayıtları tam orijinal yerel konu önbelleğiyle doğrulanır; paket kaynak kontrolü gevşetilmez. Eksik/eşleşmeyen/kapalı çeviride İngilizce gösterilir.
+
+65 ilgili test geçti. Yeni APK derleme ve imza sonuçları BUILD-MANIFEST-tr.10.json dosyasında; fiziksel telefon testi kullanıcıda. Kullanıcının wanikani-tr.json dosyası değişmedi, yeniden içe aktarım gerekmez. Cevap değerlendirme ve WaniKani gönderimi değiştirilmedi.

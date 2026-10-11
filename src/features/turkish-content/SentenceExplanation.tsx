@@ -9,7 +9,7 @@ export function SentenceExplanation({english, usage}: {english: string; usage: s
     <Text selectable style={{color: theme.textSecondary}}>{usage}</Text>
     <TouchableOpacity accessibilityRole="button" accessibilityState={{expanded: showEnglish}}
       onPress={() => setShowEnglish(value => !value)} style={{paddingVertical: 8}}>
-      <Text style={{color: theme.primary}}>{showEnglish ? "İngilizceyi gizle" : "İngilizce kaynağı göster"}</Text>
+      <Text style={{color: theme.primary}}>{showEnglish ? "Hide original English" : "Show original English"}</Text>
     </TouchableOpacity>
     {showEnglish && <Text selectable style={{color: theme.textSecondary}}>{english}</Text>}
   </View>;

@@ -1,7 +1,7 @@
 param(
     [string]$Architectures = 'arm64-v8a',
-    [string]$BuildDirectory = 'C:\Users\Doan\kakehashi-tr-android-build',
-    [string]$GradleCache = 'C:\Users\Doan\kakehashi-tr-gradle-cache'
+    [string]$BuildDirectory = (Join-Path $env:USERPROFILE 'kakehashi-tr-android-build'),
+    [string]$GradleCache = (Join-Path $env:USERPROFILE 'kakehashi-tr-gradle-cache')
 )
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot

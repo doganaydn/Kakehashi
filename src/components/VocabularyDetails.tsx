@@ -1,8 +1,10 @@
+import { useLearningDisplay } from "../features/turkish-content/display";
+import { formatTurkishMeaning } from "../features/turkish-content/format";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
-import { turkishContent } from "../features/turkish-content/content";
+import { useActiveContent } from "../features/turkish-content/package-store";
 import { resolveTurkishMeaning, resolveTurkishSentence } from "../features/turkish-content/resolver";
 import { useLearningContentStore } from "../features/turkish-content/store";
-import { OriginalMeaning } from "../features/turkish-content/OriginalMeaning";
+import { MeaningRows } from "../features/turkish-content/MeaningRows";
 import { SentenceExplanation } from "../features/turkish-content/SentenceExplanation";
 import { Ionicons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
@@ -125,6 +127,7 @@ interface VocabularyDetailsProps {
       id: number;
       characters: string;
       meanings: string[];
+      readings?: { reading: string; primary?: boolean }[];
       level: number;
     }[];
     contextSentences?: {
@@ -328,6 +331,7 @@ export default function VocabularyDetails({
   const [loadingSimilarVocabulary, setLoadingSimilarVocabulary] =
     useState(false);
   const { theme } = useTheme();
+  const contentDisplay = useLearningDisplay();
   const subjectColors = useSubjectColors();
   const styles = useMemo(
     () => createStyles(subjectColors),
@@ -593,12 +597,13 @@ export default function VocabularyDetails({
 
   // Determine the primary meaning
   const contentLanguage = useLearningContentStore(state => state.language);
+  const turkishContent = useActiveContent();
   const translatedMeaning = contentLanguage === "tr" ? resolveTurkishMeaning(turkishContent, vocabulary) : null;
   const originalPrimaryMeaning =
     vocabulary.meanings.find((m) => m.primary)?.meaning ||
     vocabulary.meanings[0]?.meaning ||
     "";
-  const primaryMeaning = translatedMeaning?.primary ?? originalPrimaryMeaning;
+  const primaryMeaning = translatedMeaning ? formatTurkishMeaning(translatedMeaning.primary) : originalPrimaryMeaning;
 
   // Determine the primary reading
   const primaryReading =
@@ -2119,33 +2124,13 @@ export default function VocabularyDetails({
                   { backgroundColor: theme.cardBackground },
                 ]}
               >
-                <View style={[styles.row, { marginBottom: 8 }]}>
-                  <Text style={[styles.label, { color: theme.textSecondary }]}>
-                    Primary
-                  </Text>
-                  <Text style={[styles.value, { color: theme.textColor }]}>
-                    {primaryMeaning}
-                  </Text>
-                </View>
-
-                {translatedMeaning && <OriginalMeaning english={originalPrimaryMeaning}
-                  alternatives={translatedMeaning.alternatives} />}
-
-                {vocabulary.meanings.length > 1 && (
-                  <View style={[styles.row, { marginBottom: 8 }]}>
-                    <Text
-                      style={[styles.label, { color: theme.textSecondary }]}
-                    >
-                      Alternative
-                    </Text>
-                    <Text style={[styles.value, { color: theme.textColor }]}>
-                      {vocabulary.meanings
-                        .filter((m) => !m.primary)
-                        .map((m) => m.meaning)
-                        .join(", ")}
-                    </Text>
-                  </View>
-                )}
+                {translatedMeaning ? <MeaningRows key={JSON.stringify([originalPrimaryMeaning, translatedMeaning])}
+                  primary={translatedMeaning.primary} alternatives={translatedMeaning.alternatives}
+                  english={originalPrimaryMeaning} englishAlternatives={vocabulary.meanings.filter(m => !m.primary && m.meaning !== originalPrimaryMeaning).map(m => m.meaning)}
+                  rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
+                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Primary</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
+                  {vocabulary.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Alternative</Text><Text style={[styles.value, {color: theme.textColor}]}>{vocabulary.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
+                </>}
 
                 <View
                   style={[
@@ -2840,7 +2825,7 @@ export default function VocabularyDetails({
                             {
                               width: Math.min(
                                 componentItemWidth +
-                                  (component.meanings?.[0] || "").length * 3,
+                                  contentDisplay.meaning({...component, object: "kanji"}, component.meanings?.[0] || "").length * 3,
                                 smallItemMaxWidth
                               ),
                               height: smallCardHeight,
@@ -2863,7 +2848,7 @@ export default function VocabularyDetails({
                             numberOfLines={2}
                             ellipsizeMode="tail"
                           >
-                            {component.meanings[0]}
+                            {contentDisplay.meaning({...component, object: "kanji"}, component.meanings[0])}
                           </Text>
                           {isAboveUserLevel && (
                             <View style={styles.itemLevelBadge}>

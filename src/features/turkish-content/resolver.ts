@@ -5,7 +5,7 @@ const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const status = z.enum(["demo", "draft", "editorial-reviewed"]);
 const entrySchema = z.object({
   source: z.object({
-    type: z.enum(["kanji", "vocabulary", "kana_vocabulary"]), word: text,
+    type: z.enum(["radical", "kanji", "vocabulary", "kana_vocabulary"]), word: text.nullable(),
     meaningsEn: z.array(text).min(1), readingsJa: z.array(text),
     level: z.number().int().min(1).max(60), updatedAt: z.string().nullable(), meaningBasisSha256: hash,
   }).strict(),
@@ -16,7 +16,7 @@ const entrySchema = z.object({
   }).strict()),
 }).strict();
 const packageSchema = z.object({
-  $schema: text, schemaVersion: z.literal(1), packageId: text,
+  $schema: text, schemaVersion: z.union([z.literal(1), z.literal(2)]), packageId: text,
   language: z.literal("tr"), name: text, version: text,
   generatedAt: z.iso.datetime({ offset: true }),
   purpose: z.enum(["integration-demo", "learning-content"]), scope: z.literal("display-only"),
@@ -24,9 +24,9 @@ const packageSchema = z.object({
 }).strict();
 export type TranslationPackage = z.infer<typeof packageSchema>;
 export interface DisplaySubject {
-  id: number; object: string; characters: string;
+  id: number; object: string; characters: string | null;
   meanings: { meaning: string; primary?: boolean }[];
-  readings: { reading: string; primary?: boolean }[];
+  readings?: { reading: string; primary?: boolean }[];
 }
 
 // Compare original fields directly. Hashes are verified by the offline exporter,
@@ -34,7 +34,14 @@ export interface DisplaySubject {
 export function parseTranslationPackage(value: unknown): TranslationPackage | null {
   const result = packageSchema.safeParse(value);
   if (!result.success || !Object.keys(result.data.subjects).length) return null;
+  if (Object.keys(result.data.subjects).length > 12000) return null;
+  let totalExamples = 0;
   for (const entry of Object.values(result.data.subjects)) {
+    if (entry.source.type !== "radical" && entry.source.word === null) return null;
+    if (result.data.schemaVersion === 1 && entry.source.type === "radical") return null;
+    if (entry.source.type === "radical" && (entry.examples.length || entry.source.readingsJa.length)) return null;
+    totalExamples += entry.examples.length;
+    if (entry.examples.length > 100 || totalExamples > 40000) return null;
     const seen = new Set<string>();
     for (const example of entry.examples) {
       const key = JSON.stringify([example.source.ja, example.source.en]);
@@ -52,7 +59,7 @@ function matchingEntry(packet: TranslationPackage | null, subject: DisplaySubjec
   if (!entry || subject.id <= 0 || entry.source.type !== subject.object ||
     entry.source.word !== subject.characters ||
     !sameStrings(entry.source.meaningsEn, subject.meanings.map(m => m.meaning)) ||
-    !sameStrings(entry.source.readingsJa, subject.readings.map(r => r.reading))) return null;
+    !sameStrings(entry.source.readingsJa, (subject.readings ?? []).map(r => r.reading))) return null;
   return entry;
 }
 export function resolveTurkishMeaning(packet: TranslationPackage | null, subject: DisplaySubject) {
@@ -63,4 +70,33 @@ export function resolveTurkishSentence(packet: TranslationPackage | null, subjec
   const entry = matchingEntry(packet, subject);
   return entry?.examples.find(e => e.reviewStatus === "editorial-reviewed" &&
     e.source.ja === source.ja && e.source.en === source.en) ?? null;
+}
+
+export const MAX_PACKAGE_BYTES = 20 * 1024 * 1024;
+export function parsePackageText(value: string): TranslationPackage {
+  if (value.length > MAX_PACKAGE_BYTES) throw new Error("Translation files must be 20 MB or smaller.");
+  let bytes = 0;
+  for (const character of value) {
+    const code = character.codePointAt(0)!;
+    bytes += code <= 0x7f ? 1 : code <= 0x7ff ? 2 : code <= 0xffff ? 3 : 4;
+    if (bytes > MAX_PACKAGE_BYTES) break;
+  }
+  if (value.length > MAX_PACKAGE_BYTES || bytes > MAX_PACKAGE_BYTES)
+    throw new Error("Translation files must be 20 MB or smaller.");
+  let decoded: unknown;
+  try { decoded = JSON.parse(value.replace(/^\uFEFF/, "")); }
+  catch { throw new Error("The file is not valid JSON."); }
+  const packet = parseTranslationPackage(decoded);
+  if (!packet) throw new Error("Unsupported or incomplete package. Your current content is unchanged.");
+  return packet;
+}
+export function packageSummary(packet: TranslationPackage) {
+  const counts = {radical: 0, kanji: 0, vocabulary: 0, kana_vocabulary: 0, sentences: 0};
+  const levels = new Set<number>();
+  for (const entry of Object.values(packet.subjects)) {
+    if (entry.meaning.reviewStatus === "editorial-reviewed") counts[entry.source.type]++;
+    counts.sentences += entry.examples.filter(e => e.reviewStatus === "editorial-reviewed").length;
+    levels.add(entry.source.level);
+  }
+  return {...counts, levels: [...levels].sort((a, b) => a - b)};
 }
