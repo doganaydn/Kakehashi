@@ -33,3 +33,6 @@ Keep `main` as the upstream baseline and changes on `turkish-content`. Fetch ups
 Review Complete result cards and Subject List browse/manage/add-item screens also resolve meanings from the active imported package. Source mismatches and disabled translations retain original English; review grading and list membership are unaffected.
 
 Format v3 adds optional per-subject `synonymAnswers: {values: string[], reviewStatus: "editorial-reviewed"}` and `scope: "display-and-synonyms"`. The supplied `wanikani-tr-v3.json` works for display and user-confirmed account transfer; `translation-package-v3.schema.json` documents the format. Do not import the schema file itself. Settings shows a compact summary with expandable details and compressed level ranges.
+
+
+The current format-v3 `translation-packages/wanikani-tr-v3.json` (package version 1.4.0) contains the same levels 1–60 meanings and synonym suggestions, plus 2,952 reviewed example translations and usage notes across levels 1–9. The previous 857 examples are preserved. Import the updated JSON again to activate the new examples; no new APK is required. Sentence review is a separate pass by the same model, not an independent expert audit.
