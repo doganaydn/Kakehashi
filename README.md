@@ -9,7 +9,8 @@ The `turkish-content` branch adds an optional, locally imported JSON translation
 - Existing Primary/Alternative rows show translated meanings; Show original English reveals source meanings inline.
 - Subject details, lessons, related subject cards, lesson list view and Items lists use the active package. Lesson selection and Items lists have no original-meaning button.
 - Imports are checked against subject ID, type, characters, all source meanings and readings. Sentence translations also require matching original Japanese and English text.
-- The active package is stored locally. This feature does not upload translations to WaniKani or change answer grading.
+- Importing a display package stores it locally and does not change account synonyms or answer grading.
+- A separate [selective Turkish synonym transfer](docs/turkish-synonym-transfer.md) lets users choose levels, topic types, study states and individual meanings before explicitly confirming an account update. History supports pause/resume and undo of recorded additions.
 
 The implementation was developed with AI assistance as a working prototype. It has been tested on an Android device, but needs maintainer review before being considered for the original app. This fork is not an official Kakehashi release.
 

@@ -12,7 +12,7 @@ The parser in `src/features/turkish-content/resolver.ts` is the authoritative sc
 
 A translation is displayed only if its original source matches the live subject. Both source sentences must match for an example. Missing translations and source mismatches use original English. Local imports use chunked storage and atomic activation, and Settings can restore the bundled sample.
 
-Mnemonic and hint translations are not implemented. Answer grading is unchanged. Imported meanings are not automatically accepted as review answers and are not sent to WaniKani.
+Mnemonic and hint translations are not implemented. Answer grading is unchanged. Imported meanings are not automatically accepted as review answers and are not sent to WaniKani. A separate [user-confirmed synonym transfer](turkish-synonym-transfer.md) uses the app-supplied Turkish catalog, independently of imported display packages.
 
 ## Development and checks
 

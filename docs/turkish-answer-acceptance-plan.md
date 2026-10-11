@@ -1,6 +1,6 @@
 # Turkish answers without WaniKani synonyms — proposed plan
 
-Status: planning only. No answer grading or WaniKani account data has been changed.
+Status: deferred. The user chose [selective account synonym transfer](turkish-synonym-transfer.md) instead. Direct JSON-based answer grading remains unchanged; development tests do not mutate real accounts.
 
 ## User requirement
 

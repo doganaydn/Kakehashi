@@ -1,0 +1,31 @@
+# Selective Turkish synonym transfer
+
+Open **Settings → Appearance → Add Turkish synonyms to WaniKani**. Opening this page, importing a display package, loading history and preparing a preview never write to WaniKani.
+
+## User flow
+
+1. Choose individual levels or a range, up to your current WaniKani level.
+2. Select radicals, kanji and/or vocabulary (including kana vocabulary).
+3. Select study states. Only learning items are selected by default; lessons not started, burned and locked topics are explicit alternatives.
+4. Prepare a network-verified preview. Uncheck entire topics or individual suggestions. Existing case-equivalent synonyms cannot be added again.
+5. Confirm the account, selected levels and maximum number of new synonyms. Only then does the worker write.
+
+Suggestions come from the app-supplied reviewed Turkish catalog in `translation-packages/wanikani-tr.json`. Arbitrary imported display JSON never supplies writing candidates. Suggestions are shown for user review; linguistic correctness is not guaranteed by a schema or review flag. Explanations and example sentences are never imported as answers. This feature uses existing personal synonym support; it does not add a JSON-based answer whitelist or change Japanese reading grading. The existing Accept User Synonyms setting still controls synonym answers in this app.
+
+## Preservation and recovery
+
+Fresh source subjects, study state and online materials are checked during preparation and again during execution. Missing or changed sources are excluded/blocked. Each save re-reads the server synonyms and applies only selected additions; notes and existing synonyms remain untouched. Saves are serialized with existing synonym editors. A create conflict (422) is handled by reading the material created meanwhile and merging additions.
+
+A per-account, device-local journal has a small record per subject. No API token is stored in it. Intent is durable before writing, and successful receipts record only additions made by that save. Loading history never resumes a worker. Closing the screen, backgrounding or switching accounts pauses after the current item. Resume is explicitly confirmed. One worker runs at a time, with spaced requests.
+
+**Undo / cancel this transfer** removes only exact additions identified by saved receipts and cancels unsent work. Other synonyms and notes are preserved. Interrupted undo retains its operation mode and cannot accidentally resume additions.
+
+If a request may have succeeded but the receipt was lost, meanings found in that ambiguous window are marked uncertain. They are not claimed as owned or automatically removed by undo. History is available only on this device; clearing app data loses receipts. The API has no atomic cross-device merge: an unrelated client editing the same array during the final read/write window can still race this operation.
+
+A token with Study Materials create/update permissions is required. Network, permission and validation failures stop the worker with an error; it never automatically restarts. [API contract](https://docs.api.wanikani.com/20170710/#study-materials).
+
+## Validation and maintenance
+
+Tests use mocked API responses and storage only, covering filters, source changes, Turkish duplicates, confirmation gating, account switches, concurrent editors, durable intent failures, pause/resume, ambiguous success and receipt-based undo. No real account mutations are part of development validation. 158 focused tests pass across 18 suites. Targeted lint passes; the project-wide type check still reports pre-existing unrelated errors. Physical device verification is pending with a same-signed arm64 APK (1.4.8-tr.11).
+
+The UI is English and the original app design is retained. This implementation is on `turkish-content`; no upstream PR has been submitted. The earlier direct package-answer acceptance plan is deferred in favor of this explicitly confirmed synonym flow.

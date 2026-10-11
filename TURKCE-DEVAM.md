@@ -118,3 +118,14 @@ Kullanıcının onayladığı düzen: 1.4.8-tr.9 (27), arm64-v8a APK. Kelime/kan
 ## Kalıcı kullanıcı tercihi — fork üzerinden geliştirme (11 Ekim 2026)
 
 Kullanıcı bundan sonraki tüm geliştirmelerin kendi GitHub fork’una push edilerek ilerlemesini açıkça istedi. Yetkili hedef: origin = https://github.com/doganaydn/Kakehashi.git, çalışma dalı turkish-content. Tamamlanan değişiklikler uygun kontrollerden sonra commit edilip bu dala push edilir; her seferinde yeniden gönderim izni sorulmaz. upstream = Portego-00/Kakehashi yalnızca ana proje güncellemelerini almak için kullanılır. main temel dal olarak korunur. Hesap bilgileri, özel anahtarlar, yerel araçlar ve derleme günlükleri paylaşılmaz. Bu tercih WaniKani gönderimi, geliştiriciye mesaj/PR, APK Release veya mağaza yayını için otomatik yetki oluşturmaz. Panel/çeviri ana projesi bu Kakehashi fork’una topluca taşınmaz; fork’un kapsamına uygun mobil geliştirmeler ve gerekli paket kopyaları gönderilir.
+
+
+## 11 Ekim 2026 — Seçimli Türkçe synonym aktarımı
+
+1.4.8-tr.11 (29): Settings → Appearance → Add Turkish synonyms to WaniKani. Tek/çoklu seviye veya aralık, radikal/kanji/kelime ve çalışma durumu seçilir; varsayılan mevcut seviye ve çalışılan konular. Önizlemede konu veya tek karşılık çıkarılabilir. Mevcut karşılıklar korunur; Türkçe harf ve büyük/küçük harf eşdeğerleri tekrar eklenmez. Son hesap/kapsam onayından önce gönderim yok. Rastgele içe aktarılan gösterim JSON’u gönderim kaynağı değildir; uygulamanın kontrol edilmiş kataloğu kullanılır. Japonca okunuş değerlendirmesi ve cevap motoru değiştirilmedi; mevcut Accept User Synonyms ayarı geçerli.
+
+İşlem duraklatılabilir ve açık onayla sürdürülebilir. Cihazdaki hesap bazlı geçmiş yalnızca bu işlemin sunucuda doğrulanmış eklemelerini geri alır; belirsiz gönderimler otomatik silinmez. Geri alma kesilirse eklemeye dönmez. Ekranı açmak/önizlemek/geçmişi yüklemek otomatik gönderim başlatmaz. API çağrıları çevrimiçi kaynak/durum ve güncel materyallerle doğrulanır; mevcut düzenleyicilerle aynı sıralı yazıcı kullanılır. Büyük seçimlerde sorgular parçalara ayrılır. Ayrıntı: docs/turkish-synonym-transfer.md. Fiziksel telefon kontrolü kullanıcıda; geliştirme doğrulamasında gerçek hesaba aktarım yok. Çeviri ana dosyaları ve wanikani-tr.json değişmedi.
+
+158 test / 18 grup geçti; hedefli lint sıfır hata. Genel tip kontrolünde önceki proje hataları sürüyor; değişen modüller ayrıca kontrol edildi. Yeni APK teslim ve imza kaydı BUILD-MANIFEST-tr.11.json içinde tutulacak.
+
+tr.11 APK derlendi; 29 sürüm kodu, arm64-v8a, önceki sertifikayla aynı imza ve derleme kaynak kopyası doğrulandı. 158/158 test geçti. Ana JSON SHA aynı. BUILD-MANIFEST-tr.11.json teslim kaydı tamamlandı.

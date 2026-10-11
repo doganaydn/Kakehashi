@@ -44,6 +44,16 @@ export function AppearanceSection() {
         </Text>
 
         <ContentLanguageSetting />
+        <TouchableOpacity style={styles.settingItem} accessibilityRole="button"
+          accessibilityLabel="Open Turkish synonym transfer"
+          onPress={() => router.push("/turkish-synonyms" as Href)}>
+          <Ionicons name="cloud-upload-outline" size={24} color={theme.primary} style={styles.settingIcon}/>
+          <View style={{flex: 1}}>
+            <Text style={{color: theme.textColor, fontSize: 16}}>Add Turkish synonyms to WaniKani</Text>
+            <Text style={{color: theme.textSecondary, fontSize: 14}}>Choose levels and meanings, then review before adding.</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={20} color={theme.textSecondary}/>
+        </TouchableOpacity>
 
         {showAppTextSizeSetting ? (
           <TouchableOpacity
