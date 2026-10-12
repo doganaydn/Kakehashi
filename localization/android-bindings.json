@@ -24763,17 +24763,17 @@
     },
     {
       "file": "src/features/interface-language/runtime.ts",
-      "line": 86,
+      "line": 84,
       "key": "widget.no_upcoming"
     },
     {
       "file": "src/features/interface-language/runtime.ts",
-      "line": 87,
+      "line": 85,
       "key": "widget.no_critical"
     },
     {
       "file": "src/features/interface-language/runtime.ts",
-      "line": 88,
+      "line": 86,
       "key": "widget.freeze_ready"
     },
     {
