@@ -1,21 +1,22 @@
 # Optional translation package prototype
 
-This is a personal fork of [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi), based on upstream commit `69244d9747325c04ae70694f96053ecc376672bc`. The original project and its design remain the foundation of this work.
+This is a personal fork of [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi), updated through upstream commit [`e9d29f4`](https://github.com/Portego-00/Kakehashi/commit/e9d29f4bae5eb8c7f673cb43c0bd5adaf527304a), including Android home screen widgets and the settings redesign. The original project and its design remain the foundation of this work.
 
 The `turkish-content` branch adds an optional, locally imported JSON translation package. The interface stays in English; learning content uses Turkish from a separate file. This prototype currently accepts `tr` packages only. Missing or outdated translations fall back to the original English.
 
 - Meanings for radicals, kanji, vocabulary and kana vocabulary.
 - Japanese example sentences with translated text and separate usage explanations.
 - Existing Primary/Alternative rows show translated meanings; Show original English reveals source meanings inline.
-- Subject details, lessons, related subject cards, lesson list view and Items lists use the active package. Lesson selection and Items lists have no original-meaning button.
+- Subject details, lessons, composition cards, visually similar kanji, Subject List, Review Complete and Items lists use the active package. Lesson selection and Items lists show translated meanings without an original-meaning button.
 - Imports are checked against subject ID, type, characters, all source meanings and readings. Sentence translations also require matching original Japanese and English text.
 - Importing a display package stores it locally and does not change account synonyms or answer grading.
 - Import `translation-packages/wanikani-tr-v3.json` for display and explicit synonym suggestions; no catalog is bundled in the app. Older files remain display-only.
+- Translation package and synonym transfer settings are available under Appearance and can be found through the new settings search.
 - A separate [selective Turkish synonym transfer](docs/turkish-synonym-transfer.md) lets users choose levels, topic types, study states and individual meanings before explicitly confirming an account update. History supports pause/resume and undo of recorded additions.
 
-The implementation was developed with AI assistance as a working prototype. It has been tested on an Android device, but needs maintainer review before being considered for the original app. This fork is not an official Kakehashi release.
+The implementation was developed with AI assistance as a working prototype. Earlier builds have been tested on an Android device. The latest merged build passed 266 focused tests and was compiled for Android arm64, but its device check is still pending. The full project TypeScript check still reports errors; this prototype needs maintainer review before being considered for the original app. This fork is not an official Kakehashi release.
 
-See [the feature and format guide](docs/optional-translation-packages.md). A Turkish package with meanings for levels 1–60 and sentences for levels 8–9 is available in [translation-packages/wanikani-tr.json](translation-packages/wanikani-tr.json). Translation preparation, review and personal approval are separate; package validation does not certify linguistic accuracy.
+See [the feature and format guide](docs/optional-translation-packages.md). The current Turkish package, **v1.5.0**, includes **491 radical meanings, 2,101 kanji meanings, 6,757 vocabulary meanings, 60 kana vocabulary meanings, and 5,522 example sentences covering levels 1–15**. Meanings cover levels 1–60. Download [wanikani-tr-v3.json](translation-packages/wanikani-tr-v3.json), then use **Settings → Appearance → Import translation file → Use this package** in the personal Android app. The JSON package is separate from the APK; updating the APK does not automatically replace an imported package. Translation preparation, review and personal approval are separate. Sentence translations and usage explanations received a separate second pass with the same AI model, not an independent expert review; package validation does not certify linguistic accuracy.
 
 ---
 
