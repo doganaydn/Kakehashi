@@ -18,6 +18,8 @@ The implementation was developed with AI assistance as a working prototype. Earl
 
 See [the feature and format guide](docs/optional-translation-packages.md). The current Turkish package, **v1.5.0**, includes **491 radical meanings, 2,101 kanji meanings, 6,757 vocabulary meanings, 60 kana vocabulary meanings, and 5,522 example sentences covering levels 1–15**. Meanings cover levels 1–60. Download [wanikani-tr-v3.json](translation-packages/wanikani-tr-v3.json), then use **Settings → Appearance → Import translation file → Use this package** in the personal Android app. The JSON package is separate from the APK; updating the APK does not automatically replace an imported package. Translation preparation, review and personal approval are separate. Sentence translations and usage explanations received a separate second pass with the same AI model, not an independent expert review; package validation does not certify linguistic accuracy.
 
+A separate [UI localization source inventory](localization/ARAYUZ-CEVIRI-KAPSAMI.md) covers mobile, web and native interface strings for future translation. It is a candidate inventory, including unresolved/dynamic cases; it does not change the current English interface.
+
 ---
 
 # Kakehashi

@@ -1,0 +1,82 @@
+{
+  "generatedAt": "2026-10-12T06:45:20.325Z",
+  "sourceCommit": "fce218bb140df9a2f6892ab81c99b25a3e360b2e",
+  "stage": "extracted-source-candidates; not runtime-wired or editorially complete",
+  "uiKeys": 11115,
+  "reviewKeys": 23117,
+  "totalOccurrences": 96441,
+  "scannedFiles": 1424,
+  "excludedFiles": 839,
+  "parseDiagnostics": 0,
+  "nativeDynamic": 195,
+  "dynamicRuleSites": 2339,
+  "surfaces": {
+    "widgets": {
+      "scanned": 28,
+      "excluded": 10,
+      "uiOccurrences": 193,
+      "reviewOccurrences": 455
+    },
+    "native": {
+      "scanned": 32,
+      "excluded": 32,
+      "uiOccurrences": 81,
+      "reviewOccurrences": 174
+    },
+    "mobile": {
+      "scanned": 670,
+      "excluded": 305,
+      "uiOccurrences": 6821,
+      "reviewOccurrences": 23055
+    },
+    "ios-native": {
+      "scanned": 24,
+      "excluded": 22,
+      "uiOccurrences": 139,
+      "reviewOccurrences": 368
+    },
+    "backend": {
+      "scanned": 24,
+      "excluded": 19,
+      "uiOccurrences": 42,
+      "reviewOccurrences": 742
+    },
+    "watch": {
+      "scanned": 25,
+      "excluded": 9,
+      "uiOccurrences": 68,
+      "reviewOccurrences": 92
+    },
+    "share-extension": {
+      "scanned": 3,
+      "excluded": 14,
+      "uiOccurrences": 0,
+      "reviewOccurrences": 11
+    },
+    "web": {
+      "scanned": 603,
+      "excluded": 426,
+      "uiOccurrences": 5394,
+      "reviewOccurrences": 15193
+    },
+    "website": {
+      "scanned": 15,
+      "excluded": 2,
+      "uiOccurrences": 182,
+      "reviewOccurrences": 489
+    }
+  },
+  "validation": "Source links and placeholders validated; native nested Kotlin/Swift interpolation fixtures passed",
+  "artifactSha256": {
+    "ARAYUZ-CEVIRI-KAPSAMI.md": "1962ed61121c8a9cedda4c0b942844bd4adc992453887e65dff643b3ea47cebb",
+    "README.md": "8d4f5f4209b10e9d9e80a02641fd2d21e6683c187b7e6eccc67b1b5c7fa8c587",
+    "source\\COVERAGE.md": "a533809403c430fca5e9fda5276709b3278ef06e7bc5e7e481bddff0feb56ca7",
+    "source\\dynamic-rules.json": "e163defcb1d14c7c2eb4215fccc0332401df2d565adfddd32fd3573f047ff946",
+    "source\\en.json": "b2bbf5b31ade6ebca9f4509cf8916d30a52c180d01d34159a255f7724a6b86a2",
+    "source\\files.json": "ef74a2e2fd05911109c32ddfacf02bf6a0d837c0ec4baa583689a523906b84dd",
+    "source\\native-format-review.json": "03fb45b4d8f35d6397bc7b4ae8735e297e22d868e4750c1817b3c836c3ec416a",
+    "source\\occurrences.json.gz": "539315e0bf5faf7a81da49c34bd354c47f40cc12452b2b48a2b70a8d9d7bac78",
+    "source\\parse-diagnostics.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source\\review-needed.en.json": "30b28ebb17dd4e29572cc22e9c6b168c098c1fdd58d6322b0a67cc8e3b6d4520"
+  }
+}
