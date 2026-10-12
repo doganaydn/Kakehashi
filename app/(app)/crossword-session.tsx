@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -377,7 +376,7 @@ function buildHintMessagesForWord(
     messages.push(`Meaning: ${word.meaning}`);
     if (uniqueAlternativeMeanings.length > 0) {
       messages.push(
-        uiT("ui.dynamic_5ff6dcda4960", {value1: (uniqueAlternativeMeanings.join(", "))})
+        `Alternative meanings: ${uniqueAlternativeMeanings.join(", ")}`
       );
     }
     return messages;
@@ -386,7 +385,7 @@ function buildHintMessagesForWord(
   if (clueDisplayMode === "english_kanji") {
     if (uniqueAlternativeMeanings.length > 0) {
       messages.push(
-        uiT("ui.dynamic_5ff6dcda4960", {value1: (uniqueAlternativeMeanings.join(", "))})
+        `Alternative meanings: ${uniqueAlternativeMeanings.join(", ")}`
       );
     }
     return messages;
@@ -397,7 +396,7 @@ function buildHintMessagesForWord(
   }
 
   if (uniqueAlternativeMeanings.length > 0) {
-    messages.push(uiT("ui.dynamic_5ff6dcda4960", {value1: (uniqueAlternativeMeanings.join(", "))}));
+    messages.push(`Alternative meanings: ${uniqueAlternativeMeanings.join(", ")}`);
   }
 
   const subjectCharacters = subject.data?.characters;
@@ -408,7 +407,7 @@ function buildHintMessagesForWord(
     subjectCharacters !== word.word;
 
   if (!isKanaVocab && hasDistinctKanji) {
-    messages.push(uiT("ui.dynamic_0416073fbb8e", {value1: (subjectCharacters)}));
+    messages.push(`Kanji form: ${subjectCharacters}`);
   }
 
   return messages;
@@ -473,7 +472,6 @@ function containsJapaneseCharacters(value: string): boolean {
 }
 
 export default function CrosswordSessionScreen() {
-  useInterfaceLanguage();
   useActivityTracking("crossword");
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
@@ -628,9 +626,9 @@ export default function CrosswordSessionScreen() {
         if (restored) return;
         if (!params.sessionId) {
           Alert.alert(
-            uiT("ui.session_not_available_3b81ebff"),
-            uiT("ui.couldn_t_restore_that_crossword_session_caebc597"),
-            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/crossword-config") }]
+            "Session Not Available",
+            "Couldn't restore that crossword session.",
+            [{ text: "OK", onPress: () => router.replace("/crossword-config") }]
           );
           return;
         }
@@ -688,11 +686,32 @@ export default function CrosswordSessionScreen() {
       }
     } catch (error) {
       console.error("Failed to load crossword config:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_crossword_configuration_24c8e521"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to load crossword configuration.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     }
-  }, [params.hiraganaOnly, params.clueDisplayMode, params.jlptLevels, params.maxLevel, params.maxWords, params.minLevel, params.playAudioOnCorrectAnswer, params.resume, params.selectedListIds, params.showKanjiInSolutions, params.sessionId, params.size, params.srsApprentice, params.srsBurned, params.srsEnlightened, params.srsGuru, params.srsMaster, params.useCustomLevelRange, restoreSavedSession, userLevel, ]);
+  }, [
+    params.hiraganaOnly,
+    params.clueDisplayMode,
+    params.jlptLevels,
+    params.maxLevel,
+    params.maxWords,
+    params.minLevel,
+    params.playAudioOnCorrectAnswer,
+    params.resume,
+    params.selectedListIds,
+    params.showKanjiInSolutions,
+    params.sessionId,
+    params.size,
+    params.srsApprentice,
+    params.srsBurned,
+    params.srsEnlightened,
+    params.srsGuru,
+    params.srsMaster,
+    params.useCustomLevelRange,
+    restoreSavedSession,
+    userLevel,
+  ]);
 
   useEffect(() => {
     loadConfig();
@@ -844,9 +863,9 @@ export default function CrosswordSessionScreen() {
 
       if (wordCandidates.length < 4) {
         Alert.alert(
-          uiT("ui.not_enough_vocabulary_c7ae7e98"),
-          uiT("ui.not_enough_learned_vocabulary_matches_your_filters_to_build_a_cro_35be15ad"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "Not Enough Vocabulary",
+          "Not enough learned vocabulary matches your filters to build a crossword. Try widening your filters.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -900,9 +919,9 @@ export default function CrosswordSessionScreen() {
 
       if (built.words.length === 0) {
         Alert.alert(
-          uiT("ui.couldn_t_build_crossword_233ad7cb"),
-          uiT("ui.we_couldn_t_fit_any_words_together_try_a_different_srs_or_level_r_5b4cf006"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "Couldn't Build Crossword",
+          "We couldn't fit any words together. Try a different SRS or level range.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -935,13 +954,19 @@ export default function CrosswordSessionScreen() {
       subjectByIdRef.current = subjectById;
     } catch (error) {
       console.error("Failed to build crossword:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_build_crossword_ba3a3201"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to build crossword.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     } finally {
       setIsLoading(false);
     }
-  }, [apiToken, clearSavedSession, config, isAuthLoading, userLevel, ]);
+  }, [
+    apiToken,
+    clearSavedSession,
+    config,
+    isAuthLoading,
+    userLevel,
+  ]);
 
   useEffect(() => {
     if (config && !hasRestoredSession) {
@@ -1577,21 +1602,21 @@ export default function CrosswordSessionScreen() {
       router.back();
       return;
     }
-    Alert.alert(uiT("ui.exit_crossword_e766373c"), uiT("ui.want_to_save_your_progress_for_later_b2fdf12e"), [
-      { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+    Alert.alert("Exit Crossword", "Want to save your progress for later?", [
+      { text: "Cancel", style: "cancel" },
       {
-        text: uiT("ui.save_exit_d4623351"),
+        text: "Save & Exit",
         onPress: async () => {
           const ok = await persistSession();
           if (!ok) {
-            Alert.alert(uiT("ui.couldn_t_save_82c0d2ef"), uiT("ui.please_try_again_eea4fb33"));
+            Alert.alert("Couldn't Save", "Please try again.");
             return;
           }
           router.back();
         },
       },
       {
-        text: uiT("ui.discard_eb1a70e3"),
+        text: "Discard",
         style: "destructive",
         onPress: async () => {
           await clearSavedSession();
@@ -1750,7 +1775,8 @@ export default function CrosswordSessionScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.building_your_crossword_5ab62b34")} </Text>
+            Building your crossword...
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -1763,7 +1789,8 @@ export default function CrosswordSessionScreen() {
       >
         <View style={styles.loadingContainer}>
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.couldn_t_load_crossword_72fbbd8c")} </Text>
+            Couldn&apos;t load crossword.
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -1825,7 +1852,8 @@ export default function CrosswordSessionScreen() {
             />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {uiT("ui.crossword_468aceb8")} </Text>
+            Crossword
+          </Text>
         </View>
         <View style={styles.headerRight}>
           <View
@@ -1939,11 +1967,12 @@ export default function CrosswordSessionScreen() {
 
         <View style={styles.cluesSection}>
           <Text style={[styles.cluesTitle, { color: theme.textColor }]}>
-            {uiT("ui.clues_86aa514b")} </Text>
+            Clues
+          </Text>
           <ClueList
             puzzle={puzzle}
             direction="across"
-            label={uiT("ui.across_fb3b7e31")}
+            label="Across"
             selectedWordId={selectedWordId}
             completedWordIds={completedWordIds}
             clueDisplayMode={clueDisplayMode}
@@ -1954,7 +1983,7 @@ export default function CrosswordSessionScreen() {
           <ClueList
             puzzle={puzzle}
             direction="down"
-            label={uiT("ui.down_b86d11af")}
+            label="Down"
             selectedWordId={selectedWordId}
             completedWordIds={completedWordIds}
             clueDisplayMode={clueDisplayMode}
@@ -1990,8 +2019,10 @@ export default function CrosswordSessionScreen() {
           >
             <Text style={[styles.cluePillText, { color: theme.primary }]}>
               {selectedWord
-                ? uiT("ui.value_value_a9e9f2e4", {value1: (selectedWord.number), value2: (selectedWord.direction === "across" ? uiT("ui.across_fb3b7e31") : uiT("ui.down_b86d11af"))})
-                : uiT("ui.select_a_word_ca3a99d2")}
+                ? `${selectedWord.number} ${
+                    selectedWord.direction === "across" ? "Across" : "Down"
+                  }`
+                : "Select a word"}
             </Text>
           </View>
           <View style={styles.hintActions}>
@@ -2023,7 +2054,7 @@ export default function CrosswordSessionScreen() {
               activeOpacity={0.7}
               disabled={!canUseAudioHint}
               accessibilityRole="button"
-              accessibilityLabel={uiT("ui.play_word_audio_as_a_final_hint_5eff4641")}
+              accessibilityLabel="Play word audio as a final hint"
             >
               <Ionicons
                 name="volume-high-outline"
@@ -2040,7 +2071,8 @@ export default function CrosswordSessionScreen() {
                   },
                 ]}
               >
-                {uiT("ui.audio_bc1b8890")} </Text>
+                Audio
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleRevealLetter}
@@ -2056,7 +2088,8 @@ export default function CrosswordSessionScreen() {
               <Text
                 style={[styles.revealText, { color: theme.textSecondary }]}
               >
-                {uiT("ui.reveal_36b830bd")} </Text>
+                Reveal
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -2077,7 +2110,7 @@ export default function CrosswordSessionScreen() {
                 key={`${selectedWord?.id ?? "hint"}-${index}`}
                 style={[styles.hintText, { color: theme.textSecondary }]}
               >
-                {uiT("ui.hint_value_value_df230eac", {value1: (index + 1), value2: (hint)})}
+                {`Hint ${index + 1}: ${hint}`}
               </Text>
             ))}
           </View>
@@ -2135,7 +2168,7 @@ export default function CrosswordSessionScreen() {
             activeOpacity={0.85}
             disabled={!selectedWord || isAnswerAnimating}
           >
-            <Text style={styles.submitText}>{uiT("ui.submit_155f816c")}</Text>
+            <Text style={styles.submitText}>Submit</Text>
           </TouchableOpacity>
         </View>
         </View>
@@ -2173,7 +2206,6 @@ function CrosswordGridView({
   onCellPress,
   theme,
 }: CrosswordGridViewProps) {
-  useInterfaceLanguage();
   const selectedWord = selectedWordId
     ? getWordById(puzzle, selectedWordId)
     : null;
@@ -2332,7 +2364,6 @@ function ClueList({
   onSelect,
   theme,
 }: ClueListProps) {
-  useInterfaceLanguage();
   const items = puzzle.words
     .filter((w) => w.direction === direction)
     .sort((a, b) => a.number - b.number);
@@ -2417,7 +2448,6 @@ function CrosswordCompletionCheckpoint({
   subjectById,
   onViewStats,
 }: CrosswordCompletionCheckpointProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const completedCellSet = useMemo(() => {
     const out = new Set<string>();
@@ -2445,9 +2475,11 @@ function CrosswordCompletionCheckpoint({
         style={[styles.summaryHeader, { borderBottomColor: theme.border }]}
       >
         <Text style={[styles.summaryTitle, { color: theme.textColor }]}>
-          {uiT("ui.crossword_complete_18012f89")} </Text>
+          Crossword Complete!
+        </Text>
         <Text style={[styles.summarySubtitle, { color: theme.textSecondary }]}>
-          {uiT("ui.nice_work_take_a_moment_to_enjoy_the_finished_grid_bdd2044b")} </Text>
+          Nice work. Take a moment to enjoy the finished grid.
+        </Text>
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 120 }}>
@@ -2465,7 +2497,8 @@ function CrosswordCompletionCheckpoint({
             <Text
               style={[styles.completionBadgeText, { color: theme.primary }]}
             >
-              {uiT("ui.level_cleared_5ab9d46f")} </Text>
+              Level Cleared
+            </Text>
           </View>
         </View>
 
@@ -2484,11 +2517,12 @@ function CrosswordCompletionCheckpoint({
 
         <View style={styles.cluesSection}>
           <Text style={[styles.cluesTitle, { color: theme.textColor }]}>
-            {uiT("ui.completed_clues_cfb2e215")} </Text>
+            Completed Clues
+          </Text>
           <ClueList
             puzzle={puzzle}
             direction="across"
-            label={uiT("ui.across_fb3b7e31")}
+            label="Across"
             selectedWordId={null}
             completedWordIds={completedWordIds}
             clueDisplayMode={clueDisplayMode}
@@ -2499,7 +2533,7 @@ function CrosswordCompletionCheckpoint({
           <ClueList
             puzzle={puzzle}
             direction="down"
-            label={uiT("ui.down_b86d11af")}
+            label="Down"
             selectedWordId={null}
             completedWordIds={completedWordIds}
             clueDisplayMode={clueDisplayMode}
@@ -2530,7 +2564,7 @@ function CrosswordCompletionCheckpoint({
             color="white"
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.summaryButtonText}>{uiT("ui.view_statistics_7c71dc14")}</Text>
+          <Text style={styles.summaryButtonText}>View Statistics</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -2566,7 +2600,6 @@ function CrosswordSummary({
   onPlayAgain,
   onBackToDashboard,
 }: CrosswordSummaryProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const total = puzzle.words.length;
   const solved = puzzle.words.filter((w) => completedWordIds.has(w.id)).length;
@@ -2607,11 +2640,12 @@ function CrosswordSummary({
     >
       <View style={[styles.summaryHeader, { borderBottomColor: theme.border }]}>
         <Text style={[styles.summaryTitle, { color: theme.textColor }]}>
-          {uiT("ui.crossword_complete_18012f89")} </Text>
+          Crossword Complete!
+        </Text>
         <Text style={[styles.summarySubtitle, { color: theme.textSecondary }]}>
           {solved === total
-            ? uiT("ui.you_filled_in_every_word_c8d00469")
-            : uiT("ui.solved_value_of_value_words_49fec53f", {value1: (solved), value2: (total)})}
+            ? "You filled in every word."
+            : `Solved ${solved} of ${total} words.`}
         </Text>
       </View>
 
@@ -2620,25 +2654,25 @@ function CrosswordSummary({
           <SummaryStat
             theme={theme}
             iconName="checkmark-done"
-            label={uiT("ui.solved_eb858c45")}
+            label="Solved"
             value={`${solved}/${total}`}
           />
           <SummaryStat
             theme={theme}
             iconName="create"
-            label={uiT("ui.typed_bff482db")}
+            label="Typed"
             value={`${solvedByTyping}/${total}`}
           />
           <SummaryStat
             theme={theme}
             iconName="bulb"
-            label={uiT("ui.revealed_17376ee4")}
+            label="Revealed"
             value={`${revealed}/${total}`}
           />
           <SummaryStat
             theme={theme}
             iconName="time"
-            label={uiT("ui.time_33b93476")}
+            label="Time"
             value={formatElapsed(elapsedMs)}
           />
         </View>
@@ -2656,7 +2690,8 @@ function CrosswordSummary({
                 { color: theme.textSecondary },
               ]}
             >
-              {uiT("ui.reveal_button_presses_b25ba623")} </Text>
+              Reveal button presses
+            </Text>
             <Text
               style={[styles.summaryBreakdownValue, { color: theme.textColor }]}
             >
@@ -2670,11 +2705,12 @@ function CrosswordSummary({
                 { color: theme.textSecondary },
               ]}
             >
-              {uiT("ui.first_try_accuracy_typed_only_6bf0915c")} </Text>
+              First-try accuracy (typed only)
+            </Text>
             <Text
               style={[styles.summaryBreakdownValue, { color: theme.textColor }]}
             >
-              {uiT("ui.value_fec45485", {value1: (accuracy)})}
+              {`${accuracy}%`}
             </Text>
           </View>
           <View style={styles.summaryBreakdownRow}>
@@ -2684,7 +2720,8 @@ function CrosswordSummary({
                 { color: theme.textSecondary },
               ]}
             >
-              {uiT("ui.mistakes_0079708a")} </Text>
+              Mistakes
+            </Text>
             <Text
               style={[styles.summaryBreakdownValue, { color: theme.textColor }]}
             >
@@ -2694,7 +2731,8 @@ function CrosswordSummary({
         </View>
 
         <Text style={[styles.summarySection, { color: theme.textColor }]}>
-          {uiT("ui.words_0a8be89a")} </Text>
+          Words
+        </Text>
         <View
           style={[
             styles.summaryCard,
@@ -2750,7 +2788,7 @@ function CrosswordSummary({
                             { color: theme.textSecondary },
                           ]}
                         >
-                          {uiT("ui.value_b36d8038", {value1: (entry.hiragana)})}
+                          {`  ${entry.hiragana}`}
                         </Text>
                       </>
                     ) : (
@@ -2774,7 +2812,7 @@ function CrosswordSummary({
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {entry.direction === "across" ? uiT("ui.across_fb3b7e31") : uiT("ui.down_b86d11af")}
+                    {entry.direction === "across" ? "Across" : "Down"}
                   </Text>
                   <View style={styles.summaryAttempts}>
                     {entry.revealed ? (
@@ -2799,10 +2837,12 @@ function CrosswordSummary({
                       ]}
                     >
                       {entry.revealed
-                        ? uiT("ui.revealed_17376ee4")
+                        ? "Revealed"
                         : entry.attempts > 0
-                        ? uiT("ui.value_value_a9e9f2e4", {value1: (entry.attempts), value2: (entry.attempts === 1 ? uiT("ui.try_1e262cd7") : uiT("ui.tries_ba34f52f"))})
-                        : uiT("ui.skipped_12698ce1")}
+                        ? `${entry.attempts} ${
+                            entry.attempts === 1 ? "try" : "tries"
+                          }`
+                        : "Skipped"}
                     </Text>
                   </View>
                 </View>
@@ -2856,7 +2896,7 @@ function CrosswordSummary({
             color="white"
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.summaryButtonText}>{uiT("ui.new_crossword_cf3ba9d9")}</Text>
+          <Text style={styles.summaryButtonText}>New Crossword</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -2873,7 +2913,8 @@ function CrosswordSummary({
           <Text
             style={[styles.summaryButtonText, { color: theme.textColor }]}
           >
-            {uiT("ui.back_to_dashboard_97ba1d39")} </Text>
+            Back to Dashboard
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -2888,7 +2929,6 @@ interface SummaryStatProps {
 }
 
 function SummaryStat({ theme, iconName, label, value }: SummaryStatProps) {
-  useInterfaceLanguage();
   return (
     <View
       style={[

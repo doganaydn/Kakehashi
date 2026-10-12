@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -89,7 +88,6 @@ export default function UsageStreakCard({
   error,
   style,
 }: UsageStreakCardProps) {
-  useInterfaceLanguage();
   const { theme, themeMode } = useTheme();
   const widgetStreakCardFollowTheme = useSettingsStore(
     (state) => state.widgetStreakCardFollowTheme
@@ -111,7 +109,7 @@ export default function UsageStreakCard({
     ? "Freeze status unavailable"
     : freezeAvailable
       ? "Freeze ready"
-      : uiT("ui.dynamic_e6379db1f135", {value1: (freezeDaysUntilReload)});
+      : `Freeze reload: ${freezeDaysUntilReload}d`;
   const visibleStreakDayNumbers = React.useMemo(
     () => getVisibleStreakDayNumbers(recentDays, currentStreak),
     [recentDays, currentStreak],
@@ -128,11 +126,11 @@ export default function UsageStreakCard({
       <View style={styles.headerRow}>
         <View style={styles.titleWrap}>
           <Ionicons name="flame" size={18} color={flameColor} />
-          <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.app_streak_41d6e3b6")}</Text>
+          <Text style={[styles.title, { color: theme.textColor }]}>App Streak</Text>
         </View>
         <View style={[styles.bestBadge, { backgroundColor: withAlpha(flameColor, 0.15) }]}>
           <Text style={[styles.bestBadgeText, { color: flameColor }]}>
-            {uiT("ui.best_c47d21c6")} {longestStreak}
+            Best {longestStreak}
           </Text>
         </View>
       </View>
@@ -142,7 +140,8 @@ export default function UsageStreakCard({
           <View style={styles.loadingRow}>
             <ActivityIndicator color={flameColor} />
             <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-              {uiT("ui.updating_0a4e0b71")} </Text>
+              Updating...
+            </Text>
           </View>
         ) : (
           <>

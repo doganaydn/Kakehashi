@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -119,7 +118,6 @@ function parseSubjectIds(raw: unknown): number[] {
 }
 
 export default function ContextSentencePracticeSession() {
-  useInterfaceLanguage();
   useActivityTracking("context_sentence");
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
@@ -390,11 +388,11 @@ export default function ContextSentencePracticeSession() {
           }
           if (!params.sessionId) {
             Alert.alert(
-              uiT("ui.session_not_available_3b81ebff"),
-              uiT("ui.couldn_t_restore_that_practice_session_ced7322a"),
+              "Session Not Available",
+              "Couldn't restore that practice session.",
               [
                 {
-                  text: uiT("ui.ok_565339bc"),
+                  text: "OK",
                   onPress: () => router.replace("/context-sentence-practice-config"),
                 },
               ],
@@ -435,11 +433,11 @@ export default function ContextSentencePracticeSession() {
 
         if (generatedQuestions.length === 0) {
           Alert.alert(
-            uiT("ui.no_questions_available_d19c5909"),
+            "No Questions Available",
             config.customSentencesOnly
               ? "Could not find any of your saved sentences for the selected filters."
               : "Could not find learned vocabulary with context sentences for your selected filters.",
-            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
+            [{ text: "OK", onPress: () => router.back() }],
           );
           return;
         }
@@ -451,9 +449,9 @@ export default function ContextSentencePracticeSession() {
         }
         console.error("[ContextSentenceSession] Failed to load questions:", error);
         Alert.alert(
-          uiT("ui.error_54a0e8c1"),
-          uiT("ui.failed_to_load_context_sentence_questions_please_try_again_780650be"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
+          "Error",
+          "Failed to load context sentence questions. Please try again.",
+          [{ text: "OK", onPress: () => router.back() }],
         );
       } finally {
         if (isCurrentRequest()) {
@@ -461,7 +459,13 @@ export default function ContextSentencePracticeSession() {
         }
       }
     },
-    [clearSavedContextSentencePracticeSession, loadConfig, params.resume, params.sessionId, restoreSavedContextSentencePracticeSession, ],
+    [
+      clearSavedContextSentencePracticeSession,
+      loadConfig,
+      params.resume,
+      params.sessionId,
+      restoreSavedContextSentencePracticeSession,
+    ],
   );
 
   useEffect(() => {
@@ -518,23 +522,23 @@ export default function ContextSentencePracticeSession() {
 
   const handleExit = () => {
     Alert.alert(
-      uiT("ui.exit_practice_f46b2536"),
-      uiT("ui.want_to_continue_this_practice_later_5adad7f5"),
+      "Exit Practice?",
+      "Want to continue this practice later?",
       [
-        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: uiT("ui.continue_later_ba247ab0"),
+          text: "Continue Later",
           onPress: async () => {
             const wasSaved = await saveContextSentencePracticeSessionForLater();
             if (!wasSaved) {
-              Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
+              Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
               return;
             }
             router.back();
           },
         },
         {
-          text: uiT("ui.exit_d17d84a6"),
+          text: "Exit",
           style: "destructive",
           onPress: async () => {
             await clearSavedContextSentencePracticeSession();
@@ -563,7 +567,7 @@ export default function ContextSentencePracticeSession() {
         <StatusBar style={theme.statusBarStyle} />
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.loadingText, { color: theme.textColor }]}>{uiT("ui.preparing_context_sentence_practice_ce653268")}</Text>
+          <Text style={[styles.loadingText, { color: theme.textColor }]}>Preparing context sentence practice...</Text>
         </View>
       </SafeAreaView>
     );
@@ -602,12 +606,12 @@ export default function ContextSentencePracticeSession() {
       >
         <StatusBar style={theme.statusBarStyle} />
         <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: theme.error }]}>{uiT("ui.no_questions_available_c5151e98")}</Text>
+          <Text style={[styles.errorText, { color: theme.error }]}>No questions available</Text>
           <TouchableOpacity
             style={[styles.primaryButton, { backgroundColor: theme.primary }]}
             onPress={() => router.back()}
           >
-            <Text style={styles.primaryButtonText}>{uiT("ui.go_back_b8d99df1")}</Text>
+            <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -646,7 +650,6 @@ function SummaryAnswerCard({
   index: number;
   theme: any;
 }) {
-  useInterfaceLanguage();
   const subjectColors = useSubjectColors();
   const vocabText = answer.vocab.data.characters || "";
   const primaryMeaning = answer.vocab.data.meanings[0]?.meaning || "";
@@ -746,7 +749,8 @@ function SummaryAnswerCard({
             <Text
               style={[summaryStyles.indicatorLabel, { color: theme.textSecondary }]}
             >
-              {uiT("ui.result_6e7d50e8")} </Text>
+              Result
+            </Text>
             <View
               style={[
                 summaryStyles.indicatorDot,
@@ -782,7 +786,8 @@ function SummaryAnswerCard({
       <View style={summaryStyles.yourAnswersRow}>
         <View style={summaryStyles.yourAnswerItem}>
           <Text style={[summaryStyles.yourAnswerLabel, { color: theme.textSecondary }]}>
-            {uiT("ui.your_answer_d0e869b7")} </Text>
+            Your answer
+          </Text>
           <Text
             style={[
               summaryStyles.yourAnswerValue,
@@ -799,7 +804,8 @@ function SummaryAnswerCard({
             <Text
               style={[summaryStyles.yourAnswerLabel, { color: theme.textSecondary }]}
             >
-              {uiT("ui.correct_answer_fb019d33")} </Text>
+              Correct answer
+            </Text>
             <Text
               style={[
                 summaryStyles.yourAnswerValue,
@@ -833,7 +839,6 @@ function SummaryScreen({
   onBack: () => void;
   onPracticeAgain: () => void;
 }) {
-  useInterfaceLanguage();
   const getScoreColor = (pct: number) => {
     if (pct >= 80) return "#4caf50";
     if (pct >= 60) return "#ff9800";
@@ -851,7 +856,8 @@ function SummaryScreen({
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[summaryStyles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.session_results_04db3d75")} </Text>
+          Session Results
+        </Text>
         <View style={{ width: 40 }} />
       </View>
 
@@ -885,7 +891,8 @@ function SummaryScreen({
             <Text
               style={[summaryStyles.scoreCircleLabel, { color: theme.textSecondary }]}
             >
-              {uiT("ui.overall_715b1458")} </Text>
+              Overall
+            </Text>
           </View>
 
           <View style={summaryStyles.scoreDetailsCol}>
@@ -896,7 +903,8 @@ function SummaryScreen({
                 color={theme.textSecondary}
               />
               <Text style={[summaryStyles.scoreDetailLabel, { color: theme.textColor }]}>
-                {uiT("ui.correct_aca01a1a")} </Text>
+                Correct
+              </Text>
               <Text
                 style={[summaryStyles.scoreDetailValue, { color: "#4caf50" }]}
               >
@@ -910,7 +918,8 @@ function SummaryScreen({
                 color={theme.textSecondary}
               />
               <Text style={[summaryStyles.scoreDetailLabel, { color: theme.textColor }]}>
-                {uiT("ui.incorrect_a8a57dbc")} </Text>
+                Incorrect
+              </Text>
               <Text
                 style={[summaryStyles.scoreDetailValue, { color: "#f44336" }]}
               >
@@ -920,7 +929,8 @@ function SummaryScreen({
             <View style={summaryStyles.scoreDetailRow}>
               <Ionicons name="help-circle-outline" size={16} color={theme.textSecondary} />
               <Text style={[summaryStyles.scoreDetailLabel, { color: theme.textColor }]}>
-                {uiT("ui.questions_9a72221a")} </Text>
+                Questions
+              </Text>
               <Text style={[summaryStyles.scoreDetailValue, { color: theme.textColor }]}>
                 {answers.length}
               </Text>
@@ -929,7 +939,8 @@ function SummaryScreen({
         </View>
 
         <Text style={[summaryStyles.sectionTitle, { color: theme.textColor }]}>
-          {uiT("ui.question_details_a4fac70d")} </Text>
+          Question Details
+        </Text>
 
         {answers.map((answer, index) => (
           <SummaryAnswerCard
@@ -956,7 +967,8 @@ function SummaryScreen({
               style={{ marginRight: 8 }}
             />
             <Text style={[summaryStyles.actionButtonText, { color: theme.textColor }]}>
-              {uiT("ui.back_to_dashboard_97ba1d39")} </Text>
+              Back to Dashboard
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -973,7 +985,7 @@ function SummaryScreen({
               color="white"
               style={{ marginRight: 8 }}
             />
-            <Text style={summaryStyles.actionButtonPrimaryText}>{uiT("ui.practice_again_7842287f")}</Text>
+            <Text style={summaryStyles.actionButtonPrimaryText}>Practice Again</Text>
           </TouchableOpacity>
         </View>
 

@@ -10,7 +10,6 @@ import {
   type HomeWidgetSnapshotInput,
 } from "../homeWidget";
 import { requestPinHomeWidget } from "../homeWidgetController.android";
-import { useInterfaceLanguageStore } from "../../features/interface-language/runtime";
 
 jest.mock("react-native", () => {
   const actual = jest.requireActual("react-native");
@@ -19,12 +18,10 @@ jest.mock("react-native", () => {
 });
 jest.mock("expo-modules-core", () => {
   const actual = jest.requireActual("expo-modules-core");
-  const widget = {
+  return { ...actual, requireOptionalNativeModule: jest.fn((name) => name === "KakehashiHomeWidget" ? {
     updateSnapshot: jest.fn(), updateTimeline: jest.fn(), reload: jest.fn(),
     getTimeline: jest.fn(async () => "[]"), requestPin: jest.fn(async () => true),
-    getInterfaceLocale: jest.fn(() => "en"), setInterfaceLocale: jest.fn(),
-  };
-  return { ...actual, requireOptionalNativeModule: jest.fn((name) => name === "KakehashiHomeWidget" ? widget : actual.requireOptionalNativeModule(name)) };
+  } : actual.requireOptionalNativeModule(name)) };
 });
 jest.mock("../homeWidgetController", () => jest.requireActual("../homeWidgetController.android"));
 jest.mock("@expo/ui/swift-ui", () => { throw new Error("Android must never evaluate SwiftUI"); });
@@ -47,20 +44,7 @@ const input: HomeWidgetSnapshotInput = {
 };
 
 beforeEach(() => { jest.clearAllMocks(); });
-afterEach(() => { jest.useRealTimers(); useInterfaceLanguageStore.getState().setLanguage("en"); });
-
-test("Turkish widget labels preserve subject content and scheduled timestamps", async () => {
-  jest.useFakeTimers().setSystemTime(new Date(2026, 9, 12, 10));
-  await updateHomeWidgetSnapshot(input, { recordAppActivity: false });
-  const before = JSON.parse(native.updateTimeline.mock.calls.at(-1)[0]);
-  useInterfaceLanguageStore.getState().setLanguage("tr");
-  await updateHomeWidgetSnapshot(input, { recordAppActivity: false });
-  expect(snapshot().reviewsPrimaryLabel).toBe("84 tekrar hazır");
-  expect(snapshot().streakTertiaryLabel).toBe("Dondurma hakkı hazır");
-  expect(snapshot().criticalItems[0]).toMatchObject({ characters: "橋", reading: "はし", meaning: "bridge" });
-  const after = JSON.parse(native.updateTimeline.mock.calls.at(-1)[0]);
-  expect(after.map((entry: { timestamp: number }) => entry.timestamp)).toEqual(before.map((entry: { timestamp: number }) => entry.timestamp));
-});
+afterEach(() => { jest.useRealTimers(); });
 
 test("all three modes and every palette reach Android without evaluating iOS modules", async () => {
   for (const contentMode of ["reviews", "critical", "streak"] as const) {

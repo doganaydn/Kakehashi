@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
@@ -68,7 +67,7 @@ function normalizeJlptLabel(rawLevel: string): string {
 
   const jlptMatch = normalized.match(/^JLPT\s*([1-5])$/i);
   if (jlptMatch?.[1]) {
-    return uiT("ui.nvalue_c14cceb3", {value1: (jlptMatch[1])});
+    return `N${jlptMatch[1]}`;
   }
 
   return normalized;
@@ -172,7 +171,6 @@ function toVocabItem(attributes: BunproVocabAttributes, id: string): BunproSearc
 }
 
 export default function BunproSearchScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const { userData } = useAuthStore();
@@ -276,18 +274,18 @@ export default function BunproSearchScreen() {
     () => [
       {
         key: "grammar",
-        title: uiT("ui.grammar_1325f21d"),
+        title: "Grammar",
         count: grammarItems.length,
         data: expandedSections.grammar ? grammarItems : [],
       },
       {
         key: "vocab",
-        title: uiT("ui.vocabulary_eebd90a0"),
+        title: "Vocabulary",
         count: vocabItems.length,
         data: expandedSections.vocab ? vocabItems : [],
       },
     ],
-    [expandedSections.grammar, expandedSections.vocab, grammarItems, vocabItems, interfaceLocale()]
+    [expandedSections.grammar, expandedSections.vocab, grammarItems, vocabItems]
   );
 
   const toggleSection = (sectionKey: BunproSectionKey) => {
@@ -301,8 +299,8 @@ export default function BunproSearchScreen() {
     return (
       <View style={[styles.gatedContainer, { backgroundColor: theme.backgroundColor }]}> 
         <Ionicons name="lock-closed-outline" size={24} color={theme.textSecondary} />
-        <Text style={[styles.gatedTitle, { color: theme.textColor }]}>{uiT("ui.bunpro_beta_is_portego_only_014ac945")}</Text>
-        <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>{uiT("ui.this_tab_is_currently_enabled_only_for_the_portego_account_b59452d5")}</Text>
+        <Text style={[styles.gatedTitle, { color: theme.textColor }]}>Bunpro Beta Is Portego-Only</Text>
+        <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>This tab is currently enabled only for the Portego account.</Text>
       </View>
     );
   }
@@ -329,7 +327,7 @@ export default function BunproSearchScreen() {
             <TextInput
               style={[styles.searchInput, { color: theme.textColor }]}
               onChangeText={setSearchQuery}
-              placeholder={uiT("ui.search_bunpro_grammar_or_vocabulary_53042d3d")}
+              placeholder="Search Bunpro grammar or vocabulary..."
               placeholderTextColor={theme.textSecondary}
               autoCorrect={false}
               returnKeyType="search"
@@ -340,25 +338,25 @@ export default function BunproSearchScreen() {
         </View>
       ) : (
         <View style={styles.nativeHeaderRow}>
-          <Text style={[styles.nativeHeaderTitle, { color: theme.textColor }]}>{uiT("ui.bunpro_search_6fc37b96")}</Text>
+          <Text style={[styles.nativeHeaderTitle, { color: theme.textColor }]}>Bunpro Search</Text>
         </View>
       )}
 
       {debouncedQuery.length === 0 ? (
         <View style={styles.centerContent}>
           <Ionicons name="search-outline" size={48} color={theme.textSecondary} />
-          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{uiT("ui.search_bunpro_f2edc443")}</Text>
-          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>{uiT("ui.look_up_grammar_points_and_vocabulary_across_your_bunpro_reviewab_a5eeb22c")}</Text>
+          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>Search Bunpro</Text>
+          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>Look up grammar points and vocabulary across your Bunpro reviewables.</Text>
         </View>
       ) : debouncedQuery.length < MIN_QUERY_LENGTH ? (
         <View style={styles.centerContent}>
           <Ionicons name="information-circle-outline" size={44} color={theme.textSecondary} />
-          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>{uiT("ui.type_at_least_e024b8dc")} {MIN_QUERY_LENGTH} {uiT("ui.characters_to_search_9d019e21")}</Text>
+          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>Type at least {MIN_QUERY_LENGTH} characters to search.</Text>
         </View>
       ) : isLoading ? (
         <View style={styles.centerContent}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>{uiT("ui.searching_bunpro_45348b3c")}</Text>
+          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>Searching Bunpro...</Text>
         </View>
       ) : errorMessage ? (
         <View style={styles.centerContent}>
@@ -368,8 +366,8 @@ export default function BunproSearchScreen() {
       ) : grammarItems.length === 0 && vocabItems.length === 0 ? (
         <View style={styles.centerContent}>
           <Ionicons name="file-tray-outline" size={46} color={theme.textSecondary} />
-          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{uiT("ui.no_results_a43619f3")}</Text>
-          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>{uiT("ui.try_a_different_query_ae8f6e28")}</Text>
+          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>No results</Text>
+          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>Try a different query.</Text>
         </View>
       ) : (
         <SectionList

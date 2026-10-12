@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -73,7 +72,6 @@ export default function ReviewForecast({
   assignments,
   children,
 }: ReviewForecastProps) {
-  useInterfaceLanguage();
   const debugLog = (message: string, payload?: unknown) => {
     if (!__DEV__) return;
     if (payload !== undefined) {
@@ -767,7 +765,7 @@ export default function ReviewForecast({
       }
 
       hourlyData.push({
-        label: uiT("ui.now_fe18013d"),
+        label: "Now",
         value: Math.max(runningTotal, 0),
         count: 0, // No new reviews at "Now", just showing current state
         isToday: true,
@@ -1434,7 +1432,8 @@ export default function ReviewForecast({
                     <Text
                       style={[styles.hourText, { color: theme.textSecondary }]}
                     >
-                      {uiT("ui.now_fe18013d")} </Text>
+                      Now
+                    </Text>
                     <View
                       style={[
                         styles.barContainer,
@@ -1518,12 +1517,12 @@ export default function ReviewForecast({
                         ]}
                       >
                         {hour.hour === 0
-                          ? uiT("ui.12_am_e4b2fb57")
+                          ? "12 am"
                           : hour.hour === 12
-                            ? uiT("ui.12_pm_51d966e4")
+                            ? "12 pm"
                             : hour.hour > 12
-                              ? uiT("ui.value_pm_dc063540", {value1: (hour.hour - 12)})
-                              : uiT("ui.value_am_242a70b2", {value1: (hour.hour)})}
+                              ? `${hour.hour - 12} pm`
+                              : `${hour.hour} am`}
                       </Text>
                       <View
                         style={[
@@ -1593,7 +1592,8 @@ export default function ReviewForecast({
                   <Text
                     style={[styles.noReviewsText, { color: theme.textLight }]}
                   >
-                    {uiT("ui.no_reviews_scheduled_for_this_day_90983156")} </Text>
+                    No reviews scheduled for this day.
+                  </Text>
                 )}
               </Animated.View>
             ) : null}
@@ -1614,7 +1614,7 @@ export default function ReviewForecast({
         style={styles.breakdownLegend}
       >
         <Text style={[styles.breakdownLegendTitle, { color: theme.textLight }]}>
-          {isSubjectMode ? uiT("ui.type_baaddf70") : uiT("ui.srs_6bfa8465")}
+          {isSubjectMode ? "Type" : "SRS"}
         </Text>
         <View style={styles.breakdownLegendItems}>
           {isSubjectMode
@@ -1652,7 +1652,8 @@ export default function ReviewForecast({
     <>
       <View style={styles.sectionHeader}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          {uiT("ui.review_forecast_57fb811d")} </Text>
+          Review Forecast
+        </Text>
       </View>
 
       <Animated.View

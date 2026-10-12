@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -47,7 +46,6 @@ function isMissingSupabaseTableError(error: unknown, tableName: string): boolean
 }
 
 export default function PatreonSupportersScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const gravatarEmail = useSettingsStore((state) => state.gravatarEmail);
@@ -86,7 +84,7 @@ export default function PatreonSupportersScreen() {
         if (error) {
           if (isMissingSupabaseTableError(error, "patreon_supporters")) {
             setSupportersError(
-              uiT("ui.message_5e3ed40c5445"),
+              "Supporters table is not set up yet. Run the supporters migration in Supabase.",
             );
             setSupporters([]);
             return;
@@ -94,7 +92,7 @@ export default function PatreonSupportersScreen() {
 
           console.error("Failed to load Patreon supporters:", error);
           setSupportersError(
-            uiT("ui.message_31a94db5a794"),
+            "Could not load supporters right now. Please try again later.",
           );
           setSupporters([]);
           return;
@@ -109,7 +107,7 @@ export default function PatreonSupportersScreen() {
 
         console.error("Failed to load Patreon supporters:", error);
         setSupportersError(
-          uiT("ui.message_31a94db5a794"),
+          "Could not load supporters right now. Please try again later.",
         );
         setSupporters([]);
       } finally {
@@ -137,7 +135,7 @@ export default function PatreonSupportersScreen() {
       console.error(`Failed to open external URL: ${url}`, error);
       Alert.alert(
         errorTitle,
-        uiT("ui.could_not_open_this_link_right_now_please_try_again_later_95572a9a"),
+        "Could not open this link right now. Please try again later.",
       );
     }
   };
@@ -172,7 +170,8 @@ export default function PatreonSupportersScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.headerText} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.headerText }]}>
-          {uiT("ui.patreon_supporters_eb6ce9e4")} </Text>
+          Patreon Supporters
+        </Text>
       </View>
 
       <ScrollView
@@ -189,13 +188,15 @@ export default function PatreonSupportersScreen() {
           ]}
         >
           <Text style={[styles.sectionIntro, { color: theme.textSecondary }]}>
-            {uiT("ui.huge_thanks_to_everyone_supporting_development_36acb851")} </Text>
+            Huge thanks to everyone supporting development.
+          </Text>
 
           {isLoadingSupporters ? (
             <View style={[styles.stateRow, { borderTopColor: theme.border }]}>
               <ActivityIndicator size="small" color={theme.primary} />
               <Text style={[styles.stateText, { color: theme.textSecondary }]}>
-                {uiT("ui.loading_supporters_f4bc609f")} </Text>
+                Loading supporters...
+              </Text>
             </View>
           ) : supportersError ? (
             <View style={[styles.stateRow, { borderTopColor: theme.border }]}>
@@ -212,7 +213,8 @@ export default function PatreonSupportersScreen() {
             <View style={[styles.stateRow, { borderTopColor: theme.border }]}>
               <Ionicons name="heart-outline" size={18} color={theme.primary} />
               <Text style={[styles.stateText, { color: theme.textSecondary }]}>
-                {uiT("ui.be_the_first_supporter_on_patreon_49587ae2")} </Text>
+                Be the first supporter on Patreon.
+              </Text>
             </View>
           ) : (
             supporters.map((supporter) => {
@@ -349,7 +351,7 @@ export default function PatreonSupportersScreen() {
             }}
           >
             <MaterialCommunityIcons name="patreon" size={18} color="#fff" />
-            <Text style={styles.becomeSupporterButtonText}>{uiT("ui.become_a_supporter_868a6b05")}</Text>
+            <Text style={styles.becomeSupporterButtonText}>Become a supporter</Text>
           </TouchableOpacity>
         </View>
       )}

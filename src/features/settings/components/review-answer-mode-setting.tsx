@@ -1,11 +1,9 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React from "react";
 import { Text, View } from "react-native";
 import { useSettingsStore } from "../../../utils/store";
 import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { SettingsChoiceCards } from "../../../ui/settings/settings-choice-cards";
 export function ReviewAnswerModeSetting() {
-  useInterfaceLanguage();
   const { theme } = useSettingsControllerContext();
   const anki = useSettingsStore((s) => s.ankiCardMode),
     choice = useSettingsStore((s) => s.reviewMultipleChoiceEnabled),
@@ -20,26 +18,26 @@ export function ReviewAnswerModeSetting() {
   return (
     <View style={{ borderBottomWidth: 1, borderBottomColor: theme.border }}>
       <SettingsChoiceCards
-        label={uiT("ui.answer_mode_ac3294db")}
+        label="Answer mode"
         value={mode}
         theme={theme}
         options={[
           {
             value: "type",
-            label: uiT("ui.type_answers_651390d0"),
-            description: uiT("ui.recall_and_type_aa8894c4"),
+            label: "Type answers",
+            description: "Recall and type",
             art: "type",
           },
           {
             value: "choice",
-            label: uiT("ui.multiple_choice_79fefc32"),
-            description: uiT("ui.pick_the_answer_a27c991a"),
+            label: "Multiple choice",
+            description: "Pick the answer",
             art: "choice",
           },
           {
             value: "anki",
-            label: uiT("ui.anki_cards_0807614b"),
-            description: uiT("ui.reveal_and_grade_a87777d3"),
+            label: "Anki cards",
+            description: "Reveal and grade",
             art: "cards",
           },
         ]}
@@ -48,14 +46,14 @@ export function ReviewAnswerModeSetting() {
       {anki ? (
         <>
           <SettingsChoiceCards
-            label={uiT("ui.anki_applies_to_7cc2f981")}
+            label="Anki applies to"
             compact
             value={scope}
             theme={theme}
             options={[
-              { value: "both", label: uiT("ui.both_b6c1d862"), art: "both" },
-              { value: "meaning", label: uiT("ui.meanings_6379cd5b"), art: "meaning" },
-              { value: "reading", label: uiT("ui.readings_f3a97d44"), art: "reading" },
+              { value: "both", label: "Both", art: "both" },
+              { value: "meaning", label: "Meanings", art: "meaning" },
+              { value: "reading", label: "Readings", art: "reading" },
             ]}
             onChange={(next) => {
               const store = useSettingsStore.getState();
@@ -65,13 +63,13 @@ export function ReviewAnswerModeSetting() {
           />
           {scope !== "both" ? (
             <SettingsChoiceCards
-              label={uiT("ui.other_questions_use_13d40160")}
+              label="Other questions use"
               compact
               value={choice ? "choice" : "type"}
               theme={theme}
               options={[
-                { value: "type", label: uiT("ui.type_answers_651390d0"), art: "type" },
-                { value: "choice", label: uiT("ui.multiple_choice_79fefc32"), art: "choice" },
+                { value: "type", label: "Type answers", art: "type" },
+                { value: "choice", label: "Multiple choice", art: "choice" },
               ]}
               onChange={(next) =>
                 useSettingsStore
@@ -88,7 +86,9 @@ export function ReviewAnswerModeSetting() {
               color: theme.textSecondary,
             }}
           >
-            {uiT("ui.anki_questions_keep_their_reveal_and_grade_behaviour_other_questi_1e9a759d")} </Text>
+            Anki questions keep their reveal-and-grade behaviour. Other
+            questions use your selected input mode.
+          </Text>
         </>
       ) : null}
     </View>

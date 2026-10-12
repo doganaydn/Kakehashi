@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { StyleSheet } from "react-native";
 
 export const DEFAULT_APP_TEXT_SIZE_SCALE = 1;
@@ -7,33 +6,33 @@ export const APP_TEXT_SIZE_SCALE_MAX = 3;
 
 export const APP_TEXT_SIZE_OPTIONS = [
   {
-    get label() { return uiT("ui.default_21b111cb"); },
-    get description() { return uiT("ui.standard_app_text_size_edda9d12"); },
+    label: "Default",
+    description: "Standard app text size.",
     scale: 1,
   },
   {
-    get label() { return uiT("ui.large_ab80540d"); },
-    get description() { return uiT("ui.a_comfortable_increase_for_larger_screens_7bbe287e"); },
+    label: "Large",
+    description: "A comfortable increase for larger screens.",
     scale: 1.15,
   },
   {
-    get label() { return uiT("ui.extra_large_f44f24c7"); },
-    get description() { return uiT("ui.bigger_text_for_extended_reading_bd6534d5"); },
+    label: "Extra Large",
+    description: "Bigger text for extended reading.",
     scale: 1.3,
   },
   {
-    get label() { return uiT("ui.largest_5511a4b7"); },
-    get description() { return uiT("ui.maximum_text_size_for_phones_and_tablets_5c8797e2"); },
+    label: "Largest",
+    description: "Maximum text size for phones and tablets.",
     scale: 1.5,
   },
   {
-    get label() { return uiT("ui.huge_f171571d"); },
-    get description() { return uiT("ui.larger_text_for_desktop_sized_displays_2911c04b"); },
+    label: "Huge",
+    description: "Larger text for desktop-sized displays.",
     scale: 2,
   },
   {
-    get label() { return uiT("ui.ultra_ac364e1a"); },
-    get description() { return uiT("ui.extra_large_text_for_distant_viewing_7a5548b5"); },
+    label: "Ultra",
+    description: "Extra large text for distant viewing.",
     scale: 3,
   },
 ] as const;

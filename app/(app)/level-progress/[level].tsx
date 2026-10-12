@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { router, useLocalSearchParams } from "expo-router";
@@ -73,7 +72,6 @@ const SubjectStatItem = ({ label, value, total, color, theme }: any) => (
 );
 
 export default function LevelProgressScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const params = useLocalSearchParams();
   const { dashboardData } = useDashboardData();
@@ -259,7 +257,8 @@ export default function LevelProgressScreen() {
               { color: theme.textColor, marginBottom: 4 },
             ]}
           >
-            {uiT("ui.level_stats_8dd70e6e")} </Text>
+            Level Stats
+          </Text>
         </View>
 
         {/* Main Progression Bar */}
@@ -345,14 +344,16 @@ export default function LevelProgressScreen() {
               style={[styles.legendDot, { backgroundColor: passedColor }]}
             />
             <Text style={[styles.legendLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.learned_04b2612f")} </Text>
+              Learned
+            </Text>
           </View>
           <View style={styles.legendItem}>
             <View
               style={[styles.legendDot, { backgroundColor: learningColor }]}
             />
             <Text style={[styles.legendLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.learning_8b45bb20")} </Text>
+              Learning
+            </Text>
           </View>
           <View style={styles.legendItem}>
             {/* Visualizing "Locked" as a neutral gray dot, representing the faded colored sections */}
@@ -363,7 +364,8 @@ export default function LevelProgressScreen() {
               ]}
             />
             <Text style={[styles.legendLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.locked_a424e33d")} </Text>
+              Locked
+            </Text>
           </View>
         </View>
 
@@ -372,21 +374,21 @@ export default function LevelProgressScreen() {
         {/* Detailed Stats Grid */}
         <View style={styles.statsGrid}>
           <SubjectStatItem
-            label={uiT("ui.radicals_80608601")}
+            label="Radicals"
             value={progressData.radical.guru}
             total={progressData.radical.total}
             color={getTypeColor("radical")}
             theme={theme}
           />
           <SubjectStatItem
-            label={uiT("ui.kanji_45f62a35")}
+            label="Kanji"
             value={progressData.kanji.guru}
             total={progressData.kanji.total}
             color={getTypeColor("kanji")}
             theme={theme}
           />
           <SubjectStatItem
-            label={uiT("ui.vocab_eb535ff6")}
+            label="Vocab"
             value={progressData.vocabulary.guru}
             total={progressData.vocabulary.total}
             color={getTypeColor("vocabulary")}
@@ -492,7 +494,6 @@ export default function LevelProgressScreen() {
   };
 
   const SubjectCharacter = ({ item }: { item: SubjectItemData }) => {
-  useInterfaceLanguage();
     const isRadical = item.type === "radical";
 
     // For radicals, try SVG fallback if no characters
@@ -577,7 +578,7 @@ export default function LevelProgressScreen() {
             ]}
           >
             <Text style={[styles.errorText, { color: theme.error }]}>
-              {uiT("ui.no_data_found_for_level_36d45577")} {targetLevel}
+              No data found for level {targetLevel}
             </Text>
           </View>
         )}
@@ -590,7 +591,7 @@ export default function LevelProgressScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.subjects_d835ca82")}{pageFilteredItems.length})
+            Subjects ({pageFilteredItems.length})
           </Text>
 
           {/* Subject Type Filter */}
@@ -622,7 +623,8 @@ export default function LevelProgressScreen() {
           {/* Legend */}
           <View style={styles.legendSection}>
             <Text style={[styles.legendTitle, { color: theme.textColor }]}>
-              {uiT("ui.srs_progress_6bc230a9")} </Text>
+              SRS Progress
+            </Text>
             <View style={styles.legendItems}>
               <View style={styles.legendItem}>
                 <View
@@ -634,7 +636,8 @@ export default function LevelProgressScreen() {
                 <Text
                   style={[styles.legendText, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.not_started_6d54f9ec")} </Text>
+                  Not Started
+                </Text>
               </View>
               <View style={styles.legendItem}>
                 <View
@@ -716,7 +719,7 @@ export default function LevelProgressScreen() {
                       { color: getTypeColor("radical") },
                     ]}
                   >
-                    {uiT("ui.radicals_eea29816")}{pageGroupedItems.radical.length})
+                    Radicals ({pageGroupedItems.radical.length})
                   </Text>
                   <View style={styles.subjectsGrid}>
                     {pageGroupedItems.radical.map((item) => (
@@ -737,7 +740,7 @@ export default function LevelProgressScreen() {
                       { color: getTypeColor("kanji") },
                     ]}
                   >
-                    {uiT("ui.kanji_784b06b0")}{pageGroupedItems.kanji.length})
+                    Kanji ({pageGroupedItems.kanji.length})
                   </Text>
                   <View style={styles.subjectsGrid}>
                     {pageGroupedItems.kanji.map((item) => (
@@ -758,7 +761,7 @@ export default function LevelProgressScreen() {
                       { color: getTypeColor("vocabulary") },
                     ]}
                   >
-                    {uiT("ui.vocabulary_8f0693c4")}{pageGroupedItems.vocabulary.length})
+                    Vocabulary ({pageGroupedItems.vocabulary.length})
                   </Text>
                   <View style={styles.subjectsGrid}>
                     {pageGroupedItems.vocabulary.map((item) => (
@@ -791,7 +794,8 @@ export default function LevelProgressScreen() {
         style={[styles.container, { backgroundColor: theme.backgroundColor }]}
       >
         <Text style={[styles.errorText, { color: theme.error }]}>
-          {uiT("ui.invalid_level_1bbd54c3")} </Text>
+          Invalid level
+        </Text>
       </View>
     );
   }
@@ -804,7 +808,8 @@ export default function LevelProgressScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.loading_level_140f481c")} {entryLevel} {uiT("ui.data_0cbbc92c")} </Text>
+            Loading level {entryLevel} data...
+          </Text>
         </View>
       </View>
     );
@@ -816,7 +821,7 @@ export default function LevelProgressScreen() {
         style={[styles.container, { backgroundColor: theme.backgroundColor }]}
       >
         <Text style={[styles.errorText, { color: theme.error }]}>
-          {uiT("ui.no_data_found_for_level_36d45577")} {activeLevel}
+          No data found for level {activeLevel}
         </Text>
       </View>
     );
@@ -845,7 +850,7 @@ export default function LevelProgressScreen() {
 
         <View style={styles.headerContent}>
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            {uiT("ui.level_1709305c")} {activeLevel}
+            Level {activeLevel}
           </Text>
         </View>
 

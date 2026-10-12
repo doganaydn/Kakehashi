@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -25,9 +24,9 @@ interface StrokeOrderAnimationProps {
 
 // Speed options with different durations
 const SPEED_OPTIONS = [
-  { get label() { return uiT("ui.0_5x_2852f1d5"); }, strokeDuration: 1000, delayBetweenStrokes: 800 },
-  { get label() { return uiT("ui.1x_a048e640"); }, strokeDuration: 500, delayBetweenStrokes: 400 },
-  { get label() { return uiT("ui.2x_b595b214"); }, strokeDuration: 250, delayBetweenStrokes: 200 },
+  { label: "0.5x", strokeDuration: 1000, delayBetweenStrokes: 800 },
+  { label: "1x", strokeDuration: 500, delayBetweenStrokes: 400 },
+  { label: "2x", strokeDuration: 250, delayBetweenStrokes: 200 },
 ] as const;
 
 // Custom grid overlay with diagonals
@@ -38,7 +37,6 @@ function GridOverlay({
   size: number;
   color: string;
 }) {
-  useInterfaceLanguage();
   return (
     <Svg
       width={size}
@@ -71,13 +69,11 @@ function GridOverlay({
 }
 
 export default function StrokeOrderAnimation(props: StrokeOrderAnimationProps) {
-  useInterfaceLanguage();
   // A new lesson must never render the previous character's resolved loader state.
   return <StrokeOrderPlayer key={props.character} {...props} />;
 }
 
 function StrokeOrderPlayer({ character, onPractice }: StrokeOrderAnimationProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const { width: screenWidth } = useWindowDimensions();
@@ -118,7 +114,8 @@ function StrokeOrderPlayer({ character, onPractice }: StrokeOrderAnimationProps)
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={theme.primary} />
         <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-          {uiT("ui.loading_stroke_order_ef82dc1a")} </Text>
+          Loading stroke order...
+        </Text>
       </View>
     );
   }
@@ -129,9 +126,10 @@ function StrokeOrderPlayer({ character, onPractice }: StrokeOrderAnimationProps)
       <View style={styles.errorContainer}>
         <Ionicons name="alert-circle" size={48} color={theme.textSecondary} />
         <Text style={[styles.errorText, { color: theme.textSecondary }]}>
-          {uiT("ui.stroke_order_data_not_available_for_this_kanji_9de63f0a")} </Text>
+          Stroke order data not available for this kanji
+        </Text>
         <TouchableOpacity accessibilityRole="button" onPress={() => setAttempt((value) => value + 1)} style={{ padding: 12 }}>
-          <Text style={{ color: theme.primary }}>{uiT("ui.try_again_d8b8392e")}</Text>
+          <Text style={{ color: theme.primary }}>Try again</Text>
         </TouchableOpacity>
       </View>
     );
@@ -184,7 +182,7 @@ function StrokeOrderPlayer({ character, onPractice }: StrokeOrderAnimationProps)
         >
           <Text style={[styles.strokeBadgeText, { color: theme.textColor }]}>
             {data.strokes.length}
-            <Text style={{ color: theme.textSecondary }}> {uiT("ui.strokes_1cf43c8d")}</Text>
+            <Text style={{ color: theme.textSecondary }}> strokes</Text>
           </Text>
         </View>
       </View>
@@ -202,7 +200,7 @@ function StrokeOrderPlayer({ character, onPractice }: StrokeOrderAnimationProps)
               },
             ]}
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.dynamic_e6ba15a85d0b", {value1: (SPEED_OPTIONS[speedIndex].label)})}
+            accessibilityLabel={`Animation speed ${SPEED_OPTIONS[speedIndex].label}`}
             onPress={cycleSpeed}
             activeOpacity={0.7}
           >
@@ -254,7 +252,8 @@ function StrokeOrderPlayer({ character, onPractice }: StrokeOrderAnimationProps)
           >
             <Ionicons name="brush-outline" size={18} color={theme.primary} />
             <Text style={[styles.practiceButtonText, { color: theme.textColor }]}>
-              {uiT("ui.practice_writing_f0911467")} </Text>
+              Practice Writing
+            </Text>
           </TouchableOpacity>
         )}
       </View>

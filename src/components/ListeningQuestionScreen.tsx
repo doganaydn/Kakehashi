@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { Audio, type AudioSound } from "@/src/utils/expoAvCompat";
@@ -91,7 +90,6 @@ export default function ListeningQuestionScreen({
   autoPlayAudio = true,
   studyMaterials,
 }: ListeningQuestionScreenProps) {
-  useInterfaceLanguage();
   const subjectColors = useSubjectColors();
   const isFocused = useIsFocused();
   const { showContextSentenceSpeedControl } = useSettingsStore();
@@ -694,7 +692,7 @@ export default function ListeningQuestionScreen({
           <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
             <Text style={styles.statText}>
               {isLoadingMore && expectedTotalQuestions > 0
-                ? uiT("ui.value_value_7b652f58", {value1: (totalItems), value2: (expectedTotalQuestions)})
+                ? `${totalItems}/${expectedTotalQuestions}`
                 : totalItems - currentItem + 1}
             </Text>
             {isLoadingMore && (
@@ -883,7 +881,8 @@ export default function ListeningQuestionScreen({
               <View style={styles.questionPromptContainer}>
                 <Ionicons name="ear" size={24} color="white" />
                 <Text style={styles.questionPrompt}>
-                  {uiT("ui.which_word_did_you_hear_55f8ff30")} </Text>
+                  Which word did you hear?
+                </Text>
               </View>
 
               <MultipleChoiceKeyboard
@@ -927,7 +926,7 @@ export default function ListeningQuestionScreen({
                 disabled={!canSubmitVocabAnswer}
                 activeOpacity={0.8}
               >
-                <Text style={styles.submitButtonText}>{uiT("ui.submit_answer_eaf7fc73")}</Text>
+                <Text style={styles.submitButtonText}>Submit Answer</Text>
                 <Ionicons name="arrow-forward" size={24} color="white" />
               </TouchableOpacity>
             </View>
@@ -935,7 +934,7 @@ export default function ListeningQuestionScreen({
             /* Meaning Input Phase */
             <View style={styles.questionSection}>
               <View style={styles.banner}>
-                <Text style={styles.bannerText}>{uiT("ui.meaning_question_12b23c11")}</Text>
+                <Text style={styles.bannerText}>Meaning Question</Text>
               </View>
 
               <View style={styles.inputWrapper}>
@@ -957,7 +956,7 @@ export default function ListeningQuestionScreen({
                     ref={meaningInputRef}
                     style={styles.meaningInput}
                     onKanaChange={handleMeaningAnswerChange}
-                    placeholder={uiT("ui.enter_meaning_6e498565")}
+                    placeholder="Enter meaning..."
                     placeholderTextColor="#999"
                     returnKeyType="done"
                     onSubmitEditing={handleMeaningSubmit}

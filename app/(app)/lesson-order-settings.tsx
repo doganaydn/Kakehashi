@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { StatusBar } from "expo-status-bar";
@@ -54,42 +53,42 @@ const FALLBACK_PREVIEW_ITEMS: PreviewItem[] = [
   {
     id: 201,
     subjectId: 1001,
-    get label() { return uiT("ui.water_radical_0cc50261"); },
+    label: "Water radical",
     subject: { id: 1001, object: "radical", data: { level: 10 } },
     availableAt: "2026-03-05T07:00:00.000Z",
   },
   {
     id: 202,
     subjectId: 1002,
-    get label() { return uiT("ui.language_a4fe6526"); },
+    label: "Language",
     subject: { id: 1002, object: "kanji", data: { level: 10 } },
     availableAt: "2026-03-05T08:00:00.000Z",
   },
   {
     id: 203,
     subjectId: 1003,
-    get label() { return uiT("ui.school_6cd2e331"); },
+    label: "School",
     subject: { id: 1003, object: "vocabulary", data: { level: 8 } },
     availableAt: "2026-03-04T02:00:00.000Z",
   },
   {
     id: 204,
     subjectId: 1004,
-    get label() { return uiT("ui.fire_c141faa8"); },
+    label: "Fire",
     subject: { id: 1004, object: "kanji", data: { level: 7 } },
     availableAt: "2026-03-05T10:00:00.000Z",
   },
   {
     id: 205,
     subjectId: 1005,
-    get label() { return uiT("ui.person_radical_18e9efc3"); },
+    label: "Person radical",
     subject: { id: 1005, object: "radical", data: { level: 6 } },
     availableAt: "2026-03-04T18:00:00.000Z",
   },
   {
     id: 206,
     subjectId: 1006,
-    get label() { return uiT("ui.kana_vocab_ddfebdb9"); },
+    label: "Kana vocab",
     subject: { id: 1006, object: "kana_vocabulary", data: { level: 10 } },
     availableAt: "2026-03-05T11:00:00.000Z",
   },
@@ -116,20 +115,20 @@ interface TypeOrderRow {
 const LESSON_TYPE_OPTIONS: readonly LessonTypeOption[] = [
   {
     value: "radical",
-    get label() { return uiT("ui.radicals_80608601"); },
-    get description() { return uiT("ui.building_blocks_and_components_9acc0df3"); },
+    label: "Radicals",
+    description: "Building blocks and components",
     icon: "shapes-outline",
   },
   {
     value: "kanji",
-    get label() { return uiT("ui.kanji_45f62a35"); },
-    get description() { return uiT("ui.characters_with_meaning_and_readings_d30b0d55"); },
+    label: "Kanji",
+    description: "Characters with meaning and readings",
     icon: "book-outline",
   },
   {
     value: "vocabulary",
-    get label() { return uiT("ui.vocabulary_eebd90a0"); },
-    get description() { return uiT("ui.words_including_kana_only_vocabulary_cfba61cb"); },
+    label: "Vocabulary",
+    description: "Words (including kana-only vocabulary)",
     icon: "chatbox-ellipses-outline",
   },
 ];
@@ -176,15 +175,15 @@ function getPreviewLabel(subject: any): string {
 function getSubjectTypeLabel(subjectType: PreviewSubjectType): string {
   switch (subjectType) {
     case "radical":
-      return uiT("ui.radical_af294da6");
+      return "Radical";
     case "kanji":
-      return uiT("ui.kanji_45f62a35");
+      return "Kanji";
     case "vocabulary":
-      return uiT("ui.vocabulary_eebd90a0");
+      return "Vocabulary";
     case "kana_vocabulary":
-      return uiT("ui.kana_vocab_597d8c17");
+      return "Kana Vocab";
     default:
-      return uiT("ui.item_652bcc3a");
+      return "Item";
   }
 }
 
@@ -213,7 +212,6 @@ function sameTypeOrder(
 }
 
 export default function LessonOrderSettings() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { dashboardData } = useDashboardData();
   const {
@@ -387,7 +385,7 @@ export default function LessonOrderSettings() {
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.lesson_order_bed9fc2e")}</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>Lesson Order</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
@@ -401,7 +399,8 @@ export default function LessonOrderSettings() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.choose_ordering_84703bec")} </Text>
+            Choose Ordering
+          </Text>
 
           {LESSON_ORDER_OPTIONS.map((option, index) => {
             const isSelected = lessonOrder === option.value;
@@ -453,9 +452,11 @@ export default function LessonOrderSettings() {
           <View style={[styles.optionRow, { borderBottomColor: theme.border }]}>
             <View style={styles.optionTextWrap}>
               <Text style={[styles.optionTitle, { color: theme.textColor }]}>
-                {uiT("ui.group_by_item_type_e10220f1")} </Text>
+                Group by item type
+              </Text>
               <Text style={[styles.optionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.batch_radicals_kanji_and_vocabulary_lessons_in_a_custom_order_7c26950c")} </Text>
+                Batch radicals, kanji, and vocabulary lessons in a custom order.
+              </Text>
             </View>
             <Switch
               value={lessonTypeOrderEnabled}
@@ -496,9 +497,11 @@ export default function LessonOrderSettings() {
           >
             <View style={styles.optionTextWrap}>
               <Text style={[styles.optionTitle, { color: theme.textColor }]}>
-                {uiT("ui.interleave_item_types_7742eb76")} </Text>
+                Interleave item types
+              </Text>
               <Text style={[styles.optionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.proportionally_mix_radicals_kanji_and_vocabulary_so_each_batch_st_185c69d9")} </Text>
+                Proportionally mix radicals, kanji, and vocabulary so each batch stays varied (WaniKani-style).
+              </Text>
             </View>
             <Switch
               value={interleaveLessonTypesEnabled}
@@ -521,9 +524,11 @@ export default function LessonOrderSettings() {
           >
             <View style={styles.optionTextWrap}>
               <Text style={[styles.optionTitle, { color: theme.textColor }]}>
-                {uiT("ui.minimum_radicals_and_kanji_d6b3890c")} </Text>
+                Minimum radicals and kanji
+              </Text>
               <Text style={[styles.optionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.pull_at_least_one_radical_and_one_kanji_into_each_lesson_batch_wh_013cd19f")} </Text>
+                Pull at least one radical and one kanji into each lesson batch when those item types are available.
+              </Text>
             </View>
             <Switch
               value={minimumRadicalKanjiPerBatchEnabled}
@@ -546,9 +551,11 @@ export default function LessonOrderSettings() {
           <View style={[styles.optionRow, { borderBottomColor: "transparent" }]}>
             <View style={styles.optionTextWrap}>
               <Text style={[styles.optionTitle, { color: theme.textColor }]}>
-                {uiT("ui.prioritize_critical_items_f213df8a")} </Text>
+                Prioritize critical items
+              </Text>
               <Text style={[styles.optionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.put_current_level_radicals_and_kanji_at_the_top_of_the_queue_appl_3cb1fce0")} </Text>
+                Put current-level radicals and kanji at the top of the queue. (Applies to reviews too.)
+              </Text>
             </View>
             <Switch
               value={prioritizeCriticalItems}
@@ -569,13 +576,16 @@ export default function LessonOrderSettings() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.example_preview_6c159c01")} </Text>
+            Example Preview
+          </Text>
           {previewUsesSampleItems ? (
             <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.no_available_lessons_found_so_this_preview_uses_sample_items_503f3d18")} </Text>
+              No available lessons found, so this preview uses sample items.
+            </Text>
           ) : (
             <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.preview_built_from_your_currently_available_lessons_9bed42e5")} </Text>
+              Preview built from your currently available lessons.
+            </Text>
           )}
           <View style={styles.previewList}>
             {orderedPreviewItems.map((item, index) => {
@@ -633,7 +643,7 @@ export default function LessonOrderSettings() {
                         ]}
                       >
                         <Text style={[styles.levelChipText, { color: theme.primary }]}>
-                          {uiT("ui.level_1709305c")} {item.subject.data.level}
+                          Level {item.subject.data.level}
                         </Text>
                       </View>
 
@@ -667,7 +677,8 @@ export default function LessonOrderSettings() {
                           ]}
                         >
                           <Text style={[styles.criticalChipText, { color: theme.primary }]}>
-                            {uiT("ui.critical_427dd296")} </Text>
+                            Critical
+                          </Text>
                         </View>
                       ) : null}
                     </View>

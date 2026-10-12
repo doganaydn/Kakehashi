@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { router } from "expo-router";
@@ -23,7 +22,6 @@ import { useSettingsStore } from "../../src/utils/store";
 import { useTheme } from "../../src/utils/theme";
 
 export default function AppTextSizeSettings() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const appTextSizeScale = useSettingsStore((state) => state.appTextSizeScale);
@@ -60,20 +58,22 @@ export default function AppTextSizeSettings() {
           style={styles.backButton}
           onPress={() => router.back()}
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.go_back_6aadac2f")}
+          accessibilityLabel="Go back"
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.app_text_size_866b45cd")} </Text>
+          App Text Size
+        </Text>
         <TouchableOpacity
           style={styles.resetButton}
           onPress={resetTextSize}
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.reset_app_text_size_7ff28588")}
+          accessibilityLabel="Reset app text size"
         >
           <Text style={[styles.resetButtonText, { color: theme.primary }]}>
-            {uiT("ui.reset_daee7606")} </Text>
+            Reset
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -97,11 +97,13 @@ export default function AppTextSizeSettings() {
           <View style={styles.sizeHeader}>
             <View style={styles.sizeTitleContainer}>
               <Text style={[styles.cardTitle, { color: theme.textColor }]}>
-                {uiT("ui.text_size_4c676fed")} </Text>
+                Text Size
+              </Text>
               <Text
                 style={[styles.cardDescription, { color: theme.textSecondary }]}
               >
-                {uiT("ui.choose_the_app_text_size_for_this_device_cf924259")} </Text>
+                Choose the app text size for this device.
+              </Text>
             </View>
             <Text style={[styles.currentValue, { color: theme.primary }]}>
               {currentValueLabel}
@@ -191,7 +193,8 @@ export default function AppTextSizeSettings() {
           ]}
         >
           <Text style={[styles.cardTitle, { color: theme.textColor }]}>
-            {uiT("ui.preview_324b134f")} </Text>
+            Preview
+          </Text>
           <View
             style={[
               styles.previewPanel,
@@ -225,7 +228,8 @@ export default function AppTextSizeSettings() {
                 },
               ]}
             >
-              {uiT("ui.kanji_vocabulary_and_review_details_2ecf209b")} </Text>
+              kanji, vocabulary, and review details
+            </Text>
             <Text
               selectable
               style={[
@@ -237,7 +241,9 @@ export default function AppTextSizeSettings() {
                 },
               ]}
             >
-              {uiT("ui.learning_on_a_larger_display_should_feel_comfortable_without_chan_cfa0e623")} </Text>
+              Learning on a larger display should feel comfortable without
+              changing your system settings.
+            </Text>
           </View>
         </View>
       </ScrollView>

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { BlurView } from "expo-blur";
@@ -81,7 +80,6 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
   frequencyFiltersEnabled = true,
   onEnableFrequencyFilters,
 }) => {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const [pendingFilters, setPendingFilters] = useState<SearchFilters | null>(
@@ -274,13 +272,13 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
     }
 
     if (!/^\d+$/.test(normalizedValue)) {
-      setFrequencyRankInputError(uiT("ui.message_b6c968dbb61a"));
+      setFrequencyRankInputError("Enter a whole number greater than 0.");
       return;
     }
 
     const maxFrequencyRank = Number(normalizedValue);
     if (!Number.isSafeInteger(maxFrequencyRank) || maxFrequencyRank < 1) {
-      setFrequencyRankInputError(uiT("ui.message_b6c968dbb61a"));
+      setFrequencyRankInputError("Enter a whole number greater than 0.");
       return;
     }
 
@@ -357,7 +355,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
 
           <View style={styles.modalHeader}>
             <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-              {uiT("ui.filters_546ebb8e")} </Text>
+              Filters
+            </Text>
             <TouchableOpacity
               onPress={animateClose}
               style={styles.modalCloseButton}
@@ -385,24 +384,25 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                 { color: theme.textSecondary },
               ]}
             >
-              {uiT("ui.subject_types_53be7c13")} </Text>
+              Subject Types
+            </Text>
             <View style={styles.typeFiltersRow}>
               {[
                 {
                   id: "radical",
-                  label: uiT("ui.radicals_80608601"),
+                  label: "Radicals",
                   color: subjectColors.radical,
                   mappedTypes: ["radical"] as WaniKaniItemType[],
                 },
                 {
                   id: "kanji",
-                  label: uiT("ui.kanji_45f62a35"),
+                  label: "Kanji",
                   color: subjectColors.kanji,
                   mappedTypes: ["kanji"] as WaniKaniItemType[],
                 },
                 {
                   id: "vocabulary",
-                  label: uiT("ui.vocabulary_eebd90a0"),
+                  label: "Vocabulary",
                   color: subjectColors.vocabulary,
                   mappedTypes: [
                     "vocabulary",
@@ -439,7 +439,7 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                       checked: isSelected,
                       disabled: isFrequencyRankActive,
                     }}
-                    accessibilityLabel={uiT("ui.dynamic_c4ea928b11d0", {value1: (type.label)})}
+                    accessibilityLabel={`${type.label} subject type filter`}
                   >
                     <Text
                       style={[
@@ -480,14 +480,16 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.estimated_jlpt_72847854")} </Text>
+                Estimated JLPT
+              </Text>
               <Text
                 style={[
                   styles.filterSectionDescription,
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.select_one_or_more_kanji_and_vocabulary_levels_93f1cd91")} </Text>
+                Select one or more kanji and vocabulary levels
+              </Text>
               <View style={styles.jlptFiltersRow}>
                 {JLPT_LEVELS.map((level) => {
                   const isSelected = filtersToDisplay.jlptLevels.has(level);
@@ -507,7 +509,7 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                       activeOpacity={0.7}
                       accessibilityRole="checkbox"
                       accessibilityState={{ checked: isSelected }}
-                      accessibilityLabel={uiT("ui.dynamic_ccfe225ce04d", {value1: (level)})}
+                      accessibilityLabel={`${level} estimated JLPT filter`}
                     >
                       <Text
                         style={[
@@ -532,14 +534,18 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.word_frequency_3721c715")} </Text>
+                Word Frequency
+              </Text>
               <Text
                 style={[
                   styles.filterSectionDescription,
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.include_vocabulary_ranked_at_or_below_the_number_you_choose_while_fdd84614")} </Text>
+                Include vocabulary ranked at or below the number you choose.
+                While active, only vocabulary is included; lower ranks are more
+                common.
+              </Text>
               {frequencyFiltersEnabled ? (
                 <>
                   <View style={styles.frequencyInputRow}>
@@ -558,7 +564,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.maximum_rank_48494c13")} </Text>
+                        Maximum rank
+                      </Text>
                       <TextInput
                         style={[
                           styles.frequencyInput,
@@ -568,11 +575,11 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                         onChangeText={handleMaximumFrequencyRankChange}
                         keyboardType="number-pad"
                         inputMode="numeric"
-                        placeholder={uiT("ui.any_2b505597")}
+                        placeholder="Any"
                         placeholderTextColor={theme.textLight}
                         selectTextOnFocus
-                        accessibilityLabel={uiT("ui.maximum_word_frequency_rank_7b8c6a54")}
-                        accessibilityHint={uiT("ui.leave_blank_to_include_vocabulary_at_any_frequency_rank_0ebb069a")}
+                        accessibilityLabel="Maximum word frequency rank"
+                        accessibilityHint="Leave blank to include vocabulary at any frequency rank"
                       />
                     </View>
                     {frequencyRankInput.length > 0 ? (
@@ -581,9 +588,9 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                         onPress={() => handleMaximumFrequencyRankChange("")}
                         activeOpacity={0.7}
                         accessibilityRole="button"
-                        accessibilityLabel={uiT("ui.clear_maximum_word_frequency_rank_ce41f931")}
+                        accessibilityLabel="Clear maximum word frequency rank"
                       >
-                        <Text style={{ color: theme.primary }}>{uiT("ui.clear_83b12c22")}</Text>
+                        <Text style={{ color: theme.primary }}>Clear</Text>
                       </TouchableOpacity>
                     ) : null}
                   </View>
@@ -615,7 +622,10 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.the_initial_frequency_check_sends_matching_japanese_words_individ_458c7001")} </Text>
+                    The initial frequency check sends matching Japanese words
+                    individually to Jiten. Results are cached on this device, so
+                    the same words are normally ready next time.
+                  </Text>
                   <TouchableOpacity
                     style={[
                       styles.frequencyEnableButton,
@@ -627,7 +637,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                     accessibilityRole="button"
                   >
                     <Text style={styles.frequencyEnableButtonText}>
-                      {uiT("ui.enable_frequency_filtering_99814b85")} </Text>
+                      Enable Frequency Filtering
+                    </Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -641,7 +652,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                 { color: theme.textSecondary },
               ]}
             >
-              {uiT("ui.level_range_66c41110")} </Text>
+              Level Range
+            </Text>
 
             <View style={styles.levelInputsRow}>
               <TouchableOpacity
@@ -660,7 +672,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.min_level_4986a2df")} </Text>
+                  Min Level
+                </Text>
                 <Text
                   style={[styles.levelInputValue, { color: theme.textColor }]}
                 >
@@ -692,7 +705,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.max_level_2833a212")} </Text>
+                  Max Level
+                </Text>
                 <Text
                   style={[styles.levelInputValue, { color: theme.textColor }]}
                 >
@@ -713,7 +727,7 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                 { min: 31, max: 40, label: "31-40" },
                 { min: 41, max: 50, label: "41-50" },
                 { min: 51, max: 60, label: "51-60" },
-                { min: 1, max: 60, label: uiT("ui.all_a52ace42") },
+                { min: 1, max: 60, label: "All" },
               ].map((range, idx) => (
                 <TouchableOpacity
                   key={idx}
@@ -745,12 +759,13 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                 { color: theme.textSecondary },
               ]}
             >
-              {uiT("ui.srs_levels_730a8a7e")} </Text>
+              SRS Levels
+            </Text>
             <View style={styles.srsFiltersGrid}>
               {[
                 {
                   key: "not-started",
-                  label: uiT("ui.not_started_6d54f9ec"),
+                  label: "Not Started",
                   stages: [0],
                   color: "#6b7280",
                   iconLevel: null as string | null,
@@ -778,7 +793,7 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                 },
                 {
                   key: "enlightened",
-                  label: uiT("ui.enlight_3127a487"),
+                  label: "Enlight.",
                   stages: [8],
                   color: "#0093dd",
                   iconLevel: "Enlightened",
@@ -812,7 +827,7 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                     activeOpacity={0.7}
                     accessibilityRole="checkbox"
                     accessibilityState={{ checked: isSelected }}
-                    accessibilityLabel={uiT("ui.dynamic_3457ce949600", {value1: (group.label)})}
+                    accessibilityLabel={`${group.label} SRS filter`}
                   >
                     {group.iconLevel ? (
                       <SrsLevelIcon
@@ -860,7 +875,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
               <Text
                 style={[styles.modalButtonText, { color: theme.textSecondary }]}
               >
-                {uiT("ui.cancel_19766ed6")} </Text>
+                Cancel
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -878,7 +894,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
               }}
             >
               <Text style={[styles.modalButtonText, { color: "white" }]}>
-                {uiT("ui.apply_filters_09b2e220")} </Text>
+                Apply Filters
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -912,7 +929,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                   <Text
                     style={[
@@ -920,14 +938,16 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.select_minimum_level_591eb2cb")} </Text>
+                    Select Minimum Level
+                  </Text>
                   <TouchableOpacity
                     onPress={() => setShowMinLevelPicker(false)}
                   >
                     <Text
                       style={[styles.pickerDoneText, { color: theme.primary }]}
                     >
-                      {uiT("ui.done_11a6767d")} </Text>
+                      Done
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <Picker
@@ -978,7 +998,8 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                   <Text
                     style={[
@@ -986,14 +1007,16 @@ export const SearchFilterModal: React.FC<SearchFilterModalProps> = ({
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.select_maximum_level_0fc08dc4")} </Text>
+                    Select Maximum Level
+                  </Text>
                   <TouchableOpacity
                     onPress={() => setShowMaxLevelPicker(false)}
                   >
                     <Text
                       style={[styles.pickerDoneText, { color: theme.primary }]}
                     >
-                      {uiT("ui.done_11a6767d")} </Text>
+                      Done
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <Picker

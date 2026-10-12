@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
@@ -61,7 +60,6 @@ export default function LessonsReviewsCard({
   subjects,
   assignments,
 }: LessonsReviewsCardProps) {
-  useInterfaceLanguage();
   const { theme, themeMode } = useTheme();
   const reviewBatchSizeEnabled = useSettingsStore((state) => state.reviewBatchSizeEnabled);
   const reviewBatchSize = useSettingsStore((state) => state.reviewBatchSize);
@@ -150,15 +148,17 @@ export default function LessonsReviewsCard({
 
     if (exceededGroups.length === 1) {
       const [group] = exceededGroups;
-      return uiT("ui.dynamic_f6b5a767d037", {value1: (group.label), value2: (group.count), value3: (group.threshold)});
+      return `${group.label} items are over your lesson limit (${group.count}/${group.threshold}).`;
     }
 
-    return uiT("ui.dynamic_0209f0384f4b", {value1: (exceededGroups
+    return `${exceededGroups
       .map((group) => `${group.label} (${group.count}/${group.threshold})`)
-      .join(" and "))});
+      .join(" and ")} items are over your lesson limits.`;
   }, [lessonSrsThresholdStatus, lessonsBlockedBySrsThreshold]);
   const pendingSyncLabel = pendingSyncCount
-    ? uiT("ui.dynamic_938c4ed9111a", {value1: (pendingSyncCount), value2: (isLessons ? uiT("ui.lesson_b78e5875") : uiT("ui.review_c97ace4c")), value3: (pendingSyncCount === 1 ? "" : uiPluralSuffix("s"))})
+    ? `${pendingSyncCount} ${isLessons ? "lesson" : "review"}${
+        pendingSyncCount === 1 ? "" : "s"
+      } awaiting sync`
     : null;
   const hasCriticalReviews = React.useMemo(() => {
     if (
@@ -224,7 +224,7 @@ export default function LessonsReviewsCard({
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       >
         <Ionicons name="options-outline" size={16} color="white" />
-        <Text style={styles.pickerButtonText}>{uiT("ui.lesson_picker_398f685b")}</Text>
+        <Text style={styles.pickerButtonText}>Lesson Picker</Text>
       </TouchableOpacity>
     );
   };
@@ -245,11 +245,11 @@ export default function LessonsReviewsCard({
     const remainingMinutes = diffMinutes % 60;
 
     if (diffDays > 0) {
-      return uiT("ui.dynamic_42cadca5722c", {value1: (diffDays), value2: (remainingHours)});
+      return `Next in ${diffDays}d ${remainingHours}h`;
     } else if (diffHours > 0) {
-      return uiT("ui.dynamic_ec6446fc39d3", {value1: (diffHours), value2: (remainingMinutes)});
+      return `Next in ${diffHours}h ${remainingMinutes}m`;
     } else if (diffMinutes > 0) {
-      return uiT("ui.dynamic_0748c4e9cd65", {value1: (diffMinutes)});
+      return `Next in ${diffMinutes}m`;
     } else {
       return `Coming soon`;
     }
@@ -376,7 +376,7 @@ export default function LessonsReviewsCard({
                     : null,
                 ]}
               >
-                {isLessons ? uiT("ui.lessons_cb4ad503") : uiT("ui.reviews_84cb7871")}
+                {isLessons ? "Lessons" : "Reviews"}
               </Text>
               <View
                 style={[
@@ -407,14 +407,14 @@ export default function LessonsReviewsCard({
                 ? lessonsBlockedBySrsThreshold
                   ? srsThresholdSubtitle
                   : lessonsBlockedByDailyLimit
-                  ? uiT("ui.you_ve_reached_your_daily_lesson_limit_for_today_ea6f9521")
-                  : uiT("ui.you_ve_done_all_your_available_lessons_1ff76004")
-                : uiT("ui.there_are_no_more_reviews_to_do_right_now_0de94bb4")
+                  ? "You've reached your daily lesson limit for today."
+                  : "You've done all your available lessons!"
+                : "There are no more reviews to do right now."
               : canResumeLessonSession
-              ? uiT("ui.resume_your_in_progress_lesson_session_844576d3")
+              ? "Resume your in-progress lesson session."
               : isLessons
-              ? uiT("ui.we_cooked_up_these_lessons_just_for_you_60979297")
-              : uiT("ui.review_these_items_to_level_them_up_5f7f112b")}
+              ? "We cooked up these lessons just for you."
+              : "Review these items to level them up!"}
           </Text>
 
           {pendingSyncLabel ? (
@@ -449,17 +449,18 @@ export default function LessonsReviewsCard({
           <View style={[styles.bottomRow, showsPresets && { marginTop: 8 }]}>
             {lessonsBlockedBySrsThreshold ? (
               <Text style={styles.nextTimeText}>
-                {uiT("ui.complete_reviews_to_unlock_lessons_dfc4dfeb")} </Text>
+                Complete reviews to unlock lessons.
+              </Text>
             ) : lessonsBlockedByDailyLimit ? (
               <View style={styles.blockedLessonsContainer}>
-                <Text style={styles.nextTimeText}>{uiT("ui.more_lessons_unlock_tomorrow_76e0dd71")}</Text>
+                <Text style={styles.nextTimeText}>More lessons unlock tomorrow.</Text>
                 {renderLessonPickerButton()}
               </View>
             ) : isLessons && displayCount === 0 && !canResumeLessonSession ? (
               <Text style={styles.nextTimeText}>
                 {nextLessonTime
                   ? formatNextTime(nextLessonTime)
-                  : uiT("ui.no_lessons_available_right_now_576efae9")}
+                  : "No lessons available right now."}
               </Text>
             ) : !isLessons && displayCount === 0 && nextReviewTime ? (
               <Text style={styles.nextTimeText}>
@@ -482,10 +483,10 @@ export default function LessonsReviewsCard({
                     style={[styles.startButtonText, { color: theme.textColor }]}
                   >
                     {canResumeLessonSession
-                      ? uiT("ui.resume_lessons_73b96440")
+                      ? "Resume Lessons"
                       : isLessons
-                      ? uiT("ui.start_lessons_9caee6b0")
-                      : showsPresets ? uiT("ui.start_value_reviews_43ea688b", {value1: (sessionSize)}) : uiT("ui.start_reviews_0374ae63")}
+                      ? "Start Lessons"
+                      : showsPresets ? `Start ${sessionSize} Reviews` : "Start Reviews"}
                   </Text>
                   <Ionicons
                     name="chevron-forward"
@@ -501,7 +502,7 @@ export default function LessonsReviewsCard({
                 </TouchableOpacity>
                 {showsPresets ? <View style={styles.presetDetail}>
                   <Text numberOfLines={1} style={styles.presetDetailText}>{getReviewOrderLabel(selectedPreset?.reviewOrder ?? reviewOrder)}</Text>
-                  {selectedPreset ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.use_default_review_settings_b1d6f052")} hitSlop={8} onPress={(event) => { event.stopPropagation(); setSelectedPresetId(null); }}><Text style={[styles.presetDetailText, { textDecorationLine: "underline" }]}>{uiT("ui.use_default_a769cedc")}</Text></TouchableOpacity> : null}
+                  {selectedPreset ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Use default review settings" hitSlop={8} onPress={(event) => { event.stopPropagation(); setSelectedPresetId(null); }}><Text style={[styles.presetDetailText, { textDecorationLine: "underline" }]}>Use default</Text></TouchableOpacity> : null}
                 </View> : null}
                 {renderLessonPickerButton()}
               </View>
@@ -553,7 +554,6 @@ export function LessonsReviewsCardPair({
   subjects?: any[];
   assignments?: any[];
 }) {
-  useInterfaceLanguage();
   return (
     <View
       style={[

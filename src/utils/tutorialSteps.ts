@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { CoachMarkStep } from "../components/CoachMarks";
 
 /**
@@ -8,22 +7,25 @@ import { CoachMarkStep } from "../components/CoachMarks";
 export const SONGS_TUTORIAL_STEPS: Omit<CoachMarkStep, "target">[] = [
   {
     id: "songs-welcome",
-    get title() { return uiT("ui.welcome_to_music_918308c0"); },
-    get description() { return uiT("ui.discover_japanese_songs_and_learn_vocabulary_through_lyrics_let_m_5a48894d"); },
+    title: "Welcome to Music!",
+    description:
+      "Discover Japanese songs and learn vocabulary through lyrics. Let me show you around!",
     position: "bottom",
     icon: "musical-notes",
   },
   {
     id: "songs-search",
-    get title() { return uiT("ui.search_for_songs_72438717"); },
-    get description() { return uiT("ui.search_for_any_japanese_song_by_title_or_artist_we_ll_find_it_on_f9f7574c"); },
+    title: "Search for Songs",
+    description:
+      "Search for any Japanese song by title or artist. We'll find it on Spotify and fetch the lyrics for you.",
     position: "bottom",
     icon: "search",
   },
   {
     id: "songs-categories",
-    get title() { return uiT("ui.discover_music_6621e0c6"); },
-    get description() { return uiT("ui.browse_curated_categories_like_new_releases_popular_j_pop_and_ani_a444be60"); },
+    title: "Discover Music",
+    description:
+      "Browse curated categories like New Releases, Popular J-Pop, and Anime soundtracks to find new music.",
     position: "top",
     icon: "albums",
   },
@@ -36,23 +38,26 @@ export const SONGS_TUTORIAL_STEPS: Omit<CoachMarkStep, "target">[] = [
 export const LYRICS_TUTORIAL_STEPS: Omit<CoachMarkStep, "target">[] = [
   {
     id: "lyrics-welcome",
-    get title() { return uiT("ui.song_lyrics_15abe7ff"); },
-    get description() { return uiT("ui.view_lyrics_synced_to_the_music_with_vocabulary_from_your_wanikan_1fc29546"); },
+    title: "Song Lyrics",
+    description:
+      "View lyrics synced to the music with vocabulary from your WaniKani level highlighted!",
     position: "bottom",
     icon: "document-text",
   },
   {
     id: "lyrics-sync",
-    get title() { return uiT("ui.synced_lyrics_ffaf312c"); },
-    get description() { return uiT("ui.when_available_lyrics_scroll_automatically_with_the_music_you_can_dda5de14"); },
+    title: "Synced Lyrics",
+    description:
+      "When available, lyrics scroll automatically with the music. You can disable it here.",
     position: "bottom",
     icon: "sync",
     pointerPosition: "left",
   },
   {
     id: "lyrics-settings",
-    get title() { return uiT("ui.fix_mismatched_content_706c0333"); },
-    get description() { return uiT("ui.sometimes_the_wrong_video_or_lyrics_are_matched_tap_here_to_manua_3d8d03ec"); },
+    title: "Fix Mismatched Content",
+    description:
+      "Sometimes the wrong video or lyrics are matched. Tap here to manually search and select the correct YouTube video or lyrics.",
     position: "bottom",
     icon: "warning",
     important: true,
@@ -60,8 +65,9 @@ export const LYRICS_TUTORIAL_STEPS: Omit<CoachMarkStep, "target">[] = [
   },
   {
     id: "lyrics-vocabulary",
-    get title() { return uiT("ui.learn_vocabulary_893bbc68"); },
-    get description() { return uiT("ui.tap_any_highlighted_word_to_see_its_meaning_reading_and_wanikani_7333d17a"); },
+    title: "Learn Vocabulary",
+    description:
+      "Tap any highlighted word to see its meaning, reading, and WaniKani level. Words above your level show a badge.",
     position: "bottom",
     icon: "school",
   },
@@ -74,22 +80,25 @@ export const LYRICS_TUTORIAL_STEPS: Omit<CoachMarkStep, "target">[] = [
 export const TRANSLATOR_TUTORIAL_STEPS: Omit<CoachMarkStep, "target">[] = [
   {
     id: "translator-welcome",
-    get title() { return uiT("ui.welcome_to_translator_bd3d3eeb"); },
-    get description() { return uiT("ui.translate_between_english_and_japanese_and_discover_wanikani_voca_901f8d04"); },
+    title: "Welcome to Translator!",
+    description:
+      "Translate between English and Japanese, and discover WaniKani vocabulary in your text.",
     position: "bottom",
     icon: "language",
   },
   {
     id: "translator-input",
-    get title() { return uiT("ui.enter_text_4e20cb45"); },
-    get description() { return uiT("ui.type_or_paste_text_here_use_the_swap_button_to_switch_between_eng_10c138e8"); },
+    title: "Enter Text",
+    description:
+      "Type or paste text here. Use the swap button to switch between English→Japanese and Japanese→English.",
     position: "bottom",
     icon: "create",
   },
   {
     id: "translator-highlights",
-    get title() { return uiT("ui.wanikani_study_mode_3c1be928"); },
-    get description() { return uiT("ui.when_viewing_japanese_text_tap_this_button_to_highlight_vocabular_fd90358f"); },
+    title: "WaniKani Study Mode",
+    description:
+      "When viewing Japanese text, tap this button to highlight vocabulary and kanji from WaniKani. Tap any highlighted word to see its details!",
     position: "bottom",
     icon: "school",
     important: true,

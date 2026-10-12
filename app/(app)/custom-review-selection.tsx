@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
@@ -110,7 +109,6 @@ function searchFiltersAreEqual(left: SearchFilters, right: SearchFilters) {
 }
 
 export default function CustomReviewSelectionScreen() {
-  useInterfaceLanguage();
   const { apiToken, userData } = useAuthStore();
   const showVocabularyFrequency = useSettingsStore(
     (state) => state.showVocabularyFrequency,
@@ -271,12 +269,12 @@ export default function CustomReviewSelectionScreen() {
 
       if (hasSavedKanjiMatch && !hasSavedReview) {
         Alert.alert(
-          uiT("ui.resume_kanji_match_9312f20e"),
-          uiT("ui.you_have_a_custom_kanji_match_in_progress_1baebe25"),
+          "Resume Kanji Match?",
+          "You have a custom kanji match in progress.",
           [
-            { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
+            { text: "Not Now", style: "cancel" },
             {
-              text: uiT("ui.discard_eb1a70e3"),
+              text: "Discard",
               style: "destructive",
               onPress: () => {
                 void clearExtraStudySessionState(
@@ -285,7 +283,7 @@ export default function CustomReviewSelectionScreen() {
               },
             },
             {
-              text: uiT("ui.resume_d640c742"),
+              text: "Resume",
               onPress: () => {
                 router.push({
                   pathname: "/similar-kanji-session" as any,
@@ -299,12 +297,12 @@ export default function CustomReviewSelectionScreen() {
       }
 
       Alert.alert(
-        uiT("ui.resume_custom_review_ace14fd8"),
-        uiT("ui.you_have_a_custom_review_in_progress_92779411"),
+        "Resume Custom Review?",
+        "You have a custom review in progress.",
         [
-          { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
+          { text: "Not Now", style: "cancel" },
           {
-            text: uiT("ui.discard_eb1a70e3"),
+            text: "Discard",
             style: "destructive",
             onPress: () => {
               void clearExtraStudySessionState(
@@ -313,7 +311,7 @@ export default function CustomReviewSelectionScreen() {
             },
           },
           {
-            text: uiT("ui.resume_d640c742"),
+            text: "Resume",
             onPress: () => {
               router.push({
                 pathname: "/custom-review",
@@ -362,7 +360,7 @@ export default function CustomReviewSelectionScreen() {
         err,
       );
       setSubjectSrsStageLoadError(
-        uiT("ui.message_ffcc73b5c0f6"),
+        "Your assignment stages could not be loaded. SRS filters, including Burned, are unavailable until this succeeds.",
       );
     } finally {
       setIsLoadingSubjectSrsStages(false);
@@ -391,7 +389,7 @@ export default function CustomReviewSelectionScreen() {
       );
     } catch (err) {
       console.error("Error loading subjects:", err);
-      setError(uiT("ui.message_bc27ff0fe4ed"));
+      setError("Failed to load subjects. Please try again.");
       setIsCacheMissing(true);
     } finally {
       setIsLoadingSubjects(false);
@@ -556,7 +554,7 @@ export default function CustomReviewSelectionScreen() {
     } catch (err) {
       console.error("Error rebuilding cache:", err);
       setError(
-        uiT("ui.message_6ebf4e6e4367"),
+        "Failed to rebuild cache. Please check your internet connection and try again.",
       );
       setIsRebuildingCache(false);
       setCacheRebuildProgress(0);
@@ -784,8 +782,8 @@ export default function CustomReviewSelectionScreen() {
 
     if (selectedKanjiIds.length < 2) {
       Alert.alert(
-        uiT("ui.select_more_kanji_c48b1b6c"),
-        uiT("ui.choose_at_least_two_kanji_to_start_a_matching_review_c04330df"),
+        "Select More Kanji",
+        "Choose at least two kanji to start a matching review.",
       );
       return;
     }
@@ -856,8 +854,8 @@ export default function CustomReviewSelectionScreen() {
   ) => {
     if (selectedListIds.length === 0) {
       Alert.alert(
-        uiT("ui.select_a_subject_list_36e19d40"),
-        uiT("ui.this_study_mode_needs_a_subject_list_selection_65381de1"),
+        "Select a Subject List",
+        "This study mode needs a subject list selection.",
       );
       return;
     }
@@ -909,7 +907,7 @@ export default function CustomReviewSelectionScreen() {
   ].filter(Boolean).length;
   const filterAccessibilityHint =
     filters.maxFrequencyRank !== null
-      ? uiT("ui.dynamic_22ba22a4ef4b", {value1: (filters.maxFrequencyRank.toLocaleString())})
+      ? `Maximum frequency rank ${filters.maxFrequencyRank.toLocaleString()}`
       : undefined;
 
   const allMatchingSelected =
@@ -1067,7 +1065,6 @@ export default function CustomReviewSelectionScreen() {
 
   // Render radical character with SVG fallback (Subject variant)
   const SubjectRadicalCharacter = ({ item }: { item: Subject }) => {
-  useInterfaceLanguage();
     const bestImg = pickBestImage(item.data.character_images || undefined);
     const svgUrl = bestImg?.type === "svg" ? bestImg.url : null;
     const svgXml = useRemoteSvg(svgUrl, "#ffffff");
@@ -1126,7 +1123,7 @@ export default function CustomReviewSelectionScreen() {
     const frequencyRank = frequencyRanks.get(item.id);
     const displayName =
       item.data.characters?.trim() || item.data.meanings[0].meaning;
-    const openDetailsAccessibilityAction = uiT("ui.dynamic_469995638e37", {value1: (displayName)});
+    const openDetailsAccessibilityAction = `Open details for ${displayName}`;
     const levelAndSrsLabel = isSubjectSrsDataReady
       ? formatLevelWithSrsStage(item.data.level, srsStage)
       : `Level ${item.data.level}`;
@@ -1134,7 +1131,7 @@ export default function CustomReviewSelectionScreen() {
       item.object.replace("_", " "),
       levelAndSrsLabel,
       typeof frequencyRank === "number"
-        ? uiT("ui.dynamic_4afcb7e9197d", {value1: (frequencyRank)})
+        ? `frequency rank ${frequencyRank}`
         : null,
     ]
       .filter(Boolean)
@@ -1202,7 +1199,7 @@ export default function CustomReviewSelectionScreen() {
             {hasActiveFrequencyFilter && typeof frequencyRank === "number" ? (
               <Text
                 style={[styles.itemType, { color: theme.textSecondary }]}
-                accessibilityLabel={uiT("ui.dynamic_eae6ac87252e", {value1: (frequencyRank)})}
+                accessibilityLabel={`Frequency rank ${frequencyRank}`}
               >
                 #{frequencyRank.toLocaleString()}
               </Text>
@@ -1262,12 +1259,12 @@ export default function CustomReviewSelectionScreen() {
       ? "You can study the ready words now."
       : "No checked words match your filter yet.";
   const partialFrequencyMessage = needsFrequencyLookupApproval
-    ? uiT("ui.dynamic_6e028073fa7b", {value1: (unresolvedFrequencyCount.toLocaleString()), value2: (oneTimeFrequencyMessage)})
+    ? `${unresolvedFrequencyCount.toLocaleString()} words still need to be checked. ${oneTimeFrequencyMessage}`
     : hasScheduledFrequencyRetry
-      ? uiT("ui.dynamic_5cc789a35aad", {value1: (scheduledRetryReason), value2: (unresolvedFrequencyCount.toLocaleString()), value3: (readyFrequencyActionMessage), value4: (oneTimeFrequencyMessage)})
+      ? `${scheduledRetryReason} We'll check the remaining ${unresolvedFrequencyCount.toLocaleString()} automatically when the pause ends. ${readyFrequencyActionMessage} ${oneTimeFrequencyMessage}`
       : frequencyLookupError?.phase === "network"
-        ? uiT("ui.dynamic_4d75cbb1d541", {value1: (unresolvedFrequencyCount.toLocaleString()), value2: (exhaustedFrequencyRetryMessage ?? "Check your connection, then retry the rest."), value3: (readyFrequencyActionMessage), value4: (oneTimeFrequencyMessage)})
-        : uiT("ui.dynamic_85a83d5b85b1", {value1: (unresolvedFrequencyCount.toLocaleString()), value2: (readyFrequencyActionMessage), value3: (oneTimeFrequencyMessage)});
+        ? `${unresolvedFrequencyCount.toLocaleString()} words remain unchecked. ${exhaustedFrequencyRetryMessage ?? "Check your connection, then retry the rest."} ${readyFrequencyActionMessage} ${oneTimeFrequencyMessage}`
+        : `Checking ${unresolvedFrequencyCount.toLocaleString()} remaining words. ${readyFrequencyActionMessage} ${oneTimeFrequencyMessage}`;
 
   const frequencyAnnouncementKey =
     !isScreenFocused || !shouldResolveFrequencyFilter
@@ -1287,12 +1284,12 @@ export default function CustomReviewSelectionScreen() {
     frequencyLookupError?.phase === "cache"
       ? "Saved frequency check interrupted. Retry the local cache check."
       : hasScheduledFrequencyRetry
-        ? uiT("ui.dynamic_132bb22dd083", {value1: (matchingSubjectIds.length.toLocaleString()), value2: (unresolvedFrequencyCount.toLocaleString())})
+        ? `Frequency check paused. ${matchingSubjectIds.length.toLocaleString()} matching words are ready. The remaining ${unresolvedFrequencyCount.toLocaleString()} words will resume automatically when the pause ends.`
         : frequencyLookupError?.phase === "network"
-          ? uiT("ui.dynamic_74fecd5a35da", {value1: (matchingSubjectIds.length.toLocaleString()), value2: (isManualFrequencyRetryCoolingDown ? uiT("ui.dynamic_28cfb9aaa600") : uiT("ui.dynamic_8d5f82a162c4"))})
+          ? `Frequency check interrupted. ${matchingSubjectIds.length.toLocaleString()} matching words are ready. ${isManualFrequencyRetryCoolingDown ? "Retry becomes available when the pause ends." : "Retry the remaining words when ready."}`
           : needsFrequencyLookupApproval
-            ? uiT("ui.dynamic_50a9487c9553", {value1: (matchingSubjectIds.length.toLocaleString()), value2: (unresolvedFrequencyCount.toLocaleString())})
-            : uiT("ui.dynamic_be56ae5c14ea", {value1: (matchingSubjectIds.length.toLocaleString())});
+            ? `${matchingSubjectIds.length.toLocaleString()} matching words are ready. ${unresolvedFrequencyCount.toLocaleString()} remaining words need approval before they are checked with Jiten.`
+            : `Frequency check complete. ${matchingSubjectIds.length.toLocaleString()} matching words are ready.`;
 
   useEffect(() => {
     if (!frequencyAnnouncementKey) {
@@ -1318,7 +1315,7 @@ export default function CustomReviewSelectionScreen() {
           style={styles.backButton}
           activeOpacity={0.7}
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.go_back_6aadac2f")}
+          accessibilityLabel="Go back"
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
@@ -1327,7 +1324,8 @@ export default function CustomReviewSelectionScreen() {
             style={[styles.headerTitle, { color: theme.textColor }]}
             onLongPress={handleDebugLongPress}
           >
-            {uiT("ui.custom_review_384832ab")} </Text>
+            Custom Review
+          </Text>
           <Text
             style={[styles.headerSubtitle, { color: theme.textSecondary }]}
             numberOfLines={1}
@@ -1362,7 +1360,7 @@ export default function CustomReviewSelectionScreen() {
           <Ionicons name="search" size={20} color={theme.textSecondary} />
           <TextInput
             style={[styles.searchInput, { color: theme.textColor }]}
-            placeholder={uiT("ui.search_by_character_meaning_or_reading_8042ae36")}
+            placeholder="Search by character, meaning, or reading..."
             placeholderTextColor={theme.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -1372,7 +1370,7 @@ export default function CustomReviewSelectionScreen() {
             <TouchableOpacity
               onPress={() => setSearchQuery("")}
               accessibilityRole="button"
-              accessibilityLabel={uiT("ui.clear_search_3b7ea517")}
+              accessibilityLabel="Clear search"
             >
               <Ionicons
                 name="close-circle"
@@ -1395,7 +1393,7 @@ export default function CustomReviewSelectionScreen() {
           accessibilityState={{ disabled: !isFilterConfigHydrated }}
           accessibilityLabel={
             selectedListIds.length > 0
-              ? uiT("ui.dynamic_af7f93ac6c71", {value1: (selectedListIds.length)})
+              ? `Subject lists, ${selectedListIds.length} selected`
               : "Subject lists"
           }
         >
@@ -1455,8 +1453,8 @@ export default function CustomReviewSelectionScreen() {
           accessibilityState={{ disabled: !canToggleMatchingSubjects }}
           accessibilityLabel={
             allMatchingSelected
-              ? uiT("ui.dynamic_f58fc4d3da6d", {value1: (matchingSubjectIds.length)})
-              : uiT("ui.dynamic_dfe8f0bf9a2b", {value1: (matchingSubjectIds.length)})
+              ? `Deselect ${matchingSubjectIds.length} ready subjects`
+              : `Select ${matchingSubjectIds.length} ready subjects`
           }
         >
           <Ionicons
@@ -1471,15 +1469,15 @@ export default function CustomReviewSelectionScreen() {
           <Text style={[styles.bulkActionText, { color: theme.textSecondary }]}>
             {allMatchingSelected
               ? hasActiveFrequencyFilter && !frequencyDataReady
-                ? uiT("ui.deselect_ready_22863f98")
+                ? "Deselect Ready"
                 : hasActiveFilters
-                  ? uiT("ui.deselect_filtered_a8aa8ae5")
-                  : uiT("ui.deselect_all_5cd261bc")
+                  ? "Deselect Filtered"
+                  : "Deselect All"
               : hasActiveFrequencyFilter && !frequencyDataReady
-                ? uiT("ui.select_value_ready_5f6c3b32", {value1: (matchingSubjectIds.length.toLocaleString())})
+                ? `Select ${matchingSubjectIds.length.toLocaleString()} Ready`
                 : hasActiveFilters
-                  ? uiT("ui.select_filtered_082e1daa")
-                  : uiT("ui.select_all_d1ec69e6")}
+                  ? "Select Filtered"
+                  : "Select All"}
           </Text>
         </TouchableOpacity>
 
@@ -1494,7 +1492,7 @@ export default function CustomReviewSelectionScreen() {
           activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityState={{ disabled: selectedSubjectIds.size === 0 }}
-          accessibilityLabel={uiT("ui.clear_subject_selection_23f12eab")}
+          accessibilityLabel="Clear subject selection"
         >
           <Ionicons
             name="close-circle-outline"
@@ -1502,7 +1500,8 @@ export default function CustomReviewSelectionScreen() {
             color={theme.textSecondary}
           />
           <Text style={[styles.bulkActionText, { color: theme.textSecondary }]}>
-            {uiT("ui.clear_selection_c52ff5ea")} </Text>
+            Clear Selection
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -1514,8 +1513,8 @@ export default function CustomReviewSelectionScreen() {
             style={[styles.loadingText, { color: theme.textSecondary }]}
           >
             {isFilterConfigHydrated
-              ? uiT("ui.loading_subjects_b7f62111")
-              : uiT("ui.loading_saved_filters_71c62823")}
+              ? "Loading subjects..."
+              : "Loading saved filters..."}
           </Text>
         </View>
       ) : isCacheMissing && !isRebuildingCache ? (
@@ -1526,11 +1525,13 @@ export default function CustomReviewSelectionScreen() {
             color={theme.textSecondary}
           />
           <Text style={[styles.cacheErrorTitle, { color: theme.textColor }]}>
-            {uiT("ui.data_missing_c8d62ff7")} </Text>
+            Data Missing
+          </Text>
           <Text
             style={[styles.cacheErrorMessage, { color: theme.textSecondary }]}
           >
-            {uiT("ui.subject_data_is_missing_download_it_to_continue_68a5d127")} </Text>
+            Subject data is missing. Download it to continue.
+          </Text>
           <TouchableOpacity
             style={[styles.rebuildButton, { backgroundColor: theme.primary }]}
             onPress={rebuildCache}
@@ -1542,14 +1543,15 @@ export default function CustomReviewSelectionScreen() {
               color="white"
               style={{ marginRight: 8 }}
             />
-            <Text style={styles.rebuildButtonText}>{uiT("ui.download_data_1e7cba22")}</Text>
+            <Text style={styles.rebuildButtonText}>Download Data</Text>
           </TouchableOpacity>
         </View>
       ) : isRebuildingCache ? (
         <View style={styles.cacheRebuildContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.cacheRebuildTitle, { color: theme.textColor }]}>
-            {uiT("ui.downloading_data_9b8966c0")} </Text>
+            Downloading Data
+          </Text>
           <View
             style={[
               styles.progressBarContainer,
@@ -1572,13 +1574,15 @@ export default function CustomReviewSelectionScreen() {
               { color: theme.textSecondary },
             ]}
           >
-            {cacheRebuildProgress}{uiT("ui.complete_b8985e8d")} </Text>
+            {cacheRebuildProgress}% Complete
+          </Text>
         </View>
       ) : hasActiveSrsFilter && isLoadingSubjectSrsStages ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            {uiT("ui.loading_study_progress_3d8052b0")} </Text>
+            Loading study progress...
+          </Text>
         </View>
       ) : hasActiveSrsFilter && subjectSrsStageLoadError ? (
         <View style={styles.frequencyLookupNotice}>
@@ -1590,7 +1594,8 @@ export default function CustomReviewSelectionScreen() {
           <Text
             style={[styles.frequencyLookupTitle, { color: theme.textColor }]}
           >
-            {uiT("ui.study_progress_unavailable_32870214")} </Text>
+            Study progress unavailable
+          </Text>
           <Text
             style={[
               styles.frequencyLookupMessage,
@@ -1609,7 +1614,7 @@ export default function CustomReviewSelectionScreen() {
               activeOpacity={0.7}
               accessibilityRole="button"
             >
-              <Text style={styles.frequencyLookupPrimaryText}>{uiT("ui.retry_942087cc")}</Text>
+              <Text style={styles.frequencyLookupPrimaryText}>Retry</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -1621,7 +1626,7 @@ export default function CustomReviewSelectionScreen() {
               activeOpacity={0.7}
               accessibilityRole="button"
             >
-              <Text style={{ color: theme.textSecondary }}>{uiT("ui.use_all_stages_2a6cdfe9")}</Text>
+              <Text style={{ color: theme.textSecondary }}>Use All Stages</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1630,24 +1635,25 @@ export default function CustomReviewSelectionScreen() {
           style={styles.loadingContainer}
           accessible
           accessibilityRole="progressbar"
-          accessibilityLabel={uiT("ui.checking_saved_word_frequencies_de06fa38")}
+          accessibilityLabel="Checking saved word frequencies"
           accessibilityValue={{
             min: 0,
             max: Math.max(1, frequencyLoadProgress.total),
             now: frequencyLoadProgress.completed,
-            text: uiT("ui.value_of_value_a48c498b", {value1: (frequencyLoadProgress.completed), value2: (frequencyLoadProgress.total)}),
+            text: `${frequencyLoadProgress.completed} of ${frequencyLoadProgress.total}`,
           }}
         >
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.checking_saved_frequencies_651a3fb6")} </Text>
+            Checking saved frequencies...
+          </Text>
           <Text
             style={[
               styles.frequencyLoadingProgress,
               { color: theme.textSecondary },
             ]}
           >
-            {frequencyLoadProgress.completed.toLocaleString()} {uiT("ui.of_28391d3b")}{" "}
+            {frequencyLoadProgress.completed.toLocaleString()} of{" "}
             {frequencyLoadProgress.total.toLocaleString()}
           </Text>
         </View>
@@ -1657,14 +1663,20 @@ export default function CustomReviewSelectionScreen() {
           <Text
             style={[styles.frequencyLookupTitle, { color: theme.textColor }]}
           >
-            {uiT("ui.check_uncached_frequencies_ea686950")} </Text>
+            Check uncached frequencies?
+          </Text>
           <Text
             style={[
               styles.frequencyLookupMessage,
               { color: theme.textSecondary },
             ]}
           >
-            {unresolvedFrequencyCount.toLocaleString()} {uiT("ui.words_are_not_saved_on_this_device_checking_them_sends_each_japan_4bdda71e")} </Text>
+            {unresolvedFrequencyCount.toLocaleString()} words are not saved on
+            this device. Checking them sends each Japanese word to Jiten and may
+            take a while. This is usually a one-time setup for these words.
+            Results are cached on this device, so they are normally ready next
+            time.
+          </Text>
           <View style={styles.frequencyLookupActions}>
             <TouchableOpacity
               style={[
@@ -1676,7 +1688,7 @@ export default function CustomReviewSelectionScreen() {
               accessibilityRole="button"
             >
               <Text style={styles.frequencyLookupPrimaryText}>
-                {uiT("ui.check_9d60841e")} {unresolvedFrequencyCount.toLocaleString()}
+                Check {unresolvedFrequencyCount.toLocaleString()}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1689,7 +1701,7 @@ export default function CustomReviewSelectionScreen() {
               activeOpacity={0.7}
               accessibilityRole="button"
             >
-              <Text style={{ color: theme.textSecondary }}>{uiT("ui.clear_filter_910bda6a")}</Text>
+              <Text style={{ color: theme.textSecondary }}>Clear Filter</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1705,10 +1717,10 @@ export default function CustomReviewSelectionScreen() {
             accessibilityLiveRegion="polite"
           >
             {frequencyLookupError.phase === "cache"
-              ? uiT("ui.saved_frequency_check_interrupted_c936283c")
+              ? "Saved frequency check interrupted"
               : hasScheduledFrequencyRetry
-                ? uiT("ui.frequency_check_paused_77a71b13")
-                : uiT("ui.frequency_check_interrupted_77118ddf")}
+                ? "Frequency check paused"
+                : "Frequency check interrupted"}
           </Text>
           <Text
             style={[
@@ -1717,11 +1729,11 @@ export default function CustomReviewSelectionScreen() {
             ]}
           >
             {frequencyLookupError.phase === "cache"
-              ? uiT("ui.the_saved_frequency_cache_could_not_be_read_no_new_words_were_sen_ac5d6974")
+              ? "The saved frequency cache could not be read. No new words were sent to Jiten. Retry the local check."
               : hasScheduledFrequencyRetry
-                ? uiT("ui.value_we_ll_retry_the_remaining_value_words_automatically_when_th_f7f34f73", {value1: (scheduledRetryReason), value2: (unresolvedFrequencyCount.toLocaleString())})
+                ? `${scheduledRetryReason} We'll retry the remaining ${unresolvedFrequencyCount.toLocaleString()} words automatically when the pause ends. Normally, completed results are cached and ready next time.`
                 : (exhaustedFrequencyRetryMessage ??
-                  uiT("ui.the_frequency_check_could_not_continue_check_your_connection_then_2292d6f9"))}
+                  "The frequency check could not continue. Check your connection, then retry the remaining words.")}
           </Text>
           <View style={styles.frequencyLookupActions}>
             {!hasScheduledFrequencyRetry ? (
@@ -1741,8 +1753,8 @@ export default function CustomReviewSelectionScreen() {
               >
                 <Text style={styles.frequencyLookupPrimaryText}>
                   {isManualFrequencyRetryCoolingDown
-                    ? uiT("ui.retry_after_pause_6cc1afe8")
-                    : uiT("ui.retry_942087cc")}
+                    ? "Retry after Pause"
+                    : "Retry"}
                 </Text>
               </TouchableOpacity>
             ) : null}
@@ -1756,7 +1768,7 @@ export default function CustomReviewSelectionScreen() {
               activeOpacity={0.7}
               accessibilityRole="button"
             >
-              <Text style={{ color: theme.textSecondary }}>{uiT("ui.clear_filter_910bda6a")}</Text>
+              <Text style={{ color: theme.textSecondary }}>Clear Filter</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -1765,25 +1777,26 @@ export default function CustomReviewSelectionScreen() {
           style={styles.loadingContainer}
           accessible
           accessibilityRole="progressbar"
-          accessibilityLabel={uiT("ui.checking_word_frequencies_with_jiten_162e349a")}
+          accessibilityLabel="Checking word frequencies with Jiten"
           accessibilityValue={{
             min: 0,
             max: Math.max(1, frequencyLoadProgress.total),
             now: frequencyLoadProgress.completed,
-            text: uiT("ui.value_of_value_a48c498b", {value1: (frequencyLoadProgress.completed), value2: (frequencyLoadProgress.total)}),
+            text: `${frequencyLoadProgress.completed} of ${frequencyLoadProgress.total}`,
           }}
           accessibilityLiveRegion="polite"
         >
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.checking_word_frequencies_c821005d")} </Text>
+            Checking word frequencies...
+          </Text>
           <Text
             style={[
               styles.frequencyLoadingProgress,
               { color: theme.textSecondary },
             ]}
           >
-            {frequencyLoadProgress.completed.toLocaleString()} {uiT("ui.of_28391d3b")}{" "}
+            {frequencyLoadProgress.completed.toLocaleString()} of{" "}
             {frequencyLoadProgress.total.toLocaleString()}
           </Text>
         </View>
@@ -1831,17 +1844,19 @@ export default function CustomReviewSelectionScreen() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {matchingSubjectIds.length.toLocaleString()} {uiT("ui.matching_word_fbd1127a")} {uiPluralSuffix(matchingSubjectIds.length === 1 ? "" : "s")} {uiT("ui.ready_b24d6d33")} </Text>
+                    {matchingSubjectIds.length.toLocaleString()} matching word
+                    {matchingSubjectIds.length === 1 ? "" : "s"} ready
+                  </Text>
                 </View>
                 <View
                   accessible
                   accessibilityRole="progressbar"
-                  accessibilityLabel={uiT("ui.word_frequencies_checked_1a85c576")}
+                  accessibilityLabel="Word frequencies checked"
                   accessibilityValue={{
                     min: 0,
                     max: Math.max(1, frequencyCandidates.length),
                     now: resolvedFrequencyCount,
-                    text: uiT("ui.value_of_value_a48c498b", {value1: (resolvedFrequencyCount), value2: (frequencyCandidates.length)}),
+                    text: `${resolvedFrequencyCount} of ${frequencyCandidates.length}`,
                   }}
                 >
                   <Text
@@ -1850,9 +1865,10 @@ export default function CustomReviewSelectionScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {resolvedFrequencyCount.toLocaleString()} {uiT("ui.of_28391d3b")}{" "}
-                    {frequencyCandidates.length.toLocaleString()} {uiT("ui.checked_5d27ecf2")}{" "}
-                    {unresolvedFrequencyCount.toLocaleString()} {uiT("ui.remaining_43e3ece7")} </Text>
+                    {resolvedFrequencyCount.toLocaleString()} of{" "}
+                    {frequencyCandidates.length.toLocaleString()} checked ·{" "}
+                    {unresolvedFrequencyCount.toLocaleString()} remaining
+                  </Text>
                 </View>
                 <Text
                   style={[
@@ -1884,16 +1900,16 @@ export default function CustomReviewSelectionScreen() {
                     }}
                     accessibilityLabel={
                       needsFrequencyLookupApproval
-                        ? uiT("ui.dynamic_dfb1f6f25be0", {value1: (unresolvedFrequencyCount)})
-                        : uiT("ui.dynamic_5a366dbc3b49", {value1: (unresolvedFrequencyCount)})
+                        ? `Check ${unresolvedFrequencyCount} remaining word frequencies`
+                        : `Retry ${unresolvedFrequencyCount} remaining word frequencies`
                     }
                   >
                     <Text style={styles.frequencyLookupPrimaryText}>
                       {needsFrequencyLookupApproval
-                        ? uiT("ui.check_value_remaining_f232d06f", {value1: (unresolvedFrequencyCount.toLocaleString())})
+                        ? `Check ${unresolvedFrequencyCount.toLocaleString()} Remaining`
                         : isManualFrequencyRetryCoolingDown
-                          ? uiT("ui.retry_after_pause_6cc1afe8")
-                          : uiT("ui.retry_value_remaining_7a709347", {value1: (unresolvedFrequencyCount.toLocaleString())})}
+                          ? "Retry after Pause"
+                          : `Retry ${unresolvedFrequencyCount.toLocaleString()} Remaining`}
                     </Text>
                   </TouchableOpacity>
                 ) : null}
@@ -1904,7 +1920,7 @@ export default function CustomReviewSelectionScreen() {
             <View style={styles.emptyContainer}>
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
                 {hasPartialFrequencyResults
-                  ? uiT("ui.no_checked_words_match_yet_value_remain_unchecked_3715be63", {value1: (unresolvedFrequencyCount.toLocaleString())})
+                  ? `No checked words match yet; ${unresolvedFrequencyCount.toLocaleString()} remain unchecked.`
                   : searchQuery ||
                       filters.minLevel > 1 ||
                       filters.maxLevel < 60 ||
@@ -1913,8 +1929,8 @@ export default function CustomReviewSelectionScreen() {
                       filters.jlptLevels.size > 0 ||
                       filters.vocabularyTypes.length > 0 ||
                       filters.maxFrequencyRank !== null
-                    ? uiT("ui.no_subjects_found_matching_your_search_and_filters_0f10e500")
-                    : uiT("ui.no_subjects_available_c23b6dd4")}
+                    ? "No subjects found matching your search and filters"
+                    : "No subjects available"}
               </Text>
             </View>
           }
@@ -1939,7 +1955,8 @@ export default function CustomReviewSelectionScreen() {
           >
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-                {uiT("ui.select_subject_list_487fc954")} </Text>
+                Select Subject List
+              </Text>
               <TouchableOpacity onPress={() => setShowListFilterModal(false)}>
                 <Ionicons name="close" size={22} color={theme.textSecondary} />
               </TouchableOpacity>
@@ -1948,7 +1965,8 @@ export default function CustomReviewSelectionScreen() {
               <Text
                 style={[styles.modalStateText, { color: theme.textSecondary }]}
               >
-                {uiT("ui.loading_lists_ab8a0c9b")} </Text>
+                Loading lists...
+              </Text>
             ) : availableLists.length === 0 ? (
               <View style={styles.modalEmptyState}>
                 <Text
@@ -1957,7 +1975,8 @@ export default function CustomReviewSelectionScreen() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.no_lists_yet_create_one_from_manage_bdc3ab25")} </Text>
+                  No lists yet. Create one from Manage.
+                </Text>
                 <TouchableOpacity
                   style={[
                     styles.manageListsButton,
@@ -1975,7 +1994,8 @@ export default function CustomReviewSelectionScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.manage_lists_c261d28c")} </Text>
+                    Manage Lists
+                  </Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -2026,7 +2046,8 @@ export default function CustomReviewSelectionScreen() {
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {list.subjectIds.length} {uiT("ui.subjects_e223d8ec")} </Text>
+                            {list.subjectIds.length} subjects
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     );
@@ -2040,8 +2061,10 @@ export default function CustomReviewSelectionScreen() {
                     ]}
                   >
                     {selectedListIds.length === 0
-                      ? uiT("ui.no_subject_list_selected_633488ee")
-                      : uiT("ui.value_listvalue_selected_value_subjects_selected_b5b7c3d1", {value1: (selectedListIds.length), value2: (selectedListIds.length === 1 ? "" : "s"), value3: (selectedListSubjectCount)})}
+                      ? "No subject list selected."
+                      : `${selectedListIds.length} list${
+                          selectedListIds.length === 1 ? "" : "s"
+                        } selected • ${selectedListSubjectCount} subjects selected.`}
                   </Text>
                   <View style={styles.modalFooterButtons}>
                     <TouchableOpacity
@@ -2060,7 +2083,8 @@ export default function CustomReviewSelectionScreen() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.manage_5a234448")} </Text>
+                        Manage
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
@@ -2071,7 +2095,8 @@ export default function CustomReviewSelectionScreen() {
                       onPress={() => setShowListFilterModal(false)}
                     >
                       <Text style={styles.modalFooterPrimaryButtonText}>
-                        {uiT("ui.done_11a6767d")} </Text>
+                        Done
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>

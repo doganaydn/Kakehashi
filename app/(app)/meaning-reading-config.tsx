@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -123,7 +122,6 @@ const sanitizeConfig = (rawConfig: Partial<Config>, userLevel: number): Config =
 // const QUESTION_COUNT_OPTIONS = [10, 20, 30, 50, 100];
 
 export default function MeaningToReadingConfigScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const userLevel = userData?.level ?? 60;
@@ -230,12 +228,12 @@ export default function MeaningToReadingConfigScreen() {
       }
 
       Alert.alert(
-        uiT("ui.resume_reading_test_5e14c726"),
-        uiT("ui.you_have_a_reading_test_in_progress_12437557"),
+        "Resume Reading Test?",
+        "You have a reading test in progress.",
         [
-          { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
+          { text: "Not Now", style: "cancel" },
           {
-            text: uiT("ui.discard_eb1a70e3"),
+            text: "Discard",
             style: "destructive",
             onPress: () => {
               void clearExtraStudySessionState(
@@ -244,7 +242,7 @@ export default function MeaningToReadingConfigScreen() {
             },
           },
           {
-            text: uiT("ui.resume_d640c742"),
+            text: "Resume",
             onPress: () => {
               router.push({
                 pathname: "/meaning-reading-session",
@@ -326,7 +324,7 @@ export default function MeaningToReadingConfigScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.english_to_japanese_b607a50f")}</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>English to Japanese</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
@@ -334,9 +332,9 @@ export default function MeaningToReadingConfigScreen() {
         <View style={[styles.sectionElevated, { backgroundColor: theme.cardBackground }]}> 
           <View style={styles.sectionHeaderRow}>
             <Ionicons name="options-outline" size={18} color={theme.textSecondary} />
-            <Text style={[styles.sectionHeaderText, { color: theme.textSecondary }]}>{uiT("ui.reading_test_c05f04cd")}</Text>
+            <Text style={[styles.sectionHeaderText, { color: theme.textSecondary }]}>Reading Test</Text>
           </View>
-          <Text style={[styles.overviewTitle, { color: theme.textColor }]}>{uiT("ui.choose_subject_types_6d56c1e3")}</Text>
+          <Text style={[styles.overviewTitle, { color: theme.textColor }]}>Choose subject types</Text>
           <View style={styles.overviewChipsRow}>
             <TouchableOpacity
               style={[
@@ -348,7 +346,7 @@ export default function MeaningToReadingConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="language" size={16} color={config.includeKanji ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.overviewChipText, { color: config.includeKanji ? theme.primary : theme.textSecondary }]}>{uiT("ui.kanji_45f62a35")}</Text>
+              <Text style={[styles.overviewChipText, { color: config.includeKanji ? theme.primary : theme.textSecondary }]}>Kanji</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -360,7 +358,7 @@ export default function MeaningToReadingConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="library" size={16} color={config.includeVocabulary ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.overviewChipText, { color: config.includeVocabulary ? theme.primary : theme.textSecondary }]}>{uiT("ui.vocabulary_eebd90a0")}</Text>
+              <Text style={[styles.overviewChipText, { color: config.includeVocabulary ? theme.primary : theme.textSecondary }]}>Vocabulary</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -372,14 +370,14 @@ export default function MeaningToReadingConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="text" size={16} color={config.includeKanaVocabulary ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.overviewChipText, { color: config.includeKanaVocabulary ? theme.primary : theme.textSecondary }]}>{uiT("ui.kana_vocab_597d8c17")}</Text>
+              <Text style={[styles.overviewChipText, { color: config.includeKanaVocabulary ? theme.primary : theme.textSecondary }]}>Kana Vocab</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Number of Questions */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.number_of_questions_e69db859")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Number of Questions</Text>
           <View style={[styles.sliderContainer]}> 
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>{config.numberOfQuestions}</Text>
             <Slider
@@ -398,8 +396,8 @@ export default function MeaningToReadingConfigScreen() {
 
         {/* SRS Stages */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.include_srs_stages_eb382d10")}</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.choose_which_progression_stages_to_include_983f6d5c")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Include SRS Stages</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Choose which progression stages to include</Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = (config.srsGroups as any)[key];
@@ -429,10 +427,10 @@ export default function MeaningToReadingConfigScreen() {
 
         {/* Levels */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.levels_b1482131")}</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Levels</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Without a subject list, includes levels 1 to your level ({userLevel}). Selected lists can include any level. Enable a custom range to restrict.</Text>
           <View style={[styles.toggleRow, { borderColor: config.useCustomLevelRange ? theme.secondary : theme.border, backgroundColor: config.useCustomLevelRange ? `${theme.secondary}15` : 'transparent' }]}>
-            <Text style={[styles.toggleText, { color: theme.textColor }]}>{uiT("ui.use_custom_level_range_fdb84cae")}</Text>
+            <Text style={[styles.toggleText, { color: theme.textColor }]}>Use custom level range</Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -451,7 +449,7 @@ export default function MeaningToReadingConfigScreen() {
           >
             <View>
               <View style={styles.levelSliderRow}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.min_level_4986a2df")}</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Min Level</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.minLevel}</Text>
               </View>
               <Slider
@@ -468,7 +466,7 @@ export default function MeaningToReadingConfigScreen() {
                 thumbTintColor={theme.secondary}
               />
               <View style={[styles.levelSliderRow, { marginTop: 12 }]}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.max_level_2833a212")}</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Max Level</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.maxLevel}</Text>
               </View>
               <Slider
@@ -491,8 +489,8 @@ export default function MeaningToReadingConfigScreen() {
               <Ionicons name="stats-chart" size={16} color={theme.textSecondary} />
               <Text style={[styles.levelSummaryText, { color: theme.textSecondary }]}>
                 {config.selectedListIds.length > 0
-                  ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
-                  : uiT("ui.levels_1_value_97fc00a2", {value1: (userLevel)})}
+                  ? "All levels in selected lists"
+                  : `Levels 1 - ${userLevel}`}
               </Text>
             </View>
           )}
@@ -502,7 +500,7 @@ export default function MeaningToReadingConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={listCountTypes}
-          description={uiT("ui.optional_only_include_subjects_from_these_saved_lists_1d5ef2d9")}
+          description="Optional: only include subjects from these saved lists."
         />
 
         <View style={{ height: 80 }} />
@@ -519,7 +517,7 @@ export default function MeaningToReadingConfigScreen() {
           activeOpacity={0.8}
         >
           <Ionicons name="play" size={24} color="white" style={{ marginRight: 8 }} />
-          <Text style={styles.startButtonText}>{uiT("ui.start_reading_test_a57d7e60")}</Text>
+          <Text style={styles.startButtonText}>Start Reading Test</Text>
         </TouchableOpacity>
       </View>
     </View>

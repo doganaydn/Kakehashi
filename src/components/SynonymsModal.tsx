@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -34,7 +33,6 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
   currentSynonyms,
   subjectType = "kanji",
 }) => {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const [synonyms, setSynonyms] = useState<string[]>(currentSynonyms);
@@ -200,7 +198,8 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
 
             <View style={styles.header}>
               <Text style={[styles.title, { color: theme.textColor }]}>
-                {uiT("ui.synonyms_181e7ec5")} </Text>
+                Synonyms
+              </Text>
               <TouchableOpacity onPress={animateClose} style={styles.closeButton}>
                 <Ionicons
                   name="close-circle"
@@ -226,7 +225,7 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
                 <TextInput
                   ref={inputRef}
                   style={[styles.input, { color: theme.textColor }]}
-                  placeholder={uiT("ui.enter_a_synonym_bbc577ba")}
+                  placeholder="Enter a synonym..."
                   placeholderTextColor={theme.textSecondary}
                   value={newSynonym}
                   onChangeText={setNewSynonym}
@@ -247,7 +246,7 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
                   disabled={!newSynonym.trim()}
                 >
                   <Ionicons name="add" size={20} color="white" />
-                  <Text style={styles.addButtonText}>{uiT("ui.add_9fd728c6")}</Text>
+                  <Text style={styles.addButtonText}>Add</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -256,7 +255,9 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
             <View style={styles.synonymsSection}>
               {synonyms.length === 0 ? (
                 <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                  {uiT("ui.no_synonyms_added_yet_add_synonyms_to_accept_them_as_correct_answ_75d1e7e2")} </Text>
+                  No synonyms added yet. Add synonyms to accept them as correct
+                  answers during reviews.
+                </Text>
               ) : (
                 <View style={styles.synonymsContainer}>
                   {synonyms.map((synonym) => (
@@ -305,7 +306,8 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
                 disabled={isSaving}
               >
                 <Text style={[styles.buttonText, { color: theme.textSecondary }]}>
-                  {uiT("ui.cancel_19766ed6")} </Text>
+                  Cancel
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -324,7 +326,8 @@ export const SynonymsModal: React.FC<SynonymsModalProps> = ({
                   <ActivityIndicator size="small" color="white" />
                 ) : (
                   <Text style={[styles.buttonText, { color: "white" }]}>
-                    {uiT("ui.save_1509f561")} </Text>
+                    Save
+                  </Text>
                 )}
               </TouchableOpacity>
             </View>

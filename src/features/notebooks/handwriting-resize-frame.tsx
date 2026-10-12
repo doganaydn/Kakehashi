@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from "react";
 import { GripHorizontal } from "lucide-react";
 import "./handwriting-resize-frame.css";
@@ -22,7 +21,6 @@ const finite = (value: number | undefined, fallback: number) => typeof value ===
 
 /** Extend or trim the bottom of the paper without changing its width or ink coordinates. */
 export function HandwritingResizeFrame(props: HandwritingResizeFrameProps) {
-  useInterfaceLanguage();
   const actions = useRef(props); actions.current = props;
   const current = useRef<HandwritingPaperSize>({ width: props.width, height: props.height });
   const active = useRef<Gesture | null>(null);
@@ -95,7 +93,7 @@ export function HandwritingResizeFrame(props: HandwritingResizeFrameProps) {
   return <div className="nb-paper-resize-container">
     <div className="nb-paper-frame" style={{ width: size.width * scale, height: size.height * scale }}>
       <div className="nb-paper-content" data-handwriting-paper="true" style={{ width: size.width * scale, height: size.height * scale }}>{props.children}</div>
-      <button type="button" className="nb-paper-resize nb-paper-resize-height" aria-label={uiT("ui.message_125dc318617c")} title={uiT("ui.drag_to_change_paper_height_361d44cd")} disabled={props.disabled || pending} onPointerDown={down} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onLostPointerCapture={end} onKeyDown={keyboard}><GripHorizontal size={20} /></button>
+      <button type="button" className="nb-paper-resize nb-paper-resize-height" aria-label="Resize writing height" title="Drag to change paper height" disabled={props.disabled || pending} onPointerDown={down} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onLostPointerCapture={end} onKeyDown={keyboard}><GripHorizontal size={20} /></button>
     </div>
     {error ? <p className="nb-paper-resize-error" role="alert">{error}</p> : null}
   </div>;

@@ -1,4 +1,3 @@
-import { useInterfaceLanguage, uiT } from "../features/interface-language/runtime";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { useVocabularyFrequency } from "../hooks/useVocabularyFrequency";
@@ -15,7 +14,6 @@ export default function VocabularyFrequencyBadge({
   subject,
   variant = "review",
 }: VocabularyFrequencyBadgeProps) {
-  useInterfaceLanguage();
   const settingEnabled = useSettingsStore(
     (state) => state.showVocabularyFrequency,
   );
@@ -31,7 +29,6 @@ function EnabledVocabularyFrequencyBadge({
   subject,
   variant = "review",
 }: VocabularyFrequencyBadgeProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { result, isLoading } = useVocabularyFrequency(subject);
   const isDetails = variant === "details";
@@ -39,7 +36,7 @@ function EnabledVocabularyFrequencyBadge({
     ? `#${result.frequencyRank.toLocaleString()}`
     : "#---";
   const accessibilityLabel = result
-    ? uiT("ui.dynamic_ba9103f2c58f", {value1: (value)})
+    ? `Vocabulary frequency ${value}`
     : isLoading
       ? "Vocabulary frequency loading"
       : "Vocabulary frequency unavailable";

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -38,7 +37,6 @@ function LessonProgressSegments({
   inactiveColor: string;
   extra?: number;
 }) {
-  useInterfaceLanguage();
   if (total <= 0) {
     return null;
   }
@@ -82,7 +80,6 @@ export default function BunproStudyQueueCard({
   onPressReviewGrammar,
   onPressReviewVocab,
 }: BunproStudyQueueCardProps) {
-  useInterfaceLanguage();
   const [isReviewExpanded, setIsReviewExpanded] = useState(false);
 
   const learnProgressLabel =
@@ -90,7 +87,7 @@ export default function BunproStudyQueueCard({
   const canStartLessons = Boolean(onPressLearn) && (nextLessonBatchCount > 0 || remainingLessons > 0);
   const learnSubtitle =
     nextLessonBatchCount > 0
-      ? uiT("ui.dynamic_7b5ad4a9245e", {value1: (nextLessonBatchCount.toLocaleString())})
+      ? `Next batch: ${nextLessonBatchCount.toLocaleString()}`
       : learnGoal > 0
         ? "Daily Goal Complete"
         : "No Lessons Queued";
@@ -124,7 +121,7 @@ export default function BunproStudyQueueCard({
           disabled={!canStartLessons}
         >
           <View style={styles.studyQueueCopy}>
-            <Text style={[styles.studyQueueTitle, { color: learnTextColor }]}>{uiT("ui.learn_ce78afd0")}</Text>
+            <Text style={[styles.studyQueueTitle, { color: learnTextColor }]}>Learn</Text>
             <Text style={[styles.studyQueueSubtitle, { color: learnSubtitleColor }]}>
               {learnSubtitle}
             </Text>
@@ -157,9 +154,10 @@ export default function BunproStudyQueueCard({
             disabled={!onPressReviewAll}
           >
             <View style={styles.studyQueueCopy}>
-              <Text style={[styles.studyQueueTitle, { color: reviewTextColor }]}>{uiT("ui.review_aff0766a")}</Text>
+              <Text style={[styles.studyQueueTitle, { color: reviewTextColor }]}>Review</Text>
               <Text style={[styles.studyQueueSubtitle, { color: reviewSubtitleColor }]}>
-                {uiT("ui.grammar_vocab_6ffa1c93")} </Text>
+                Grammar & Vocab
+              </Text>
             </View>
             <View style={styles.reviewCountPill}>
               <Text style={[styles.reviewCountText, { color: accent }]}>
@@ -191,8 +189,8 @@ export default function BunproStudyQueueCard({
               disabled={!onPressReviewGrammar}
             >
               <View style={styles.studyQueueCopy}>
-                <Text style={[styles.studyQueueTitle, { color: reviewTextColor }]}>{uiT("ui.review_aff0766a")}</Text>
-                <Text style={[styles.studyQueueSubtitle, { color: reviewSubtitleColor }]}>{uiT("ui.grammar_1325f21d")}</Text>
+                <Text style={[styles.studyQueueTitle, { color: reviewTextColor }]}>Review</Text>
+                <Text style={[styles.studyQueueSubtitle, { color: reviewSubtitleColor }]}>Grammar</Text>
               </View>
               <View style={styles.reviewCountPill}>
                 <Text style={[styles.reviewCountText, { color: accent }]}>
@@ -208,8 +206,8 @@ export default function BunproStudyQueueCard({
               disabled={!onPressReviewVocab}
             >
               <View style={styles.studyQueueCopy}>
-                <Text style={[styles.studyQueueTitle, { color: reviewTextColor }]}>{uiT("ui.review_aff0766a")}</Text>
-                <Text style={[styles.studyQueueSubtitle, { color: reviewSubtitleColor }]}>{uiT("ui.vocab_eb535ff6")}</Text>
+                <Text style={[styles.studyQueueTitle, { color: reviewTextColor }]}>Review</Text>
+                <Text style={[styles.studyQueueSubtitle, { color: reviewSubtitleColor }]}>Vocab</Text>
               </View>
               <View style={styles.reviewCountPill}>
                 <Text style={[styles.reviewCountText, { color: accent }]}>
@@ -222,7 +220,7 @@ export default function BunproStudyQueueCard({
       </View>
 
       <Text style={[styles.studyQueueMeta, { color: softText }]}>
-        {uiT("ui.due_now_8eb6a14a")} {dueNowTotal.toLocaleString()} {uiT("ui.due_tomorrow_f456abc4")} {dueTomorrow.toLocaleString()}
+        Due now: {dueNowTotal.toLocaleString()} · Due tomorrow: {dueTomorrow.toLocaleString()}
       </Text>
     </View>
   );

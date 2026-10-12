@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import { SettingsIcon as Ionicons } from "../../../ui/settings/settings-icon";
@@ -16,7 +15,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function UserProfileSection() {
-  useInterfaceLanguage();
   const {
     gravatarEmailInput,
     handleJpdbApiKeyInfoPress,
@@ -59,7 +57,8 @@ export function UserProfileSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.user_profile_ee7672e2")} </Text>
+          User Profile
+        </Text>
 
         <View
           style={[
@@ -78,18 +77,20 @@ export function UserProfileSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.gravatar_email_3f8cb8fa")} </SettingsLabel>
+                Gravatar Email
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.enter_your_email_to_display_your_gravatar_profile_picture_6f5883d9")} </Text>
+                Enter your email to display your Gravatar profile picture
+              </Text>
             </View>
           </View>
           <View style={styles.inputRow}>
             <TextInput
               value={gravatarEmailInput}
               onChangeText={setGravatarEmailInput}
-              placeholder={uiT("ui.enter_email_address_256d2ec7")}
+              placeholder="Enter email address"
               placeholderTextColor={theme.textSecondary}
               keyboardType="email-address"
               autoCapitalize="none"
@@ -140,13 +141,14 @@ export function UserProfileSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.jpdb_api_key_7359b884")} </SettingsLabel>
+                  JPDB API Key
+                </SettingsLabel>
                 <TouchableOpacity
                   style={styles.settingInfoButton}
                   onPress={handleJpdbApiKeyInfoPress}
                   activeOpacity={0.7}
                   accessibilityRole="button"
-                  accessibilityLabel={uiT("ui.jpdb_api_key_info_e4f09b6f")}
+                  accessibilityLabel="JPDB API key info"
                 >
                   <Ionicons
                     name="information-circle-outline"
@@ -158,7 +160,9 @@ export function UserProfileSection() {
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.used_for_parse_first_vocabulary_detection_in_news_epub_reader_and_95bf48a6")} </Text>
+                Used for parse-first vocabulary detection in news, EPUB reader,
+                and URL Reader
+              </Text>
             </View>
           </View>
           <View style={styles.inputRow}>
@@ -168,7 +172,7 @@ export function UserProfileSection() {
                 setJpdbApiKeyInput(value);
                 setJpdbApiKeyStatus(null);
               }}
-              placeholder={uiT("ui.paste_jpdb_api_key_af67118f")}
+              placeholder="Paste JPDB API key"
               placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
@@ -235,7 +239,7 @@ export function UserProfileSection() {
 
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.open_notebooks_2bd8e06f")}
+          accessibilityLabel="Open notebooks"
           style={[
             styles.settingItem,
             {
@@ -256,11 +260,13 @@ export function UserProfileSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.notebooks_0ae9bd5b")} </SettingsLabel>
+              Notebooks
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.your_study_notes_and_vocabulary_shared_with_the_web_7129c391")} </Text>
+              Your study notes and vocabulary, shared with the web
+            </Text>
           </View>
           <Ionicons
             name="chevron-forward"
@@ -291,11 +297,13 @@ export function UserProfileSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.url_reader_c96a1a5e")} </SettingsLabel>
+                URL Reader
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.parse_japanese_text_from_any_url_with_jpdb_first_highlighting_19f2b484")} </Text>
+                Parse Japanese text from any URL with JPDB-first highlighting
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"

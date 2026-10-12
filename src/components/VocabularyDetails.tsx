@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { formatTurkishMeaning } from "../features/turkish-content/format";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
@@ -288,7 +287,6 @@ export default function VocabularyDetails({
   onSynonymsChange,
   embedded = false,
 }: VocabularyDetailsProps) {
-  useInterfaceLanguage();
   const [activeTab, setActiveTab] = useState<"meaning" | "reading" | "context">(
     vocabulary.object === "kana_vocabulary" && initialTab === "reading"
       ? "meaning"
@@ -1491,7 +1489,8 @@ export default function VocabularyDetails({
                     { color: theme.primary },
                   ]}
                 >
-                  {uiT("ui.reset_daee7606")} </Text>
+                  Reset
+                </Text>
               </TouchableOpacity>
               <Text
                 style={[
@@ -1556,7 +1555,8 @@ export default function VocabularyDetails({
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.tap_to_reveal_translation_e4cc1c85")} </Text>
+            Tap to reveal translation
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -1571,7 +1571,8 @@ export default function VocabularyDetails({
     return (
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          {uiT("ui.patterns_of_use_19a9469c")} </Text>
+          Patterns of Use
+        </Text>
         <View
           style={[
             styles.infoBox,
@@ -1584,7 +1585,8 @@ export default function VocabularyDetails({
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.select_a_pattern_to_view_example_contexts_475c2f7d")} </Text>
+            Select a pattern to view example contexts.
+          </Text>
           <View style={styles.patternPillsContainer}>
             {vocabularyUsagePatterns.map((patternGroup, groupIndex) => {
               const isSelected = groupIndex === selectedUsagePatternIndex;
@@ -1721,10 +1723,11 @@ export default function VocabularyDetails({
               { color: theme.textColor },
             ]}
           >
-            {uiT("ui.context_sentences_0461dd8f")} </Text>
+            Context Sentences
+          </Text>
           {vocabulary.id > 0 && <TouchableOpacity
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.add_context_sentence_8fbfbb17")}
+            accessibilityLabel="Add context sentence"
             activeOpacity={0.55}
             hitSlop={8}
             onPress={() =>
@@ -1944,8 +1947,10 @@ export default function VocabularyDetails({
                   ]}
                 >
                   {showAll
-                    ? uiT("ui.show_less_0264d7b0")
-                    : uiT("ui.show_value_more_07bba10f", {value1: (matches.length - maxInitialSimilarVocabularyItems)})}
+                    ? "Show Less"
+                    : `Show ${
+                        matches.length - maxInitialSimilarVocabularyItems
+                      } More`}
                 </Text>
                 <Ionicons
                   name={showAll ? "chevron-up" : "chevron-down"}
@@ -1984,7 +1989,8 @@ export default function VocabularyDetails({
     return (
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          {uiT("ui.visually_similar_kanji_28370798")} </Text>
+          Visually Similar Kanji
+        </Text>
         <View
           style={[
             styles.infoBox,
@@ -2036,7 +2042,7 @@ export default function VocabularyDetails({
                       numberOfLines={2}
                       ellipsizeMode="tail"
                     >
-                      {item.meanings[0] || uiT("ui.loading_47d2a515")}
+                      {item.meanings[0] || "Loading..."}
                     </Text>
                     {isAboveUserLevel && (
                       <View style={styles.itemLevelBadge}>
@@ -2071,9 +2077,11 @@ export default function VocabularyDetails({
                   ]}
                 >
                   {showAllSimilarKanji
-                    ? uiT("ui.show_less_0264d7b0")
-                    : uiT("ui.show_value_more_07bba10f", {value1: (singleKanjiVocabularySimilarSubjects.length -
-                        maxInitialSimilarKanjiItems)})}
+                    ? "Show Less"
+                    : `Show ${
+                        singleKanjiVocabularySimilarSubjects.length -
+                        maxInitialSimilarKanjiItems
+                      } More`}
                 </Text>
                 <Ionicons
                   name={showAllSimilarKanji ? "chevron-up" : "chevron-down"}
@@ -2132,7 +2140,8 @@ export default function VocabularyDetails({
             {/* Name Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.name_dcd1d522")} </Text>
+                Name
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -2143,8 +2152,8 @@ export default function VocabularyDetails({
                   primary={translatedMeaning.primary} alternatives={translatedMeaning.alternatives}
                   english={originalPrimaryMeaning} englishAlternatives={vocabulary.meanings.filter(m => !m.primary && m.meaning !== originalPrimaryMeaning).map(m => m.meaning)}
                   rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
-                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>{uiT("ui.primary_efe10c80")}</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
-                  {vocabulary.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>{uiT("ui.alternative_b59b72be")}</Text><Text style={[styles.value, {color: theme.textColor}]}>{vocabulary.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
+                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Primary</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
+                  {vocabulary.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Alternative</Text><Text style={[styles.value, {color: theme.textColor}]}>{vocabulary.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
                 </>}
 
                 <View
@@ -2163,7 +2172,8 @@ export default function VocabularyDetails({
                   <Text
                     style={[styles.label, { color: theme.textSecondary }]}
                   >
-                    {uiT("ui.user_synonyms_4eacfc42")} </Text>
+                    User Synonyms
+                  </Text>
                   <View style={styles.synonymsValueContainer}>
                     <Text
                       style={[
@@ -2178,7 +2188,7 @@ export default function VocabularyDetails({
                     >
                       {vocabulary.userSynonyms?.length
                         ? vocabulary.userSynonyms.join(", ")
-                        : uiT("ui.none_dc937b59")}
+                        : "None"}
                     </Text>
                     <TouchableOpacity
                       style={[
@@ -2193,7 +2203,8 @@ export default function VocabularyDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.manage_5a234448")} </Text>
+                        Manage
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -2204,7 +2215,8 @@ export default function VocabularyDetails({
                       <Text
                         style={[styles.label, { color: theme.textSecondary }]}
                       >
-                        {uiT("ui.part_of_speech_6c288114")} </Text>
+                        Part of Speech
+                      </Text>
                       <Text style={[styles.value, { color: theme.textColor }]}>
                         {vocabulary.partsOfSpeech.join(", ")}
                       </Text>
@@ -2226,7 +2238,7 @@ export default function VocabularyDetails({
 
             {vocabulary.object === "kana_vocabulary" && orderedMpegAudioFiles.length > 0 ? (
               <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.pronunciation_75cb1e13")}</Text>
+                <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Pronunciation</Text>
                 <View style={[styles.infoBox, { backgroundColor: theme.cardBackground }]}>
                   <View style={styles.audioButtonsContainer}>
                     {orderedMpegAudioFiles.map((audio, audioIndex) => {
@@ -2240,7 +2252,7 @@ export default function VocabularyDetails({
                         disabled={loadingAudioId === audioId}
                       >
                         {loadingAudioId === audioId ? <ActivityIndicator size="small" color="#fff" /> : <Ionicons name={playingAudioId === audioId ? "stop" : "play"} size={20} color="white" />}
-                        <Text style={styles.audioButtonText}>{audio.metadata?.voice_actor_name || uiT("ui.audio_bc1b8890")}{vocabulary.id < 0 ? "" : audio.metadata?.gender ? uiT("ui.value_ec422465", {value1: (audio.metadata.gender)}) : ""}</Text>
+                        <Text style={styles.audioButtonText}>{audio.metadata?.voice_actor_name || "Audio"}{vocabulary.id < 0 ? "" : audio.metadata?.gender ? ` (${audio.metadata.gender})` : ""}</Text>
                       </TouchableOpacity>;
                     })}
                   </View>
@@ -2252,7 +2264,8 @@ export default function VocabularyDetails({
             {vocabulary.meaningMnemonic && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.mnemonic_761a18b8")} </Text>
+                  Mnemonic
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -2270,7 +2283,8 @@ export default function VocabularyDetails({
             {vocabulary.meaningHint && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.meaning_hint_2d1abe95")} </Text>
+                  Meaning Hint
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -2294,7 +2308,8 @@ export default function VocabularyDetails({
             {/* Readings Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.readings_f3a97d44")} </Text>
+                Readings
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -2355,7 +2370,8 @@ export default function VocabularyDetails({
                     <Text
                       style={[styles.audioTitle, { color: theme.textColor }]}
                     >
-                      {uiT("ui.audio_bc1b8890")} </Text>
+                      Audio
+                    </Text>
                     <View style={styles.audioButtonsContainer}>
                       {orderedMpegAudioFiles.map((audio, index) => {
                         const actorId = audio.metadata?.voice_actor_id ?? index;
@@ -2384,9 +2400,9 @@ export default function VocabularyDetails({
                               />
                             )}
                             <Text style={styles.audioButtonText}>
-                              {audio.metadata?.voice_actor_name || uiT("ui.audio_bc1b8890")}
+                              {audio.metadata?.voice_actor_name || "Audio"}
                               {vocabulary.id < 0 ? "" : audio.metadata?.gender
-                                ? uiT("ui.value_ec422465", {value1: (audio.metadata.gender)})
+                                ? ` (${audio.metadata.gender})`
                                 : ""}
                             </Text>
                           </TouchableOpacity>
@@ -2402,7 +2418,8 @@ export default function VocabularyDetails({
             {vocabulary.readingMnemonic && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.mnemonic_761a18b8")} </Text>
+                  Mnemonic
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -2420,7 +2437,8 @@ export default function VocabularyDetails({
             {vocabulary.readingHint && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.reading_hint_d50b274b")} </Text>
+                  Reading Hint
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -2450,7 +2468,8 @@ export default function VocabularyDetails({
             {showMediaContextSentences && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.media_context_sentences_e683aa86")} </Text>
+                  Media Context Sentences
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -2464,7 +2483,7 @@ export default function VocabularyDetails({
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.loading_examples_for_84d8680e")}{vocabulary.characters}
+                      Loading examples for &quot;{vocabulary.characters}
                       &quot;...
                     </Text>
                   )}
@@ -2479,7 +2498,8 @@ export default function VocabularyDetails({
                             { color: theme.textSecondary },
                           ]}
                         >
-                          {uiT("ui.no_media_examples_found_for_064940cb")} {vocabulary.characters}
+                          No media examples found for &quot;
+                          {vocabulary.characters}
                           &quot;
                         </Text>
                       </View>
@@ -2679,7 +2699,8 @@ export default function VocabularyDetails({
                           fontSize: 15,
                         }}
                       >
-                        {uiT("ui.load_more_3f06cd33")} </Text>
+                        Load More
+                      </Text>
                     )}
                     {!loadingMediaSentences && (
                       <Ionicons
@@ -2700,7 +2721,8 @@ export default function VocabularyDetails({
             {/* Notes Section */}
             {vocabulary.id > 0 && <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.notes_8a7525b1")} </Text>
+                Notes
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -2717,10 +2739,11 @@ export default function VocabularyDetails({
                   >
                     <View style={styles.noteHeader}>
                       <Text style={[styles.noteTitle, { color: theme.textColor }]}>
-                        {uiT("ui.meaning_note_2991d09a")} </Text>
+                        Meaning Note
+                      </Text>
                       <TouchableOpacity
                         accessible={Boolean(vocabulary.meaningNote)}
-                        accessibilityLabel={uiT("ui.edit_meaning_note_2f42b615")}
+                        accessibilityLabel="Edit meaning note"
                         accessibilityRole="button"
                         hitSlop={8}
                         onPress={(event) => {
@@ -2744,7 +2767,8 @@ export default function VocabularyDetails({
                       />
                     ) : (
                       <Text style={[styles.noteText, { color: theme.textLight }]}>
-                        {uiT("ui.click_to_add_meaning_note_60fcf744")} </Text>
+                        Click to add meaning note
+                      </Text>
                     )}
                   </NoteFieldContainer>
                 ) : (
@@ -2756,10 +2780,11 @@ export default function VocabularyDetails({
                   >
                     <View style={styles.noteHeader}>
                       <Text style={[styles.noteTitle, { color: theme.textColor }]}>
-                        {uiT("ui.reading_note_72ec4fc8")} </Text>
+                        Reading Note
+                      </Text>
                       <TouchableOpacity
                         accessible={Boolean(vocabulary.readingNote)}
-                        accessibilityLabel={uiT("ui.edit_reading_note_2b0b57f8")}
+                        accessibilityLabel="Edit reading note"
                         accessibilityRole="button"
                         hitSlop={8}
                         onPress={(event) => {
@@ -2783,7 +2808,8 @@ export default function VocabularyDetails({
                       />
                     ) : (
                       <Text style={[styles.noteText, { color: theme.textLight }]}>
-                        {uiT("ui.click_to_add_reading_note_b0266e3e")} </Text>
+                        Click to add reading note
+                      </Text>
                     )}
                   </NoteFieldContainer>
                 )}
@@ -2797,7 +2823,8 @@ export default function VocabularyDetails({
                 <Text
                   style={[styles.sectionTitle, { color: theme.textColor }]}
                 >
-                  {uiT("ui.composition_47fca483")} </Text>
+                  Composition
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -2881,9 +2908,11 @@ export default function VocabularyDetails({
                           ]}
                         >
                           {showAllComponents
-                            ? uiT("ui.show_less_0264d7b0")
-                            : uiT("ui.show_value_more_07bba10f", {value1: (sortedComponentSubjects.length -
-                                maxInitialComponentItems)})}
+                            ? "Show Less"
+                            : `Show ${
+                                sortedComponentSubjects.length -
+                                maxInitialComponentItems
+                              } More`}
                         </Text>
                         <Ionicons
                           name={
@@ -2922,7 +2951,8 @@ export default function VocabularyDetails({
             {/* Your Progression Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.your_progression_064bccbc")} </Text>
+                Your Progression
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -2940,7 +2970,8 @@ export default function VocabularyDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.loading_progression_ace1a0ad")} </Text>
+                        Loading progression...
+                      </Text>
                     </View>
                   ) : progressionStatus === "offline" ? (
                     /* Offline State */
@@ -2951,14 +2982,16 @@ export default function VocabularyDetails({
                       <Text
                         style={[styles.srsName, { color: theme.textColor }]}
                       >
-                        {uiT("ui.offline_a1794783")} </Text>
+                        Offline
+                      </Text>
                       <Text
                         style={[
                           styles.notStartedText,
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.cannot_determine_progression_while_offline_49a777ed")} </Text>
+                        Cannot determine progression while offline
+                      </Text>
                     </View>
                   ) : vocabulary.srsStage === undefined ||
                     vocabulary.srsStage === null ||
@@ -2971,7 +3004,7 @@ export default function VocabularyDetails({
                       <Text
                         style={[styles.srsName, { color: theme.textColor }]}
                       >
-                        {vocabulary.srsStage === 0 ? uiT("ui.initiate_505d1ad3") : uiT("ui.not_started_6d54f9ec")}
+                        {vocabulary.srsStage === 0 ? "Initiate" : "Not Started"}
                       </Text>
                       <Text
                         style={[
@@ -2979,7 +3012,8 @@ export default function VocabularyDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.complete_the_lesson_to_start_tracking_progress_513c5cc1")} </Text>
+                        Complete the lesson to start tracking progress
+                      </Text>
                     </View>
                   ) : (
                     /* Started State */
@@ -3010,7 +3044,7 @@ export default function VocabularyDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.next_review_2ba0a1df")}{" "}
+                            Next review:{" "}
                             <Text
                               style={{
                                 fontWeight: "600",
@@ -3030,7 +3064,9 @@ export default function VocabularyDetails({
                                 { color: theme.textColor },
                               ]}
                             >
-                              {Math.round(vocabulary.percentageCorrect)}{uiT("ui.accuracy_39f874d5")} </Text>
+                              {Math.round(vocabulary.percentageCorrect)}%
+                              Accuracy
+                            </Text>
                           </View>
                         )}
                       </View>
@@ -3051,7 +3087,8 @@ export default function VocabularyDetails({
                               { color: theme.textColor },
                             ]}
                           >
-                            {uiT("ui.meaning_1f5d64b9")} </Text>
+                            Meaning
+                          </Text>
 
                           <View style={styles.streakContainer}>
                             <View style={styles.streakItem}>
@@ -3061,7 +3098,8 @@ export default function VocabularyDetails({
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                {uiT("ui.current_e0d1b682")} </Text>
+                                Current
+                              </Text>
                               <Text
                                 style={[
                                   styles.streakValue,
@@ -3078,7 +3116,8 @@ export default function VocabularyDetails({
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                {uiT("ui.longest_802803c7")} </Text>
+                                Longest
+                              </Text>
                               <Text
                                 style={[
                                   styles.streakValue,
@@ -3138,7 +3177,8 @@ export default function VocabularyDetails({
                               { color: theme.textColor },
                             ]}
                           >
-                            {uiT("ui.reading_463816d0")} </Text>
+                            Reading
+                          </Text>
 
                           <View style={styles.streakContainer}>
                             <View style={styles.streakItem}>
@@ -3148,7 +3188,8 @@ export default function VocabularyDetails({
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                {uiT("ui.current_e0d1b682")} </Text>
+                                Current
+                              </Text>
                               <Text
                                 style={[
                                   styles.streakValue,
@@ -3165,7 +3206,8 @@ export default function VocabularyDetails({
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                {uiT("ui.longest_802803c7")} </Text>
+                                Longest
+                              </Text>
                               <Text
                                 style={[
                                   styles.streakValue,
@@ -3358,7 +3400,8 @@ export default function VocabularyDetails({
                 activeTab === "meaning" && styles.activeTabText,
               ]}
             >
-              {uiT("ui.meaning_1f5d64b9")} </Text>
+              Meaning
+            </Text>
           </TouchableOpacity>
           {vocabulary.object !== "kana_vocabulary" && <TouchableOpacity
             style={[styles.tab, activeTab === "reading" && styles.activeTab]}
@@ -3371,7 +3414,8 @@ export default function VocabularyDetails({
                 activeTab === "reading" && styles.activeTabText,
               ]}
             >
-              {uiT("ui.reading_463816d0")} </Text>
+              Reading
+            </Text>
           </TouchableOpacity>}
           <TouchableOpacity
             style={[styles.tab, activeTab === "context" && styles.activeTab]}
@@ -3384,7 +3428,8 @@ export default function VocabularyDetails({
                 activeTab === "context" && styles.activeTabText,
               ]}
             >
-              {uiT("ui.context_a6e600a1")} </Text>
+              Context
+            </Text>
           </TouchableOpacity>
         </View>
 

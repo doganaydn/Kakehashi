@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -21,7 +20,6 @@ import {
 import { useTheme } from "../../../src/utils/theme";
 
 export default function YouTubeSearchScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -55,7 +53,7 @@ export default function YouTubeSearchScreen() {
       setResults(searchResults);
     } catch (err) {
       console.error("YouTube search error:", err);
-      setError(uiT("ui.message_6663db50688e"));
+      setError("Failed to search videos. Please try again.");
       setResults([]);
     } finally {
       setIsLoading(false);
@@ -104,7 +102,8 @@ export default function YouTubeSearchScreen() {
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.statusText, { color: theme.textSecondary }]}>
-            {uiT("ui.searching_78c9d9f6")} </Text>
+            Searching...
+          </Text>
         </View>
       );
     }
@@ -118,7 +117,7 @@ export default function YouTubeSearchScreen() {
             style={[styles.retryButton, { backgroundColor: theme.primary }]}
             onPress={performSearch}
           >
-            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
+            <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
       );
@@ -129,9 +128,11 @@ export default function YouTubeSearchScreen() {
         <View style={styles.centerContainer}>
           <Ionicons name="videocam-off-outline" size={48} color={theme.textLight} />
           <Text style={[styles.statusText, { color: theme.textSecondary }]}>
-            {uiT("ui.no_videos_found_15e0c82b")} </Text>
+            No videos found
+          </Text>
           <Text style={[styles.subText, { color: theme.textLight }]}>
-            {uiT("ui.try_a_different_search_term_3becd866")} </Text>
+            Try a different search term
+          </Text>
         </View>
       );
     }
@@ -140,9 +141,11 @@ export default function YouTubeSearchScreen() {
       <View style={styles.centerContainer}>
         <Ionicons name="logo-youtube" size={64} color="#FF0000" />
         <Text style={[styles.welcomeText, { color: theme.textColor }]}>
-          {uiT("ui.secret_youtube_ef469004")} </Text>
+          Secret YouTube
+        </Text>
         <Text style={[styles.subText, { color: theme.textSecondary }]}>
-          {uiT("ui.search_for_any_video_to_watch_952d923f")} </Text>
+          Search for any video to watch
+        </Text>
       </View>
     );
   };
@@ -186,7 +189,7 @@ export default function YouTubeSearchScreen() {
             style={[styles.searchInput, { color: theme.textColor }]}
             value={searchQuery}
             onChangeText={setSearchQuery}
-            placeholder={uiT("ui.search_youtube_e7899685")}
+            placeholder="Search YouTube..."
             placeholderTextColor={theme.textSecondary}
             autoCorrect={false}
             returnKeyType="search"

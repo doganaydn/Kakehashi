@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import React, { useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
@@ -16,7 +15,6 @@ const APPLE_MUSIC_TOP = "#FB5C74";
 type PlaybackProvider = "youtube" | "spotify" | "appleMusic";
 
 function YouTubeBrandIcon({ size = 28 }: { size?: number }) {
-  useInterfaceLanguage();
   return (
     <Svg width={size} height={size} viewBox="0 0 32 32">
       <Rect x={2} y={7} width={28} height={18} rx={5} fill={YOUTUBE_RED} />
@@ -26,7 +24,6 @@ function YouTubeBrandIcon({ size = 28 }: { size?: number }) {
 }
 
 function SpotifyBrandIcon({ size = 28 }: { size?: number }) {
-  useInterfaceLanguage();
   return (
     <Svg width={size} height={size} viewBox="0 0 236.05 225.25">
       <Path
@@ -38,7 +35,6 @@ function SpotifyBrandIcon({ size = 28 }: { size?: number }) {
 }
 
 function AppleMusicBrandIcon({ size = 28 }: { size?: number }) {
-  useInterfaceLanguage();
   return (
     <Svg width={size} height={size} viewBox="0 0 512 512">
       <Defs>
@@ -68,7 +64,6 @@ function AppleMusicBrandIcon({ size = 28 }: { size?: number }) {
 }
 
 export function MusicPlaybackSection() {
-  useInterfaceLanguage();
   const {
     appleMusicAuthError,
     appleMusicAuthStatus,
@@ -216,7 +211,8 @@ export function MusicPlaybackSection() {
               { color: theme.textColor, borderBottomColor: theme.border },
             ]}
           >
-            {uiT("ui.music_playback_01e64e63")} </Text>
+            Music Playback
+          </Text>
 
           <View
             style={[

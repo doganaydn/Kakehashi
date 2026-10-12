@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Linking, Modal, Pressable, ScrollView, Text, View } from "react-native";
 import type { BunproJsonApiResource } from "../../types/bunpro";
@@ -10,7 +9,6 @@ import { useTheme } from "../../utils/theme";
 const grades = [[0, "Beginner"], [4, "Adept"], [10, "Expert"], [12, "Master"]] as const;
 
 export function BunproCoverage({ vocabulary, deckId }: { vocabulary: BunproJsonApiResource[]; deckId?: number }) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [reviews, setReviews] = useState<BunproJsonApiResource[] | null>(null);
   const [error, setError] = useState("");
@@ -31,23 +29,22 @@ export function BunproCoverage({ vocabulary, deckId }: { vocabulary: BunproJsonA
   const action = (label: string, onPress: () => void, disabled = false) => <Pressable accessibilityRole="button" accessibilityLabel={label} disabled={disabled} onPress={onPress} style={{ minHeight: 44, paddingVertical: 10, opacity: disabled ? .4 : 1 }}><Text style={{ color: theme.textColor, fontWeight: "600" }}>{label}</Text></Pressable>;
   const toggle = (id: number) => setSelected(current => current.includes(id) ? current.filter(value => value !== id) : [...current, id]);
   return <View style={{ padding: 24, gap: 12 }}>
-    <Text accessibilityRole="header" style={{ color: theme.textColor, fontSize: 20, fontWeight: "600" }}>{uiT("ui.vocab_coverage_bbf2e45a")}</Text>
-    {reviews ? <Text style={{ color: theme.textSecondary }}>{uiT("ui.you_ve_covered_80f91fd8")} {Math.round(learned.length / Math.max(1, items.length) * 100)}{uiT("ui.of_this_item_s_vocabulary_374292db")} {learned.length}/{items.length}</Text> : error ? <><Text accessibilityRole="alert" style={{ color: theme.error }}>{error}</Text>{action("Retry progress", () => setAttempt(value => value + 1))}</> : <ActivityIndicator accessibilityLabel={uiT("ui.loading_vocabulary_progress_a9bf0349")} />}
+    <Text accessibilityRole="header" style={{ color: theme.textColor, fontSize: 20, fontWeight: "600" }}>Vocab Coverage</Text>
+    {reviews ? <Text style={{ color: theme.textSecondary }}>You’ve covered {Math.round(learned.length / Math.max(1, items.length) * 100)}% of this item’s vocabulary · {learned.length}/{items.length}</Text> : error ? <><Text accessibilityRole="alert" style={{ color: theme.error }}>{error}</Text>{action("Retry progress", () => setAttempt(value => value + 1))}</> : <ActivityIndicator accessibilityLabel="Loading vocabulary progress" />}
     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>{action(expanded ? "Collapse List" : "Expand List", () => setExpanded(!expanded))}{action("Knowledge Check", () => setChecking(unlearned), !reviews || !unlearned.length)}</View>
     {expanded && reviews ? [unlearned, learned].map((group, index) => <View key={index} style={{ gap: 8 }}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}><Text style={{ color: theme.textColor, fontWeight: "600" }}>{index ? uiT("ui.learned_items_dac268bd") : uiT("ui.new_to_you_cdaa7e5a")} ({group.length})</Text>{action(uiT("ui.dynamic_5df5c4711475", {value1: (index ? uiT("ui.dynamic_d9630af26514") : uiT("ui.dynamic_69d5356a6f52"))}), () => setSelected(current => group.every(item => current.includes(item.id)) ? current.filter(id => !group.some(item => item.id === id)) : [...new Set([...current, ...group.map(item => item.id)])]))}</View>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}><Text style={{ color: theme.textColor, fontWeight: "600" }}>{index ? "Learned items" : "New to you"} ({group.length})</Text>{action(`Select all ${index ? "learned items" : "new to you"}`, () => setSelected(current => group.every(item => current.includes(item.id)) ? current.filter(id => !group.some(item => item.id === id)) : [...new Set([...current, ...group.map(item => item.id)])]))}</View>
       {group.map(item => <Pressable key={item.id} accessibilityRole="checkbox" accessibilityLabel={`Select ${sanitizeText(item.resource.attributes.title)}`} accessibilityState={{ checked: selected.includes(item.id) }} onPress={() => toggle(item.id)} style={{ padding: 12, borderWidth: 1, borderRadius: 8, borderColor: selected.includes(item.id) ? "#cc5b5d" : theme.border }}>
         <Text style={{ color: theme.textColor, fontSize: 20 }}>{sanitizeText(item.resource.attributes.title)} {selected.includes(item.id) ? "✓" : ""}</Text><Text style={{ color: theme.textSecondary }}>{sanitizeText(item.resource.attributes.kana)} · {sanitizeText(item.resource.attributes.meaning)}</Text>
       </Pressable>)}
     </View>) : null}
-    {expanded && selected.length ? <>{action(uiT("ui.dynamic_2198a8013e81", {value1: (selected.length)}), () => setChecking(items.filter(item => selected.includes(item.id))))}{action("Stop Selecting", () => setSelected([]))}</> : null}
+    {expanded && selected.length ? <>{action(`Knowledge Check ${selected.length} selected`, () => setChecking(items.filter(item => selected.includes(item.id))))}{action("Stop Selecting", () => setSelected([]))}</> : null}
     {selected.length === 1 && typeof items.find(item => item.id === selected[0])?.resource.attributes.slug === "string" ? action("Open in Bunpro", () => { const item = items.find(item => item.id === selected[0]); if (item) void Linking.openURL(`https://bunpro.jp/vocabs/${encodeURIComponent(String(item.resource.attributes.slug))}`); }) : null}
     {checking ? <KnowledgeCheck items={checking} deckId={deckId} onClose={() => setChecking(null)} onSaved={() => { setSelected([]); setAttempt(value => value + 1); }} /> : null}
   </View>;
 }
 
 function KnowledgeCheck({ items, deckId, onClose, onSaved }: { items: ReturnType<typeof coverageItems>; deckId?: number; onClose: () => void; onSaved: () => void }) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -76,8 +73,8 @@ function KnowledgeCheck({ items, deckId, onClose, onSaved }: { items: ReturnType
   const button = (label: string, onPress: () => void, color?: string) => <Pressable accessibilityRole="button" disabled={saving} onPress={onPress} style={{ minHeight: 44, padding: 12, borderRadius: 8, backgroundColor: color ?? theme.cardBackground, borderColor: theme.border, borderWidth: 1 }}><Text style={{ color: color ? "white" : theme.textColor }}>{label}</Text></Pressable>;
   return <Modal transparent animationType="fade" onRequestClose={() => { if (!saving) onClose(); }}>
     <View style={{ flex: 1, justifyContent: "center", padding: 24, backgroundColor: "#0007" }}><ScrollView accessibilityViewIsModal style={{ maxHeight: "85%", borderRadius: 12, backgroundColor: theme.backgroundColor }} contentContainerStyle={{ padding: 24, gap: 16 }}>
-      <Text accessibilityRole="header" style={{ fontSize: 22, color: theme.textColor }}>{uiT("ui.knowledge_check_987b69d5")}</Text>
-      {item ? <><Text style={{ color: theme.textSecondary }}>{index + 1}/{items.length}</Text><Text style={{ fontSize: 36, color: theme.textColor }}>{sanitizeText(item.resource.attributes.title)}</Text>{revealed ? <><Text style={{ color: theme.textSecondary }}>{sanitizeText(item.resource.attributes.kana)} · {sanitizeText(item.resource.attributes.meaning)}</Text><Text style={{ color: theme.textColor }}>{uiT("ui.how_well_do_you_know_this_word_84052ec7")}</Text>{grades.map(([streak, label]) => <React.Fragment key={streak}>{button(label, () => grade(streak), coverageStage(streak).color)}</React.Fragment>)}</> : button("Show meaning", () => setRevealed(true))}{button("Skip", () => grade())}</> : <><Text style={{ color: theme.textColor }}>{uiT("ui.choose_where_these_words_start_in_bunpro_skipped_words_stay_uncha_04f697f3")}</Text>{grades.map(([streak, label]) => { const count = Object.values(assigned).filter(value => value === streak).length; return count ? <Text key={streak} style={{ color: theme.textColor }}>{label}: {count}</Text> : null; })}{error ? <Text accessibilityRole="alert" style={{ color: theme.error }}>{error}</Text> : null}{button(saving ? "Saving…" : "Save progress", () => { void save(); })}</>}
+      <Text accessibilityRole="header" style={{ fontSize: 22, color: theme.textColor }}>Knowledge Check</Text>
+      {item ? <><Text style={{ color: theme.textSecondary }}>{index + 1}/{items.length}</Text><Text style={{ fontSize: 36, color: theme.textColor }}>{sanitizeText(item.resource.attributes.title)}</Text>{revealed ? <><Text style={{ color: theme.textSecondary }}>{sanitizeText(item.resource.attributes.kana)} · {sanitizeText(item.resource.attributes.meaning)}</Text><Text style={{ color: theme.textColor }}>How well do you know this word?</Text>{grades.map(([streak, label]) => <React.Fragment key={streak}>{button(label, () => grade(streak), coverageStage(streak).color)}</React.Fragment>)}</> : button("Show meaning", () => setRevealed(true))}{button("Skip", () => grade())}</> : <><Text style={{ color: theme.textColor }}>Choose where these words start in Bunpro. Skipped words stay unchanged.</Text>{grades.map(([streak, label]) => { const count = Object.values(assigned).filter(value => value === streak).length; return count ? <Text key={streak} style={{ color: theme.textColor }}>{label}: {count}</Text> : null; })}{error ? <Text accessibilityRole="alert" style={{ color: theme.error }}>{error}</Text> : null}{button(saving ? "Saving…" : "Save progress", () => { void save(); })}</>}
       {button("Cancel", onClose)}
     </ScrollView></View>
   </Modal>;

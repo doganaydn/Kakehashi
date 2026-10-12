@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -91,7 +90,6 @@ function matchesJapaneseAnswer(input: string, expected: string): boolean {
 }
 
 export default function AsrReadingDebugScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const router = useRouter();
@@ -575,7 +573,7 @@ export default function AsrReadingDebugScreen() {
       setIsRecognitionAvailable(available);
 
       if (!available) {
-        setVoiceError(uiT("ui.message_dc6cbc309fb4"));
+        setVoiceError("Speech recognition is not available on this device.");
         return false;
       }
 
@@ -586,7 +584,7 @@ export default function AsrReadingDebugScreen() {
       return result.granted;
     } catch (error) {
       console.error("ASR debug: permission check failed", error);
-      setVoiceError(uiT("ui.message_4e7cecda89c3"));
+      setVoiceError("Unable to check microphone/speech permissions.");
       return false;
     }
   }, [useOnDeviceRecognition]);
@@ -598,13 +596,13 @@ export default function AsrReadingDebugScreen() {
         : await ExpoSpeechRecognitionModule.requestPermissionsAsync();
 
       if (!result.granted) {
-        setVoiceError(uiT("ui.message_b0375de83dab"));
+        setVoiceError("Microphone permission is required.");
       }
 
       return result.granted;
     } catch (error) {
       console.error("ASR debug: permission request failed", error);
-      setVoiceError(uiT("ui.message_be32ea6b670f"));
+      setVoiceError("Unable to request microphone/speech permissions.");
       return false;
     }
   }, [useOnDeviceRecognition]);
@@ -641,7 +639,7 @@ export default function AsrReadingDebugScreen() {
       });
     } catch (error) {
       console.error("ASR debug: failed to start recognition", error);
-      setVoiceError(uiT("ui.message_817e17f60198"));
+      setVoiceError("Failed to start speech recognition.");
     }
   }, [
     acceptedReadings,
@@ -713,7 +711,7 @@ export default function AsrReadingDebugScreen() {
         console.error("ASR debug: failed to build WK reading map", error);
         if (!cancelled) {
           setWkReadingMapError(
-            uiT("ui.message_eda6dfc2540a"),
+            "Failed to build WaniKani reading map from cache.",
           );
           setWkReadingMap({});
           setWkSingleKanjiReadingMap({});
@@ -827,14 +825,17 @@ export default function AsrReadingDebugScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {uiT("ui.asr_reading_debug_3311a8b0")} </Text>
+            ASR Reading Debug
+          </Text>
         </View>
         <View style={styles.centeredContent}>
           <Ionicons name="lock-closed-outline" size={36} color={theme.error} />
           <Text style={[styles.lockedTitle, { color: theme.textColor }]}>
-            {uiT("ui.access_restricted_a3966fe9")} </Text>
+            Access Restricted
+          </Text>
           <Text style={[styles.lockedSubtitle, { color: theme.textSecondary }]}>
-            {uiT("ui.this_screen_is_only_available_to_user_portego_1ffc26ae")} </Text>
+            This screen is only available to user Portego.
+          </Text>
         </View>
       </View>
     );
@@ -853,7 +854,8 @@ export default function AsrReadingDebugScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.asr_reading_debug_3311a8b0")} </Text>
+          ASR Reading Debug
+        </Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -864,7 +866,8 @@ export default function AsrReadingDebugScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.expected_reading_hiragana_08abdec4")} </Text>
+            Expected Reading (Hiragana)
+          </Text>
           <TextInput
             value={expectedReading}
             onChangeText={setExpectedReading}
@@ -880,21 +883,24 @@ export default function AsrReadingDebugScreen() {
             ]}
           />
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.primary_expected_reading_9f8a4cc7")}{" "}
+            Primary expected reading:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {normalizedExpectedReading || "—"}
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.accepted_readings_normalized_b409e16b")}{" "}
+            Accepted readings (normalized):{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
-              [{acceptedReadings.join(", ") || uiT("ui.empty_2e1cfa82")}]
+              [{acceptedReadings.join(", ") || "empty"}]
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.tip_you_can_enter_multiple_accepted_readings_separated_by_comma_o_a543a650")} </Text>
+            Tip: you can enter multiple accepted readings separated by comma or
+            space.
+          </Text>
           <Text style={[styles.sectionTitle, { color: theme.textColor, marginTop: 12 }]}>
-            {uiT("ui.expected_answer_in_kanji_ee498019")} </Text>
+            Expected Answer In Kanji
+          </Text>
           <TextInput
             value={expectedKanji}
             onChangeText={setExpectedKanji}
@@ -910,23 +916,26 @@ export default function AsrReadingDebugScreen() {
             ]}
           />
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.normalized_expected_kanji_d8121620")}{" "}
+            Normalized expected kanji:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {normalizedExpectedKanji || "—"}
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.contextualstrings_38c0665c")}{" "}
+            `contextualStrings`:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
-              [{acceptedReadings.join(", ") || uiT("ui.empty_2e1cfa82")}]
+              [{acceptedReadings.join(", ") || "empty"}]
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.lang_ja_jp_maxalternatives_ce35a5a5")} {MAX_ALTERNATIVES}{uiT("ui.iostaskhint_confirmation_8e852978")} </Text>
+            `lang`: ja-JP, `maxAlternatives`: {MAX_ALTERNATIVES}, `iosTaskHint`:
+            confirmation
+          </Text>
           {Platform.OS === "ios" && (
             <View style={styles.onDeviceRow}>
               <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-                {uiT("ui.on_device_recognition_100924ae")} </Text>
+                On-device recognition
+              </Text>
               <Switch
                 value={useOnDeviceRecognition}
                 onValueChange={setUseOnDeviceRecognition}
@@ -959,7 +968,7 @@ export default function AsrReadingDebugScreen() {
               color="white"
             />
             <Text style={styles.actionButtonText}>
-              {isRecognizing ? uiT("ui.stop_cae7d57b") : uiT("ui.start_e4bb9f1e")}
+              {isRecognizing ? "Stop" : "Start"}
             </Text>
           </TouchableOpacity>
 
@@ -969,7 +978,7 @@ export default function AsrReadingDebugScreen() {
             activeOpacity={0.8}
           >
             <Ionicons name="trash-outline" size={18} color="white" />
-            <Text style={styles.actionButtonText}>{uiT("ui.clear_83b12c22")}</Text>
+            <Text style={styles.actionButtonText}>Clear</Text>
           </TouchableOpacity>
         </View>
 
@@ -980,45 +989,46 @@ export default function AsrReadingDebugScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.live_status_8b9c58df")} </Text>
+            Live Status
+          </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.recognizer_b077697d")}{" "}
+            Recognizer:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
-              {isRecognizing ? uiT("ui.listening_2efa9bd9") : uiT("ui.idle_ab0171ca")}
+              {isRecognizing ? "Listening..." : "Idle"}
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.recognition_available_b2a5a256")}{" "}
+            Recognition available:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
-              {isRecognitionAvailable ? uiT("ui.yes_85a39ab3") : uiT("ui.no_1ea442a1")}
+              {isRecognitionAvailable ? "Yes" : "No"}
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.wk_reading_map_49562ca6")}{" "}
+            WK reading map:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
-              {isWkReadingMapLoading ? uiT("ui.building_c1e75128") : uiT("ui.ready_5fa7aac5")}
+              {isWkReadingMapLoading ? "Building..." : "Ready"}
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.cached_subjects_5ef28b93")}{" "}
+            Cached subjects:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {wkSubjectCount}
             </Text>{" "}
-            {uiT("ui.word_map_entries_3ab3aa86")}{" "}
+            • Word map entries:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {wkReadingMapEntryCount}
             </Text>{" "}
-            {uiT("ui.single_kanji_entries_b841c05b")}{" "}
+            • Single kanji entries:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {wkSingleKanjiEntryCount}
             </Text>{" "}
-            {uiT("ui.known_readings_323d0b2d")}{" "}
+            • Known readings:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {wkReadingMapReadingCount}
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.live_kana_most_probable_97e95301")}{" "}
+            Live kana (most probable):{" "}
             <Text
               style={[
                 styles.metaValue,
@@ -1030,7 +1040,7 @@ export default function AsrReadingDebugScreen() {
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.live_probability_5b500720")}{" "}
+            Live probability:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {liveKanaProbability !== null
                 ? formatConfidence(liveKanaProbability)
@@ -1038,7 +1048,7 @@ export default function AsrReadingDebugScreen() {
             </Text>
           </Text>
           <Text style={[styles.metaText, { color: theme.textSecondary }]}>
-            {uiT("ui.top_kana_options_d8f5ff76")}{" "}
+            Top kana options:{" "}
             <Text style={[styles.metaValue, { color: theme.textColor }]}>
               {liveKanaCandidates.length > 0
                 ? liveKanaCandidates
@@ -1078,10 +1088,12 @@ export default function AsrReadingDebugScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.latest_alternatives_2ba7ffcb")} </Text>
+            Latest Alternatives
+          </Text>
           {latestAlternatives.length === 0 ? (
             <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-              {uiT("ui.no_alternatives_yet_start_recording_and_speak_one_reading_7ed4fbe2")} </Text>
+              No alternatives yet. Start recording and speak one reading.
+            </Text>
           ) : (
             latestAlternatives.map((alternative, index) => (
               <View
@@ -1114,7 +1126,7 @@ export default function AsrReadingDebugScreen() {
                       },
                     ]}
                   >
-                    {alternative.isExpected ? uiT("ui.match_eaa42a15") : uiT("ui.no_match_16826644")}
+                    {alternative.isExpected ? "MATCH" : "NO MATCH"}
                   </Text>
                 </View>
                 <Text
@@ -1124,14 +1136,14 @@ export default function AsrReadingDebugScreen() {
                     fontStyles.japaneseText,
                   ]}
                 >
-                  {uiT("ui.kana_guess_3e1ecd4b")} {alternative.bestKanaCandidate || "—"}
+                  Kana guess: {alternative.bestKanaCandidate || "—"}
                 </Text>
                 <Text style={[styles.altMeta, { color: theme.textSecondary }]}>
-                  {uiT("ui.kana_source_139f6c77")} {alternative.bestKanaSource}
+                  Kana source: {alternative.bestKanaSource}
                 </Text>
                 <Text style={[styles.altMeta, { color: theme.textSecondary }]}>
-                  {uiT("ui.matches_expected_reading_5189ddeb")}{" "}
-                  {alternative.bestKanaMatchesExpectedReading ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f")}
+                  Matches expected reading:{" "}
+                  {alternative.bestKanaMatchesExpectedReading ? "yes" : "no"}
                 </Text>
                 <Text
                   style={[
@@ -1140,7 +1152,7 @@ export default function AsrReadingDebugScreen() {
                     fontStyles.japaneseText,
                   ]}
                 >
-                  {uiT("ui.reading_match_sources_47266fbe")}{" "}
+                  Reading match sources:{" "}
                   {alternative.readingMatchSources.join(", ") || "none"}
                 </Text>
                 <Text
@@ -1150,7 +1162,7 @@ export default function AsrReadingDebugScreen() {
                     fontStyles.japaneseText,
                   ]}
                 >
-                  {uiT("ui.wk_readings_193fd041")} {alternative.wkReadings.join(", ") || "none"}
+                  WK readings: {alternative.wkReadings.join(", ") || "none"}
                 </Text>
                 <Text
                   style={[
@@ -1159,24 +1171,26 @@ export default function AsrReadingDebugScreen() {
                     fontStyles.japaneseText,
                   ]}
                 >
-                  {uiT("ui.composed_readings_79d6da23")}{" "}
+                  Composed readings:{" "}
                   {alternative.composedReadingsPreview.join(", ") || "none"}
                   {alternative.composedReadingsTotal >
                   alternative.composedReadingsPreview.length
-                    ? uiT("ui.value_7c827d57", {value1: (alternative.composedReadingsTotal -
-                        alternative.composedReadingsPreview.length)})
+                    ? ` ... (+${
+                        alternative.composedReadingsTotal -
+                        alternative.composedReadingsPreview.length
+                      })`
                     : ""}
-                  {alternative.composedReadingsCapped ? uiT("ui.capped_1f77c393") : ""}
+                  {alternative.composedReadingsCapped ? " (capped)" : ""}
                 </Text>
                 <Text style={[styles.altMeta, { color: theme.textSecondary }]}>
-                  {uiT("ui.direct_kana_match_5e37a418")} {alternative.directKanaMatch ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f")}
-                  {"  "}•{"  "}{uiT("ui.wk_map_match_7fd87d27")} {alternative.wkMapMatch ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f")}
-                  {"  "}•{"  "}{uiT("ui.composed_match_5e2a5b66")}{" "}
-                  {alternative.composedKanjiMatch ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f")}
+                  Direct kana match: {alternative.directKanaMatch ? "yes" : "no"}
+                  {"  "}•{"  "}WK map match: {alternative.wkMapMatch ? "yes" : "no"}
+                  {"  "}•{"  "}Composed match:{" "}
+                  {alternative.composedKanjiMatch ? "yes" : "no"}
                 </Text>
                 <Text style={[styles.altMeta, { color: theme.textSecondary }]}>
-                  {uiT("ui.expected_kanji_match_0ef5e444")}{" "}
-                  {alternative.expectedKanjiMatch ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f")}
+                  Expected kanji match:{" "}
+                  {alternative.expectedKanjiMatch ? "yes" : "no"}
                 </Text>
               </View>
             ))
@@ -1194,10 +1208,12 @@ export default function AsrReadingDebugScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.result_event_history_7f3e9baa")} </Text>
+            Result Event History
+          </Text>
           {resultHistory.length === 0 ? (
             <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-              {uiT("ui.no_result_events_captured_yet_880d3563")} </Text>
+              No result events captured yet.
+            </Text>
           ) : (
             resultHistory.map((event) => (
               <View
@@ -1208,7 +1224,7 @@ export default function AsrReadingDebugScreen() {
                 ]}
               >
                 <Text style={[styles.historyEventTitle, { color: theme.textColor }]}>
-                  {event.isFinal ? uiT("ui.final_f4ed8fa6") : uiT("ui.interim_93539c18")} •{" "}
+                  {event.isFinal ? "Final" : "Interim"} •{" "}
                   {new Date(event.createdAt).toLocaleTimeString()}
                 </Text>
                 {event.alternatives.map((alternative, index) => (
@@ -1223,10 +1239,12 @@ export default function AsrReadingDebugScreen() {
                       },
                     ]}
                   >
-                    #{index + 1} {uiT("ui.kana_f74d3e50")}{alternative.bestKanaCandidate || "—"} (
-                    {formatConfidence(alternative.confidence)}{uiT("ui.source_338d330b")} {alternative.bestKanaSource}{uiT("ui.match_9bbb75d5")} {alternative.bestKanaMatchesExpectedReading ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f")}]
+                    #{index + 1} kana:{alternative.bestKanaCandidate || "—"} (
+                    {formatConfidence(alternative.confidence)}) [source:
+                    {alternative.bestKanaSource}] [match:
+                    {alternative.bestKanaMatchesExpectedReading ? "yes" : "no"}]
                     {normalizedExpectedKanji
-                      ? uiT("ui.kanji_value_eb3cd3d3", {value1: (alternative.expectedKanjiMatch ? uiT("ui.yes_8a798890") : uiT("ui.no_9390298f"))})
+                      ? ` [kanji:${alternative.expectedKanjiMatch ? "yes" : "no"}]`
                       : ""}
                   </Text>
                 ))}

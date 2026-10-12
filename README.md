@@ -2,7 +2,7 @@
 
 This is a personal fork of [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi), updated through upstream commit [`e9d29f4`](https://github.com/Portego-00/Kakehashi/commit/e9d29f4bae5eb8c7f673cb43c0bd5adaf527304a), including Android home screen widgets and the settings redesign. The original project and its design remain the foundation of this work.
 
-The `turkish-content` branch adds an optional, locally imported JSON translation package. Learning content uses Turkish from a separate file. Android also has a separate English/Turkish interface setting under **Settings → Appearance → App language**, with English as the default. This prototype currently accepts `tr` learning packages only. Missing or outdated learning translations fall back to the original English.
+The `turkish-content` branch adds an optional, locally imported JSON translation package. The interface stays in English; learning content uses Turkish from a separate file. This prototype currently accepts `tr` packages only. Missing or outdated translations fall back to the original English.
 
 - Meanings for radicals, kanji, vocabulary and kana vocabulary.
 - Japanese example sentences with translated text and separate usage explanations.
@@ -14,11 +14,11 @@ The `turkish-content` branch adds an optional, locally imported JSON translation
 - Translation package and synonym transfer settings are available under Appearance and can be found through the new settings search.
 - A separate [selective Turkish synonym transfer](docs/turkish-synonym-transfer.md) lets users choose levels, topic types, study states and individual meanings before explicitly confirming an account update. History supports pause/resume and undo of recorded additions.
 
-The implementation was developed with AI assistance as a working prototype. The previous Android build was reported working by its user. The new interface-language work has focused regression tests, while its device and full linguistic review are still pending. Turkish UI resources include machine-generated drafts and individually corrected strings; they are not all independently reviewed translations. The full project TypeScript check still reports errors. This fork is not an official Kakehashi release.
+The implementation was developed with AI assistance as a working prototype. Earlier builds have been tested on an Android device. The latest merged build passed 266 focused tests and was compiled for Android arm64, but its device check is still pending. The full project TypeScript check still reports errors; this prototype needs maintainer review before being considered for the original app. This fork is not an official Kakehashi release.
 
 See [the feature and format guide](docs/optional-translation-packages.md). The current Turkish package, **v1.5.0**, includes **491 radical meanings, 2,101 kanji meanings, 6,757 vocabulary meanings, 60 kana vocabulary meanings, and 5,522 example sentences covering levels 1–15**. Meanings cover levels 1–60. Download [wanikani-tr-v3.json](translation-packages/wanikani-tr-v3.json), then use **Settings → Appearance → Import translation file → Use this package** in the personal Android app. The JSON package is separate from the APK; updating the APK does not automatically replace an imported package. Translation preparation, review and personal approval are separate. Sentence translations and usage explanations received a separate second pass with the same AI model, not an independent expert review; package validation does not certify linguistic accuracy.
 
-A separate [UI localization source inventory](localization/ARAYUZ-CEVIRI-KAPSAMI.md) covers mobile, web and native interface candidates. The [Android implementation and review record](localization/ANDROID-YERELLESTIRME.md) explains the runtime resources, native widgets/notifications, exclusions and remaining checks. Interface language is independent of learning packages and does not modify account synonyms or answer grading.
+A separate [UI localization source inventory](localization/ARAYUZ-CEVIRI-KAPSAMI.md) covers mobile, web and native interface strings for future translation. It is a candidate inventory, including unresolved/dynamic cases; it does not change the current English interface.
 
 ---
 

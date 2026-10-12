@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { ErrorCode, useIAP } from "expo-iap";
 import { LinearGradient } from "expo-linear-gradient";
@@ -64,8 +63,8 @@ const TIP_OPTIONS: TipOption[] = [
   {
     id: "small",
     productId: TIP_PRODUCT_IDS.SMALL,
-    get title() { return uiT("ui.small_tip_19c718ec"); },
-    get subtitle() { return uiT("ui.buy_me_a_coffee_f65a6e40"); },
+    title: "Small Tip",
+    subtitle: "Buy me a coffee",
     price: "$2.99",
     defaultPrice: "$2.99",
     imagePlaceholder: "cafe-outline",
@@ -74,8 +73,8 @@ const TIP_OPTIONS: TipOption[] = [
   {
     id: "medium",
     productId: TIP_PRODUCT_IDS.MEDIUM,
-    get title() { return uiT("ui.medium_tip_b1f27157"); },
-    get subtitle() { return uiT("ui.buy_me_a_beer_d6239a18"); },
+    title: "Medium Tip",
+    subtitle: "Buy me a beer",
     price: "$4.99",
     defaultPrice: "$4.99",
     imagePlaceholder: "beer-outline",
@@ -84,8 +83,8 @@ const TIP_OPTIONS: TipOption[] = [
   {
     id: "large",
     productId: TIP_PRODUCT_IDS.LARGE,
-    get title() { return uiT("ui.large_tip_91c2bcfd"); },
-    get subtitle() { return uiT("ui.buy_me_lunch_74dabace"); },
+    title: "Large Tip",
+    subtitle: "Buy me lunch",
     price: "$9.99",
     defaultPrice: "$9.99",
     imagePlaceholder: "fast-food-outline",
@@ -94,8 +93,8 @@ const TIP_OPTIONS: TipOption[] = [
   {
     id: "xlarge",
     productId: TIP_PRODUCT_IDS.XLARGE,
-    get title() { return uiT("ui.generous_tip_1fec0d3c"); },
-    get subtitle() { return uiT("ui.support_development_c3008f19"); },
+    title: "Generous Tip",
+    subtitle: "Support development",
     price: "$19.99",
     defaultPrice: "$19.99",
     imagePlaceholder: "gift-outline",
@@ -106,7 +105,6 @@ const TIP_OPTIONS: TipOption[] = [
 const PATREON_URL = "https://www.patreon.com/15731284/join";
 
 export default function TipDeveloperScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
   const gravatarEmail = useSettingsStore((state) => state.gravatarEmail);
@@ -176,9 +174,9 @@ export default function TipDeveloperScreen() {
       }
 
       Alert.alert(
-        uiT("ui.purchase_failed_e46464aa"),
-        uiT("ui.something_went_wrong_you_have_not_been_charged_please_try_again_l_82c38cc9"),
-        [{ text: uiT("ui.ok_565339bc") }]
+        "Purchase Failed",
+        "Something went wrong. You have not been charged. Please try again later.",
+        [{ text: "OK" }]
       );
     },
   });
@@ -220,9 +218,9 @@ export default function TipDeveloperScreen() {
   const handlePurchase = async () => {
     if (!connected) {
       Alert.alert(
-        uiT("ui.not_connected_87d82c04"),
-        uiT("ui.unable_to_connect_to_the_store_please_check_your_internet_connect_f1a71e54"),
-        [{ text: uiT("ui.ok_565339bc") }]
+        "Not Connected",
+        "Unable to connect to the store. Please check your internet connection.",
+        [{ text: "OK" }]
       );
       return;
     }
@@ -247,9 +245,9 @@ export default function TipDeveloperScreen() {
 
       if (error?.code !== ErrorCode.UserCancelled) {
         Alert.alert(
-          uiT("ui.purchase_failed_e46464aa"),
-          uiT("ui.unable_to_process_your_purchase_please_try_again_later_731790d1"),
-          [{ text: uiT("ui.ok_565339bc") }]
+          "Purchase Failed",
+          "Unable to process your purchase. Please try again later.",
+          [{ text: "OK" }]
         );
       }
     }
@@ -270,8 +268,8 @@ export default function TipDeveloperScreen() {
     const didOpenReviewFlow = await rateAppService.openRateAppFlow();
     if (!didOpenReviewFlow) {
       Alert.alert(
-        uiT("ui.unable_to_open_store_e966344d"),
-        uiT("ui.could_not_open_the_app_rating_flow_please_try_again_later_2acee322")
+        "Unable to Open Store",
+        "Could not open the app rating flow. Please try again later."
       );
     }
   };
@@ -281,8 +279,8 @@ export default function TipDeveloperScreen() {
       const canOpenPatreon = await Linking.canOpenURL(PATREON_URL);
       if (!canOpenPatreon) {
         Alert.alert(
-          uiT("ui.unable_to_open_patreon_0e0779a9"),
-          uiT("ui.could_not_open_patreon_right_now_please_try_again_later_e1ecbcbb")
+          "Unable to Open Patreon",
+          "Could not open Patreon right now. Please try again later."
         );
         return;
       }
@@ -291,8 +289,8 @@ export default function TipDeveloperScreen() {
     } catch (error) {
       console.error("❌ Failed to open Patreon URL:", error);
       Alert.alert(
-        uiT("ui.unable_to_open_patreon_0e0779a9"),
-        uiT("ui.could_not_open_patreon_right_now_please_try_again_later_e1ecbcbb")
+        "Unable to Open Patreon",
+        "Could not open Patreon right now. Please try again later."
       );
     }
   };
@@ -335,7 +333,8 @@ export default function TipDeveloperScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <View style={styles.centerContainer}>
           <Text style={[styles.errorText, { color: theme.textColor }]}>
-            {uiT("ui.in_app_purchases_are_only_available_on_ios_and_android_devices_3b67f920")} </Text>
+            In-app purchases are only available on iOS and Android devices.
+          </Text>
         </View>
       </View>
     );
@@ -387,14 +386,15 @@ export default function TipDeveloperScreen() {
             { color: theme.isDark ? "#FFFFFF" : "#333333" },
           ]}
         >
-          {uiT("ui.support_this_app_2c6a378d")} </Text>
+          Support This App
+        </Text>
       </View>
 
       {!connected || isLoadingProducts ? (
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color="#FFFFFF" />
           <Text style={styles.loadingText}>
-            {!connected ? uiT("ui.connecting_to_store_fd12360f") : uiT("ui.loading_options_0a1a7f01")}
+            {!connected ? "Connecting to store..." : "Loading options..."}
           </Text>
         </View>
       ) : (
@@ -423,7 +423,9 @@ export default function TipDeveloperScreen() {
                   },
                 ]}
               >
-                {uiT("ui.your_support_helps_me_continue_improving_this_app_and_adding_new_d4a0fd81")} </Text>
+                Your support helps me continue improving this app and adding new
+                features
+              </Text>
             </View>
 
             {/* Quick Support Actions */}
@@ -448,7 +450,8 @@ export default function TipDeveloperScreen() {
                 <Text
                   style={[styles.supportActionTitle, { color: theme.textColor }]}
                 >
-                  {uiT("ui.rate_app_b2eeb197")} </Text>
+                  Rate App
+                </Text>
                 <Text
                   style={[
                     styles.supportActionSubtitle,
@@ -459,7 +462,8 @@ export default function TipDeveloperScreen() {
                     },
                   ]}
                 >
-                  {uiT("ui.help_others_find_kakehashi_4855a667")} </Text>
+                  Help others find Kakehashi
+                </Text>
               </TouchableOpacity>
 
               {shouldShowPatreonOption && (
@@ -500,7 +504,8 @@ export default function TipDeveloperScreen() {
                       },
                     ]}
                   >
-                    {uiT("ui.recurring_monthly_support_e1af6ebe")} </Text>
+                    Recurring monthly support
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -533,7 +538,8 @@ export default function TipDeveloperScreen() {
                   },
                 ]}
               >
-                {uiT("ui.one_time_tips_1f14b485")} </Text>
+                One-time tips
+              </Text>
               <View
                 style={[
                   styles.oneTimeTipsDivider,
@@ -712,7 +718,8 @@ export default function TipDeveloperScreen() {
                     },
                   ]}
                 >
-                  {uiT("ui.secure_payment_via_apple_google_c062d761")} </Text>
+                  Secure payment via Apple/Google
+                </Text>
               </View>
               <View style={styles.infoItem}>
                 <Ionicons
@@ -732,7 +739,8 @@ export default function TipDeveloperScreen() {
                     },
                   ]}
                 >
-                  {uiT("ui.one_time_purchase_no_subscription_5f8003a4")} </Text>
+                  One-time purchase, no subscription
+                </Text>
               </View>
             </View>
 
@@ -780,7 +788,7 @@ export default function TipDeveloperScreen() {
                 ) : (
                   <>
                     <Text style={styles.purchaseButtonText}>
-                      {uiT("ui.continue_with_d2b79489")} {selectedOption?.title}
+                      Continue with {selectedOption?.title}
                     </Text>
                     <Text style={styles.purchaseButtonPrice}>
                       {selectedOption &&
@@ -804,7 +812,8 @@ export default function TipDeveloperScreen() {
                 },
               ]}
             >
-              {uiT("ui.100_goes_to_supporting_app_development_aa123930")} </Text>
+              100% goes to supporting app development
+            </Text>
           </View>
         </View>
       )}
@@ -833,9 +842,11 @@ export default function TipDeveloperScreen() {
               </View>
 
               {/* Thank You Message */}
-              <Text style={styles.successTitle}>{uiT("ui.thank_you_6b20d70f")}</Text>
+              <Text style={styles.successTitle}>Thank You! 🎉</Text>
               <Text style={styles.successMessage}>
-                {uiT("ui.your_support_means_the_world_to_me_it_helps_keep_this_app_running_ae066f63")} </Text>
+                Your support means the world to me! It helps keep this app
+                running and motivates me to add more features.
+              </Text>
 
               {/* Appreciation Note */}
               <View style={styles.appreciationContainer}>
@@ -845,7 +856,8 @@ export default function TipDeveloperScreen() {
                   color="rgba(255,255,255,0.9)"
                 />
                 <Text style={styles.appreciationText}>
-                  {uiT("ui.you_re_awesome_for_supporting_independent_development_1398b663")} </Text>
+                  You&apos;re awesome for supporting independent development!
+                </Text>
               </View>
 
               {/* Close Button */}
@@ -857,7 +869,7 @@ export default function TipDeveloperScreen() {
                 }}
                 activeOpacity={0.8}
               >
-                <Text style={styles.successCloseButtonText}>{uiT("ui.done_11a6767d")}</Text>
+                <Text style={styles.successCloseButtonText}>Done</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>

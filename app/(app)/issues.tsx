@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -28,7 +27,6 @@ const SEARCH_FETCH_LIMIT = 200;
 type StatusFilter = "open" | "closed";
 
 export default function CommunityTab() {
-  useInterfaceLanguage();
   const PAGE_SIZE = 20;
 
   const router = useRouter();
@@ -371,7 +369,7 @@ export default function CommunityTab() {
             <Ionicons name="arrow-back" size={24} color={theme.headerText} />
           </TouchableOpacity>
           <Text style={[styles.title, { color: theme.headerText }]}>
-            {view === "activity" ? uiT("ui.my_activity_6376be73") : filter === "closed" ? uiT("ui.closed_issues_32976cd1") : uiT("ui.issues_666067dd")}
+            {view === "activity" ? "My activity" : filter === "closed" ? "Closed issues" : "Issues"}
           </Text>
 
         </View>
@@ -434,14 +432,16 @@ export default function CommunityTab() {
               color={theme.textLight}
             />
             <Text style={[styles.offlineTitle, { color: theme.textColor }]}>
-              {uiT("ui.unable_to_load_issues_40f2a803")} </Text>
+              Unable to Load Issues
+            </Text>
             <Text style={[styles.offlineText, { color: theme.textSecondary }]}>
-              {uiT("ui.connect_to_wifi_to_view_community_issues_7760ad99")} </Text>
+              Connect to WiFi to view community issues
+            </Text>
             <TouchableOpacity
               style={[styles.retryButton, { backgroundColor: theme.primary }]}
               onPress={() => fetchIssues(true, filter, sortBy, false)}
             >
-              <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
+              <Text style={styles.retryButtonText}>Retry</Text>
             </TouchableOpacity>
           </View>
         ) : (

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import {
   HanziWriter,
@@ -496,7 +495,6 @@ function GridOverlay({
   size: number;
   color: string;
 }) {
-  useInterfaceLanguage();
   return (
     <Svg
       width={size}
@@ -535,7 +533,6 @@ export default function KanjiFreehandQuiz({
   onNext,
   onUnavailable,
 }: KanjiFreehandQuizProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const isTablet = screenWidth >= 768;
@@ -985,7 +982,8 @@ export default function KanjiFreehandQuiz({
           <View style={styles.loadingInner}>
             <ActivityIndicator size="large" color={theme.primary} />
             <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-              {uiT("ui.loading_47d2a515")} </Text>
+              Loading...
+            </Text>
           </View>
         </View>
       </View>
@@ -1021,14 +1019,15 @@ export default function KanjiFreehandQuiz({
                 { color: hasReplacement ? theme.textColor : theme.error },
               ]}
             >
-              {uiT("ui.stroke_data_not_available_65d50934")} </Text>
+              Stroke data not available
+            </Text>
             <Text style={[styles.errorSubtext, { color: theme.textSecondary }]}>
               {character}
             </Text>
             <Text style={[styles.autoSkipText, { color: theme.textSecondary }]}>
               {hasReplacement
-                ? uiT("ui.finding_another_kanji_a99535f4")
-                : uiT("ui.skipping_automatically_c374906a")}
+                ? "Finding another kanji..."
+                : "Skipping automatically..."}
             </Text>
           </View>
         </View>
@@ -1039,7 +1038,7 @@ export default function KanjiFreehandQuiz({
           >
             <Ionicons name="arrow-forward" size={18} color="#fff" />
             <Text style={styles.skipButtonText}>
-              {hasReplacement ? uiT("ui.next_1ff57a29") : uiT("ui.skip_now_e174ab1a")}
+              {hasReplacement ? "Next" : "Skip Now"}
             </Text>
           </TouchableOpacity>
         )}
@@ -1122,7 +1121,7 @@ export default function KanjiFreehandQuiz({
               { color: passes ? "#4caf50" : "#f44336" },
             ]}
           >
-            {mode === "min" ? uiT("ui.value_fec45485", {value1: (value)}) : value}
+            {mode === "min" ? `${value}%` : value}
           </Text>
         </View>
 
@@ -1154,7 +1153,7 @@ export default function KanjiFreehandQuiz({
             {requirementText}
           </Text>
           <Text style={[styles.metricRequirementText, { color: theme.textSecondary }]}>
-            {passes ? uiT("ui.pass_ebdf8cc0") : uiT("ui.fail_09230b3d")}
+            {passes ? "Pass" : "Fail"}
           </Text>
         </View>
       </View>
@@ -1185,7 +1184,8 @@ export default function KanjiFreehandQuiz({
       <View style={styles.metricBlock}>
         <View style={styles.metricHeader}>
           <Text style={[styles.metricLabel, { color: theme.textColor }]}>
-            {uiT("ui.stroke_delta_18d84d96")} </Text>
+            Stroke delta
+          </Text>
           <Text
             style={[
               styles.metricValue,
@@ -1240,7 +1240,7 @@ export default function KanjiFreehandQuiz({
             {rangeMin}
           </Text>
           <Text style={[styles.strokeDeltaAxisText, { color: theme.textSecondary }]}>
-            {uiT("ui.target_34a04005")} {expected}
+            target {expected}
           </Text>
           <Text style={[styles.strokeDeltaAxisText, { color: theme.textSecondary }]}>
             {rangeMax}
@@ -1249,10 +1249,10 @@ export default function KanjiFreehandQuiz({
 
         <View style={styles.metricFooter}>
           <Text style={[styles.metricRequirementText, { color: theme.textSecondary }]}>
-            {uiT("ui.accept_zone_962e993c")} {Math.max(0, expected - allowedDelta)} {uiT("ui.to_663ea1bf")} {expected + allowedDelta}
+            Accept zone {Math.max(0, expected - allowedDelta)} to {expected + allowedDelta}
           </Text>
           <Text style={[styles.metricRequirementText, { color: theme.textSecondary }]}>
-            {details.checks.strokeCount ? uiT("ui.pass_ebdf8cc0") : uiT("ui.fail_09230b3d")}
+            {details.checks.strokeCount ? "Pass" : "Fail"}
           </Text>
         </View>
       </View>
@@ -1379,16 +1379,17 @@ export default function KanjiFreehandQuiz({
           <>
             <Text style={[styles.progressText, { color: "#fff" }]}>
               <Text style={{ fontWeight: "700" }}>
-                {isCorrect ? uiT("ui.correct_e2581a9d") : uiT("ui.incorrect_a8a57dbc")}
+                {isCorrect ? "Correct!" : "Incorrect"}
               </Text>
             </Text>
             <Text style={[styles.mistakesText, { color: "rgba(255,255,255,0.9)" }]}>
-              {uiT("ui.similarity_e2a5b0a4")} {resultDetails.similarityPercent}%
+              Similarity {resultDetails.similarityPercent}%
             </Text>
           </>
         ) : (
           <Text style={[styles.progressText, { color: theme.textColor }]}>
-            {uiT("ui.freehand_mode_0f4f3606")} </Text>
+            Freehand mode
+          </Text>
         )}
       </View>
 
@@ -1409,10 +1410,11 @@ export default function KanjiFreehandQuiz({
             contentContainerStyle={styles.decisionContent}
           >
             <Text style={[styles.decisionTitle, { color: theme.textColor }]}>
-              {uiT("ui.decision_summary_0ce41122")} </Text>
+              Decision Summary
+            </Text>
 
             {renderDecisionBar({
-              label: uiT("ui.similarity_e2a5b0a4"),
+              label: "Similarity",
               value: resultDetails.similarityPercent,
               threshold: resultDetails.thresholds.minSimilarityPercent,
               requirementText: `Minimum ${resultDetails.thresholds.minSimilarityPercent}%`,
@@ -1421,7 +1423,7 @@ export default function KanjiFreehandQuiz({
             })}
 
             {renderDecisionBar({
-              label: uiT("ui.coverage_523487a5"),
+              label: "Coverage",
               value: resultDetails.coveragePercent,
               threshold: resultDetails.thresholds.minCoveragePercent,
               requirementText: `Minimum ${resultDetails.thresholds.minCoveragePercent}%`,
@@ -1432,7 +1434,7 @@ export default function KanjiFreehandQuiz({
             {renderStrokeDeltaBar(resultDetails)}
 
             <Text style={[styles.metricHint, { color: theme.textSecondary }]}>
-              {uiT("ui.stroke_match_45941c34")} {resultDetails.strokeMatchPercent}%
+              Stroke match: {resultDetails.strokeMatchPercent}%
             </Text>
           </ScrollView>
         </View>
@@ -1472,8 +1474,8 @@ export default function KanjiFreehandQuiz({
               ]}
             >
               {isAnimating && isCharacterReplayActive
-                ? uiT("ui.playing_696b21fd")
-                : uiT("ui.replay_correct_cb4f7b8b")}
+                ? "Playing..."
+                : "Replay Correct"}
             </Text>
           </TouchableOpacity>
 
@@ -1508,7 +1510,7 @@ export default function KanjiFreehandQuiz({
                 },
               ]}
             >
-              {isUserReplayActive ? uiT("ui.playing_696b21fd") : uiT("ui.replay_mine_32d46c03")}
+              {isUserReplayActive ? "Playing..." : "Replay Mine"}
             </Text>
           </TouchableOpacity>
 
@@ -1518,7 +1520,7 @@ export default function KanjiFreehandQuiz({
           >
             <Ionicons name="refresh" size={20} color="#fff" />
             <Text style={styles.nextButtonText}>
-              {isCorrect ? uiT("ui.redraw_a7bf939b") : uiT("ui.retry_942087cc")}
+              {isCorrect ? "Redraw" : "Retry"}
             </Text>
           </TouchableOpacity>
 
@@ -1526,7 +1528,7 @@ export default function KanjiFreehandQuiz({
             style={[styles.nextButton, { backgroundColor: "#4caf50" }]}
             onPress={handleNext}
           >
-            <Text style={styles.nextButtonText}>{uiT("ui.next_1ff57a29")}</Text>
+            <Text style={styles.nextButtonText}>Next</Text>
             <Ionicons name="arrow-forward" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -1554,7 +1556,8 @@ export default function KanjiFreehandQuiz({
                   { color: showGrid ? "#fff" : theme.textColor },
                 ]}
               >
-                {uiT("ui.grid_0d7d12ac")} </Text>
+                Grid
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -1578,7 +1581,8 @@ export default function KanjiFreehandQuiz({
                   { color: showOutline ? "#fff" : theme.textColor },
                 ]}
               >
-                {uiT("ui.outline_eabbf3ab")} </Text>
+                Outline
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -1598,7 +1602,8 @@ export default function KanjiFreehandQuiz({
                 color={theme.textColor}
               />
               <Text style={[styles.controlButtonText, { color: theme.textColor }]}>
-                {uiT("ui.clear_83b12c22")} </Text>
+                Clear
+              </Text>
             </TouchableOpacity>
 
             {onSkip && (
@@ -1618,7 +1623,8 @@ export default function KanjiFreehandQuiz({
                   color={theme.textColor}
                 />
                 <Text style={[styles.controlButtonText, { color: theme.textColor }]}>
-                  {uiT("ui.skip_28d03596")} </Text>
+                  Skip
+                </Text>
               </TouchableOpacity>
             )}
           </View>
@@ -1635,7 +1641,7 @@ export default function KanjiFreehandQuiz({
               onPress={handleSubmit}
             >
               <Ionicons name="checkmark-done" size={20} color="#fff" />
-              <Text style={styles.nextButtonText}>{uiT("ui.submit_155f816c")}</Text>
+              <Text style={styles.nextButtonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </>

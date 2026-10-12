@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { Subject } from "./api";
 import { getSubjectTypePriority } from "./subjectSearch";
 
@@ -27,15 +26,15 @@ export const SUBJECT_LIST_ITEM_SORT_OPTIONS: {
   id: SubjectListItemSortMode;
   label: string;
 }[] = [
-  { id: "addedDesc", get label() { return uiT("ui.newest_added_41570f11"); } },
-  { id: "addedAsc", get label() { return uiT("ui.oldest_added_025492e0"); } },
-  { id: "levelAsc", get label() { return uiT("ui.level_low_high_5b73dc99"); } },
-  { id: "levelDesc", get label() { return uiT("ui.level_high_low_f066c662"); } },
-  { id: "type", get label() { return uiT("ui.subject_type_797e2154"); } },
-  { id: "meaningAsc", get label() { return uiT("ui.meaning_a_z_415f6439"); } },
-  { id: "charactersAsc", get label() { return uiT("ui.characters_a_z_cb615169"); } },
-  { id: "srsDesc", get label() { return uiT("ui.srs_high_low_40e5a9c2"); } },
-  { id: "srsAsc", get label() { return uiT("ui.srs_low_high_5b8a5bec"); } },
+  { id: "addedDesc", label: "Newest Added" },
+  { id: "addedAsc", label: "Oldest Added" },
+  { id: "levelAsc", label: "Level Low-High" },
+  { id: "levelDesc", label: "Level High-Low" },
+  { id: "type", label: "Subject Type" },
+  { id: "meaningAsc", label: "Meaning A-Z" },
+  { id: "charactersAsc", label: "Characters A-Z" },
+  { id: "srsDesc", label: "SRS High-Low" },
+  { id: "srsAsc", label: "SRS Low-High" },
 ];
 
 export function isSubjectListItemSortMode(

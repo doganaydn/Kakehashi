@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { createContext, useContext } from "react";
 import { BlockNoteSchema, defaultBlockSpecs, defaultInlineContentSpecs, defaultProps } from "@blocknote/core";
 import { createReactBlockSpec, createReactInlineContentSpec } from "@blocknote/react";
@@ -43,13 +42,11 @@ interface StudyContextValue {
 export const MobileNotebookStudyContext = createContext<StudyContextValue | null>(null);
 
 export function SubjectCharacter({ subject, label }: { subject?: NotebookEditorSubject; label: string }) {
-  useInterfaceLanguage();
   const image = !subject?.data.characters ? subject?.data.character_images?.[0]?.url : undefined;
   return image ? <img className="nb-subject-image" src={image} alt={label} /> : <span lang="ja">{label}</span>;
 }
 
 function WordReference({ subjectId, label, inline = false }: { subjectId: number; label: string; inline?: boolean }) {
-  useInterfaceLanguage();
   const context = useContext(MobileNotebookStudyContext);
   const subject = context?.subjects.get(subjectId);
   const display = subject ? subjectLabel(subject) : label || `Subject ${subjectId}`;
@@ -61,20 +58,18 @@ function WordReference({ subjectId, label, inline = false }: { subjectId: number
 }
 
 function SentenceReference({ sentenceId }: { sentenceId: string }) {
-  useInterfaceLanguage();
   const context = useContext(MobileNotebookStudyContext);
   const sentence = context?.sentences.get(sentenceId);
-  if (!sentence) return <div className="nb-missing" contentEditable={false}><Link2 size={16} aria-hidden /> {uiT("ui.linked_sentence_unavailable_948f448a")}</div>;
+  if (!sentence) return <div className="nb-missing" contentEditable={false}><Link2 size={16} aria-hidden /> Linked sentence unavailable.</div>;
   return <div className="nb-sentence" contentEditable={false}>
-    <div className="nb-sentence-main"><p lang="ja">{sentence.japanese}</p>{!context?.readOnly ? <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_8f16263c9cf9")} onClick={() => context?.onEditSentence(sentenceId)}><Pencil size={17} aria-hidden /></button> : null}</div>
+    <div className="nb-sentence-main"><p lang="ja">{sentence.japanese}</p>{!context?.readOnly ? <button type="button" className="nb-icon-button" aria-label="Edit linked sentence" onClick={() => context?.onEditSentence(sentenceId)}><Pencil size={17} aria-hidden /></button> : null}</div>
     {sentence.kana ? <p className="nb-sentence-reading" lang="ja">{sentence.kana}</p> : null}
-    {sentence.subjectIds.length ? <div className="nb-sentence-words" aria-label={uiT("ui.linked_vocabulary_da28fe3f")}>{sentence.subjectIds.map((id) => <WordReference key={id} subjectId={id} label="" inline />)}</div> : null}
-    {sentence.english ? <details className="nb-translation"><summary>{uiT("ui.translation_6fbd766b")}</summary><p>{sentence.english}</p></details> : null}
+    {sentence.subjectIds.length ? <div className="nb-sentence-words" aria-label="Linked vocabulary">{sentence.subjectIds.map((id) => <WordReference key={id} subjectId={id} label="" inline />)}</div> : null}
+    {sentence.english ? <details className="nb-translation"><summary>Translation</summary><p>{sentence.english}</p></details> : null}
   </div>;
 }
 
 function PageReference({ pageId }: { pageId: string }) {
-  useInterfaceLanguage();
   const context = useContext(MobileNotebookStudyContext);
   const page = context?.pages.get(pageId);
   return <button type="button" className="nb-page-link" contentEditable={false} disabled={!page} onClick={() => context?.onOpenPage(pageId)}>
@@ -84,12 +79,11 @@ function PageReference({ pageId }: { pageId: string }) {
 }
 
 function HandwritingReference({ blockId, drawingId, width, height, inkFormat, paperColor, previewFormat }: { blockId: string; drawingId: string; width: number; height: number; inkFormat: string; paperColor: string; previewFormat: string }) {
-  useInterfaceLanguage();
   const context = useContext(MobileNotebookStudyContext);
   if (!context?.readOnly && context?.nativeHandwriting?.nativeHandwritingAvailable && context.saveNativeHandwriting) {
     return <NativeHandwriting key={blockId} blockId={blockId} drawingId={drawingId} inkFormat={inkFormat === "strokes-v1" ? "strokes-v1" : "pencilkit-v1"} width={width} height={height} paperColor={paperColor} previewFormat={previewFormat} theme={context.theme ?? "light"} themeBackground={context.themeBackground} onPaperColorChange={context.onPaperColorChange} {...context.nativeHandwriting} autoStart={context.nativeAutoStartBlockId === blockId} onPreparing={context.onNativePreparing} onPrepared={context.onNativePrepared} onFullscreenChange={context.onNativeFullscreenChange} loadPreview={context.loadHandwritingPreview} saveAndClose={context.saveNativeHandwriting} />;
   }
-  if (!drawingId) return <div className="nb-missing" contentEditable={false}>{uiT("ui.empty_handwriting_area_d0a19e44")}</div>;
+  if (!drawingId) return <div className="nb-missing" contentEditable={false}>Empty handwriting area</div>;
   return <MobileHandwriting drawingId={drawingId} width={width} height={height} paperColor={paperColor} previewFormat={previewFormat} theme={context?.theme ?? "light"} themeBackground={context?.themeBackground} loadPreview={context?.loadHandwritingPreview} onEdit={inkFormat !== "strokes-v1" && !context?.readOnly && context?.onEditHandwriting ? () => context.onEditHandwriting?.(blockId, drawingId) : undefined} />;
 }
 
@@ -109,7 +103,7 @@ export const mobileNotebookSchema = BlockNoteSchema.create({
     table: defaultBlockSpecs.table,
     handwriting: createReactBlockSpec({ type: "handwriting", propSchema: { drawingId: { default: "" }, inkFormat: { default: "pencilkit-v1", values: ["pencilkit-v1", "strokes-v1"] as const }, width: { default: 768 }, height: { default: 1024 }, paperColor: { default: "" }, previewFormat: { default: "", values: ["", "themed-v1"] as const } }, content: "none" }, {
       render: ({ block }) => <HandwritingReference blockId={block.id} {...block.props} />,
-      toExternalHTML: () => <p>{uiT("ui.handwritten_notebook_content_open_the_notebook_to_view_4eabf698")}</p>,
+      toExternalHTML: () => <p>Handwritten notebook content — open the notebook to view.</p>,
     })(),
     vocabulary: createReactBlockSpec({ type: "vocabulary", propSchema: { subjectId: { default: 0 }, label: { default: "" } }, content: "none" }, {
       render: ({ block }) => <WordReference {...block.props} />,
@@ -121,7 +115,7 @@ export const mobileNotebookSchema = BlockNoteSchema.create({
     })(),
     pageLink: createReactBlockSpec({ type: "pageLink", propSchema: { pageId: { default: "" } }, content: "none" }, {
       render: ({ block }) => <PageReference pageId={block.props.pageId} />,
-      toExternalHTML: ({ block }) => <a href={`/notebooks/${block.props.pageId}`}>{uiT("ui.notebook_page_d1756086")}</a>,
+      toExternalHTML: ({ block }) => <a href={`/notebooks/${block.props.pageId}`}>Notebook page</a>,
     })(),
     callout: createReactBlockSpec({ type: "callout", propSchema: { textColor: defaultProps.textColor, backgroundColor: defaultProps.backgroundColor, icon: { default: "💡" } }, content: "inline" }, {
       render: ({ block, contentRef }) => <div className="nb-callout"><span contentEditable={false} aria-hidden><MobilePageIcon icon={block.props.icon} /></span><div ref={contentRef} /></div>,

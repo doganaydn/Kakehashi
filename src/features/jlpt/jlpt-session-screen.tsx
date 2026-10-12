@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -84,7 +83,6 @@ function formatTimer(seconds: number | null) {
 export const listeningPlaybackScript = jlptListeningPlaybackScript;
 
 function LoadingScreen({ message }: { message: string }) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   return (
     <SafeAreaView
@@ -95,13 +93,13 @@ function LoadingScreen({ message }: { message: string }) {
         {message}
       </Text>
       <Text style={[styles.loadingDetail, { color: theme.textSecondary }]}>
-        {uiT("ui.preparing_the_level_specific_question_bank_6622bd42")} </Text>
+        Preparing the level-specific question bank…
+      </Text>
     </SafeAreaView>
   );
 }
 
 export function JlptSessionScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{
@@ -133,7 +131,7 @@ export function JlptSessionScreen() {
       sessionRef.current = next;
       setSession(next);
       void saveNativeJlptSession(scope, next).catch(() => {
-        setError(uiT("ui.message_b8a10efb36fb"));
+        setError("Progress could not be saved on this device.");
       });
     },
     [scope],
@@ -275,12 +273,12 @@ export function JlptSessionScreen() {
       return;
     }
     Alert.alert(
-      uiT("ui.leave_jlpt_session_f61b0bd9"),
-      uiT("ui.you_can_save_your_place_or_discard_this_attempt_c79b4be0"),
+      "Leave JLPT session?",
+      "You can save your place or discard this attempt.",
       [
-        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: uiT("ui.continue_later_ba247ab0"),
+          text: "Continue Later",
           onPress: () => {
             const next =
               current.status === "active" ? pauseJlptSession(current) : current;
@@ -290,7 +288,7 @@ export function JlptSessionScreen() {
           },
         },
         {
-          text: uiT("ui.discard_eb1a70e3"),
+          text: "Discard",
           style: "destructive",
           onPress: () => {
             void clearNativeJlptSession(scope);
@@ -411,13 +409,13 @@ export function JlptSessionScreen() {
       setQuestions(bank);
       persistSession(next);
     } catch {
-      Alert.alert(uiT("ui.couldn_t_start_practice_3c4c6a8a"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
+      Alert.alert("Couldn’t start practice", "Please try again in a moment.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <LoadingScreen message={uiT("ui.preparing_your_jlpt_session_a3436e4e")} />;
+  if (loading) return <LoadingScreen message="Preparing your JLPT session" />;
   if (error || !session || !questions.length) {
     return (
       <SafeAreaView
@@ -425,16 +423,17 @@ export function JlptSessionScreen() {
       >
         <Ionicons name="alert-circle-outline" size={32} color={theme.error} />
         <Text style={[styles.loadingTitle, { color: theme.textColor }]}>
-          {uiT("ui.this_quiz_could_not_continue_4b1db520")} </Text>
+          This quiz could not continue
+        </Text>
         <Text style={[styles.loadingDetail, { color: theme.textSecondary }]}>
-          {error || uiT("ui.the_saved_question_is_no_longer_available_c87aa9ed")}
+          {error || "The saved question is no longer available."}
         </Text>
         <Pressable
           accessibilityRole="button"
           onPress={() => router.replace("/jlpt" as any)}
           style={[styles.errorButton, { backgroundColor: theme.primary }]}
         >
-          <Text style={styles.primaryButtonText}>{uiT("ui.return_to_jlpt_fcc2a6c1")}</Text>
+          <Text style={styles.primaryButtonText}>Return to JLPT</Text>
         </Pressable>
       </SafeAreaView>
     );
@@ -478,13 +477,17 @@ export function JlptSessionScreen() {
           />
         </View>
         <Text style={[styles.completeKicker, { color: theme.primary }]}>
-          {session.level} {uiT("ui.representative_mock_bf43b65d")} </Text>
+          {session.level} REPRESENTATIVE MOCK
+        </Text>
         <Text style={[styles.completeTitle, { color: theme.textColor }]}>
-          {section?.shortTitle ?? uiT("ui.section_dfca5da5")} {uiT("ui.complete_eebbf645")} </Text>
+          {section?.shortTitle ?? "Section"} complete
+        </Text>
         <Text
           style={[styles.completeDescription, { color: theme.textSecondary }]}
         >
-          {uiT("ui.your_answers_are_locked_correct_answers_remain_hidden_until_every_30bc96ad")} </Text>
+          Your answers are locked. Correct answers remain hidden until every
+          timed section is complete.
+        </Text>
         {nextSection ? (
           <View
             style={[
@@ -496,12 +499,15 @@ export function JlptSessionScreen() {
             ]}
           >
             <Text style={[styles.nextLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.up_next_56746afa")} </Text>
+              UP NEXT
+            </Text>
             <Text style={[styles.nextTitle, { color: theme.textColor }]}>
               {nextSection.title}
             </Text>
             <Text style={[styles.nextTime, { color: theme.textSecondary }]}>
-              {nextSection.durationMinutes} {uiT("ui.minutes_timer_begins_when_you_continue_26cd6b3c")} </Text>
+              {nextSection.durationMinutes} minutes · timer begins when you
+              continue
+            </Text>
           </View>
         ) : null}
         <Pressable
@@ -510,7 +516,7 @@ export function JlptSessionScreen() {
           style={[styles.wideButton, { backgroundColor: theme.primary }]}
         >
           <Text style={styles.primaryButtonText}>
-            {uiT("ui.begin_09b538d1")} {nextSection?.shortTitle ?? uiT("ui.next_section_7fbc2a3e")}
+            Begin {nextSection?.shortTitle ?? "next section"}
           </Text>
         </Pressable>
         <Pressable
@@ -521,14 +527,15 @@ export function JlptSessionScreen() {
           <Text
             style={[styles.textButtonLabel, { color: theme.textSecondary }]}
           >
-            {uiT("ui.continue_later_af0d84c8")} </Text>
+            Continue later
+          </Text>
         </Pressable>
       </SafeAreaView>
     );
   }
 
   if (!question || !section)
-    return <LoadingScreen message={uiT("ui.loading_question_de7be0e3")} />;
+    return <LoadingScreen message="Loading question" />;
 
   const questionIds =
     session.sectionQuestionIds[session.currentSectionIndex] ?? [];
@@ -567,7 +574,7 @@ export function JlptSessionScreen() {
       <View style={[styles.header, { borderBottomColor: theme.border }]}>
         <View style={styles.headerTop}>
           <Pressable
-            accessibilityLabel={uiT("ui.pause_and_exit_f7c4412f")}
+            accessibilityLabel="Pause and exit"
             accessibilityRole="button"
             hitSlop={9}
             onPress={exitSession}
@@ -579,15 +586,15 @@ export function JlptSessionScreen() {
             <Text style={[styles.headerTitle, { color: theme.textColor }]}>
               {session.level} ·{" "}
               {session.mode === "mock"
-                ? uiT("ui.mock_exam_6032545b")
+                ? "Mock exam"
                 : session.mode === "weak"
-                  ? uiT("ui.weak_area_practice_e2cc139d")
-                  : uiT("ui.quick_quiz_3564d546")}
+                  ? "Weak-area practice"
+                  : "Quick quiz"}
             </Text>
             <Text style={[styles.headerMeta, { color: theme.textSecondary }]}>
               {session.mode === "mock"
-                ? uiT("ui.value_section_value_value_f7a416f2", {value1: (section.shortTitle), value2: (session.currentSectionIndex + 1), value3: (structure.sections.length)})
-                : uiT("ui.mixed_skills_a3b1e6cd")}
+                ? `${section.shortTitle} · Section ${session.currentSectionIndex + 1}/${structure.sections.length}`
+                : "Mixed skills"}
             </Text>
           </View>
           {session.mode === "mock" ? (
@@ -708,13 +715,16 @@ export function JlptSessionScreen() {
 
         {verbalExpression ? (
           <Text style={[styles.stem, { color: theme.textColor }]}>
-            {uiT("ui.look_at_the_illustration_and_listen_86a3f32f")} </Text>
+            Look at the illustration and listen.
+          </Text>
         ) : advanceQuestionIsAudioOnly ? (
           <Text style={[styles.stem, { color: theme.textColor }]}>
-            {uiT("ui.listen_to_the_situation_and_question_then_the_passage_3d5c0f0e")} </Text>
+            Listen to the situation and question, then the passage.
+          </Text>
         ) : spokenQuestionOnly ? (
           <Text style={[styles.stem, { color: theme.textColor }]}>
-            {uiT("ui.listen_for_the_question_after_the_passage_f58ecedf")} </Text>
+            Listen for the question after the passage.
+          </Text>
         ) : session.mode === "mock" ? (
           <Text
             selectable
@@ -752,7 +762,8 @@ export function JlptSessionScreen() {
         {compositionQuestion && question.sentenceComposition ? (
           <View style={styles.compositionBlock}>
             <Text style={[styles.builderLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.build_the_full_sentence_61d504d9")} </Text>
+              BUILD THE FULL SENTENCE
+            </Text>
             <View style={styles.compositionSlots}>
               {question.options.map((_, index) => {
                 const optionId = selectedOrder[index];
@@ -765,8 +776,8 @@ export function JlptSessionScreen() {
                   <Pressable
                     accessibilityLabel={
                       option
-                        ? uiT("ui.dynamic_1006d2c64020", {value1: (option.label), value2: (index + 1)})
-                        : uiT("ui.dynamic_63f8fe93ba44", {value1: (index + 1)})
+                        ? `Remove ${option.label} from position ${index + 1}`
+                        : `Empty position ${index + 1}`
                     }
                     disabled={!option || Boolean(storedAnswer)}
                     key={index}
@@ -809,7 +820,8 @@ export function JlptSessionScreen() {
                 <Text
                   style={[styles.clearOrder, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.clear_order_31be6e73")} </Text>
+                  Clear order
+                </Text>
               </Pressable>
             ) : null}
           </View>
@@ -841,7 +853,8 @@ export function JlptSessionScreen() {
                 <Text
                   style={[styles.listeningTitle, { color: theme.textColor }]}
                 >
-                  {uiT("ui.listening_audio_9af98ebc")} </Text>
+                  Listening audio
+                </Text>
                 <Text
                   style={[
                     styles.listeningSubtitle,
@@ -849,8 +862,8 @@ export function JlptSessionScreen() {
                   ]}
                 >
                   {session.mode === "mock"
-                    ? uiT("ui.one_forward_item_play_stimulus_heard_once_bc54d6df")
-                    : uiT("ui.value_total_practice_plays_628cc671", {value1: (allowedPlays)})}
+                    ? "One forward item play · stimulus heard once"
+                    : `${allowedPlays} total practice plays`}
                 </Text>
               </View>
               <Text style={[styles.playCount, { color: theme.textSecondary }]}>
@@ -885,19 +898,20 @@ export function JlptSessionScreen() {
               )}
               <Text style={styles.audioButtonText}>
                 {audioState === "loading"
-                  ? uiT("ui.preparing_audio_ce8bdd01")
+                  ? "Preparing audio…"
                   : audioState === "playing"
-                    ? uiT("ui.playing_a9fcbd2b")
+                    ? "Playing…"
                     : usedPlays >= allowedPlays
-                      ? uiT("ui.audio_played_7ca098e5")
+                      ? "Audio played"
                       : usedPlays
-                        ? uiT("ui.play_again_5ef30d27")
-                        : uiT("ui.play_audio_33b31bc6")}
+                        ? "Play again"
+                        : "Play audio"}
               </Text>
             </Pressable>
             {audioState === "error" ? (
               <Text style={[styles.audioError, { color: theme.error }]}>
-                {uiT("ui.audio_could_not_be_played_check_your_connection_and_try_again_0f93465f")} </Text>
+                Audio could not be played. Check your connection and try again.
+              </Text>
             ) : null}
           </View>
         ) : null}
@@ -982,7 +996,7 @@ export function JlptSessionScreen() {
                   ]}
                 >
                   {question.listening?.audioOnlyOptions
-                    ? uiT("ui.choice_value_f3f253b7", {value1: (index + 1)})
+                    ? `Choice ${index + 1}`
                     : option.label}
                 </Text>
                 {correct ? (
@@ -1020,9 +1034,9 @@ export function JlptSessionScreen() {
               <Text style={[styles.feedbackTitle, { color: theme.textColor }]}>
                 {session.immediateFeedback
                   ? storedAnswer.correct
-                    ? uiT("ui.correct_aca01a1a")
-                    : uiT("ui.not_quite_fd682cdc")
-                  : uiT("ui.answer_recorded_2317256d")}
+                    ? "Correct"
+                    : "Not quite"
+                  : "Answer recorded"}
               </Text>
             </View>
             {session.immediateFeedback ? (
@@ -1048,10 +1062,11 @@ export function JlptSessionScreen() {
       >
         <View style={styles.footerProgress}>
           <Text style={[styles.footerQuestion, { color: theme.textSecondary }]}>
-            {uiT("ui.question_289aff12")} {session.currentQuestionIndex + 1} {uiT("ui.of_28391d3b")} {questionIds.length}
+            Question {session.currentQuestionIndex + 1} of {questionIds.length}
           </Text>
           <Text style={[styles.footerAnswered, { color: theme.textSecondary }]}>
-            {uiT("ui.overall_715b1458")} {answeredCount}/{allQuestionIds.length} {uiT("ui.answered_68c780cd")} </Text>
+            Overall {answeredCount}/{allQuestionIds.length} answered
+          </Text>
         </View>
         <Pressable
           accessibilityRole="button"
@@ -1087,13 +1102,13 @@ export function JlptSessionScreen() {
               ? session.currentQuestionIndex === questionIds.length - 1
                 ? session.currentSectionIndex ===
                   session.sectionQuestionIds.length - 1
-                  ? uiT("ui.see_results_81ae21f2")
-                  : uiT("ui.finish_section_5ee48a28")
-                : uiT("ui.continue_31fbef16")
+                  ? "See results"
+                  : "Finish section"
+                : "Continue"
               : compositionQuestion &&
                   selectedOrder.length < question.options.length
-                ? uiT("ui.choose_value_more_14643789", {value1: (question.options.length - selectedOrder.length)})
-                : uiT("ui.submit_answer_b896ada5")}
+                ? `Choose ${question.options.length - selectedOrder.length} more`
+                : "Submit answer"}
           </Text>
           <Ionicons name="arrow-forward" size={18} color="#fff" />
         </Pressable>

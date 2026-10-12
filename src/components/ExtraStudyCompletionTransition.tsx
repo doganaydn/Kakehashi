@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -33,7 +32,6 @@ export function useExtraStudyResultsReveal(isComplete: boolean): boolean {
 }
 
 export default function ExtraStudyCompletionTransition() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.82)).current;
@@ -66,7 +64,7 @@ export default function ExtraStudyCompletionTransition() {
   return (
     <View
       accessible
-      accessibilityLabel={uiT("ui.session_complete_preparing_your_results_4feddf0d")}
+      accessibilityLabel="Session complete. Preparing your results."
       style={[styles.container, { backgroundColor: theme.backgroundColor }]}
     >
       <Animated.View
@@ -81,9 +79,10 @@ export default function ExtraStudyCompletionTransition() {
         <View style={[styles.checkCircle, { backgroundColor: theme.primary }]}>
           <Ionicons name="checkmark" size={48} color="#ffffff" />
         </View>
-        <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.complete_d0957425")}</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>Complete!</Text>
         <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-          {uiT("ui.preparing_your_results_9b53b664")} </Text>
+          Preparing your results…
+        </Text>
         <ActivityIndicator
           accessibilityElementsHidden
           color={theme.primary}

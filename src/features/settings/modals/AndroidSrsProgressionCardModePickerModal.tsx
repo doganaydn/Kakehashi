@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import {SettingsIcon as Ionicons} from "../../../ui/settings/settings-icon";
 import React from "react";
 
@@ -14,7 +13,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function AndroidSrsProgressionCardModePickerModal() {
-  useInterfaceLanguage();
   const {
     closeSrsProgressionCardModePicker,
     getSrsProgressionCardModeIconName,
@@ -61,7 +59,8 @@ export function AndroidSrsProgressionCardModePickerModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.srs_progression_card_67514dca")} </Text>
+                    SRS Progression Card
+                  </Text>
 
                   {SRS_PROGRESSION_CARD_MODE_OPTIONS.map((option) => {
                     const isSelected =
@@ -115,7 +114,8 @@ export function AndroidSrsProgressionCardModePickerModal() {
                         { color: theme.error },
                       ]}
                     >
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </TouchableWithoutFeedback>

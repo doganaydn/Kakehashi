@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { Check, Hand, Maximize2, Minimize2, Pencil, Redo2, SlidersHorizontal, Undo2 } from "lucide-react";
 import { isNotebookPaperColor, resolveNotebookPaperColor, type NotebookPaperAppearance, type NotebookPaperColor } from "../../../web/src/features/notebooks/paper-appearance";
@@ -23,7 +22,6 @@ const box = (rect: DOMRect): NativeInkRect => ({ x: rect.left, y: rect.top, widt
 
 /** Native PencilKit covers only the measured paper; tools and resize grips stay in the DOM. */
 export function NativeHandwriting(props: Props) {
-  useInterfaceLanguage();
   const actions = useRef(props); actions.current = props;
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -105,7 +103,7 @@ export function NativeHandwriting(props: Props) {
   useEffect(() => {
     let current = true; setPreview(null); setPreviewError("");
     if (!drawingId) return;
-    if (!loadPreview) { setPreviewError(uiT("ui.message_cc55308cc926")); return; }
+    if (!loadPreview) { setPreviewError("Reopen this notebook to load its handwriting."); return; }
     void loadPreview(drawingId, previewAppearance).then((value) => { if (current) setPreview(value); }).catch((caught) => { if (current) setPreviewError(message(caught)); });
     return () => { current = false; };
   }, [drawingId, loadPreview, previewAppearance, retry]);
@@ -222,29 +220,29 @@ export function NativeHandwriting(props: Props) {
   const locked = busy || leaving || !!state?.busy;
   const paperStyle = { "--nb-paper-color": paperAppearance.color, "--nb-paper-text": paperAppearance.appearance === "dark" ? "#dddddd" : "#555555" } as CSSProperties;
   return <div className="nb-native-handwriting-slot" style={fullscreen ? { minHeight: placeholderHeight.current } : undefined}><figure ref={root} className="nb-handwriting nb-native-handwriting" data-fullscreen={fullscreen ? "true" : undefined} style={paperStyle} contentEditable={false} onPointerDown={(event) => { if (event.target instanceof Element && event.target.closest("button")) { event.preventDefault(); event.stopPropagation(); } }} onMouseDown={(event) => event.stopPropagation()}>
-    <div className="nb-native-ink-tools" role="toolbar" aria-label={uiT("ui.message_48c94b9e0cbc")}>
+    <div className="nb-native-ink-tools" role="toolbar" aria-label="Handwriting tools">
       {active ? <>
-        <button type="button" disabled={locked} onClick={() => void command("tools")}><SlidersHorizontal size={18} />{uiT("ui.tools_ea93d6a2")}</button>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_2cf837443f0e")} disabled={locked || !state.canUndo} onClick={() => void command("undo")}><Undo2 size={18} /></button>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_da5ccc87855d")} disabled={locked || !state.canRedo} onClick={() => void command("redo")}><Redo2 size={18} /></button>
+        <button type="button" disabled={locked} onClick={() => void command("tools")}><SlidersHorizontal size={18} />Tools</button>
+        <button type="button" className="nb-icon-button" aria-label="Undo handwriting" disabled={locked || !state.canUndo} onClick={() => void command("undo")}><Undo2 size={18} /></button>
+        <button type="button" className="nb-icon-button" aria-label="Redo handwriting" disabled={locked || !state.canRedo} onClick={() => void command("redo")}><Redo2 size={18} /></button>
         <span className="nb-native-ink-tool-space" />
         <button type="button" className="nb-native-ink-fullscreen" aria-label={fullscreen ? "Exit full screen" : "Full screen"} title={fullscreen ? "Exit full screen" : "Full screen"} disabled={resizeActive} onClick={() => setViewportMode(!fullscreen)}>{fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}<span>{fullscreen ? "Exit full screen" : "Full screen"}</span></button>
-        <button type="button" disabled={locked} onClick={() => void save()}><Hand size={18} />{uiT("ui.scroll_page_7191adb2")}</button>
+        <button type="button" disabled={locked} onClick={() => void save()}><Hand size={18} />Scroll page</button>
         <button type="button" className="nb-native-ink-done" disabled={locked} onClick={() => void save()}><Check size={18} />{locked ? "Saving…" : "Done"}</button>
-      </> : <><span>{uiT("ui.handwriting_95a98bc8")}</span><span className="nb-native-ink-tool-space" /><button type="button" className="nb-native-ink-fullscreen" aria-label={fullscreen ? "Exit full screen" : "Full screen"} title={fullscreen ? "Exit full screen" : "Full screen"} disabled={busy || !!props.nativeHandwritingState} onClick={() => setViewportMode(!fullscreen)}>{fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}<span>{fullscreen ? "Exit full screen" : "Full screen"}</span></button><button type="button" disabled={busy || !!props.nativeHandwritingState} onClick={() => void start()}><Pencil size={18} />{busy ? "Opening…" : "Write"}</button></>}
+      </> : <><span>Handwriting</span><span className="nb-native-ink-tool-space" /><button type="button" className="nb-native-ink-fullscreen" aria-label={fullscreen ? "Exit full screen" : "Full screen"} title={fullscreen ? "Exit full screen" : "Full screen"} disabled={busy || !!props.nativeHandwritingState} onClick={() => setViewportMode(!fullscreen)}>{fullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}<span>{fullscreen ? "Exit full screen" : "Full screen"}</span></button><button type="button" disabled={busy || !!props.nativeHandwritingState} onClick={() => void start()}><Pencil size={18} />{busy ? "Opening…" : "Write"}</button></>}
     </div>
-    {props.onPaperColorChange ? <div className="nb-native-paper-options" role="group" aria-label={uiT("ui.message_770c9f4e317a")}>
-      <span>{uiT("ui.paper_35045eff")}</span>
+    {props.onPaperColorChange ? <div className="nb-native-paper-options" role="group" aria-label="Paper color">
+      <span>Paper</span>
       {([['auto', 'Auto'], ['#ffffff', 'White'], ['#fff8e7', 'Cream'], ['#202020', 'Dark']] as const).map(([color, label]) => <button key={color} type="button" aria-pressed={choice === color} disabled={locked || resizeActive || !!props.nativeHandwritingState && !active} onClick={() => void changePaperColor(color)}><span className="nb-paper-swatch" style={{ background: color === "auto" ? "var(--nb-bg)" : color }} />{label}</button>)}
-      <label className="nb-paper-custom">{uiT("ui.custom_494ca78f")}<input aria-label={uiT("ui.message_130854154c44")} type="color" value={paperAppearance.color} disabled={locked || resizeActive || !!props.nativeHandwritingState && !active} onInput={(event) => { const color = event.currentTarget.value.toLowerCase(); if (isNotebookPaperColor(color)) void changePaperColor(color); }} /></label>
+      <label className="nb-paper-custom">Custom<input aria-label="Custom paper color" type="color" value={paperAppearance.color} disabled={locked || resizeActive || !!props.nativeHandwritingState && !active} onInput={(event) => { const color = event.currentTarget.value.toLowerCase(); if (isNotebookPaperColor(color)) void changePaperColor(color); }} /></label>
     </div> : null}
     <div ref={stage} className="nb-native-ink-stage"><HandwritingResizeFrame width={dimensions.width} height={dimensions.height} scale={scale} minHeight={Math.max(128, state?.minimumHeight ?? 128)} maxHeight={4096} disabled={!active || locked} onResizeStart={() => { resizing.current = true; setResizeActive(true); }} onResizePreview={(size) => { if (active) void resize(size); }} onResizeCommit={async (size) => { try { await resize(size); } finally { resizing.current = false; if (mounted.current) setResizeActive(false); } }} onResizeCancel={(size) => { resizing.current = false; if (mounted.current) setResizeActive(false); if (active) void resize(size); }}>
-      {preview ? <img className="nb-native-ink-preview" src={preview} width={props.width * scale} height={props.height * scale} alt="Handwritten notebook content" onError={() => setPreviewError(uiT("ui.message_1b49d1a8f0d6"))} /> : <div className="nb-native-ink-placeholder">{props.drawingId ? previewError || "Loading handwriting…" : active ? "" : "Write with Apple Pencil"}</div>}
-      {!active ? <button type="button" className="nb-native-ink-start" aria-label={uiT("ui.message_acfe828baed9")} disabled={busy || !!props.nativeHandwritingState} onClick={() => void start()} /> : null}
+      {preview ? <img className="nb-native-ink-preview" src={preview} width={props.width * scale} height={props.height * scale} alt="Handwritten notebook content" onError={() => setPreviewError("The handwriting preview could not be displayed.")} /> : <div className="nb-native-ink-placeholder">{props.drawingId ? previewError || "Loading handwriting…" : active ? "" : "Write with Apple Pencil"}</div>}
+      {!active ? <button type="button" className="nb-native-ink-start" aria-label="Write in handwriting area" disabled={busy || !!props.nativeHandwritingState} onClick={() => void start()} /> : null}
     </HandwritingResizeFrame></div>
-    {active ? <label className="nb-native-ink-finger"><input type="checkbox" checked={finger} disabled={locked} onChange={(event) => { setFinger(event.target.checked); void command("finger", event.target.checked); }} />{uiT("ui.draw_with_finger_3bccb43b")}</label> : null}
+    {active ? <label className="nb-native-ink-finger"><input type="checkbox" checked={finger} disabled={locked} onChange={(event) => { setFinger(event.target.checked); void command("finger", event.target.checked); }} />Draw with finger</label> : null}
     {error || state?.error ? <div className="nb-ink-error" role="alert">{error || state?.error}{props.onNativeHandwritingClose ? <button type="button" disabled={leaving} onClick={() => void leaveWriting()}>{leaving ? "Leaving…" : "Leave writing"}</button> : null}</div> : null}
     {recoveryNotice && !active ? <p className="nb-native-recovery-notice" role="status">{recoveryNotice}</p> : null}
-    {!active && previewError ? <div className="nb-ink-error" role="alert">{previewError}<button type="button" onClick={() => setRetry((value) => value + 1)}>{uiT("ui.retry_preview_ceba3527")}</button></div> : null}
+    {!active && previewError ? <div className="nb-ink-error" role="alert">{previewError}<button type="button" onClick={() => setRetry((value) => value + 1)}>Retry preview</button></div> : null}
   </figure></div>;
 }

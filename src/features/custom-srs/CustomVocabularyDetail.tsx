@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -12,7 +11,6 @@ import { goBackFromCustomVocabulary } from "./navigation";
 import { customSubjectIdToWord, customVocabularyWordToDetails, customWordUsesKanji } from "./subject";
 
 export default function CustomVocabularyDetail({ wordId }: { wordId?: string } = {}) {
-  useInterfaceLanguage();
   const params = useLocalSearchParams<{ wordId?: string; tab?: string }>();
   const { theme } = useTheme();
   const customSrs = useCustomSrs();
@@ -22,11 +20,11 @@ export default function CustomVocabularyDetail({ wordId }: { wordId?: string } =
   const vocabulary = useMemo(() => word ? customVocabularyWordToDetails(word, assignment) : null, [word, assignment]);
 
   if (!word || !vocabulary) return <View style={[styles.screen, { backgroundColor: theme.backgroundColor }]}>
-    <Stack.Screen options={{ headerShown: false, title: uiT("ui.vocabulary_eebd90a0") }} />
-    <CustomVocabularyHeader title={uiT("ui.vocabulary_eebd90a0")} onBack={() => goBackFromCustomVocabulary()} />
+    <Stack.Screen options={{ headerShown: false, title: "Vocabulary" }} />
+    <CustomVocabularyHeader title="Vocabulary" onBack={() => goBackFromCustomVocabulary()} />
     <View style={styles.empty}>
-      <Text selectable style={[styles.message, { color: theme.textColor }]}>{uiT("ui.this_vocabulary_word_could_not_be_found_3a902581")}</Text>
-      <Pressable accessibilityRole="button" onPress={() => router.replace("/custom-vocabulary" as never)} style={styles.button}><Text style={{ color: theme.primary }}>{uiT("ui.explore_packs_88f52bc1")}</Text></Pressable>
+      <Text selectable style={[styles.message, { color: theme.textColor }]}>This vocabulary word could not be found.</Text>
+      <Pressable accessibilityRole="button" onPress={() => router.replace("/custom-vocabulary" as never)} style={styles.button}><Text style={{ color: theme.primary }}>Explore packs</Text></Pressable>
     </View>
   </View>;
 

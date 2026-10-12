@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 export type ReviewOrderSetting =
   | "random"
   | "ascendingSrsStage"
@@ -39,43 +38,46 @@ export const DEFAULT_MAX_QUESTION_GAP = 10;
 export const REVIEW_ORDER_OPTIONS: readonly ReviewOrderOption[] = [
   {
     value: "random",
-    get label() { return uiT("ui.random_67bc4844"); },
-    get description() { return uiT("ui.shuffle_items_with_no_fixed_ordering_9f657403"); },
+    label: "Random",
+    description: "Shuffle items with no fixed ordering.",
   },
   {
     value: "ascendingSrsStage",
-    get label() { return uiT("ui.lower_srs_first_567c67fe"); },
-    get description() { return uiT("ui.start_from_apprentice_then_guru_master_enlightened_and_burned_e3e67ed8"); },
+    label: "Lower SRS first",
+    description:
+      "Start from Apprentice, then Guru, Master, Enlightened, and Burned.",
   },
   {
     value: "descendingSrsStage",
-    get label() { return uiT("ui.higher_srs_first_164b4f44"); },
-    get description() { return uiT("ui.start_from_burned_enlightened_and_move_down_toward_apprentice_7f0acb6c"); },
+    label: "Higher SRS first",
+    description:
+      "Start from Burned/Enlightened and move down toward Apprentice.",
   },
   {
     value: "currentLevelFirst",
-    get label() { return uiT("ui.current_level_first_89d93c04"); },
-    get description() { return uiT("ui.prioritize_higher_level_items_before_older_levels_74bfe8cb"); },
+    label: "Current level first",
+    description: "Prioritize higher-level items before older levels.",
   },
   {
     value: "lowestLevelFirst",
-    get label() { return uiT("ui.lowest_level_first_3968e619"); },
-    get description() { return uiT("ui.prioritize_lower_level_older_items_first_0118de11"); },
+    label: "Lowest level first",
+    description: "Prioritize lower-level (older) items first.",
   },
   {
     value: "newestAvailableFirst",
-    get label() { return uiT("ui.newest_available_first_9ccc5fb9"); },
-    get description() { return uiT("ui.show_items_that_became_available_most_recently_b6023795"); },
+    label: "Newest available first",
+    description: "Show items that became available most recently.",
   },
   {
     value: "oldestAvailableFirst",
-    get label() { return uiT("ui.oldest_available_first_07863d9e"); },
-    get description() { return uiT("ui.show_items_that_have_been_waiting_the_longest_absolute_533baeb5"); },
+    label: "Oldest available first",
+    description: "Show items that have been waiting the longest (absolute).",
   },
   {
     value: "longestRelativeWait",
-    get label() { return uiT("ui.most_overdue_first_05a3d01d"); },
-    get description() { return uiT("ui.prioritize_items_most_overdue_relative_to_their_srs_interval_5929b69a"); },
+    label: "Most overdue first",
+    description:
+      "Prioritize items most overdue relative to their SRS interval.",
   },
 ];
 

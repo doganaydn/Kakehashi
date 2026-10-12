@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { Subject, Assignment } from './api';
 import { getJLPTLevel, JLPT_TOTALS, getKanjiForLevel } from '../data/jlptKanji';
 import { getJoyoGrade, JOYO_TOTALS, getJoyoGradeName } from '../data/joyoKanji';
@@ -191,11 +190,11 @@ export function getCategoryLabel(category: keyof AllProgressData, key: string): 
 export function getCategoryDescription(category: keyof AllProgressData): string {
   switch (category) {
     case 'jlpt':
-      return uiT("ui.japanese_language_proficiency_test_levels_5ff7a8c0");
+      return 'Japanese Language Proficiency Test levels';
     case 'joyo':
-      return uiT("ui.educational_kanji_by_school_grade_59863c30");
+      return 'Educational kanji by school grade';
     case 'frequency':
-      return uiT("ui.most_common_kanji_by_usage_frequency_3268bb77");
+      return 'Most common kanji by usage frequency';
     default:
       return '';
   }

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Redirect, Stack } from "expo-router";
 import React from "react";
 import { ActivityIndicator, View } from "react-native";
@@ -9,16 +8,15 @@ import CustomVocabularyHeader from "../../../src/features/custom-srs/custom-voca
 import { goBackFromCustomVocabulary } from "../../../src/features/custom-srs/navigation";
 
 export default function CustomVocabularyLayout() {
-  useInterfaceLanguage();
   const { apiToken, userData, isLoading } = useAuthStore();
   const { theme } = useTheme();
 
   if (isLoading || (apiToken && !userData)) {
     return (
       <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
-        <CustomVocabularyHeader title={uiT("ui.loading_dc380888")} onBack={() => goBackFromCustomVocabulary("/(app)/(tabs)")} />
+        <CustomVocabularyHeader title="Loading" onBack={() => goBackFromCustomVocabulary("/(app)/(tabs)")} />
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <ActivityIndicator color={theme.primary} accessibilityLabel={uiT("ui.checking_access_0faade36")} />
+          <ActivityIndicator color={theme.primary} accessibilityLabel="Checking access" />
         </View>
       </View>
     );

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
@@ -29,7 +28,6 @@ interface StarSlideProps {
 }
 
 export function StarSlide({ starPerformer, fastestToGuru }: StarSlideProps) {
-  useInterfaceLanguage();
   const appTextSizeScale = useSettingsStore((state) => state.appTextSizeScale);
   const { fontScale } = useWindowDimensions();
   const usesLargeText = appTextSizeScale > 1 || fontScale > 1;
@@ -130,9 +128,10 @@ export function StarSlide({ starPerformer, fastestToGuru }: StarSlideProps) {
               color="#fbbf24"
               style={styles.headerIcon}
             />
-            <Text style={styles.headerText}>{uiT("ui.keep_studying_7ae977e7")}</Text>
+            <Text style={styles.headerText}>Keep studying!</Text>
             <Text style={styles.noDataText}>
-              {uiT("ui.complete_more_reviews_to_see_your_star_performers_1ffa9817")} </Text>
+              Complete more reviews to see your star performers.
+            </Text>
           </View>
         </ScrollView>
       </LinearGradient>
@@ -181,7 +180,7 @@ export function StarSlide({ starPerformer, fastestToGuru }: StarSlideProps) {
             color="#fbbf24"
             style={styles.headerIcon}
           />
-          <Text style={styles.headerText}>{uiT("ui.star_performer_c3aaabe8")}</Text>
+          <Text style={styles.headerText}>Star performer</Text>
 
           <Animated.View style={[usesLargeText && styles.fullWidth, starStyle]}>
             <View
@@ -220,14 +219,15 @@ export function StarSlide({ starPerformer, fastestToGuru }: StarSlideProps) {
               <View style={styles.streakBadge}>
                 <Ionicons name="flame" size={16} color="#fbbf24" />
                 <Text style={styles.streakText}>
-                  {starPerformer.maxStreak} {uiT("ui.streak_3fbf0de2")} </Text>
+                  {starPerformer.maxStreak} streak
+                </Text>
               </View>
             </View>
           </Animated.View>
 
           {fastestToGuru && fastestToGuru.timeToGuru && (
             <Animated.View style={[styles.fastestCard, fastestStyle]}>
-              <Text style={styles.fastestLabel}>{uiT("ui.fastest_to_guru_0796c4ca")}</Text>
+              <Text style={styles.fastestLabel}>Fastest to Guru</Text>
               <View
                 style={[
                   styles.fastestRow,

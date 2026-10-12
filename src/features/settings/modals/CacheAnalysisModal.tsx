@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import {SettingsIcon as Ionicons} from "../../../ui/settings/settings-icon";
 import React from "react";
 
@@ -8,7 +7,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function CacheAnalysisModal() {
-  useInterfaceLanguage();
   const {
     cacheAnalysis,
     handleCacheAnalysis,
@@ -47,13 +45,16 @@ export function CacheAnalysisModal() {
           >
             <TouchableOpacity onPress={() => setShowCacheModal(false)}>
               <Text style={[styles.modalCancelText, { color: theme.primary }]}>
-                {uiT("ui.close_7d9eb7ac")} </Text>
+                Close
+              </Text>
             </TouchableOpacity>
             <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-              {uiT("ui.cache_analysis_1dbae6db")} </Text>
+              Cache Analysis
+            </Text>
             <TouchableOpacity onPress={handleCacheAnalysis}>
               <Text style={[styles.modalCancelText, { color: theme.primary }]}>
-                {uiT("ui.refresh_0e916101")} </Text>
+                Refresh
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -76,12 +77,14 @@ export function CacheAnalysisModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.summary_8e76a94a")} </Text>
+                    Summary
+                  </Text>
                   <View style={styles.cacheRow}>
                     <Text
                       style={[styles.cacheLabel, { color: theme.textColor }]}
                     >
-                      {uiT("ui.total_size_26ecb633")} </Text>
+                      Total Size:
+                    </Text>
                     <Text
                       style={[
                         styles.cacheValue,
@@ -95,7 +98,8 @@ export function CacheAnalysisModal() {
                     <Text
                       style={[styles.cacheLabel, { color: theme.textColor }]}
                     >
-                      {uiT("ui.total_items_69d2cf85")} </Text>
+                      Total Items:
+                    </Text>
                     <Text
                       style={[
                         styles.cacheValue,
@@ -123,7 +127,8 @@ export function CacheAnalysisModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.quick_actions_2cc2b6f7")} </Text>
+                    Quick Actions
+                  </Text>
                   <TouchableOpacity
                     style={[
                       styles.cacheActionButton,
@@ -135,7 +140,8 @@ export function CacheAnalysisModal() {
                     <Text
                       style={[styles.cacheActionText, { color: "#e53935" }]}
                     >
-                      {uiT("ui.clear_large_items_c3ef594c")}{">"}{uiT("ui.5mb_0e0551d7")} </Text>
+                      Clear Large Items ({">"}5MB)
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -152,7 +158,8 @@ export function CacheAnalysisModal() {
                     <Text
                       style={[styles.cacheActionText, { color: theme.primary }]}
                     >
-                      {uiT("ui.analyze_subjects_cache_981e8e0b")} </Text>
+                      Analyze Subjects Cache
+                    </Text>
                   </TouchableOpacity>
                 </View>
 
@@ -172,7 +179,8 @@ export function CacheAnalysisModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.by_category_4171d1ae")} </Text>
+                    By Category
+                  </Text>
                   {Object.entries(cacheAnalysis.categories)
                     .sort(([, a], [, b]) => b.size - a.size)
                     .map(([category, data]) => (
@@ -199,7 +207,8 @@ export function CacheAnalysisModal() {
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {data.sizeFormatted} • {data.count} {uiT("ui.items_5f3c4f85")} </Text>
+                            {data.sizeFormatted} • {data.count} items
+                          </Text>
                         </View>
                         <Ionicons
                           name="trash"
@@ -226,7 +235,8 @@ export function CacheAnalysisModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.largest_items_ce760dc6")} </Text>
+                    Largest Items
+                  </Text>
                   {cacheAnalysis.largestItems
                     .slice(0, 10)
                     .map((item, index) => (

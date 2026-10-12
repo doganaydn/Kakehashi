@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, {
   useCallback,
@@ -80,7 +79,6 @@ export const CustomContextSentencesSection = React.forwardRef<
   { subjectId, subjectCharacters, subjectReadings, accentColor },
   ref,
 ) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const userId = useAuthStore((state) => state.userData?.id ?? null);
   const hideTranslationsCompletely = useSettingsStore(
@@ -203,7 +201,7 @@ export const CustomContextSentencesSection = React.forwardRef<
       })
       .catch(() => {
         if (!cancelled) {
-          setSectionError(uiT("ui.message_c9d84a7db327"));
+          setSectionError("Saved sentences couldn't be loaded.");
         }
       })
       .finally(() => {
@@ -246,7 +244,7 @@ export const CustomContextSentencesSection = React.forwardRef<
       const showTranslationFailure = () => {
         if (isCurrentRequest()) {
           setTranslationError(
-            uiT("ui.message_b3887b330bc6"),
+            "Translation couldn't update. You can keep editing.",
           );
         }
       };
@@ -445,9 +443,9 @@ export const CustomContextSentencesSection = React.forwardRef<
             ) {
               setPlayingId(null);
               if (editorVisible) {
-                setEditorError(uiT("ui.message_33bdeda1f7be"));
+                setEditorError("Audio couldn't play.");
               } else {
-                setSectionError(uiT("ui.message_33bdeda1f7be"));
+                setSectionError("Audio couldn't play.");
               }
             }
           },
@@ -459,9 +457,9 @@ export const CustomContextSentencesSection = React.forwardRef<
         ) {
           setPlayingId(null);
           if (editorVisible) {
-            setEditorError(uiT("ui.message_33bdeda1f7be"));
+            setEditorError("Audio couldn't play.");
           } else {
-            setSectionError(uiT("ui.message_33bdeda1f7be"));
+            setSectionError("Audio couldn't play.");
           }
         }
       }
@@ -473,18 +471,18 @@ export const CustomContextSentencesSection = React.forwardRef<
     setEditorError(null);
 
     if (!userId) {
-      setEditorError(uiT("ui.message_e47c72e5a3c4"));
+      setEditorError("Your WaniKani account couldn't be identified.");
       return;
     }
 
     if (!hasCompleteDraft) {
-      setEditorError(uiT("ui.message_4aed33e9a302"));
+      setEditorError("Add Japanese, kana, and English before saving.");
       return;
     }
 
     if (!completeDraftMatchesSubject) {
       setEditorError(
-        uiT("ui.dynamic_8bf373b7b12f", {value1: (subjectCharacters || "this vocabulary")}),
+        `Use ${subjectCharacters || "this vocabulary"} in the Japanese version and one of its readings in the kana version.`,
       );
       return;
     }
@@ -524,7 +522,7 @@ export const CustomContextSentencesSection = React.forwardRef<
       resetEditor();
     } catch {
       if (mountedRef.current) {
-        setEditorError(uiT("ui.message_d8a7f8bab237"));
+        setEditorError("This sentence couldn't be saved. Please try again.");
         setIsSaving(false);
       }
     }
@@ -551,12 +549,12 @@ export const CustomContextSentencesSection = React.forwardRef<
       }
 
       Alert.alert(
-        uiT("ui.delete_this_sentence_e4f74138"),
-        uiT("ui.this_removes_it_from_this_device_63865e6d"),
+        "Delete this sentence?",
+        "This removes it from this device.",
         [
-          { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+          { text: "Cancel", style: "cancel" },
           {
-            text: uiT("ui.delete_e2d0a549"),
+            text: "Delete",
             style: "destructive",
             onPress: () => {
               void deleteCustomContextSentence(userId, sentence.id)
@@ -574,7 +572,7 @@ export const CustomContextSentencesSection = React.forwardRef<
                 .catch(() => {
                   if (mountedRef.current) {
                     setSectionError(
-                      uiT("ui.message_cd4a50e5def5"),
+                      "This sentence couldn't be deleted. Please try again.",
                     );
                   }
                 });
@@ -634,7 +632,7 @@ export const CustomContextSentencesSection = React.forwardRef<
             ),
           );
           setSectionError(
-            uiT("ui.message_2a2a1dcdbe8b"),
+            "The kanji/kana preference couldn't be saved. Please try again.",
           );
         });
     },
@@ -739,7 +737,7 @@ export const CustomContextSentencesSection = React.forwardRef<
                   </Pressable>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={uiT("ui.edit_custom_context_sentence_64167094")}
+                    accessibilityLabel="Edit custom context sentence"
                     hitSlop={ICON_HIT_SLOP}
                     onPress={() => openEditEditor(sentence)}
                     style={({ pressed }) => [
@@ -755,7 +753,7 @@ export const CustomContextSentencesSection = React.forwardRef<
                   </Pressable>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={uiT("ui.delete_custom_context_sentence_161affec")}
+                    accessibilityLabel="Delete custom context sentence"
                     hitSlop={ICON_HIT_SLOP}
                     onPress={() => confirmDelete(sentence)}
                     style={({ pressed }) => [
@@ -807,7 +805,7 @@ export const CustomContextSentencesSection = React.forwardRef<
             >
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={uiT("ui.cancel_editing_custom_context_sentence_434c52d1")}
+                accessibilityLabel="Cancel editing custom context sentence"
                 disabled={isSaving}
                 onPress={closeEditor}
                 style={({ pressed }) => [
@@ -818,13 +816,14 @@ export const CustomContextSentencesSection = React.forwardRef<
                 <Text
                   style={[styles.headerButtonText, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.cancel_19766ed6")} </Text>
+                  Cancel
+                </Text>
               </Pressable>
               <Text
                 numberOfLines={1}
                 style={[styles.modalTitle, { color: theme.textColor }]}
               >
-                {editingId ? uiT("ui.edit_sentence_977d96c1") : uiT("ui.new_sentence_c9f2c882")}
+                {editingId ? "Edit sentence" : "New sentence"}
               </Text>
               <View style={styles.headerButton} />
             </View>
@@ -841,16 +840,17 @@ export const CustomContextSentencesSection = React.forwardRef<
                   { color: theme.textColor },
                 ]}
               >
-                {uiT("ui.japanese_be4ee906")} </Text>
+                Japanese
+              </Text>
 
               <View style={styles.inputWithAction}>
                 <TextInput
-                  accessibilityLabel={uiT("ui.japanese_sentence_7f9bffd7")}
+                  accessibilityLabel="Japanese sentence"
                   multiline
                   autoCapitalize="none"
                   autoCorrect={false}
                   textAlignVertical="top"
-                  placeholder={uiT("ui.dynamic_9e6368b4b9cf", {value1: (subjectCharacters)})}
+                  placeholder={`Write a sentence using ${subjectCharacters}`}
                   placeholderTextColor={theme.textLight}
                   value={draftJapanese}
                   onChangeText={handleManualJapaneseChange}
@@ -905,18 +905,23 @@ export const CustomContextSentencesSection = React.forwardRef<
                 <Text
                   style={[styles.validationText, { color: theme.error }]}
                 >
-                  {uiT("ui.use_c36d819e")} {subjectCharacters || uiT("ui.this_vocabulary_63cd8b17")} {uiT("ui.in_the_japanese_version_7588355e")} </Text>
+                  Use {subjectCharacters || "this vocabulary"} in the Japanese
+                  version.
+                </Text>
               ) : draftKana.trim() && !kanaDraftMatchesSubject ? (
                 <Text
                   style={[styles.validationText, { color: theme.error }]}
                 >
-                  {uiT("ui.use_one_of_this_vocabulary_s_readings_in_the_kana_version_723b9be5")} </Text>
+                  Use one of this vocabulary’s readings in the kana version.
+                </Text>
               ) : null}
 
               <View style={styles.englishHeader}>
                 <Text
                   style={[styles.fieldLabel, { color: theme.textColor }]}
-                >{uiT("common.english")}</Text>
+                >
+                  English
+                </Text>
                 {isTranslating ? (
                   <View style={styles.translationStatus}>
                     <ActivityIndicator
@@ -929,17 +934,18 @@ export const CustomContextSentencesSection = React.forwardRef<
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.updating_dfe40efe")} </Text>
+                      Updating…
+                    </Text>
                   </View>
                 ) : null}
               </View>
               <TextInput
-                accessibilityLabel={uiT("ui.english_translation_3c1709ce")}
+                accessibilityLabel="English translation"
                 multiline
                 autoCapitalize="sentences"
                 autoCorrect
                 textAlignVertical="top"
-                placeholder={uiT("ui.english_translation_3c1709ce")}
+                placeholder="English translation"
                 placeholderTextColor={theme.textLight}
                 value={draftEnglish}
                 onChangeText={handleManualEnglishChange}
@@ -976,7 +982,8 @@ export const CustomContextSentencesSection = React.forwardRef<
                 <Text
                   style={[styles.localNoteText, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.saved_only_on_this_device_these_sentences_do_not_sync_1c801cae")} </Text>
+                  Saved only on this device. These sentences do not sync.
+                </Text>
               </View>
 
               {editorError ? (
@@ -1000,7 +1007,7 @@ export const CustomContextSentencesSection = React.forwardRef<
             >
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={uiT("ui.save_custom_context_sentence_1494c19b")}
+                accessibilityLabel="Save custom context sentence"
                 accessibilityState={{ disabled: !canSave }}
                 disabled={!canSave}
                 onPress={() => void handleSave()}
@@ -1018,7 +1025,8 @@ export const CustomContextSentencesSection = React.forwardRef<
                   <Text
                     style={[styles.saveButtonText, { color: accentTextColor }]}
                   >
-                    {uiT("ui.save_sentence_5cf12afc")} </Text>
+                    Save sentence
+                  </Text>
                 )}
               </Pressable>
             </View>

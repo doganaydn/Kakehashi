@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import * as Haptics from "@/src/utils/haptics";
@@ -42,7 +41,6 @@ const MistakeItemCharacter = ({
   item: RecentMistake;
   textColor: string;
 }) => {
-  useInterfaceLanguage();
   const isRadical = item.type === "radical";
 
   const bestImg =
@@ -78,7 +76,6 @@ export default function RecentMistakesCard({
   recentMistakes,
   style,
 }: RecentMistakesCardProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to 24h (index 1)
@@ -232,7 +229,8 @@ export default function RecentMistakesCard({
       <View style={styles.header}>
         <View style={styles.titleRow}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {uiT("ui.recent_mistakes_32bab730")} </Text>
+            Recent Mistakes
+          </Text>
         </View>
         <SegmentedControl
           values={TIME_PERIOD_VALUES}
@@ -283,7 +281,7 @@ export default function RecentMistakesCard({
               color={theme.textLight}
             />
             <Text style={[styles.emptyStateText, { color: theme.textSecondary }]}>
-              {uiT("ui.no_mistakes_in_the_5191667d")} {getTimePeriodLabel().toLowerCase()}
+              No mistakes in the {getTimePeriodLabel().toLowerCase()}
             </Text>
           </View>
         )}
@@ -304,7 +302,8 @@ export default function RecentMistakesCard({
                 { color: hasMistakes ? theme.textColor : theme.textLight },
               ]}
             >
-              {uiT("ui.extra_study_055dce81")} </Text>
+              Extra Study
+            </Text>
             {hasMistakes && (
               <View
                 style={[
@@ -338,7 +337,8 @@ export default function RecentMistakesCard({
                 { color: hasMistakes ? theme.textColor : theme.textLight },
               ]}
             >
-              {uiT("ui.redo_lessons_a4e4be75")} </Text>
+              Redo Lessons
+            </Text>
             <Ionicons
               name="refresh"
               size={14}
@@ -364,7 +364,8 @@ export default function RecentMistakesCard({
               { color: hasMistakes ? theme.textColor : theme.textLight },
             ]}
           >
-            {uiT("ui.add_to_subject_list_8e3887e1")} </Text>
+            Add to Subject List
+          </Text>
           {hasMistakes && (
             <View
               style={[

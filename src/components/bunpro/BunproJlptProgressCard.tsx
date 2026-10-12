@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Animated, { Easing, Layout } from "react-native-reanimated";
@@ -46,7 +45,6 @@ export default function BunproJlptProgressCard({
   stagePalette,
   srsStages,
 }: BunproJlptProgressCardProps) {
-  useInterfaceLanguage();
   const segmentLayoutTransition = React.useMemo(
     () => Layout.duration(340).easing(Easing.out(Easing.cubic)),
     []
@@ -67,7 +65,8 @@ export default function BunproJlptProgressCard({
             { color: themeTextColor },
           ]}
         >
-          {uiT("ui.jlpt_progress_8aac73b2")} </Text>
+          JLPT Progress
+        </Text>
         <BunproTogglePill
           leftLabel="Grammar"
           rightLabel="Vocab"

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
  import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -152,7 +151,6 @@ const sanitizeConfig = (
 };
 
 export default function TestConfigScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const params = useLocalSearchParams<{
@@ -241,10 +239,10 @@ export default function TestConfigScreen() {
         return;
       }
 
-      Alert.alert(uiT("ui.resume_random_test_4727a45e"), uiT("ui.you_have_a_random_test_in_progress_79a25f78"), [
-        { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
+      Alert.alert("Resume Random Test?", "You have a random test in progress.", [
+        { text: "Not Now", style: "cancel" },
         {
-          text: uiT("ui.discard_eb1a70e3"),
+          text: "Discard",
           style: "destructive",
           onPress: () => {
             void clearExtraStudySessionState(
@@ -253,7 +251,7 @@ export default function TestConfigScreen() {
           },
         },
         {
-          text: uiT("ui.resume_d640c742"),
+          text: "Resume",
           onPress: () => {
             router.push({
               pathname: "/test-session",
@@ -371,14 +369,14 @@ export default function TestConfigScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.random_test_b7448a38")}</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Random Test</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         {/* Question Types Section (chips UI) */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.question_types_d02b48c8")}</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.what_types_of_questions_should_be_included_1809b207")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Question Types</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>What types of questions should be included?</Text>
           <View style={styles.chipsContainer}>
             <TouchableOpacity
               style={[
@@ -391,7 +389,7 @@ export default function TestConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="language" size={16} color={config.questionTypes.meaning ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.chipText, { color: config.questionTypes.meaning ? theme.primary : theme.textColor }]}>{uiT("ui.meaning_1f5d64b9")}</Text>
+              <Text style={[styles.chipText, { color: config.questionTypes.meaning ? theme.primary : theme.textColor }]}>Meaning</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -404,14 +402,14 @@ export default function TestConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="text" size={16} color={config.questionTypes.reading ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.chipText, { color: config.questionTypes.reading ? theme.primary : theme.textColor }]}>{uiT("ui.reading_463816d0")}</Text>
+              <Text style={[styles.chipText, { color: config.questionTypes.reading ? theme.primary : theme.textColor }]}>Reading</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Number of Questions (slider) */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.number_of_questions_e69db859")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Number of Questions</Text>
           <View style={styles.sliderContainer}> 
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>{config.numberOfQuestions}</Text>
             <Slider
@@ -430,8 +428,8 @@ export default function TestConfigScreen() {
 
         {/* Subject Types (chips UI) */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.subject_types_53be7c13")}</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.choose_which_types_of_subjects_to_include_in_your_test_628bbc39")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Subject Types</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Choose which types of subjects to include in your test</Text>
           <View style={styles.chipsContainer}>
             <TouchableOpacity
               style={[
@@ -444,7 +442,7 @@ export default function TestConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="shapes" size={16} color={config.includeRadicals ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.chipText, { color: config.includeRadicals ? theme.primary : theme.textColor }]}>{uiT("ui.radicals_80608601")}</Text>
+              <Text style={[styles.chipText, { color: config.includeRadicals ? theme.primary : theme.textColor }]}>Radicals</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -457,7 +455,7 @@ export default function TestConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="language" size={16} color={config.includeKanji ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.chipText, { color: config.includeKanji ? theme.primary : theme.textColor }]}>{uiT("ui.kanji_45f62a35")}</Text>
+              <Text style={[styles.chipText, { color: config.includeKanji ? theme.primary : theme.textColor }]}>Kanji</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -470,7 +468,7 @@ export default function TestConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="library" size={16} color={config.includeVocabulary ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.chipText, { color: config.includeVocabulary ? theme.primary : theme.textColor }]}>{uiT("ui.vocabulary_eebd90a0")}</Text>
+              <Text style={[styles.chipText, { color: config.includeVocabulary ? theme.primary : theme.textColor }]}>Vocabulary</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -483,15 +481,15 @@ export default function TestConfigScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="text" size={16} color={config.includeKanaVocabulary ? theme.primary : theme.textSecondary} />
-              <Text style={[styles.chipText, { color: config.includeKanaVocabulary ? theme.primary : theme.textColor }]}>{uiT("ui.kana_vocab_597d8c17")}</Text>
+              <Text style={[styles.chipText, { color: config.includeKanaVocabulary ? theme.primary : theme.textColor }]}>Kana Vocab</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* SRS Stages */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.include_srs_stages_eb382d10")}</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.choose_which_progression_stages_to_include_983f6d5c")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Include SRS Stages</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Choose which progression stages to include</Text>
           <View style={styles.chipsContainer}>
             {SRS_CHIPS.map(({ key, label }) => {
               const selected = config.srsGroups[key];
@@ -529,10 +527,10 @@ export default function TestConfigScreen() {
 
         {/* Levels */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.levels_b1482131")}</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Levels</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Without a subject list, includes levels 1 to your level ({userLevel}). Selected lists can include any level. Enable a custom range to restrict.</Text>
           <View style={[styles.levelToggleRow, { borderColor: config.useCustomLevelRange ? theme.secondary : theme.border, backgroundColor: config.useCustomLevelRange ? `${theme.secondary}15` : 'transparent' }]}>
-            <Text style={[styles.levelToggleText, { color: theme.textColor }]}>{uiT("ui.use_custom_level_range_fdb84cae")}</Text>
+            <Text style={[styles.levelToggleText, { color: theme.textColor }]}>Use custom level range</Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -551,7 +549,7 @@ export default function TestConfigScreen() {
           >
             <View>
               <View style={styles.levelSliderRow}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.min_level_4986a2df")}</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Min Level</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.minLevel}</Text>
               </View>
               <Slider
@@ -568,7 +566,7 @@ export default function TestConfigScreen() {
                 thumbTintColor={theme.secondary}
               />
               <View style={[styles.levelSliderRow, { marginTop: 12 }]}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.max_level_2833a212")}</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Max Level</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.maxLevel}</Text>
               </View>
               <Slider
@@ -592,7 +590,7 @@ export default function TestConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={listCountTypes}
-          description={uiT("ui.optional_only_include_subjects_from_these_saved_lists_1d5ef2d9")}
+          description="Optional: only include subjects from these saved lists."
         />
 
         <View style={{ height: 80 }} />
@@ -601,7 +599,8 @@ export default function TestConfigScreen() {
           <View style={[styles.warningContainer, { backgroundColor: theme.isDark ? 'rgba(255, 152, 0, 0.2)' : 'rgba(255, 152, 0, 0.1)' }]}>
             <Ionicons name="warning" size={20} color="#ff9800" />
             <Text style={[styles.warningText, { color: '#ff9800' }]}>
-              {uiT("ui.please_select_at_least_one_subject_type_question_type_and_srs_sta_f3c524d5")} </Text>
+              Please select at least one subject type, question type, and SRS stage to start the test.
+            </Text>
           </View>
         )}
       </ScrollView>
@@ -614,7 +613,7 @@ export default function TestConfigScreen() {
           activeOpacity={0.8}
         >
           <Ionicons name="play" size={24} color="white" style={{ marginRight: 8 }} />
-          <Text style={styles.startButtonText}>{uiT("ui.start_random_test_61149a9b")}</Text>
+          <Text style={styles.startButtonText}>Start Random Test</Text>
         </TouchableOpacity>
       </View>
     </View>

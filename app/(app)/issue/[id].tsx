@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { formatDistanceToNow } from "date-fns";
 import * as ImagePicker from "expo-image-picker";
@@ -48,7 +47,6 @@ type AppTheme = ReturnType<typeof useTheme>["theme"];
 const MAX_MEDIA_SIZE_MB = ISSUE_MEDIA_MAX_BYTES / (1024 * 1024);
 
 export default function IssueDetailScreen() {
-  useInterfaceLanguage();
   const { id, comment: targetComment } = useLocalSearchParams<{ id: string; comment?: string }>();
   const router = useRouter();
   const { theme } = useTheme();
@@ -87,7 +85,7 @@ export default function IssueDetailScreen() {
       setComments(commentsData);
     } catch (error) {
       console.error("Failed to load issue", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.could_not_load_issue_details_7bcaf96e"));
+      Alert.alert("Error", "Could not load issue details.");
     }
   }, [id, apiToken, isAuthLoading, userData?.id]);
 
@@ -121,7 +119,7 @@ export default function IssueDetailScreen() {
         return true;
       } catch (error) {
         console.error("Failed to add comment", error);
-        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_post_comment_8664e722"));
+        Alert.alert("Error", "Failed to post comment.");
         return false;
       }
     },
@@ -137,24 +135,24 @@ export default function IssueDetailScreen() {
       setIssue((prev) => (prev ? { ...prev, status: newStatus } : null));
     } catch (error) {
       console.error("Failed to update status", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_update_status_80e7f3a1"));
+      Alert.alert("Error", "Failed to update status.");
     }
   };
 
   const handleDelete = async () => {
     if (!issue || (!isAdmin && !isAuthor)) return;
 
-    Alert.alert(uiT("ui.delete_issue_0ccbbe6c"), uiT("ui.are_you_sure_you_want_to_delete_this_issue_9eda8a37"), [
-      { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+    Alert.alert("Delete Issue", "Are you sure you want to delete this issue?", [
+      { text: "Cancel", style: "cancel" },
       {
-        text: uiT("ui.delete_e2d0a549"),
+        text: "Delete",
         style: "destructive",
         onPress: async () => {
           try {
             await issueService.deleteIssue(issue.id);
             router.back();
           } catch {
-            Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_delete_issue_2e9d56dc"));
+            Alert.alert("Error", "Failed to delete issue.");
           }
         },
       },
@@ -320,7 +318,7 @@ export default function IssueDetailScreen() {
           </TouchableOpacity>
 
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            {uiT("ui.issue_b21c33d7")}{issue.id.substring(0, 5)}
+            Issue #{issue.id.substring(0, 5)}
           </Text>
 
           {(isAdmin || isAuthor) && (
@@ -376,11 +374,12 @@ export default function IssueDetailScreen() {
               <Text
                 style={{ color: "white", fontWeight: "bold", marginLeft: 4 }}
               >
-                {isOpen ? uiT("ui.open_ed077f3d") : uiT("ui.closed_c21ead06")}
+                {isOpen ? "Open" : "Closed"}
               </Text>
             </View>
             <Text style={{ color: theme.textSecondary, marginLeft: 8 }}>
-              {uiT("ui.opened_50236627")} {formatDistanceToNow(new Date(issue.created_at))} {uiT("ui.ago_1d8e08fd")} </Text>
+              opened {formatDistanceToNow(new Date(issue.created_at))} ago
+            </Text>
           </View>
 
           {/* Like button for issue */}
@@ -462,7 +461,7 @@ export default function IssueDetailScreen() {
                           { backgroundColor: theme.primary },
                         ]}
                       >
-                        <Text style={styles.devBadgeText}>{uiT("ui.dev_4030fe15")}</Text>
+                        <Text style={styles.devBadgeText}>DEV</Text>
                       </View>
                     )}
                   {isIssueAuthorSupporter && (
@@ -472,7 +471,8 @@ export default function IssueDetailScreen() {
                   )}
                 </View>
                 <Text style={{ color: theme.textSecondary, fontSize: 12 }}>
-                  {formatDistanceToNow(new Date(issue.created_at))} {uiT("ui.ago_1d8e08fd")} </Text>
+                  {formatDistanceToNow(new Date(issue.created_at))} ago
+                </Text>
               </View>
             </View>
           </View>
@@ -555,7 +555,7 @@ export default function IssueDetailScreen() {
                               { backgroundColor: theme.primary },
                             ]}
                           >
-                            <Text style={styles.devBadgeText}>{uiT("ui.dev_4030fe15")}</Text>
+                            <Text style={styles.devBadgeText}>DEV</Text>
                           </View>
                         )}
                       {isCommentAuthorSupporter && (
@@ -565,7 +565,8 @@ export default function IssueDetailScreen() {
                       )}
                     </View>
                     <Text style={{ color: theme.textSecondary, fontSize: 12 }}>
-                      {formatDistanceToNow(new Date(comment.created_at))} {uiT("ui.ago_1d8e08fd")} </Text>
+                      {formatDistanceToNow(new Date(comment.created_at))} ago
+                    </Text>
                   </View>
                 </View>
                 <View style={styles.commentActions}>
@@ -626,7 +627,7 @@ export default function IssueDetailScreen() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.replying_to_2e89f01d")} {replyToComment.user_username}
+                        Replying to {replyToComment.user_username}
                       </Text>
                     </View>
                     <Text
@@ -656,7 +657,8 @@ export default function IssueDetailScreen() {
                   <Text
                     style={[styles.replyButtonText, { color: theme.primary }]}
                   >
-                    {uiT("ui.reply_c253f451")} </Text>
+                    Reply
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -679,7 +681,7 @@ export default function IssueDetailScreen() {
               onPress={handleToggleStatus}
             >
               <Text style={{ color: theme.textColor, fontWeight: "600" }}>
-                {isOpen ? uiT("ui.close_issue_2f87240c") : uiT("ui.reopen_issue_5a6befdf")}
+                {isOpen ? "Close Issue" : "Reopen Issue"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -718,7 +720,6 @@ function CommentComposer({
   onCancelReply,
   onSubmitComment,
 }: CommentComposerProps) {
-  useInterfaceLanguage();
   const [replyContent, setReplyContent] = useState("");
   const [submittingReply, setSubmittingReply] = useState(false);
   const [isUploadingCommentImage, setIsUploadingCommentImage] = useState(false);
@@ -743,8 +744,8 @@ function CommentComposer({
 
         if (typeof sizeBytes === "number" && sizeBytes > ISSUE_MEDIA_MAX_BYTES) {
           Alert.alert(
-            uiT("ui.file_too_large_0d74a4e2"),
-            uiT("ui.this_file_is_too_large_the_maximum_upload_size_is_valuemb_f1f3cdc1", {value1: (MAX_MEDIA_SIZE_MB)})
+            "File Too Large",
+            `This file is too large. The maximum upload size is ${MAX_MEDIA_SIZE_MB}MB.`
           );
           return;
         }
@@ -768,24 +769,24 @@ function CommentComposer({
     } catch (error) {
       if (isIssueMediaTooLargeError(error)) {
         Alert.alert(
-          uiT("ui.file_too_large_0d74a4e2"),
-          uiT("ui.this_file_is_too_large_the_maximum_upload_size_is_valuemb_f1f3cdc1", {value1: (MAX_MEDIA_SIZE_MB)})
+          "File Too Large",
+          `This file is too large. The maximum upload size is ${MAX_MEDIA_SIZE_MB}MB.`
         );
         return;
       }
 
       if (isIssueMediaBucketNotFoundError(error)) {
         Alert.alert(
-          uiT("ui.upload_not_configured_b34d7a3a"),
-          uiT("ui.issue_media_storage_is_not_configured_in_supabase_yet_create_the_81e2ecdb")
+          "Upload Not Configured",
+          "Issue media storage is not configured in Supabase yet. Create the `issue-media` storage bucket or set EXPO_PUBLIC_SUPABASE_ISSUE_MEDIA_BUCKET to an existing bucket."
         );
         return;
       }
 
       console.error("Comment media upload failed", error);
       Alert.alert(
-        uiT("ui.upload_failed_16544909"),
-        uiT("ui.could_not_upload_this_file_please_try_again_e7210aa7")
+        "Upload Failed",
+        "Could not upload this file. Please try again."
       );
     } finally {
       setIsUploadingCommentImage(false);
@@ -847,7 +848,7 @@ function CommentComposer({
               style={[styles.replyingToText, { color: theme.textColor }]}
               numberOfLines={1}
             >
-              {uiT("ui.replying_to_2e89f01d")} {replyingTo.user_username}
+              Replying to {replyingTo.user_username}
             </Text>
           </View>
           <TouchableOpacity onPress={onCancelReply}>
@@ -867,7 +868,7 @@ function CommentComposer({
               borderColor: theme.border,
             },
           ]}
-          placeholder={uiT("ui.add_a_comment_23c5f331")}
+          placeholder="Add a comment..."
           placeholderTextColor={theme.textSecondary}
           value={replyContent}
           onChangeText={setReplyContent}
@@ -916,13 +917,11 @@ function CommentComposer({
 }
 
 const IssueMarkdown = memo(function IssueMarkdown({ content, theme }: { content: string; theme: AppTheme }) {
-  useInterfaceLanguage();
   const markdownStyle = useMemo(() => markdownStyles(theme), [theme]);
   return <Markdown style={markdownStyle} rules={markdownRules}>{content}</Markdown>;
 });
 
 const MarkdownImage = ({ src, style }: { src: string; style: any }) => {
-  useInterfaceLanguage();
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   useEffect(() => {
@@ -958,7 +957,6 @@ function isVideoMarkdownAsset(src: string, altText?: string): boolean {
 }
 
 const MarkdownVideo = ({ src, style }: { src: string; style: any }) => {
-  useInterfaceLanguage();
   const player = useVideoPlayer(src, (videoPlayer) => {
     videoPlayer.loop = false;
     videoPlayer.currentTime = 0;

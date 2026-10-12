@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -55,8 +54,8 @@ interface CrosswordSizePreset {
 const SIZE_PRESETS: CrosswordSizePreset[] = [
   {
     id: "small",
-    get label() { return uiT("ui.small_5263293f"); },
-    get description() { return uiT("ui.fits_on_screen_quick_to_solve_8e5982d1"); },
+    label: "Small",
+    description: "Fits on screen, quick to solve",
     gridSize: 9,
     defaultMaxWords: 6,
     minWords: 4,
@@ -64,8 +63,8 @@ const SIZE_PRESETS: CrosswordSizePreset[] = [
   },
   {
     id: "medium",
-    get label() { return uiT("ui.medium_8e588cd1"); },
-    get description() { return uiT("ui.a_balanced_challenge_89f4accb"); },
+    label: "Medium",
+    description: "A balanced challenge",
     gridSize: 13,
     defaultMaxWords: 10,
     minWords: 6,
@@ -73,8 +72,8 @@ const SIZE_PRESETS: CrosswordSizePreset[] = [
   },
   {
     id: "large",
-    get label() { return uiT("ui.large_ab80540d"); },
-    get description() { return uiT("ui.more_words_more_crossings_5ab74c59"); },
+    label: "Large",
+    description: "More words, more crossings",
     gridSize: 17,
     defaultMaxWords: 16,
     minWords: 10,
@@ -189,7 +188,6 @@ const sanitizeConfig = (
 };
 
 export default function CrosswordConfigScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const userLevel = userData?.level ?? 60;
@@ -226,8 +224,8 @@ export default function CrosswordConfigScreen() {
   const start = async () => {
     if (!canStart()) {
       Alert.alert(
-        uiT("ui.pick_at_least_one_srs_stage_d534ffe3"),
-        uiT("ui.choose_at_least_one_srs_stage_to_draw_vocabulary_from_17372424")
+        "Pick at least one SRS stage",
+        "Choose at least one SRS stage to draw vocabulary from."
       );
       return;
     }
@@ -301,10 +299,10 @@ export default function CrosswordConfigScreen() {
       );
       if (!hasSavedSession || !isMounted) return;
 
-      Alert.alert(uiT("ui.resume_crossword_a46fe0e3"), uiT("ui.you_have_a_crossword_in_progress_db5aaa8b"), [
-        { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
+      Alert.alert("Resume Crossword?", "You have a crossword in progress.", [
+        { text: "Not Now", style: "cancel" },
         {
-          text: uiT("ui.discard_eb1a70e3"),
+          text: "Discard",
           style: "destructive",
           onPress: () => {
             void clearExtraStudySessionState(
@@ -313,7 +311,7 @@ export default function CrosswordConfigScreen() {
           },
         },
         {
-          text: uiT("ui.resume_d640c742"),
+          text: "Resume",
           onPress: () => {
             router.push({
               pathname: "/crossword-session",
@@ -356,20 +354,20 @@ export default function CrosswordConfigScreen() {
         {
           value: "english",
           label: "English",
-          description: uiT("ui.meaning_clues_in_english_7122c1c7"),
+          description: "Meaning clues in English",
         },
         {
           value: "kanji",
-          label: uiT("ui.kanji_45f62a35"),
-          description: uiT("ui.character_form_when_available_fed3ef73"),
+          label: "Kanji",
+          description: "Character form when available",
         },
         {
           value: "english_kanji",
-          label: uiT("ui.english_kanji_781ea47b"),
-          description: uiT("ui.both_clue_styles_together_f58d1567"),
+          label: "English + Kanji",
+          description: "Both clue styles together",
         },
       ] as const,
-    [interfaceLocale()]
+    []
   );
 
   const expandAnim = useRef(
@@ -401,7 +399,8 @@ export default function CrosswordConfigScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.crossword_468aceb8")} </Text>
+          Crossword
+        </Text>
       </View>
 
       <ScrollView
@@ -412,14 +411,16 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.crossword_size_df7e8d99")} </Text>
+            Crossword Size
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.bigger_grids_fit_more_crossings_but_take_longer_to_fill_73eea4d6")} </Text>
+            Bigger grids fit more crossings but take longer to fill.
+          </Text>
           <View style={styles.sizeOptions}>
             {SIZE_PRESETS.map((preset) => {
               const selected = preset.id === config.size;
@@ -483,7 +484,8 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.number_of_words_e022a2f9")} </Text>
+            Number of Words
+          </Text>
           <View style={styles.sliderContainer}>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.maxWords}
@@ -503,21 +505,24 @@ export default function CrosswordConfigScreen() {
           <Text
             style={[styles.helperText, { color: theme.textSecondary }]}
           >
-            {uiT("ui.generation_may_place_fewer_words_if_no_compatible_crossings_exist_f8bce5e1")} </Text>
+            Generation may place fewer words if no compatible crossings exist.
+          </Text>
         </View>
 
         <View
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.include_srs_stages_eb382d10")} </Text>
+            Include SRS Stages
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.choose_which_progression_stages_to_draw_vocabulary_from_6f7dbdb8")} </Text>
+            Choose which progression stages to draw vocabulary from
+          </Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = (config.srsGroups as Record<string, boolean>)[
@@ -576,14 +581,17 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.levels_b1482131")} </Text>
+            Levels
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")} </Text>
+            Without a subject list, includes levels 1 to your level ({userLevel}).
+            Selected lists can include any level. Enable a custom range to restrict.
+          </Text>
           <View
             style={[
               styles.toggleRow,
@@ -598,7 +606,8 @@ export default function CrosswordConfigScreen() {
             ]}
           >
             <Text style={[styles.toggleText, { color: theme.textColor }]}>
-              {uiT("ui.use_custom_level_range_fdb84cae")} </Text>
+              Use custom level range
+            </Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -623,7 +632,8 @@ export default function CrosswordConfigScreen() {
                 <Text
                   style={[styles.levelLabel, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.min_level_4986a2df")} </Text>
+                  Min Level
+                </Text>
                 <Text
                   style={[styles.levelValue, { color: theme.textColor }]}
                 >
@@ -647,7 +657,8 @@ export default function CrosswordConfigScreen() {
                 <Text
                   style={[styles.levelLabel, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.max_level_2833a212")} </Text>
+                  Max Level
+                </Text>
                 <Text
                   style={[styles.levelValue, { color: theme.textColor }]}
                 >
@@ -684,8 +695,8 @@ export default function CrosswordConfigScreen() {
                 ]}
               >
                 {config.selectedListIds.length > 0
-                  ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
-                  : uiT("ui.levels_1_value_97fc00a2", {value1: (userLevel)})}
+                  ? "All levels in selected lists"
+                  : `Levels 1 - ${userLevel}`}
               </Text>
             </View>
           )}
@@ -695,14 +706,16 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.estimated_jlpt_72847854")} </Text>
+            Estimated JLPT
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.optional_only_include_vocabulary_from_the_selected_jlpt_levels_81d3ddca")} </Text>
+            Optional: only include vocabulary from the selected JLPT levels.
+          </Text>
           <View style={styles.jlptFiltersRow}>
             {JLPT_LEVELS.map((level) => {
               const selected = config.jlptLevels.includes(level);
@@ -733,7 +746,7 @@ export default function CrosswordConfigScreen() {
                   activeOpacity={0.7}
                   accessibilityRole="checkbox"
                   accessibilityState={{ checked: selected }}
-                  accessibilityLabel={uiT("ui.dynamic_ccfe225ce04d", {value1: (level)})}
+                  accessibilityLabel={`${level} estimated JLPT filter`}
                 >
                   <Text
                     style={[
@@ -753,7 +766,8 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.vocabulary_filter_f1b226d0")} </Text>
+            Vocabulary Filter
+          </Text>
           <View
             style={[
               styles.toggleRow,
@@ -770,14 +784,16 @@ export default function CrosswordConfigScreen() {
           >
             <View style={{ flex: 1 }}>
               <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                {uiT("ui.hiragana_only_words_45c66a02")} </Text>
+                Hiragana-only words
+              </Text>
               <Text
                 style={[
                   styles.helperText,
                   { color: theme.textSecondary, marginTop: 2 },
                 ]}
               >
-                {uiT("ui.skip_vocab_that_contains_kanji_or_katakana_e91bfce1")} </Text>
+                Skip vocab that contains kanji or katakana
+              </Text>
             </View>
             <Switch
               value={config.hiraganaOnly}
@@ -792,14 +808,16 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.clue_language_3e4e0df6")} </Text>
+            Clue Language
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.pick_how_clues_are_shown_before_and_during_the_puzzle_4b939617")} </Text>
+            Pick how clues are shown before and during the puzzle.
+          </Text>
           <View style={styles.chipsContainer}>
             {clueDisplayOptions.map((option) => {
               const selected = config.clueDisplayMode === option.value;
@@ -841,14 +859,16 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.solution_review_de87f198")} </Text>
+            Solution Review
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.choose_how_completed_words_appear_in_your_statistics_5a5a298f")} </Text>
+            Choose how completed words appear in your statistics.
+          </Text>
           <View
             style={[
               styles.toggleRow,
@@ -865,14 +885,16 @@ export default function CrosswordConfigScreen() {
           >
             <View style={{ flex: 1 }}>
               <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                {uiT("ui.show_kanji_before_readings_97c71e9c")} </Text>
+                Show kanji before readings
+              </Text>
               <Text
                 style={[
                   styles.helperText,
                   { color: theme.textSecondary, marginTop: 2 },
                 ]}
               >
-                {uiT("ui.show_kanji_then_hiragana_with_the_english_meaning_below_966f19a7")} </Text>
+                Show kanji, then hiragana, with the English meaning below
+              </Text>
             </View>
             <Switch
               value={config.showKanjiInSolutions}
@@ -887,14 +909,16 @@ export default function CrosswordConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.audio_reinforcement_501f775f")} </Text>
+            Audio Reinforcement
+          </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.hear_solved_words_to_reinforce_recall_5b8cca8c")} </Text>
+            Hear solved words to reinforce recall.
+          </Text>
           <View
             style={[
               styles.toggleRow,
@@ -910,14 +934,16 @@ export default function CrosswordConfigScreen() {
           >
             <View style={{ flex: 1 }}>
               <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                {uiT("ui.play_audio_on_correct_answers_8a6af6f0")} </Text>
+                Play audio on correct answers
+              </Text>
               <Text
                 style={[
                   styles.helperText,
                   { color: theme.textSecondary, marginTop: 2 },
                 ]}
               >
-                {uiT("ui.read_the_solved_word_aloud_when_you_get_it_right_22dcbe72")} </Text>
+                Read the solved word aloud when you get it right
+              </Text>
             </View>
             <Switch
               value={config.playAudioOnCorrectAnswer}
@@ -932,7 +958,7 @@ export default function CrosswordConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={["vocabulary", "kana_vocabulary"]}
-          description={uiT("ui.optional_only_include_vocabulary_from_these_saved_lists_5efc3c54")}
+          description="Optional: only include vocabulary from these saved lists."
         />
 
         <View style={{ height: 80 }} />
@@ -962,7 +988,7 @@ export default function CrosswordConfigScreen() {
             color="white"
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.startButtonText}>{uiT("ui.start_crossword_2819c9ce")}</Text>
+          <Text style={styles.startButtonText}>Start Crossword</Text>
         </TouchableOpacity>
       </View>
     </View>

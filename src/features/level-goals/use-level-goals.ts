@@ -1,4 +1,3 @@
-import { uiT } from "../interface-language/runtime";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { permanentStorage } from "../../utils/permanentStorage";
 import { useAuthStore } from "../../utils/store";
@@ -49,7 +48,7 @@ export function useLevelGoals(
         setError("");
         return true;
       } catch {
-        setError(uiT("ui.message_a5063f7085b2"));
+        setError("Your goal could not be saved. Please try again.");
         return false;
       }
     },

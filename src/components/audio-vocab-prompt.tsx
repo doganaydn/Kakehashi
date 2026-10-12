@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import Svg, { Path } from "react-native-svg";
 import {
   setAudioModeAsync,
@@ -28,7 +27,6 @@ function AudioVocabPlayback({
   card: AudioVocabCard;
   autoPlay: boolean;
 }) {
-  useInterfaceLanguage();
   const player = useAudioPlayer(null);
   const status = useAudioPlayerStatus(player);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +55,7 @@ function AudioVocabPlayback({
       } catch {
         if (activeRef.current && request === requestRef.current)
           setError(
-            uiT("ui.message_cb2b37c32e9c"),
+            "Audio couldn’t play. Check your connection and tap the speaker to retry.",
           );
       }
     },
@@ -87,7 +85,7 @@ function AudioVocabPlayback({
       } catch {
         if (!cancelled)
           setError(
-            uiT("ui.message_64e3ec43c3f6"),
+            "Audio couldn’t load. Check your connection and tap the speaker to retry.",
           );
       }
     })();
@@ -105,7 +103,7 @@ function AudioVocabPlayback({
     const timeout = setTimeout(
       () =>
         setError(
-          uiT("ui.message_64e3ec43c3f6"),
+          "Audio couldn’t load. Check your connection and tap the speaker to retry.",
         ),
       12000,
     );
@@ -129,7 +127,6 @@ function AudioSentencePlayback({
   text: string;
   autoPlay: boolean;
 }) {
-  useInterfaceLanguage();
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -161,13 +158,13 @@ function AudioSentencePlayback({
           undefined,
           () => {
             if (isCurrent())
-              setError(uiT("ui.message_5e370350c2d8"));
+              setError("Audio couldn’t play. Tap the speaker to retry.");
           },
           { speedMultiplier: rate },
         );
       } catch {
         if (isCurrent())
-          setError(uiT("ui.message_5e370350c2d8"));
+          setError("Audio couldn’t play. Tap the speaker to retry.");
       } finally {
         if (isCurrent()) {
           setLoading(false);
@@ -213,14 +210,13 @@ function AudioPlaybackControls({
   play: (rate?: number) => Promise<void>;
   sentenceMode?: boolean;
 }) {
-  useInterfaceLanguage();
   return (
     <>
       <View style={{ alignItems: "center", gap: 12, padding: 16 }}>
         <View style={{ flexDirection: "row", alignItems: "flex-end", gap: 16 }}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.play_vocabulary_audio_e6df71b7")}
+            accessibilityLabel="Play vocabulary audio"
             onPress={() => void play()}
             style={{
               width: 120,
@@ -253,7 +249,7 @@ function AudioPlaybackControls({
           </Pressable>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.play_vocabulary_audio_slowly_a4bc204e")}
+            accessibilityLabel="Play vocabulary audio slowly"
             onPress={() => void play(0.75)}
             style={{
               minWidth: 76,
@@ -269,7 +265,7 @@ function AudioPlaybackControls({
             }}
           >
             <Text style={{ color: "white", fontSize: 18 }}>0.75×</Text>
-            <Text style={{ color: "white", fontSize: 12 }}>{uiT("ui.slower_4eda52fe")}</Text>
+            <Text style={{ color: "white", fontSize: 12 }}>Slower</Text>
           </Pressable>
         </View>
         <Text
@@ -282,12 +278,12 @@ function AudioPlaybackControls({
         >
           {error ??
             (playing
-              ? uiT("ui.playing_a9fcbd2b")
+              ? "Playing…"
               : loading
-                ? uiT("ui.loading_audio_b5984238")
+                ? "Loading audio…"
                 : sentenceMode
-                  ? uiT("ui.listen_to_the_word_then_its_sentence_3f8feb48")
-                  : uiT("ui.tap_to_listen_again_dd95b111"))}
+                  ? "Listen to the word, then its sentence."
+                  : "Tap to listen again")}
         </Text>
       </View>
     </>
@@ -303,7 +299,6 @@ export default function AudioVocabPrompt({
   autoPlay: boolean;
   sentence?: string;
 }) {
-  useInterfaceLanguage();
   const voice = useSettingsStore((state) => state.vocabularyAudioVoice);
   const card = useMemo(
     () => (sentence ? null : createAudioVocabCard(subject, voice)),
@@ -323,6 +318,6 @@ export default function AudioVocabPrompt({
       autoPlay={autoPlay}
     />
   ) : (
-    <Text>{uiT("ui.no_recording_is_available_for_this_vocabulary_6cc97e6e")}</Text>
+    <Text>No recording is available for this vocabulary.</Text>
   );
 }

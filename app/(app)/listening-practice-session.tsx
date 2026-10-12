@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -65,7 +64,6 @@ interface ListeningPracticeSavedSession {
 }
 
 export default function ListeningPracticeSession() {
-  useInterfaceLanguage();
   useActivityTracking("listening_practice");
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
@@ -266,9 +264,9 @@ export default function ListeningPracticeSession() {
         }
         if (!params.sessionId) {
           Alert.alert(
-            uiT("ui.session_not_available_3b81ebff"),
-            uiT("ui.couldn_t_restore_that_listening_practice_session_d3da9079"),
-            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/listening-practice-config") }],
+            "Session Not Available",
+            "Couldn't restore that listening practice session.",
+            [{ text: "OK", onPress: () => router.replace("/listening-practice-config") }],
           );
           return;
         }
@@ -342,9 +340,9 @@ export default function ListeningPracticeSession() {
       if (normalizedSolutionMode === "writing" && !autoSwitchKeyboard) {
         setIsLoading(false);
         Alert.alert(
-          uiT("ui.japanese_keyboard_required_ecd8a724"),
-          uiT("ui.enable_switch_to_japanese_keyboard_before_starting_listening_writ_832a6375"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/listening-practice-config") }]
+          "Japanese Keyboard Required",
+          "Enable \"Switch to Japanese Keyboard\" before starting listening writing mode.",
+          [{ text: "OK", onPress: () => router.replace("/listening-practice-config") }]
         );
         return;
       }
@@ -364,9 +362,9 @@ export default function ListeningPracticeSession() {
       const firstResult = await generator.next();
       if (firstResult.done || !firstResult.value) {
         Alert.alert(
-          uiT("ui.no_questions_available_d19c5909"),
-          uiT("ui.could_not_find_enough_vocabulary_with_anime_examples_try_adjustin_abc9c91f"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "No Questions Available",
+          "Could not find enough vocabulary with anime examples. Try adjusting your settings or selecting more anime sources.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -399,14 +397,14 @@ export default function ListeningPracticeSession() {
       const errorMessage = error instanceof Error ? error.message : String(error);
       if (errorMessage.startsWith("RATE_LIMIT:")) {
         const message = errorMessage.replace("RATE_LIMIT:", "");
-        Alert.alert(uiT("ui.rate_limit_exceeded_287e6bdb"), message, [
-          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+        Alert.alert("Rate Limit Exceeded", message, [
+          { text: "OK", onPress: () => router.back() },
         ]);
       } else {
         Alert.alert(
-          uiT("ui.error_54a0e8c1"),
-          uiT("ui.failed_to_load_listening_practice_questions_please_try_again_9a055e56"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "Error",
+          "Failed to load listening practice questions. Please try again.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
       }
     }
@@ -457,16 +455,22 @@ export default function ListeningPracticeSession() {
       const errorMessage = error instanceof Error ? error.message : String(error);
       if (errorMessage.startsWith("RATE_LIMIT:")) {
         Alert.alert(
-          uiT("ui.rate_limit_exceeded_287e6bdb"),
-          uiT("ui.we_couldn_t_load_value_questionvalue_due_to_rate_limiting_your_pr_8b398d8c", {value1: (missingQuestions), value2: (missingQuestions === 1 ? "" : "s"), value3: (currentQuestionCount), value4: (currentQuestionCount === 1 ? "" : "s"), value5: (expectedQuestions)}),
-          [{ text: uiT("ui.ok_565339bc") }]
+          "Rate Limit Exceeded",
+          `We couldn't load ${missingQuestions} question${
+            missingQuestions === 1 ? "" : "s"
+          } due to rate limiting.\n\nYour practice session will have ${currentQuestionCount} question${
+            currentQuestionCount === 1 ? "" : "s"
+          } instead of ${expectedQuestions}.`,
+          [{ text: "OK" }]
         );
       } else {
         // Show error for other failures during background loading
         Alert.alert(
-          uiT("ui.loading_error_b2a1e2d6"),
-          uiT("ui.we_couldn_t_load_all_questions_your_practice_session_will_have_va_d5c5d4e0", {value1: (currentQuestionCount), value2: (currentQuestionCount === 1 ? "" : "s"), value3: (expectedQuestions)}),
-          [{ text: uiT("ui.ok_565339bc") }]
+          "Loading Error",
+          `We couldn't load all questions. Your practice session will have ${currentQuestionCount} question${
+            currentQuestionCount === 1 ? "" : "s"
+          } instead of ${expectedQuestions}.`,
+          [{ text: "OK" }]
         );
       }
     } finally {
@@ -584,23 +588,23 @@ export default function ListeningPracticeSession() {
 
   const handleExit = () => {
     Alert.alert(
-      uiT("ui.exit_listening_practice_0fe688d0"),
-      uiT("ui.want_to_continue_this_listening_practice_later_ab764bd5"),
+      "Exit Listening Practice?",
+      "Want to continue this listening practice later?",
       [
-        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: uiT("ui.continue_later_ba247ab0"),
+          text: "Continue Later",
           onPress: async () => {
             const wasSaved = await saveListeningPracticeSessionForLater();
             if (!wasSaved) {
-              Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
+              Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
               return;
             }
             router.back();
           },
         },
         {
-          text: uiT("ui.exit_d17d84a6"),
+          text: "Exit",
           style: "destructive",
           onPress: async () => {
             await clearSavedListeningPracticeSession();
@@ -624,9 +628,11 @@ export default function ListeningPracticeSession() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.finding_audio_examples_28c5fb9f")} </Text>
+            Finding audio examples...
+          </Text>
           <Text style={[styles.loadingSubtext, { color: theme.textSecondary }]}>
-            {uiT("ui.this_may_take_a_moment_c1049c89")} </Text>
+            This may take a moment
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -723,7 +729,6 @@ function SummaryAnswerCard({
   index: number;
   theme: any;
 }) {
-  useInterfaceLanguage();
   const subjectColors = useSubjectColors();
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
@@ -854,7 +859,8 @@ function SummaryAnswerCard({
         <View style={summaryStyles.correctnessIndicators}>
           <View style={summaryStyles.indicatorRow}>
             <Text style={[summaryStyles.indicatorLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.vocab_eb535ff6")} </Text>
+              Vocab
+            </Text>
             <View
               style={[
                 summaryStyles.indicatorDot,
@@ -870,7 +876,8 @@ function SummaryAnswerCard({
           </View>
           <View style={summaryStyles.indicatorRow}>
             <Text style={[summaryStyles.indicatorLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.meaning_1f5d64b9")} </Text>
+              Meaning
+            </Text>
             <View
               style={[
                 summaryStyles.indicatorDot,
@@ -928,7 +935,7 @@ function SummaryAnswerCard({
                 { color: isPlayingAudio ? "white" : theme.primary },
               ]}
             >
-              {isPlayingAudio ? uiT("ui.playing_696b21fd") : uiT("ui.replay_c8dae637")}
+              {isPlayingAudio ? "Playing..." : "Replay"}
             </Text>
           </TouchableOpacity>
         )}
@@ -946,7 +953,8 @@ function SummaryAnswerCard({
       <View style={summaryStyles.yourAnswersRow}>
         <View style={summaryStyles.yourAnswerItem}>
           <Text style={[summaryStyles.yourAnswerLabel, { color: theme.textSecondary }]}>
-            {uiT("ui.your_vocabulary_answer_2d24d86c")} </Text>
+            Your vocabulary answer
+          </Text>
           <Text
             style={[
               summaryStyles.yourAnswerValue,
@@ -961,7 +969,8 @@ function SummaryAnswerCard({
         </View>
         <View style={summaryStyles.yourAnswerItem}>
           <Text style={[summaryStyles.yourAnswerLabel, { color: theme.textSecondary }]}>
-            {uiT("ui.your_meaning_answer_c232c44d")} </Text>
+            Your meaning answer
+          </Text>
           <Text
             style={[
               summaryStyles.yourAnswerValue,
@@ -1000,7 +1009,6 @@ function SummaryScreen({
   onBack: () => void;
   onPracticeAgain: () => void;
 }) {
-  useInterfaceLanguage();
   // Determine score color
   const getScoreColor = (pct: number) => {
     if (pct >= 80) return "#4caf50";
@@ -1020,7 +1028,8 @@ function SummaryScreen({
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[summaryStyles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.session_results_04db3d75")} </Text>
+          Session Results
+        </Text>
         <View style={{ width: 40 }} />
       </View>
 
@@ -1053,14 +1062,16 @@ function SummaryScreen({
               </Text>
             </View>
             <Text style={[summaryStyles.scoreCircleLabel, { color: theme.textSecondary }]}>
-              {uiT("ui.overall_715b1458")} </Text>
+              Overall
+            </Text>
           </View>
 
           <View style={summaryStyles.scoreDetailsCol}>
             <View style={summaryStyles.scoreDetailRow}>
               <Ionicons name="language-outline" size={16} color={theme.textSecondary} />
               <Text style={[summaryStyles.scoreDetailLabel, { color: theme.textColor }]}>
-                {uiT("ui.vocabulary_eebd90a0")} </Text>
+                Vocabulary
+              </Text>
               <Text
                 style={[
                   summaryStyles.scoreDetailValue,
@@ -1073,7 +1084,8 @@ function SummaryScreen({
             <View style={summaryStyles.scoreDetailRow}>
               <Ionicons name="chatbox-ellipses-outline" size={16} color={theme.textSecondary} />
               <Text style={[summaryStyles.scoreDetailLabel, { color: theme.textColor }]}>
-                {uiT("ui.meaning_1f5d64b9")} </Text>
+                Meaning
+              </Text>
               <Text
                 style={[
                   summaryStyles.scoreDetailValue,
@@ -1086,7 +1098,8 @@ function SummaryScreen({
             <View style={summaryStyles.scoreDetailRow}>
               <Ionicons name="help-circle-outline" size={16} color={theme.textSecondary} />
               <Text style={[summaryStyles.scoreDetailLabel, { color: theme.textColor }]}>
-                {uiT("ui.questions_9a72221a")} </Text>
+                Questions
+              </Text>
               <Text style={[summaryStyles.scoreDetailValue, { color: theme.textColor }]}>
                 {answers.length}
               </Text>
@@ -1096,7 +1109,8 @@ function SummaryScreen({
 
         {/* Section Title */}
         <Text style={[summaryStyles.sectionTitle, { color: theme.textColor }]}>
-          {uiT("ui.question_details_a4fac70d")} </Text>
+          Question Details
+        </Text>
 
         {/* Answer Cards */}
         {answers.map((answer, index) => (
@@ -1120,7 +1134,8 @@ function SummaryScreen({
           >
             <Ionicons name="home" size={20} color={theme.textColor} style={{ marginRight: 8 }} />
             <Text style={[summaryStyles.actionButtonText, { color: theme.textColor }]}>
-              {uiT("ui.back_to_dashboard_97ba1d39")} </Text>
+              Back to Dashboard
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -1132,7 +1147,7 @@ function SummaryScreen({
             onPress={onPracticeAgain}
           >
             <Ionicons name="refresh" size={20} color="white" style={{ marginRight: 8 }} />
-            <Text style={summaryStyles.actionButtonPrimaryText}>{uiT("ui.practice_again_7842287f")}</Text>
+            <Text style={summaryStyles.actionButtonPrimaryText}>Practice Again</Text>
           </TouchableOpacity>
         </View>
 

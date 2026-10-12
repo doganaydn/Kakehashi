@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
@@ -26,7 +25,6 @@ export default function OpenSourceModal({
   visible,
   onClose,
 }: OpenSourceModalProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const [isOpeningRepository, setIsOpeningRepository] = useState(false);
@@ -48,8 +46,8 @@ export default function OpenSourceModal({
       );
       if (!canOpenRepository) {
         Alert.alert(
-          uiT("ui.unable_to_open_github_06e993cb"),
-          uiT("ui.could_not_open_the_repository_right_now_please_try_again_later_f5945b5d"),
+          "Unable to Open GitHub",
+          "Could not open the repository right now. Please try again later.",
         );
         return;
       }
@@ -59,8 +57,8 @@ export default function OpenSourceModal({
     } catch (error) {
       console.error("Failed to open GitHub repository:", error);
       Alert.alert(
-        uiT("ui.unable_to_open_github_06e993cb"),
-        uiT("ui.could_not_open_the_repository_right_now_please_try_again_later_f5945b5d"),
+        "Unable to Open GitHub",
+        "Could not open the repository right now. Please try again later.",
       );
     } finally {
       setIsOpeningRepository(false);
@@ -113,12 +111,12 @@ export default function OpenSourceModal({
                 <GitHubMark
                   size={34}
                   color={theme.isDark ? "#24292F" : "#FFFFFF"}
-                  accessibilityLabel={uiT("ui.github_f911e414")}
+                  accessibilityLabel="GitHub"
                 />
               </View>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={uiT("ui.close_7d9eb7ac")}
+                accessibilityLabel="Close"
                 style={({ pressed }) => [
                   styles.closeButton,
                   { backgroundColor: theme.backgroundColor },
@@ -131,20 +129,23 @@ export default function OpenSourceModal({
             </View>
 
             <Text style={[styles.title, { color: textColor }]}>
-              {uiT("ui.kakehashi_is_open_source_90f5b718")} </Text>
+              Kakehashi is open source
+            </Text>
             <Text style={[styles.description, { color: theme.textSecondary }]}>
-              {uiT("ui.you_can_now_read_the_code_contribute_fixes_or_ideas_and_star_the_2d863669")} </Text>
+              You can now read the code, contribute fixes or ideas, and star the
+              repo if Kakehashi helps your studies.
+            </Text>
 
             <View style={styles.actionList}>
               <OpenSourceAction
                 icon="git-pull-request-outline"
-                title={uiT("ui.contribute_97b0c61b")}
-                description={uiT("ui.open_issues_send_pull_requests_or_help_shape_what_comes_next_60f39ea3")}
+                title="Contribute"
+                description="Open issues, send pull requests, or help shape what comes next."
               />
               <OpenSourceAction
                 icon="star-outline"
-                title={uiT("ui.star_the_repo_b6f09096")}
-                description={uiT("ui.a_star_helps_other_wanikani_learners_find_the_project_4418b89f")}
+                title="Star the repo"
+                description="A star helps other WaniKani learners find the project."
               />
             </View>
 
@@ -163,7 +164,7 @@ export default function OpenSourceModal({
               ) : (
                 <>
                   <GitHubMark size={20} color="#FFFFFF" />
-                  <Text style={styles.primaryButtonText}>{uiT("ui.open_on_github_03f69885")}</Text>
+                  <Text style={styles.primaryButtonText}>Open on GitHub</Text>
                 </>
               )}
             </Pressable>
@@ -183,7 +184,8 @@ export default function OpenSourceModal({
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.not_now_a0e63d7c")} </Text>
+                Not now
+              </Text>
             </Pressable>
           </ScrollView>
         </Pressable>
@@ -200,7 +202,6 @@ export default function OpenSourceModal({
     title: string;
     description: string;
   }) {
-  useInterfaceLanguage();
     return (
       <View style={styles.actionRow}>
         <View

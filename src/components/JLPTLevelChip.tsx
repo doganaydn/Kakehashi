@@ -1,14 +1,12 @@
-import { useInterfaceLanguage, uiT } from "../features/interface-language/runtime";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { JLPTLevel } from "../utils/jlptClassification";
 
 export default function JLPTLevelChip({ level }: { level: JLPTLevel | null }) {
-  useInterfaceLanguage();
   if (!level) return null;
 
   return (
-    <View accessible accessibilityLabel={uiT("ui.dynamic_3f34f10172e3", {value1: (level)})} style={styles.chip}>
+    <View accessible accessibilityLabel={`JLPT level ${level}`} style={styles.chip}>
       <Text style={styles.text}>JLPT {level}</Text>
     </View>
   );

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { router } from "expo-router";
@@ -22,7 +21,6 @@ import { useTheme } from "../../src/utils/theme";
 import { TAB_INFO, getMaxTabsForDevice, partitionTabs, type TabId } from "../../src/utils/tabNavigation";
 
 export default function TabSettings() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const { customTabOrder, setCustomTabOrder, gravatarEmail } = useSettingsStore();
@@ -99,7 +97,7 @@ export default function TabSettings() {
 
   const navigation = partitionTabs(enabledTabs, maxTabs, showSongsTab, canAccessMangaTab);
   const previewTabs = navigation.overflow.length
-    ? [...navigation.direct, { id: "more", label: uiT("ui.more_d47d7cb0"), icon: "ellipsis-horizontal" as const }]
+    ? [...navigation.direct, { id: "more", label: "More", icon: "ellipsis-horizontal" as const }]
     : navigation.direct;
 
   // Check which clusterable tabs are hidden (accessible from Level)
@@ -137,7 +135,8 @@ export default function TabSettings() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.customize_tabs_2d2fca4d")} </Text>
+          Customize Tabs
+        </Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -145,9 +144,10 @@ export default function TabSettings() {
         {/* Preview Section */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.preview_324b134f")} </Text>
+            Preview
+          </Text>
           <Text style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
-            {hasNativeTabs ? uiT("ui.your_tab_bar_will_look_like_this_bc47edc0") : uiT("ui.tab_bar_preview_a0aae15c")}
+            {hasNativeTabs ? "Your tab bar will look like this" : "Tab bar preview"}
           </Text>
 
           {/* Tab Bar Preview */}
@@ -178,7 +178,8 @@ export default function TabSettings() {
                   <Ionicons name="search" size={22} color={theme.textSecondary} />
                 </View>
                 <Text style={[styles.previewLabel, { color: theme.textSecondary }]}>
-                  {uiT("ui.search_49c266ba")} </Text>
+                  Search
+                </Text>
               </View>
             )}
           </View>
@@ -188,7 +189,8 @@ export default function TabSettings() {
             <View style={[styles.clusteredInfo, { backgroundColor: theme.isDark ? "#2c2c2e" : "#e5e5ea" }]}>
               <Ionicons name="information-circle" size={16} color={theme.textSecondary} />
               <Text style={[styles.clusteredText, { color: theme.textSecondary }]}>
-                {clusteredTabs.map(t => t.label).join(" & ")} {uiT("ui.accessible_from_level_tab_1840ddd6")} </Text>
+                {clusteredTabs.map(t => t.label).join(" & ")} accessible from Level tab
+              </Text>
             </View>
           )}
         </View>
@@ -198,13 +200,15 @@ export default function TabSettings() {
           <View style={styles.sectionHeader}>
             <View>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.available_tabs_0e8426d6")} </Text>
+                Available Tabs
+              </Text>
               <Text style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
-                {visibleTabCount} {uiT("ui.enabled_extra_tabs_appear_in_more_df74182c")} </Text>
+                {visibleTabCount} enabled · Extra tabs appear in More
+              </Text>
             </View>
             <TouchableOpacity onPress={handleReset} style={styles.resetButton}>
               <Ionicons name="refresh" size={18} color={theme.primary} />
-              <Text style={[styles.resetButtonText, { color: theme.primary }]}>{uiT("ui.reset_daee7606")}</Text>
+              <Text style={[styles.resetButtonText, { color: theme.primary }]}>Reset</Text>
             </TouchableOpacity>
           </View>
 
@@ -252,18 +256,20 @@ export default function TabSettings() {
                     {tab.isRequired && (
                       <View style={[styles.requiredBadge, { backgroundColor: theme.textSecondary + "20" }]}>
                         <Text style={[styles.requiredBadgeText, { color: theme.textSecondary }]}>
-                          {uiT("ui.required_4850b174")} </Text>
+                          Required
+                        </Text>
                       </View>
                     )}
                     {tab.isClusterable && !isEnabled && (
                       <View style={[styles.clusteredBadge, { backgroundColor: theme.primary + "15" }]}>
                         <Text style={[styles.clusteredBadgeText, { color: theme.primary }]}>
-                          {uiT("ui.in_level_3e72bb08")} </Text>
+                          In Level
+                        </Text>
                       </View>
                     )}
                     {(tab.id === "epubs" || tab.id === "videos" || tab.id === "mangas") && (
                       <View style={styles.betaBadge}>
-                        <Text style={styles.betaBadgeText}>{uiT("ui.beta_639181fd")}</Text>
+                        <Text style={styles.betaBadgeText}>BETA</Text>
                       </View>
                     )}
                   </View>
@@ -289,9 +295,10 @@ export default function TabSettings() {
         <View style={[styles.infoSection, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <Ionicons name="bulb" size={20} color={theme.primary} />
           <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-            {uiT("ui.items_and_analytics_can_be_shown_as_separate_tabs_or_accessed_fro_38f3d07c")} {hasNativeTabs
-              ? uiT("ui.search_is_always_available_in_the_tab_bar_34bb68cc")
-              : uiT("ui.on_ios_19_search_will_appear_as_a_special_tab_aac6197d")}
+            Items and Analytics can be shown as separate tabs or accessed from the Level tab.
+            {hasNativeTabs
+              ? " Search is always available in the tab bar."
+              : " On iOS 19+, Search will appear as a special tab."}
           </Text>
         </View>
       </ScrollView>

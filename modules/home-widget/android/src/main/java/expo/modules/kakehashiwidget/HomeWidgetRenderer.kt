@@ -68,7 +68,7 @@ internal object HomeWidgetRenderer {
     })
     when (props.optString("contentMode", "reviews")) {
       "streak" -> streak(context, canvas, props, w, h, medium)
-      "critical" -> critical(context, canvas, props, w, h, medium, colors)
+      "critical" -> critical(canvas, props, w, h, medium, colors)
       else -> reviews(context, canvas, props, w, h, medium)
     }
     return bitmap
@@ -133,10 +133,10 @@ internal object HomeWidgetRenderer {
     val hands = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.rgb(70, 90, 90); strokeWidth = 1.2f; strokeCap = Paint.Cap.ROUND }
     canvas.drawLine(x + 6, 23.5f, x + 6, 27f, hands)
     canvas.drawLine(x + 6, 27f, x + 8.5f, 28.5f, hands)
-    text(canvas, InterfaceLocale.context(context).getString(R.string.widget_reviews), x + 17, 20f, 12f, face = semibold, shadow = 2f)
+    text(canvas, "Reviews", x + 17, 20f, 12f, face = semibold, shadow = 2f)
     text(canvas, count.toString(), x, 42f, if (medium) 48f else 38f, face = rounded,
       maxWidth = w - x - 12, shadow = 5f)
-    text(canvas, props.optString("reviewsSecondaryLabel", InterfaceLocale.context(context).getString(R.string.widget_open_app)), x,
+    text(canvas, props.optString("reviewsSecondaryLabel", "Open Kakehashi to sync"), x,
       if (medium) 106f else 94f, if (medium) 12f else 11f, Color.argb(230, 255, 255, 255),
       semibold, min(if (medium) 202f else 140f, w - x - 12), shadow = 2f, lines = 2)
   }
@@ -212,7 +212,7 @@ internal object HomeWidgetRenderer {
     (if (c <= 0.04045) c / 12.92 else ((c + 0.055) / 1.055).pow(2.4)) * listOf(0.2126, 0.7152, 0.0722)[index]
   }.sum()
 
-  private fun critical(context: Context, canvas: Canvas, props: JSONObject, w: Float, h: Float, medium: Boolean, colors: IntArray) {
+  private fun critical(canvas: Canvas, props: JSONObject, w: Float, h: Float, medium: Boolean, colors: IntArray) {
     val channels = colors.map { listOf(Color.red(it) / 255.0, Color.green(it) / 255.0, Color.blue(it) / 255.0) }
     val darkest = luminance((0..2).map { index -> channels.minOf { it[index] } })
     val brightest = luminance((0..2).map { index -> channels.maxOf { it[index] } })
@@ -223,12 +223,12 @@ internal object HomeWidgetRenderer {
     val count = props.optInt("criticalCount")
     val countText = count.toString()
     val countWidth = Paint().apply { textSize = 12f; typeface = semibold }.measureText(countText)
-    text(canvas, InterfaceLocale.context(context).getString(R.string.widget_critical), 14f, 14f, 12f, foreground, semibold, w - countWidth - 36)
+    text(canvas, "Critical Items", 14f, 14f, 12f, foreground, semibold, w - countWidth - 36)
     text(canvas, countText, w - 14 - countWidth, 14f, 12f, foreground, semibold)
     val items = props.optJSONArray("criticalItems")
     if (items == null || items.length() == 0) {
-      val label = if (count > 0) InterfaceLocale.context(context).getString(R.string.widget_launch) else InterfaceLocale.context(context).getString(R.string.widget_empty_critical)
-      val message = if (count > 0) InterfaceLocale.context(context).getString(R.string.widget_refresh_items) else InterfaceLocale.context(context).getString(R.string.widget_no_low_accuracy)
+      val label = if (count > 0) "Open Kakehashi" else "No critical items"
+      val message = if (count > 0) "Refresh to see your items." else "No items below 90% accuracy."
       val labelHeight = text(canvas, label, 14f, 36f, 18f, foreground, semibold, w - 28, lines = 2)
       text(canvas, message, 14f, 36 + labelHeight + 6, 12f, foreground, regular, w - 28, lines = 2)
       return
@@ -265,22 +265,11 @@ internal object HomeWidgetRenderer {
       text(canvas, primaryLabel, 14f, primaryTop, size, foreground, semibold, w - 28)
       if (reading.isNotEmpty()) text(canvas, reading, 14f, firstDetailTop, 12f, foreground, maxWidth = w - 28)
       text(canvas, item.optString("meaning"), 14f, meaningTop, 13f, foreground, semibold, w - 28)
-      text(canvas, InterfaceLocale.context(context).getString(R.string.widget_accuracy, item.optDouble("percentage", 0.0).roundToInt()), 14f, accuracyTop, 11f, foreground, maxWidth = w - 28)
+      text(canvas, "${item.optDouble("percentage", 0.0).roundToInt()}% correct", 14f, accuracyTop, 11f, foreground, maxWidth = w - 28)
     }
   }
 
-  fun description(props: JSONObject, medium: Boolean, context: Context): String {
-    if (InterfaceLocale.language(context) == "tr") return when (props.optString("contentMode", "reviews")) {
-      "streak" -> "Çalışma serisi, ${props.optString("streakPrimaryLabel", "0")}. ${props.optString("streakSecondaryLabel")}. ${props.optString("streakTertiaryLabel")}."
-      "critical" -> "Kritik konular, ${props.optInt("criticalCount")}. " + (props.optJSONArray("criticalItems")?.let { items ->
-        (0 until min(items.length(), if (medium) 3 else 1)).joinToString(". ") { i ->
-          val item = items.getJSONObject(i)
-          "${item.optString("characters")}, ${item.optString("reading")}, ${item.optString("meaning")}, yüzde ${item.optDouble("percentage", 0.0).roundToInt()} doğru"
-        }
-      } ?: "Kritik konu yok")
-      else -> "${props.optInt("reviewsCountValue")} tekrar hazır. ${props.optString("reviewsSecondaryLabel")}."
-    }
-    return when (props.optString("contentMode", "reviews")) {
+  fun description(props: JSONObject, medium: Boolean): String = when (props.optString("contentMode", "reviews")) {
     "streak" -> "App Streak, ${props.optString("streakPrimaryLabel", "0")} days. " +
       "${props.optString("streakSecondaryLabel")}. ${props.optString("streakTertiaryLabel")}. " +
       (props.optJSONArray("streakRecentDays")?.let { days ->
@@ -296,8 +285,7 @@ internal object HomeWidgetRenderer {
           "${item.optString("characters").ifEmpty { "Radical" }}, ${item.optString("reading")}, " +
             "${item.optString("meaning")}, ${item.optDouble("percentage", 0.0).roundToInt()} percent correct"
         }
-      }?.ifEmpty { InterfaceLocale.context(context).getString(R.string.widget_empty_critical) } ?: InterfaceLocale.context(context).getString(R.string.widget_empty_critical))
-    else -> "Reviews, ${props.optInt("reviewsCountValue")} available. ${props.optString("reviewsSecondaryLabel", InterfaceLocale.context(context).getString(R.string.widget_open_app))}"
-  }
+      }?.ifEmpty { "No critical items" } ?: "No critical items")
+    else -> "Reviews, ${props.optInt("reviewsCountValue")} available. ${props.optString("reviewsSecondaryLabel", "Open Kakehashi to sync")}"
   }
 }

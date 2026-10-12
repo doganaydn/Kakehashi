@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import { SettingsIcon as Ionicons } from "../../../ui/settings/settings-icon";
@@ -10,7 +9,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function WidgetSection() {
-  useInterfaceLanguage();
   const { router, showWidgetsSection, theme, updateSectionOffset } =
     useSettingsControllerContext();
 
@@ -36,7 +34,8 @@ export function WidgetSection() {
               { color: theme.textColor, borderBottomColor: theme.border },
             ]}
           >
-            {uiT("ui.widgets_1fda79ff")} </Text>
+            Widgets
+          </Text>
 
           <TouchableOpacity
             style={[styles.settingItem, { borderBottomColor: "transparent" }]}
@@ -53,15 +52,17 @@ export function WidgetSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.home_widget_273b7f71")} </SettingsLabel>
+                  Home Widget
+                </SettingsLabel>
                 <View style={styles.betaBadge}>
-                  <Text style={styles.betaBadgeText}>{uiT("ui.beta_639181fd")}</Text>
+                  <Text style={styles.betaBadgeText}>BETA</Text>
                 </View>
               </View>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.configure_widget_content_and_streak_background_gradient_f037bb9d")} </Text>
+                Configure widget content and streak background gradient
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"

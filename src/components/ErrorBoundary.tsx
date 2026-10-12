@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { Ionicons } from '@expo/vector-icons';
 import * as Updates from 'expo-updates';
 import React, { Component, ErrorInfo, ReactNode } from 'react';
@@ -65,11 +64,13 @@ export class ErrorBoundary extends Component<Props, State> {
               <Ionicons name="warning-outline" size={64} color="#e53935" />
             </View>
 
-            <Text style={styles.title}>{uiT("ui.oops_something_went_wrong_4dca8d33")}</Text>
+            <Text style={styles.title}>Oops! Something went wrong</Text>
 
             <Text style={styles.message}>
-              {uiT("ui.we_encountered_an_unexpected_error_67c63b88")} {'\n\n'}
-              {uiT("ui.try_refreshing_the_app_to_continue_804e72de")} </Text>
+              We encountered an unexpected error.
+              {'\n\n'}
+              Try refreshing the app to continue.
+            </Text>
 
             <TouchableOpacity
               style={[styles.button, this.state.isReloading && styles.buttonDisabled]}
@@ -84,12 +85,13 @@ export class ErrorBoundary extends Component<Props, State> {
                 style={styles.buttonIcon}
               />
               <Text style={styles.buttonText}>
-                {this.state.isReloading ? uiT("ui.reloading_40a01c8d") : uiT("ui.refresh_app_eea83064")}
+                {this.state.isReloading ? 'Reloading...' : 'Refresh App'}
               </Text>
             </TouchableOpacity>
 
             <Text style={styles.footer}>
-              {uiT("ui.if_this_keeps_happening_try_uninstalling_and_reinstalling_the_app_d9cd142e")} </Text>
+              If this keeps happening, try uninstalling and reinstalling the app.
+            </Text>
           </View>
         </SafeAreaView>
       );

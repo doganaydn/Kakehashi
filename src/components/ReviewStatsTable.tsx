@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -84,7 +83,6 @@ const SpeedometerChart = ({
   backgroundColor: string;
   id: string;
 }) => {
-  useInterfaceLanguage();
   // Config
   const numSegments = 20;
   const startAngle = 250; // Start at bottom-left
@@ -201,7 +199,6 @@ export default function ReviewStatsTable({
   subjects = [],
   currentLevel = null,
 }: ReviewStatsTableProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const [showLevelPickerModal, setShowLevelPickerModal] = useState(false);
@@ -457,7 +454,8 @@ export default function ReviewStatsTable({
         style={[styles.container, { backgroundColor: theme.cardBackground }]}
       >
         <Text style={[styles.noDataText, { color: theme.textSecondary }]}>
-          {uiT("ui.no_review_data_found_complete_some_reviews_to_see_statistics_21150618")} </Text>
+          No review data found. Complete some reviews to see statistics!
+        </Text>
       </Animated.View>
     );
   }
@@ -470,7 +468,8 @@ export default function ReviewStatsTable({
       <View style={styles.header}>
         <View>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {uiT("ui.review_stats_b168a57c")} </Text>
+            Review Stats
+          </Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
             {subtitleText}
           </Text>
@@ -492,7 +491,7 @@ export default function ReviewStatsTable({
                 }
               >
                 <SwiftUI.Button
-                  label={uiT("ui.all_levels_e122b7ab")}
+                  label="All Levels"
                   systemImage={
                     selectedLevel === null ? "checkmark.circle.fill" : "circle"
                   }
@@ -525,8 +524,8 @@ export default function ReviewStatsTable({
       {filteredReviewStats.length === 0 ? (
         <Text style={[styles.emptyWindowText, { color: theme.textSecondary }]}>
           {selectedLevel === null
-            ? uiT("ui.no_review_data_found_a29b0931")
-            : uiT("ui.no_review_data_found_for_level_value_249c32de", {value1: (selectedLevel)})}
+            ? "No review data found."
+            : `No review data found for Level ${selectedLevel}.`}
         </Text>
       ) : null}
 
@@ -558,7 +557,8 @@ export default function ReviewStatsTable({
 
           <View style={styles.cardFooter}>
             <Text style={[styles.cardTitle, { color: theme.textColor }]}>
-              {uiT("ui.meaning_1f5d64b9")} </Text>
+              Meaning
+            </Text>
             <Text style={[styles.cardValue, { color: theme.textSecondary }]}>
               {processedStats.totalReviews.meaning.toLocaleString()}
             </Text>
@@ -596,7 +596,8 @@ export default function ReviewStatsTable({
 
           <View style={styles.cardFooter}>
             <Text style={[styles.cardTitle, { color: theme.textColor }]}>
-              {uiT("ui.reading_463816d0")} </Text>
+              Reading
+            </Text>
             <Text style={[styles.cardValue, { color: theme.textSecondary }]}>
               {processedStats.totalReviews.reading.toLocaleString()}
             </Text>
@@ -634,7 +635,8 @@ export default function ReviewStatsTable({
 
           <View style={styles.cardFooter}>
             <Text style={[styles.cardTitle, { color: theme.textColor }]}>
-              {uiT("ui.total_c9b3c382")} </Text>
+              Total
+            </Text>
             <Text style={[styles.cardValue, { color: theme.textSecondary }]}>
               {processedStats.totalReviews.total.toLocaleString()}
             </Text>
@@ -660,13 +662,16 @@ export default function ReviewStatsTable({
                 <View style={styles.pickerModalHeader}>
                   <TouchableOpacity onPress={() => setShowLevelPickerModal(false)}>
                     <Text style={[styles.pickerCancelText, { color: theme.textSecondary }]}>
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                   <Text style={[styles.pickerModalTitle, { color: theme.textColor }]}>
-                    {uiT("ui.select_level_376ad71d")} </Text>
+                    Select Level
+                  </Text>
                   <TouchableOpacity onPress={applyDraftLevel}>
                     <Text style={[styles.pickerDoneText, { color: theme.primary }]}>
-                      {uiT("ui.done_11a6767d")} </Text>
+                      Done
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <ScrollView style={styles.levelList} contentContainerStyle={styles.levelListContent}>
@@ -690,7 +695,8 @@ export default function ReviewStatsTable({
                         },
                       ]}
                     >
-                      {uiT("ui.all_levels_e122b7ab")} </Text>
+                      All Levels
+                    </Text>
                     {draftLevelValue === 0 ? (
                       <Ionicons name="checkmark-circle" size={18} color={theme.primary} />
                     ) : null}
@@ -719,7 +725,7 @@ export default function ReviewStatsTable({
                             },
                           ]}
                         >
-                          {uiT("ui.level_1709305c")} {level}
+                          Level {level}
                         </Text>
                         {isSelected ? (
                           <Ionicons name="checkmark-circle" size={18} color={theme.primary} />

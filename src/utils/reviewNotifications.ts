@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import * as Notifications from "expo-notifications";
 import * as TaskManager from "expo-task-manager";
 import {
@@ -100,27 +99,27 @@ const DAILY_REVIEW_REMINDER_MESSAGES: {
   body: string;
 }[] = [
   {
-    get title() { return uiT("ui.review_reminder_5ded6845"); },
+    title: "Review reminder",
     body: "You still have reviews waiting. Time to study!",
   },
   {
-    get title() { return uiT("ui.keep_your_streak_strong_1dbf9a4e"); },
+    title: "Keep your streak strong",
     body: "A quick review session now will make tomorrow easier.",
   },
   {
-    get title() { return uiT("ui.small_session_big_progress_79dad7cd"); },
+    title: "Small session, big progress",
     body: "You have pending reviews ready whenever you are.",
   },
   {
-    get title() { return uiT("ui.review_time_eff56409"); },
+    title: "Review time",
     body: "Knock out a few reviews and keep momentum going.",
   },
   {
-    get title() { return uiT("ui.your_reviews_are_ready_b65ef6bf"); },
+    title: "Your reviews are ready",
     body: "Take a few minutes now and future you will thank you.",
   },
   {
-    get title() { return uiT("ui.study_nudge_cb54bc14"); },
+    title: "Study nudge",
     body: "Pending reviews are waiting. Let’s clear some!",
   },
 ];
@@ -611,7 +610,7 @@ export async function syncDailyLessonReminderNotification(
       const minimumLessonsLabel =
         reminderConfig.minimumLessons === 1 ? "lesson" : "lessons";
       const reminderContent = {
-        title: uiT("ui.lesson_reminder_7351f07d"),
+        title: "Lesson reminder",
         body: `You are below your daily goal of ${reminderConfig.minimumLessons} ${minimumLessonsLabel}. Keep your lesson streak moving.`,
         data: {
           dailyLessonReminder: true,

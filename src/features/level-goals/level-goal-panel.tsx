@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
@@ -40,7 +39,6 @@ export function LevelGoalPanel({
   progressions: readonly GoalProgression[];
   paused?: boolean;
 }) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const focused = useIsFocused();
   const goals = useLevelGoals(currentLevel, progressions);
@@ -172,12 +170,13 @@ export function LevelGoalPanel({
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
             <Ionicons name="flag-outline" size={17} color={color} />
             <Text style={{ ...text, fontSize: 16, fontWeight: "700" }}>
-              {uiT("ui.level_goal_6d6dd20a")} </Text>
+              Level goal
+            </Text>
           </View>
           {!goal ? (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={uiT("ui.hide_goal_widget_c0961ae8")}
+              accessibilityLabel="Hide goal widget"
               hitSlop={8}
               onPress={() =>
                 goals.update((s) => ({ ...s, widgetHidden: true }))
@@ -217,8 +216,8 @@ export function LevelGoalPanel({
             </View>
             <Text style={{ ...text, fontSize: 20, fontWeight: "700" }}>
               {currentLevel >= 60
-                ? uiT("ui.you_reached_level_60_c07ea413")
-                : uiT("ui.pick_your_next_milestone_d52acf59")}
+                ? "You reached level 60"
+                : "Pick your next milestone"}
             </Text>
             {currentLevel < 60
               ? action("Set a goal", () => open(true), true)
@@ -275,7 +274,7 @@ export function LevelGoalPanel({
                       letterSpacing: 0,
                     }}
                   >
-                    {uiT("ui.level_1709305c")}{" "}
+                    Level{" "}
                   </Text>
                   {goal.targetLevel}
                 </Text>
@@ -283,10 +282,10 @@ export function LevelGoalPanel({
               <View style={{ alignItems: "flex-end", gap: 4, flex: 1 }}>
                 <Text style={{ ...muted, fontSize: 11 }}>
                   {reached
-                    ? uiT("ui.reached_1dfd4317")
+                    ? "Reached"
                     : paused
-                      ? uiT("ui.estimate_paused_f8ad1b4e")
-                      : uiT("ui.estimated_arrival_4c085824")}
+                      ? "Estimate paused"
+                      : "Estimated arrival"}
                 </Text>
                 <Text
                   selectable
@@ -295,22 +294,22 @@ export function LevelGoalPanel({
                   {reached
                     ? shortGoalDate(goal.reachedAt)
                     : paused
-                      ? uiT("ui.on_vacation_9153ee36")
+                      ? "On vacation"
                       : arrival
                         ? shortGoalDate(arrival)
-                        : uiT("ui.learning_your_pace_cb1a44e3")}
+                        : "Learning your pace"}
                 </Text>
                 <Text selectable style={{ ...muted, fontSize: 11 }}>
                   {goal.deadline
-                    ? uiT("ui.target_value_9df80816", {value1: (shortGoalDate(goal.deadline))})
-                    : uiT("ui.value_levels_to_go_539e00ee", {value1: (Math.max(0, goal.targetLevel - currentLevel))})}
+                    ? `Target · ${shortGoalDate(goal.deadline)}`
+                    : `${Math.max(0, goal.targetLevel - currentLevel)} levels to go`}
                 </Text>
               </View>
             </View>
             <View
               accessible
               accessibilityRole="progressbar"
-              accessibilityLabel={uiT("ui.levels_reached_toward_your_goal_c1243cc9")}
+              accessibilityLabel="Levels reached toward your goal"
               accessibilityValue={{
                 min: goal.startLevel,
                 max: goal.targetLevel,
@@ -397,8 +396,8 @@ export function LevelGoalPanel({
             {outcome === "missed" || outcome === "late" ? (
               <Text style={{ ...muted, fontSize: 13, marginBottom: 14 }}>
                 {outcome === "missed"
-                  ? uiT("ui.the_date_passed_your_progress_still_counts_c39af495")
-                  : uiT("ui.a_little_later_and_you_made_it_fcb5b2bc")}
+                  ? "The date passed. Your progress still counts."
+                  : "A little later, and you made it."}
               </Text>
             ) : null}
             <View
@@ -490,16 +489,16 @@ export function LevelGoalPanel({
                           fontWeight: "600",
                         }}
                       >
-                        {uiT("ui.level_1709305c")} {level}
+                        Level {level}
                       </Text>
                       <Text selectable style={{ ...muted, fontSize: 12 }}>
                         {level <= currentLevel
                           ? recorded
                             ? shortGoalDate(recorded)
-                            : uiT("ui.reached_1dfd4317")
+                            : "Reached"
                           : projected
-                            ? uiT("ui.value_7db47522", {value1: (shortGoalDate(projected))})
-                            : uiT("ui.ahead_a8f94e98")}
+                            ? `~ ${shortGoalDate(projected)}`
+                            : "Ahead"}
                       </Text>
                     </View>
                   );
@@ -513,9 +512,10 @@ export function LevelGoalPanel({
                   }}
                 >
                   {pace
-                    ? uiT("ui.based_on_your_last_value_completed_levels_value_days_level_f70ac072", {value1: (pace.count), value2: (pace.typical.toFixed(1))})
-                    : uiT("ui.complete_a_level_to_start_building_your_estimate_5260efa3")}{" "}
-                  {uiT("ui.dates_can_shift_with_reviews_and_breaks_8635d063")} </Text>
+                    ? `Based on your last ${pace.count} completed levels · ${pace.typical.toFixed(1)} days / level.`
+                    : "Complete a level to start building your estimate."}{" "}
+                  Dates can shift with reviews and breaks.
+                </Text>
               </Animated.View>
             ) : null}
           </Animated.View>
@@ -587,10 +587,11 @@ export function LevelGoalPanel({
                     letterSpacing: 1.5,
                   }}
                 >
-                  {uiT("ui.your_next_chapter_ce35f251")} </Text>
+                  YOUR NEXT CHAPTER
+                </Text>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={uiT("ui.close_goal_setup_022b9914")}
+                  accessibilityLabel="Close goal setup"
                   onPress={() => setEditor(null)}
                   style={{
                     width: 44,

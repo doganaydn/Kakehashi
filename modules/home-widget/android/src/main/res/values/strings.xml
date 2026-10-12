@@ -4,12 +4,4 @@
     <string name="widget_description">Review, critical, and streak stats. Choose content and colors in Settings → Home Widget.</string>
     <string name="widget_reviews">Reviews</string>
     <string name="widget_open_app">Open Kakehashi to sync</string>
-    <string name="widget_critical">Critical Items</string>
-    <string name="widget_empty_critical">No critical items</string>
-    <string name="widget_refresh_items">Refresh to see your items.</string>
-    <string name="widget_no_low_accuracy" formatted="false">No items below 90% accuracy.</string>
-    <string name="widget_launch">Open Kakehashi</string>
-    <string name="widget_accuracy">%1$d%% correct</string>
-    <string name="widget_active">active</string>
-    <string name="widget_inactive">inactive</string>
 </resources>

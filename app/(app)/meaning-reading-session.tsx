@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import { router, useLocalSearchParams } from "expo-router";
@@ -229,7 +228,6 @@ async function buildKanjiVocabularyHintMap(
 }
 
 export default function MeaningReadingSessionScreen() {
-  useInterfaceLanguage();
   useActivityTracking("meaning_reading");
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
@@ -379,8 +377,8 @@ export default function MeaningReadingSessionScreen() {
       }
     } catch (error) {
       console.error('Failed to load meaning→reading config:', error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_test_configuration_9a47354b"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to load test configuration.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     }
   }, [params.includeKanaVocabulary, params.includeKanji, params.includeVocabulary, params.maxLevel, params.minLevel, params.numberOfQuestions, params.resume, params.selectedListIds, params.sessionId, params.srsApprentice, params.srsBurned, params.srsEnlightened, params.srsGuru, params.srsMaster, params.useCustomLevelRange, restoreSavedMeaningReadingSession]);
@@ -416,9 +414,9 @@ export default function MeaningReadingSessionScreen() {
         selectedListIds.length === 0
       ) {
         Alert.alert(
-          uiT("ui.no_learned_items_920cb61f"),
-          uiT("ui.you_haven_t_learned_enough_items_yet_to_take_a_test_57bc5a43"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "No Learned Items",
+          "You haven't learned enough items yet to take a test.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -485,9 +483,9 @@ export default function MeaningReadingSessionScreen() {
 
       if (filtered.length === 0) {
         Alert.alert(
-          uiT("ui.no_matching_items_cef58eee"),
-          uiT("ui.no_learned_subjects_match_your_selected_criteria_a18ace80"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "No Matching Items",
+          "No learned subjects match your selected criteria.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -506,7 +504,7 @@ export default function MeaningReadingSessionScreen() {
       }));
 
       if (selected.length === 0) {
-        Alert.alert(uiT("ui.no_questions_generated_1985c748"), uiT("ui.could_not_generate_questions_ab9c5beb"), [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]);
+        Alert.alert("No Questions Generated", "Could not generate questions.", [{ text: "OK", onPress: () => router.back() }]);
         return;
       }
       const hintsByKanjiId = await buildKanjiVocabularyHintMap(selected);
@@ -544,7 +542,7 @@ export default function MeaningReadingSessionScreen() {
           config.selectedListIds || []
         );
         if (!allSubjectsRaw || allSubjectsRaw.length === 0) {
-          Alert.alert(uiT("ui.offline_a1794783"), uiT("ui.no_cached_subjects_available_please_open_the_app_online_once_to_c_2c650b66"), [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]);
+          Alert.alert("Offline", "No cached subjects available. Please open the app online once to cache data.", [{ text: "OK", onPress: () => router.back() }]);
           return;
         }
 
@@ -575,7 +573,7 @@ export default function MeaningReadingSessionScreen() {
         });
 
         if (filtered.length === 0) {
-          Alert.alert(uiT("ui.no_matching_items_cef58eee"), uiT("ui.no_cached_subjects_match_your_selected_criteria_aa0f8525"), [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]);
+          Alert.alert("No Matching Items", "No cached subjects match your selected criteria.", [{ text: "OK", onPress: () => router.back() }]);
           return;
         }
 
@@ -592,7 +590,7 @@ export default function MeaningReadingSessionScreen() {
           acceptedAnswerOptions: question.answerOptions,
         }));
         if (selected.length === 0) {
-          Alert.alert(uiT("ui.no_questions_generated_1985c748"), uiT("ui.could_not_generate_questions_offline_f41b3242"), [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]);
+          Alert.alert("No Questions Generated", "Could not generate questions offline.", [{ text: "OK", onPress: () => router.back() }]);
           return;
         }
         const hintsByKanjiId = await buildKanjiVocabularyHintMap(selected);
@@ -623,7 +621,7 @@ export default function MeaningReadingSessionScreen() {
         });
       } catch (fallbackErr) {
         console.error("Offline fallback failed:", fallbackErr);
-        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_questions_2619febe"), [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]);
+        Alert.alert("Error", "Failed to load questions.", [{ text: "OK", onPress: () => router.back() }]);
       }
     } finally {
       setIsLoading(false);
@@ -732,23 +730,23 @@ export default function MeaningReadingSessionScreen() {
 
   const handleExit = () => {
     Alert.alert(
-      uiT("ui.exit_test_d80c3862"),
-      uiT("ui.want_to_continue_this_reading_test_later_dc0feef9"),
+      "Exit Test",
+      "Want to continue this reading test later?",
       [
-        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: uiT("ui.continue_later_ba247ab0"),
+          text: "Continue Later",
           onPress: async () => {
             const wasSaved = await saveMeaningReadingSessionForLater();
             if (!wasSaved) {
-              Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
+              Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
               return;
             }
             router.back();
           },
         },
         {
-          text: uiT("ui.exit_d17d84a6"),
+          text: "Exit",
           style: "destructive",
           onPress: async () => {
             await clearSavedMeaningReadingSession();
@@ -764,7 +762,7 @@ export default function MeaningReadingSessionScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}> 
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
-          <Text style={[styles.loadingText, { color: theme.textColor }]}>{uiT("ui.preparing_your_reading_test_2e42be66")}</Text>
+          <Text style={[styles.loadingText, { color: theme.textColor }]}>Preparing your reading test...</Text>
         </View>
       </SafeAreaView>
     );
@@ -791,9 +789,9 @@ export default function MeaningReadingSessionScreen() {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}> 
         <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: theme.error }]}>{uiT("ui.no_test_questions_available_5053cbef")}</Text>
+          <Text style={[styles.errorText, { color: theme.error }]}>No test questions available</Text>
           <TouchableOpacity style={[styles.errorButton, { backgroundColor: theme.secondary }]} onPress={() => router.back()}> 
-            <Text style={styles.errorButtonText}>{uiT("ui.go_back_b8d99df1")}</Text>
+            <Text style={styles.errorButtonText}>Go Back</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

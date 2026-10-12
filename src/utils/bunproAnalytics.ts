@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale } from "../features/interface-language/runtime";
 import { z } from "zod";
 import type { BunproReviewActivityResponse } from "../types/bunpro";
 
@@ -28,10 +27,10 @@ export type BunproAnalyticsData = { [Key in BunproAnalyticsResource]: z.infer<(t
 export type BunproAnalyticsMode = "all" | "grammar" | "vocab";
 export type BunproAnalyticsKind = Exclude<BunproAnalyticsMode, "all">;
 export const BUNPRO_ANALYTICS_STAGES = [
-  { key: "beginner", get label() { return uiT("ui.beginner_c865ebb3"); }, color: "#d85a69" },
-  { key: "adept", get label() { return uiT("ui.adept_8c75fe69"); }, color: "#d8a044" },
-  { key: "seasoned", get label() { return uiT("ui.seasoned_dad61913"); }, color: "#63a06d" },
-  { key: "expert", get label() { return uiT("ui.expert_8b317b0c"); }, color: "#6198bc" },
+  { key: "beginner", label: "Beginner", color: "#d85a69" },
+  { key: "adept", label: "Adept", color: "#d8a044" },
+  { key: "seasoned", label: "Seasoned", color: "#63a06d" },
+  { key: "expert", label: "Expert", color: "#6198bc" },
   { key: "master", label: "Master", color: "#aa80c5" },
 ] as const;
 
@@ -48,7 +47,7 @@ export function bunproCalendarDate(key: string): Date | null {
 }
 
 export function formatBunproCalendarDate(key: string, options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" }): string {
-  return bunproCalendarDate(key)?.toLocaleDateString(interfaceLocale(), { ...options, timeZone: "UTC" }) ?? key;
+  return bunproCalendarDate(key)?.toLocaleDateString(undefined, { ...options, timeZone: "UTC" }) ?? key;
 }
 
 export function bunproAnalyticsSeries(data: BunproReviewActivityResponse | null) {
@@ -96,6 +95,6 @@ export function bunproReviewCalendar(data: BunproReviewActivityResponse, mode: B
     date.setUTCDate(date.getUTCDate() + index);
     const key = date.toISOString().slice(0, 10);
     const value = (mode !== "vocab" ? data.grammar[key] ?? 0 : 0) + (mode !== "grammar" ? data.vocab[key] ?? 0 : 0);
-    return { key, value, label: uiT("ui.value_value_ca7577d5", {value1: (formatBunproCalendarDate(key)), value2: (value ? `${value.toLocaleString()} reviews` : "No recorded reviews")}) };
+    return { key, value, label: `${formatBunproCalendarDate(key)}: ${value ? `${value.toLocaleString()} reviews` : "No recorded reviews"}` };
   });
 }

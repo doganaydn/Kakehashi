@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import wanikaniPitchAccents from "../../assets/pitch/wanikani_pitch_accents.json";
 
 export type WaniKaniPitchAccentEntry = {
@@ -108,18 +107,18 @@ export function getPitchAccentTypeLabel(
   const clampedAccent = Math.max(0, Math.min(accent, moraCount));
 
   if (clampedAccent === 0) {
-    return uiT("ui.heiban_7a30c985");
+    return "Heiban";
   }
 
   if (clampedAccent === 1) {
-    return uiT("ui.atamadaka_0f8d3f44");
+    return "Atamadaka";
   }
 
   if (clampedAccent >= moraCount) {
-    return uiT("ui.odaka_27c1ea6a");
+    return "Odaka";
   }
 
-  return uiT("ui.nakadaka_e6755f90");
+  return "Nakadaka";
 }
 
 export function formatPitchAccentNotation(

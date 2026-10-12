@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -95,7 +94,7 @@ function getNiceAxisStep(value: number): number {
 }
 
 function formatAxisValue(value: number): string {
-  return value.toLocaleString(interfaceLocale());
+  return value.toLocaleString("en-US");
 }
 
 function BreakdownPill({
@@ -104,7 +103,6 @@ function BreakdownPill({
   textColor,
   borderColor,
 }: BreakdownPillProps) {
-  useInterfaceLanguage();
   return (
     <View
       style={[
@@ -130,7 +128,6 @@ export default function SrsBreakdown({
   groupStagesScope = "shared",
   style,
 }: SrsBreakdownProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const appTextSizeScale = useSettingsStore((state) => state.appTextSizeScale);
@@ -471,7 +468,8 @@ export default function SrsBreakdown({
           ]}
         >
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {uiT("ui.active_item_spread_120cb2b6")} </Text>
+            Active Item Spread
+          </Text>
           <View style={styles.headerActions}>
             {renderGroupToggleButton()}
 
@@ -482,7 +480,8 @@ export default function SrsBreakdown({
                 activeOpacity={0.75}
               >
                 <Text style={[styles.detailsText, { color: theme.textColor }]}>
-                  {uiT("ui.details_45989de4")} </Text>
+                  Details
+                </Text>
                 <Ionicons
                   name="chevron-forward"
                   size={19}
@@ -515,11 +514,13 @@ export default function SrsBreakdown({
                 color={theme.textSecondary}
               />
               <Text style={[styles.backText, { color: theme.textColor }]}>
-                {uiT("ui.back_76900f1b")} </Text>
+                Back
+              </Text>
             </TouchableOpacity>
           ) : (
             <Text style={[styles.title, { color: theme.textColor }]}>
-              {uiT("ui.stage_breakdown_b8775ac5")} </Text>
+              Stage Breakdown
+            </Text>
           )}
 
           <View style={styles.headerActions}>{renderGroupToggleButton()}</View>

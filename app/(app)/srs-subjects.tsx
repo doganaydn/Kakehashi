@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -157,7 +156,6 @@ interface SubjectItem {
 }
 
 export default function SrsSubjectsScreen() {
-  useInterfaceLanguage();
   const router = useRouter();
   const { theme } = useTheme();
   const { srsStage, stageName, exactStage } = useLocalSearchParams<{
@@ -319,7 +317,6 @@ export default function SrsSubjectsScreen() {
 
 
   const SubjectCharacter = ({ item }: { item: SubjectItem }) => {
-  useInterfaceLanguage();
     const isRadical = item.object === 'radical';
     
     // For radicals, try SVG fallback if no characters
@@ -375,7 +372,7 @@ export default function SrsSubjectsScreen() {
           </Text>
           <View style={styles.subjectMeta}>
             <Text style={[styles.subjectLevel, { color: theme.textSecondary }]}>
-              {uiT("ui.level_1709305c")} {item.level}
+              Level {item.level}
             </Text>
             <Text style={[styles.subjectType, { color: theme.textSecondary }]}>
               {item.object.charAt(0).toUpperCase() + item.object.slice(1)}
@@ -399,7 +396,7 @@ export default function SrsSubjectsScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.headerText} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            {stageName || uiT("ui.srs_stage_value_aca3a5d4", {value1: (srsStage)})}
+            {stageName || `SRS Stage ${srsStage}`}
           </Text>
         </View>
         
@@ -409,7 +406,7 @@ export default function SrsSubjectsScreen() {
             <Ionicons name="search" size={20} color={theme.textSecondary} style={styles.searchIcon} />
             <TextInput
               style={[styles.searchInput, { color: theme.textColor }]}
-              placeholder={uiT("ui.search_by_meaning_or_reading_1d2e668b")}
+              placeholder="Search by meaning or reading..."
               placeholderTextColor={theme.textSecondary}
               editable={false}
             />
@@ -419,7 +416,8 @@ export default function SrsSubjectsScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.loading_subjects_b7f62111")} </Text>
+            Loading subjects...
+          </Text>
         </View>
       </View>
     );
@@ -435,10 +433,11 @@ export default function SrsSubjectsScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.headerText} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-          {stageName || uiT("ui.srs_stage_value_aca3a5d4", {value1: (srsStage)})}
+          {stageName || `SRS Stage ${srsStage}`}
         </Text>
         <Text style={[styles.headerSubtitle, { color: theme.headerText }]}>
-          {filteredSubjects.length} {uiT("ui.of_28391d3b")} {subjects.length} {uiT("ui.items_5f3c4f85")} </Text>
+          {filteredSubjects.length} of {subjects.length} items
+        </Text>
       </View>
 
       {/* Search Bar */}
@@ -447,7 +446,7 @@ export default function SrsSubjectsScreen() {
           <Ionicons name="search" size={20} color={theme.textSecondary} style={styles.searchIcon} />
           <TextInput
             style={[styles.searchInput, { color: theme.textColor }]}
-            placeholder={uiT("ui.search_by_meaning_or_reading_1d2e668b")}
+            placeholder="Search by meaning or reading..."
             placeholderTextColor={theme.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -462,7 +461,7 @@ export default function SrsSubjectsScreen() {
           <TouchableOpacity
             accessibilityRole="button"
             accessibilityLabel={vocabularyTypes.length > 0
-              ? uiT("ui.dynamic_30b97ad5b6e5", {value1: (vocabularyTypes.length)})
+              ? `Vocabulary type filters, ${vocabularyTypes.length} selected`
               : 'Vocabulary type filters'}
             accessibilityState={{ selected: vocabularyTypes.length > 0 }}
             onPress={() => {
@@ -489,8 +488,8 @@ export default function SrsSubjectsScreen() {
         ListEmptyComponent={
           <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
             {searchQuery.trim() || vocabularyTypes.length > 0
-              ? uiT("ui.no_subjects_match_your_search_and_filters_3620c6ca")
-              : uiT("ui.no_subjects_at_this_srs_stage_09b1802d")}
+              ? 'No subjects match your search and filters.'
+              : 'No subjects at this SRS stage.'}
           </Text>
         }
       />

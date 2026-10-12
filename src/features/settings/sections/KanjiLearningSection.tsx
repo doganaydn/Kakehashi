@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -15,7 +14,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function KanjiLearningSection() {
-  useInterfaceLanguage();
   const {
     groupKanjiVocabularyExamplesByReading,
     setGroupKanjiVocabularyExamplesByReading,
@@ -58,7 +56,8 @@ export function KanjiLearningSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.kanji_learning_b4e0879a")} </Text>
+          Kanji Learning
+        </Text>
 
         <AdvancedSettingsGroup>
           <View
@@ -70,11 +69,13 @@ export function KanjiLearningSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.stroke_order_animation_42d704c1")} </SettingsLabel>
+                Stroke Order Animation
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.show_animated_stroke_order_in_kanji_details_8d1b7b68")} </Text>
+                Show animated stroke order in kanji details
+              </Text>
             </View>
             <Switch
               value={showStrokeOrder}
@@ -93,18 +94,20 @@ export function KanjiLearningSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.inline_radical_reminders_da63a6aa")} </SettingsLabel>
+                Inline Radical Reminders
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.show_radical_mnemonics_and_illustrations_inside_kanji_details_d8941395")} </Text>
+                Show radical mnemonics and illustrations inside kanji details
+              </Text>
             </View>
             <Switch
               value={showInlineRadicalReminders}
               onValueChange={setShowInlineRadicalReminders}
               trackColor={{ false: "#767577", true: theme.primary }}
               thumbColor="#f4f3f4"
-              accessibilityLabel={uiT("ui.show_inline_radical_reminders_13b14c83")}
+              accessibilityLabel="Show inline radical reminders"
             />
           </View>
 
@@ -117,18 +120,20 @@ export function KanjiLearningSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.kanji_etymology_cc05e5b5")} </SettingsLabel>
+                Kanji Etymology
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.show_character_origins_and_structure_in_details_and_lessons_1fc817cc")} </Text>
+                Show character origins and structure in details and lessons
+              </Text>
             </View>
             <Switch
               value={showKanjiEtymology}
               onValueChange={setShowKanjiEtymology}
               trackColor={{ false: "#767577", true: theme.primary }}
               thumbColor="#f4f3f4"
-              accessibilityLabel={uiT("ui.show_kanji_etymology_cab99ca7")}
+              accessibilityLabel="Show kanji etymology"
             />
           </View>
 
@@ -141,18 +146,21 @@ export function KanjiLearningSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.kanji_reading_speech_9264f5d6")} </SettingsLabel>
+                Kanji Reading Speech
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.tap_a_kanji_reading_to_hear_it_with_your_device_s_japanese_voice_b8645783")} </Text>
+                Tap a kanji reading to hear it with your device&apos;s Japanese
+                voice
+              </Text>
             </View>
             <Switch
               value={kanjiReadingTextToSpeechEnabled}
               onValueChange={setKanjiReadingTextToSpeechEnabled}
               trackColor={{ false: "#767577", true: theme.primary }}
               thumbColor="#f4f3f4"
-              accessibilityLabel={uiT("ui.enable_kanji_reading_speech_94ad0e23")}
+              accessibilityLabel="Enable kanji reading speech"
             />
           </View>
 
@@ -166,14 +174,16 @@ export function KanjiLearningSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.stroke_strictness_a4d8a3f9")} </SettingsLabel>
+                  Stroke Strictness
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.tolerance_for_stroke_accuracy_68ccb029")} </Text>
+                  Tolerance for stroke accuracy
+                </Text>
               </View>
               <View style={styles.batchSizeSelector}>
                 <TouchableOpacity
@@ -208,12 +218,12 @@ export function KanjiLearningSection() {
                   style={[styles.leniencyValue, { color: theme.textColor }]}
                 >
                   {strokeLeniency <= 0.8
-                    ? uiT("ui.very_strict_a51ce93c")
+                    ? "Very Strict"
                     : strokeLeniency <= 1.2
-                      ? uiT("ui.strict_2e1a4c07")
+                      ? "Strict"
                       : strokeLeniency <= 1.8
-                        ? uiT("ui.lenient_5aa0926b")
-                        : uiT("ui.very_lenient_a143e307")}
+                        ? "Lenient"
+                        : "Very Lenient"}
                 </Text>
                 <TouchableOpacity
                   style={[
@@ -258,21 +268,24 @@ export function KanjiLearningSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.group_vocabulary_by_reading_b99dc5b3")} </SettingsLabel>
+                  Group Vocabulary by Reading
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.organize_kanji_examples_under_on_yomi_kun_yomi_and_nanori_reading_02ec0060")} </Text>
+                  Organize kanji examples under On&apos;yomi, Kun&apos;yomi, and
+                  Nanori readings
+                </Text>
               </View>
               <Switch
                 value={groupKanjiVocabularyExamplesByReading}
                 onValueChange={setGroupKanjiVocabularyExamplesByReading}
                 trackColor={{ false: "#767577", true: theme.primary }}
                 thumbColor="#f4f3f4"
-                accessibilityLabel={uiT("ui.group_kanji_vocabulary_examples_by_reading_3e0814a5")}
+                accessibilityLabel="Group kanji vocabulary examples by reading"
               />
             </View>
 
@@ -297,14 +310,16 @@ export function KanjiLearningSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.katakana_madness_c21f54fc")} </SettingsLabel>
+                  Katakana Madness
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.display_on_yomi_readings_in_katakana_instead_of_hiragana_28f05c90")} </Text>
+                  Display On&apos;yomi readings in katakana instead of hiragana
+                </Text>
               </View>
               <Switch
                 value={showOnyomiInKatakana}
@@ -323,7 +338,8 @@ export function KanjiLearningSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.similar_kanji_source_cc585406")} </SettingsLabel>
+                  Similar Kanji Source
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
@@ -331,8 +347,8 @@ export function KanjiLearningSection() {
                   ]}
                 >
                   {visuallySimilarKanjiSource === "wanikani"
-                    ? uiT("ui.using_wanikani_s_built_in_similar_kanji_3dc9ec9b")
-                    : uiT("ui.using_niai_community_database_more_comprehensive_996862a4")}
+                    ? "Using WaniKani's built-in similar kanji"
+                    : "Using Niai community database (more comprehensive)"}
                 </Text>
               </View>
               <TouchableOpacity
@@ -356,7 +372,7 @@ export function KanjiLearningSection() {
                 >
                   {visuallySimilarKanjiSource === "wanikani"
                     ? "WaniKani"
-                    : uiT("ui.niai_d72a745b")}
+                    : "Niai"}
                 </Text>
               </TouchableOpacity>
             </View>

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -42,7 +41,6 @@ export default function StudyTimeCard({
   interactive = true,
   style,
 }: StudyTimeCardProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const userId = normalizeStudyTimeUserId(
     useAuthStore((state) => state.userData?.id ?? null),
@@ -109,7 +107,8 @@ export default function StudyTimeCard({
             <Ionicons name="time-outline" size={18} color={theme.primary} />
           </View>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {uiT("ui.study_time_697f7732")} </Text>
+            Study Time
+          </Text>
         </View>
         <TouchableOpacity
           style={styles.todayGroup}
@@ -226,7 +225,9 @@ export default function StudyTimeCard({
         </>
       ) : (
         <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-          {uiT("ui.no_study_time_in_this_range_yet_reviews_lessons_extra_study_news_e88c5cab")} </Text>
+          No study time in this range yet. Reviews, lessons, extra study, news,
+          songs, reading, and videos across your devices show up here.
+        </Text>
       )}
     </View>
   );

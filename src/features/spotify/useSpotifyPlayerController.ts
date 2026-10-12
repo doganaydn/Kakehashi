@@ -1,4 +1,3 @@
-import { uiT } from "../interface-language/runtime";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Alert, AppState, Linking } from "react-native";
 import {
@@ -292,12 +291,12 @@ export function useSpotifyPlayerController({
 
       if (playbackError.code === "NO_ACTIVE_DEVICE") {
         Alert.alert(
-          uiT("ui.open_spotify_0750161a"),
-          uiT("ui.spotify_needs_an_active_player_before_kakehashi_can_control_playb_1e4f5b7c"),
+          "Open Spotify",
+          "Spotify needs an active player before Kakehashi can control playback. Open Spotify, let the song start playing, then come back to Kakehashi.",
           [
-            { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+            { text: "Cancel", style: "cancel" },
             {
-              text: uiT("ui.open_spotify_0750161a"),
+              text: "Open Spotify",
               onPress: () => {
                 const spotifyTrackUri = trackIdRef.current
                   ? `spotify:track:${trackIdRef.current}`
@@ -316,7 +315,7 @@ export function useSpotifyPlayerController({
         return;
       }
 
-      Alert.alert(uiT("ui.spotify_playback_0f6c9e7e"), playbackError.message);
+      Alert.alert("Spotify Playback", playbackError.message);
     },
     [scheduleRemoteSync, setOptimisticPlaying],
   );

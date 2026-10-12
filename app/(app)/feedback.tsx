@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import React, { useState, useRef } from "react";
 import {
   View,
@@ -18,7 +17,6 @@ import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../../src/utils/theme";
 
 export default function FeedbackScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [message, setMessage] = useState("");
@@ -68,7 +66,7 @@ export default function FeedbackScreen() {
 
   const handleSubmit = async () => {
     if (selectedCategories.length === 0 && message.trim() === "") {
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_select_at_least_one_category_or_add_a_message_2fb6ce3c"));
+      Alert.alert("Error", "Please select at least one category or add a message.");
       return;
     }
 
@@ -95,11 +93,11 @@ export default function FeedbackScreen() {
       
       if (response.ok) {
         Alert.alert(
-          uiT("ui.feedback_sent_19958d85"),
-          uiT("ui.thank_you_for_your_feedback_we_appreciate_your_input_fdb684a8"),
+          "Feedback Sent",
+          "Thank you for your feedback! We appreciate your input.",
           [
             {
-              text: uiT("ui.ok_565339bc"),
+              text: "OK",
               onPress: handleClose
             }
           ]
@@ -108,7 +106,7 @@ export default function FeedbackScreen() {
         throw new Error("Failed to submit");
       }
     } catch (error) {
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_send_feedback_please_check_your_internet_connection_and_ff93f8db"));
+      Alert.alert("Error", "Failed to send feedback. Please check your internet connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -126,14 +124,15 @@ export default function FeedbackScreen() {
           <Ionicons name="close" size={28} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.send_feedback_84195de9")} </Text>
+          Send Feedback
+        </Text>
         <TouchableOpacity 
           onPress={handleSubmit}
           disabled={isSubmitting}
           style={[styles.submitHeaderButton, { opacity: isSubmitting ? 0.6 : 1 }]}
         >
           <Text style={[styles.submitHeaderText, { color: theme.primary }]}>
-            {isSubmitting ? uiT("ui.sending_286a3af7") : uiT("ui.send_f6f4688f")}
+            {isSubmitting ? "Sending..." : "Send"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -147,7 +146,8 @@ export default function FeedbackScreen() {
       >
         <View style={[styles.section, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.what_type_of_feedback_is_this_34758748")} </Text>
+            What type of feedback is this?
+          </Text>
           
           <View style={styles.categoriesContainer}>
             {categories.map((category) => (
@@ -191,7 +191,8 @@ export default function FeedbackScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.tell_us_more_optional_4efd51c7")} </Text>
+            Tell us more (optional)
+          </Text>
           
           <TextInput
             ref={textInputRef}
@@ -205,7 +206,7 @@ export default function FeedbackScreen() {
             ]}
             multiline
             numberOfLines={8}
-            placeholder={uiT("ui.describe_your_feedback_in_detail_749280fd")}
+            placeholder="Describe your feedback in detail..."
             placeholderTextColor={theme.textSecondary}
             value={message}
             onChangeText={setMessage}
@@ -226,7 +227,7 @@ export default function FeedbackScreen() {
           disabled={isSubmitting}
         >
           <Text style={styles.submitButtonText}>
-            {isSubmitting ? uiT("ui.sending_feedback_4c96b0cf") : uiT("ui.send_feedback_84195de9")}
+            {isSubmitting ? "Sending Feedback..." : "Send Feedback"}
           </Text>
         </TouchableOpacity>
       </ScrollView>

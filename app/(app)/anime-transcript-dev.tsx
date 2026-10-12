@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { File } from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
@@ -51,7 +50,6 @@ type SubtitleProcessingState = "idle" | "processing" | "ready" | "error";
 type UploadQueueStatus = "waiting" | "processing" | "ready" | "error";
 
 export default function AnimeTranscriptDevScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -236,7 +234,7 @@ export default function AnimeTranscriptDevScreen() {
       setJpdbParsedTokens([]);
       setSubtitleProcessingState("error");
       setProcessingError(
-        uiT("ui.message_3763307a166a")
+        "Could not parse subtitles. Try another file or upload a .srt subtitle manually."
       );
     }
   }, []);
@@ -278,11 +276,11 @@ export default function AnimeTranscriptDevScreen() {
         setSubtitleFileName(null);
         setSubtitleProcessingState("error");
         setProcessingError(
-          uiT("ui.message_3d0a8d200ac0")
+          "Could not extract Japanese subtitles from this MKV. Try a different file or upload .srt manually."
         );
         Alert.alert(
-          uiT("ui.subtitle_extraction_failed_79f43847"),
-          uiT("ui.could_not_extract_japanese_subtitles_from_this_mkv_try_another_fi_8c31eb72")
+          "Subtitle extraction failed",
+          "Could not extract Japanese subtitles from this MKV. Try another file or upload a .srt subtitle manually."
         );
       } finally {
         setIsLoadingSubtitle(false);
@@ -303,7 +301,7 @@ export default function AnimeTranscriptDevScreen() {
       const resolvedName =
         pickedFile.name?.trim() || getFileNameFromUri(pickedFile.uri);
       if (!isLikelySupportedTranscriptVideo(resolvedName, pickedFile.type ?? null)) {
-        Alert.alert(uiT("ui.unsupported_format_e9183ae2"), uiT("ui.please_pick_an_mp4_or_mkv_video_file_2f176c08"));
+        Alert.alert("Unsupported format", "Please pick an MP4 or MKV video file.");
         return;
       }
       const resolvedSourceType =
@@ -329,7 +327,7 @@ export default function AnimeTranscriptDevScreen() {
       }
 
       console.error("Failed to pick video:", error);
-      Alert.alert(uiT("ui.upload_failed_6efc5d27"), uiT("ui.could_not_load_the_selected_video_7ca253b4"));
+      Alert.alert("Upload failed", "Could not load the selected video.");
     } finally {
       setIsLoadingVideo(false);
     }
@@ -342,8 +340,8 @@ export default function AnimeTranscriptDevScreen() {
       const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!permission.granted) {
         Alert.alert(
-          uiT("ui.permission_needed_4e25d34a"),
-          uiT("ui.please_allow_photo_library_access_to_choose_a_video_from_gallery_7c0d7ccb")
+          "Permission needed",
+          "Please allow photo library access to choose a video from Gallery."
         );
         return;
       }
@@ -362,7 +360,7 @@ export default function AnimeTranscriptDevScreen() {
       const resolvedName = asset.fileName?.trim() || getFileNameFromUri(asset.uri);
 
       if (!isLikelySupportedTranscriptVideo(resolvedName, asset.mimeType ?? null)) {
-        Alert.alert(uiT("ui.unsupported_format_e9183ae2"), uiT("ui.please_choose_an_mp4_or_mkv_video_347199e5"));
+        Alert.alert("Unsupported format", "Please choose an MP4 or MKV video.");
         return;
       }
       const resolvedSourceType =
@@ -384,28 +382,28 @@ export default function AnimeTranscriptDevScreen() {
       }
     } catch (error) {
       console.error("Failed to pick gallery video:", error);
-      Alert.alert(uiT("ui.upload_failed_6efc5d27"), uiT("ui.could_not_load_a_video_from_gallery_c47d93b8"));
+      Alert.alert("Upload failed", "Could not load a video from Gallery.");
     } finally {
       setIsLoadingVideo(false);
     }
   }, [extractAndProcessEmbeddedMkvSubtitles, resetExternalSubtitlePipeline]);
 
   const handlePickVideo = useCallback(() => {
-    Alert.alert(uiT("ui.pick_video_1ffeff95"), uiT("ui.choose_where_to_pick_the_video_from_ab951c48"), [
+    Alert.alert("Pick Video", "Choose where to pick the video from.", [
       {
-        text: uiT("ui.files_abc7e989"),
+        text: "Files",
         onPress: () => {
           void handlePickVideoFromFiles();
         },
       },
       {
-        text: uiT("ui.gallery_352cfc74"),
+        text: "Gallery",
         onPress: () => {
           void handlePickVideoFromGallery();
         },
       },
       {
-        text: uiT("ui.cancel_19766ed6"),
+        text: "Cancel",
         style: "cancel",
       },
     ]);
@@ -434,14 +432,14 @@ export default function AnimeTranscriptDevScreen() {
       const nameLooksLikeSrt = subtitleName.toLowerCase().endsWith(".srt");
 
       if ((normalizedExtension && normalizedExtension !== ".srt") || (!normalizedExtension && !nameLooksLikeSrt)) {
-        Alert.alert(uiT("ui.unsupported_format_e9183ae2"), uiT("ui.please_pick_a_srt_subtitle_file_82e58531"));
+        Alert.alert("Unsupported format", "Please pick a .srt subtitle file.");
         return;
       }
 
       const rawText = await pickedFile.text();
       const parsedCues = parseSrtCues(rawText);
       if (parsedCues.length === 0) {
-        Alert.alert(uiT("ui.no_subtitles_found_e4a4f98d"), uiT("ui.the_srt_file_did_not_contain_valid_cues_0b4ece89"));
+        Alert.alert("No subtitles found", "The .srt file did not contain valid cues.");
         return;
       }
 
@@ -455,8 +453,8 @@ export default function AnimeTranscriptDevScreen() {
 
       console.error("Failed to pick subtitle:", error);
       setSubtitleProcessingState("error");
-      setProcessingError(uiT("ui.could_not_read_the_selected_subtitle_file_46143839"));
-      Alert.alert(uiT("ui.upload_failed_6efc5d27"), uiT("ui.could_not_read_the_selected_subtitle_file_46143839"));
+      setProcessingError("Could not read the selected subtitle file.");
+      Alert.alert("Upload failed", "Could not read the selected subtitle file.");
     } finally {
       setIsLoadingSubtitle(false);
     }
@@ -776,7 +774,8 @@ export default function AnimeTranscriptDevScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.headerText} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-          {uiT("ui.transcript_lab_9813bcb0")} </Text>
+          Transcript Lab
+        </Text>
       </View>
 
       <ScrollView
@@ -793,9 +792,11 @@ export default function AnimeTranscriptDevScreen() {
             { backgroundColor: theme.cardBackground, borderColor: theme.border },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: theme.textColor }]}>{uiT("ui.upload_files_990578cf")}</Text>
+          <Text style={[styles.cardTitle, { color: theme.textColor }]}>Upload Files</Text>
           <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>
-            {uiT("ui.start_with_one_video_upload_box_if_the_video_is_mp4_the_subtitle_4dddf96f")} </Text>
+            Start with one video upload box. If the video is MP4, the subtitle upload
+            box slides in automatically.
+          </Text>
 
           <View
             style={styles.uploadFlowRow}
@@ -815,7 +816,7 @@ export default function AnimeTranscriptDevScreen() {
             >
               {renderUploadCard({
                 icon: "film-outline",
-                title: uiT("ui.video_file_mp4_mkv_13769f5d"),
+                title: "Video file (.mp4/.mkv)",
                 fileName: videoFileName,
                 isLoading: isLoadingVideo,
                 onPress: handlePickVideo,
@@ -836,7 +837,7 @@ export default function AnimeTranscriptDevScreen() {
             >
               {renderUploadCard({
                 icon: "document-text-outline",
-                title: uiT("ui.subtitle_file_srt_89215355"),
+                title: "Subtitle file (.srt)",
                 fileName: subtitleFileName,
                 isLoading: isLoadingSubtitle,
                 onPress: () => {
@@ -856,9 +857,10 @@ export default function AnimeTranscriptDevScreen() {
             { backgroundColor: theme.cardBackground, borderColor: theme.border },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: theme.textColor }]}>{uiT("ui.upload_queue_48691b26")}</Text>
+          <Text style={[styles.cardTitle, { color: theme.textColor }]}>Upload Queue</Text>
           <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>
-            {uiT("ui.files_appear_here_as_they_are_loaded_and_analyzed_53a1dba1")} </Text>
+            Files appear here as they are loaded and analyzed.
+          </Text>
 
           <View style={styles.queueList}>
             {showVideoQueueItem
@@ -900,7 +902,8 @@ export default function AnimeTranscriptDevScreen() {
               >
                 <Ionicons name="cloud-upload-outline" size={24} color={theme.textSecondary} />
                 <Text style={[styles.queuePlaceholderText, { color: theme.textSecondary }]}>
-                  {uiT("ui.uploads_will_appear_here_aadcf331")} </Text>
+                  Uploads will appear here.
+                </Text>
               </View>
             ) : null}
           </View>
@@ -913,7 +916,9 @@ export default function AnimeTranscriptDevScreen() {
 
           {!hasStoredJpdbApiKey && subtitleCues.length > 0 ? (
             <Text style={[styles.warningText, { color: theme.error }]}>
-              {uiT("ui.jpdb_api_key_not_found_in_settings_processing_still_runs_with_fal_fcf9a4b3")} </Text>
+              JPDB API key not found in Settings. Processing still runs with fallback
+              behavior, but grammar quality may be reduced.
+            </Text>
           ) : null}
         </View>
       </ScrollView>
@@ -943,7 +948,7 @@ export default function AnimeTranscriptDevScreen() {
           onPress={handleContinue}
           activeOpacity={canContinue ? 0.82 : 1}
         >
-          <Text style={styles.continueButtonText}>{uiT("ui.continue_to_viewer_ce8ff8c2")}</Text>
+          <Text style={styles.continueButtonText}>Continue to Viewer</Text>
           <Ionicons name="arrow-forward" size={18} color="#fff" />
         </TouchableOpacity>
       </View>

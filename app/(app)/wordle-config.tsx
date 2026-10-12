@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -127,7 +126,6 @@ const sanitizeConfig = (
 };
 
 export default function WordleConfigScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const userLevel = userData?.level ?? 60;
@@ -246,17 +244,17 @@ export default function WordleConfigScreen() {
         return;
       }
 
-      Alert.alert(uiT("ui.resume_kana_wordle_62128285"), uiT("ui.you_have_a_wordle_run_in_progress_3e01e9d2"), [
-        { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
+      Alert.alert("Resume Kana Wordle?", "You have a Wordle run in progress.", [
+        { text: "Not Now", style: "cancel" },
         {
-          text: uiT("ui.discard_eb1a70e3"),
+          text: "Discard",
           style: "destructive",
           onPress: () => {
             void clearExtraStudySessionState(WORDLE_SESSION_KEY);
           },
         },
         {
-          text: uiT("ui.resume_d640c742"),
+          text: "Resume",
           onPress: () => {
             router.push({
               pathname: "/wordle-session",
@@ -334,9 +332,11 @@ export default function WordleConfigScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <Ionicons name="lock-closed-outline" size={28} color={theme.textSecondary} />
         <Text style={[styles.gatedTitle, { color: theme.textColor }]}>
-          {uiT("ui.wordle_is_portego_only_e0503c2f")} </Text>
+          Wordle Is Portego-Only
+        </Text>
         <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>
-          {uiT("ui.this_mode_is_currently_enabled_only_for_the_portego_account_c549ed51")} </Text>
+          This mode is currently enabled only for the Portego account.
+        </Text>
       </View>
     );
   }
@@ -353,25 +353,26 @@ export default function WordleConfigScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.kana_wordle_640f06f7")}</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Kana Wordle</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
           <View style={styles.modeHeaderRow}>
             <Ionicons name="sparkles-outline" size={18} color={theme.textSecondary} />
-            <Text style={[styles.modeHeaderText, { color: theme.textSecondary }]}>{uiT("ui.word_game_500040b8")}</Text>
+            <Text style={[styles.modeHeaderText, { color: theme.textSecondary }]}>Word Game</Text>
           </View>
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.no_clues_mode_24965460")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>No Clues Mode</Text>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}> 
-            {uiT("ui.guess_the_hidden_reading_from_color_feedback_only_like_classic_wo_7168a953")} </Text>
+            Guess the hidden reading from color feedback only, like classic Wordle.
+          </Text>
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.included_subjects_33bf4bc4")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Included Subjects</Text>
           <View style={styles.toggleRows}>
             <View style={styles.toggleRow}>
-              <Text style={[styles.toggleLabel, { color: theme.textColor }]}>{uiT("ui.vocabulary_eebd90a0")}</Text>
+              <Text style={[styles.toggleLabel, { color: theme.textColor }]}>Vocabulary</Text>
               <Switch
                 value={config.includeVocabulary}
                 onValueChange={(value) => updateConfig("includeVocabulary", value)}
@@ -380,7 +381,7 @@ export default function WordleConfigScreen() {
               />
             </View>
             <View style={styles.toggleRow}>
-              <Text style={[styles.toggleLabel, { color: theme.textColor }]}>{uiT("ui.kana_vocabulary_5ff3abc5")}</Text>
+              <Text style={[styles.toggleLabel, { color: theme.textColor }]}>Kana Vocabulary</Text>
               <Switch
                 value={config.includeKanaVocabulary}
                 onValueChange={(value) => updateConfig("includeKanaVocabulary", value)}
@@ -392,9 +393,10 @@ export default function WordleConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.word_length_2847982f")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Word Length</Text>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}> 
-            {uiT("ui.choose_how_many_kana_each_hidden_word_has_3949691c")} </Text>
+            Choose how many kana each hidden word has.
+          </Text>
           <View style={styles.lengthOptions}>
             {WORD_LENGTH_OPTIONS.map((length) => {
               const isSelected = config.wordLength === length;
@@ -429,7 +431,7 @@ export default function WordleConfigScreen() {
           </View>
 
           <View style={styles.sliderContainer}>
-            <Text style={[styles.sliderLabel, { color: theme.textColor }]}>{uiT("ui.attempts_06e70139")}</Text>
+            <Text style={[styles.sliderLabel, { color: theme.textColor }]}>Attempts</Text>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.maxAttempts}
             </Text>
@@ -448,9 +450,10 @@ export default function WordleConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.include_srs_stages_eb382d10")}</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Include SRS Stages</Text>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}> 
-            {uiT("ui.pick_which_progression_stages_feed_the_game_pool_41c00dcf")} </Text>
+            Pick which progression stages feed the game pool.
+          </Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = (config.srsGroups as Record<string, boolean>)[key];
@@ -496,7 +499,7 @@ export default function WordleConfigScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
           <View style={styles.levelHeaderRow}>
-            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.level_range_66c41110")}</Text>
+            <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Level Range</Text>
             <Switch
               value={config.useCustomLevelRange}
               onValueChange={(value) => updateConfig("useCustomLevelRange", value)}
@@ -506,10 +509,10 @@ export default function WordleConfigScreen() {
           </View>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}> 
             {config.useCustomLevelRange
-              ? uiT("ui.using_levels_value_to_value_f7518a7a", {value1: (config.minLevel), value2: (config.maxLevel)})
+              ? `Using levels ${config.minLevel} to ${config.maxLevel}`
               : config.selectedListIds.length > 0
-                ? uiT("ui.using_all_levels_in_selected_lists_6461a489")
-                : uiT("ui.using_levels_1_to_your_level_value_6a9dc246", {value1: (userLevel)})}
+                ? "Using all levels in selected lists"
+                : `Using levels 1 to your level (${userLevel})`}
           </Text>
 
           <Animated.View
@@ -523,7 +526,7 @@ export default function WordleConfigScreen() {
             }}
           >
             <View style={styles.levelSliderRow}>
-              <Text style={[styles.sliderLabel, { color: theme.textColor }]}>{uiT("ui.min_dea79332")}</Text>
+              <Text style={[styles.sliderLabel, { color: theme.textColor }]}>Min</Text>
               <Text style={[styles.sliderCount, { color: theme.textColor }]}>
                 {config.minLevel}
               </Text>
@@ -544,7 +547,7 @@ export default function WordleConfigScreen() {
             />
 
             <View style={styles.levelSliderRow}>
-              <Text style={[styles.sliderLabel, { color: theme.textColor }]}>{uiT("ui.max_a1a5936d")}</Text>
+              <Text style={[styles.sliderLabel, { color: theme.textColor }]}>Max</Text>
               <Text style={[styles.sliderCount, { color: theme.textColor }]}>
                 {config.maxLevel}
               </Text>
@@ -570,7 +573,7 @@ export default function WordleConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={listCountTypes}
-          description={uiT("ui.optional_only_include_words_from_these_saved_lists_ca47f161")}
+          description="Optional: only include words from these saved lists."
         />
 
         <View style={{ height: 80 }} />
@@ -595,7 +598,7 @@ export default function WordleConfigScreen() {
           activeOpacity={0.8}
         >
           <Ionicons name="game-controller" size={22} color="white" style={{ marginRight: 8 }} />
-          <Text style={styles.startButtonText}>{uiT("ui.start_kana_wordle_3b38dab8")}</Text>
+          <Text style={styles.startButtonText}>Start Kana Wordle</Text>
         </TouchableOpacity>
       </View>
     </View>

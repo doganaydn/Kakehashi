@@ -1,10 +1,9 @@
 "use dom";
-import { uiT, interfaceLocale, useInterfaceLanguage, useInterfaceLanguageStore } from "../../features/interface-language/runtime";
 
 import { Asset } from "expo-asset";
 import japaneseFontAsset from "../../../assets/fonts/SourceHanSansJP-Regular.otf";
 import { Play, Pause, MoreVertical, Lightbulb } from "lucide-react";
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
 import { BunproText } from "./bunpro-dom-text";
 import { pickCanonicalAnswer, sanitizeText } from "../../../web/src/features/bunpro/model";
 import type { BunproJsonApiResource } from "../../types/bunpro";
@@ -14,15 +13,12 @@ const object = (value: unknown): Attributes => value && typeof value === "object
 const records = (value: unknown) => Array.isArray(value) ? value.map(object) : [];
 const texts = (value: unknown): string[] => Array.isArray(value) ? value.flatMap(item => Array.isArray(item) ? item.filter((value): value is string => typeof value === "string") : typeof item === "string" ? [item] : []) : [];
 
-export default function BunproDetailsDOM({ interfaceLanguage = "en", attributes, included, kind, resourceId, tab, theme, playingId, onPlay, onOpenLink, dom: _dom }: {
-  interfaceLanguage?: "en" | "tr";
+export default function BunproDetailsDOM({ attributes, included, kind, resourceId, tab, theme, playingId, onPlay, onOpenLink, dom: _dom }: {
   attributes: Attributes; included: BunproJsonApiResource[]; kind: "grammar" | "vocab"; resourceId: string;
   tab: "Details" | "Examples"; theme: { background: string; text: string; muted: string; border: string; surface: string };
   playingId: string | null; onPlay: (id: string, urls: string[]) => Promise<void>; onOpenLink: (url: string) => Promise<void>;
   dom?: import("expo/dom").DOMProps;
 }) {
-  useInterfaceLanguage();
-  useLayoutEffect(() => { useInterfaceLanguageStore.getState().setLanguage(interfaceLanguage); }, [interfaceLanguage]);
   const [polite, setPolite] = useState(false);
   const [showSentence, setShowSentence] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
@@ -45,18 +41,18 @@ export default function BunproDetailsDOM({ interfaceLanguage = "en", attributes,
     <style>{`@font-face{font-family:BunproJapanese;src:url("${Asset.fromModule(japaneseFontAsset).uri}") format("opentype");font-display:swap}`}{css}</style>
     {tab === "Details" ? <>
       {kind === "vocab" ? block("Dictionary Definition", <>
-        {forms.some(form => form.common) ? <span className="common">{uiT("ui.common_309955e0")}</span> : null}
+        {forms.some(form => form.common) ? <span className="common">Common</span> : null}
         <p className="muted">{texts(attributes.jmdict_pos).join(", ")}</p>
-        {senses.length ? <ol>{senses.map((sense, index) => <li key={index}>{sense.english.join(", ")}{texts(sense.info).map(info => <p className="muted" key={info}>{info}</p>)}{texts(sense.antonym).length ? <p>{uiT("ui.antonyms_02015d8c")} {texts(sense.antonym).join("、")}</p> : null}{texts(sense.related).length ? <p>{uiT("ui.related_67a0930e")} {texts(sense.related).join("、")}</p> : null}</li>)}</ol> : <BunproText value={attributes.meaning} />}
-        {forms.length ? <><p className="muted">{uiT("ui.all_forms_b372c56e")}</p><p lang="ja">{forms.map(form => sanitizeText(form.text)).join("、")}</p></> : null}
+        {senses.length ? <ol>{senses.map((sense, index) => <li key={index}>{sense.english.join(", ")}{texts(sense.info).map(info => <p className="muted" key={info}>{info}</p>)}{texts(sense.antonym).length ? <p>Antonyms: {texts(sense.antonym).join("、")}</p> : null}{texts(sense.related).length ? <p>Related: {texts(sense.related).join("、")}</p> : null}</li>)}</ol> : <BunproText value={attributes.meaning} />}
+        {forms.length ? <><p className="muted">All Forms</p><p lang="ja">{forms.map(form => sanitizeText(form.text)).join("、")}</p></> : null}
       </>) : null}
       {attributes.casual_structure || attributes.polite_structure ? block("Structure", <>
-        {attributes.casual_structure && attributes.polite_structure ? <div className="controls"><button aria-pressed={!polite} onClick={() => setPolite(false)}>{uiT("ui.standard_ef669154")}</button><button aria-pressed={polite} onClick={() => setPolite(true)}>{uiT("ui.polite_ccec498b")}</button></div> : null}
+        {attributes.casual_structure && attributes.polite_structure ? <div className="controls"><button aria-pressed={!polite} onClick={() => setPolite(false)}>Standard</button><button aria-pressed={polite} onClick={() => setPolite(true)}>Polite</button></div> : null}
         <BunproText value={polite ? attributes.polite_structure : attributes.casual_structure || attributes.polite_structure} grammarId={grammarId} />
       </>) : null}
       {block("Details", <dl>{[["Part of Speech", attributes.part_of_speech_translation || attributes.part_of_speech || texts(attributes.jmdict_pos).join(", ")], ["Word Type", attributes.word_type_translation || attributes.word_type], ["Register", attributes.register_translation || attributes.register]].filter(([, value]) => value).map(([label, value]) => <div key={String(label)}><dt>{String(label)}</dt><dd><BunproText value={value} /></dd></div>)}
-        {kind === "vocab" && (attributes.kana || attributes.pitch_accent_stress) ? <div><dt>{uiT("ui.pitch_accent_41fdcf30")}</dt><dd className="pitch"><button aria-label={playingId === "pronunciation" ? "Stop pronunciation" : "Play pronunciation"} disabled={!urls(attributes).length} onClick={() => void onPlay("pronunciation", urls(attributes))}>{playingId === "pronunciation" ? <Pause size={14} /> : <Play size={14} />}</button><span lang="ja">{(sanitizeText(attributes.kana).match(/.[ゃゅょぁぃぅぇぉャュョァィゥェォ]?/gu) ?? []).map((mora, i) => <span key={i} data-high={String(attributes.pitch_accent_stress)[i] === "H"} data-drop={String(attributes.pitch_accent_stress)[i] === "H" && String(attributes.pitch_accent_stress)[i + 1] === "L"}>{mora}</span>)}</span></dd></div> : null}
-        {sources.length ? <div><dt><label>{uiT("ui.frequency_16b6668d")} <select aria-label={uiT("ui.message_26bc9f3c69d3")} value={source} onChange={event => setFrequency(event.target.value)}>{sources.map(value => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}</select></label></dt><dd>{uiT("ui.top_d5cdfcf7")} {Number(attributes[`frequency_${source}`]).toLocaleString(interfaceLocale())}</dd></div> : null}
+        {kind === "vocab" && (attributes.kana || attributes.pitch_accent_stress) ? <div><dt>Pitch accent</dt><dd className="pitch"><button aria-label={playingId === "pronunciation" ? "Stop pronunciation" : "Play pronunciation"} disabled={!urls(attributes).length} onClick={() => void onPlay("pronunciation", urls(attributes))}>{playingId === "pronunciation" ? <Pause size={14} /> : <Play size={14} />}</button><span lang="ja">{(sanitizeText(attributes.kana).match(/.[ゃゅょぁぃぅぇぉャュョァィゥェォ]?/gu) ?? []).map((mora, i) => <span key={i} data-high={String(attributes.pitch_accent_stress)[i] === "H"} data-drop={String(attributes.pitch_accent_stress)[i] === "H" && String(attributes.pitch_accent_stress)[i + 1] === "L"}>{mora}</span>)}</span></dd></div> : null}
+        {sources.length ? <div><dt><label>Frequency <select aria-label="Frequency source" value={source} onChange={event => setFrequency(event.target.value)}>{sources.map(value => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}</select></label></dt><dd>Top {Number(attributes[`frequency_${source}`]).toLocaleString("en-US")}</dd></div> : null}
       </dl>)}
       {attributes.nuance_translation || attributes.nuance || attributes.caution ? block("Nuance", <><BunproText value={attributes.nuance_translation} grammarId={grammarId} /><BunproText value={attributes.nuance} grammarId={grammarId} /><BunproText value={attributes.caution} grammarId={grammarId} /></>) : null}
       {typeof writeup === "string" ? block(`About ${title}`, writeup.split(/(<ul[^>]*class=['"][^'"]*writeup-examples--holder[^'"]*['"][^>]*>[\s\S]*?<\/ul>)/gi).map((part, i) => /writeup-examples--holder/.test(part)
@@ -64,16 +60,15 @@ export default function BunproDetailsDOM({ interfaceLanguage = "en", attributes,
         : <BunproText key={i} value={part} grammarId={grammarId} />)) : null}
       {kind === "vocab" && examples.length ? block("Examples", examples.map(item => <Example key={item.id} item={item} title={title} playingId={playingId} onPlay={onPlay} showSentence showTranslation />)) : null}
       {attributes.rare_kanji_warning ? <BunproText value={attributes.rare_kanji_warning} /> : null}
-      {typeof attributes.discourse_link === "string" ? <p><a href={attributes.discourse_link}>{uiT("ui.bunpro_discussion_6f910dad")}</a></p> : null}
+      {typeof attributes.discourse_link === "string" ? <p><a href={attributes.discourse_link}>Bunpro discussion ↗</a></p> : null}
     </> : <>
-      <div className="controls"><button aria-pressed={showSentence} onClick={() => setShowSentence(!showSentence)}>{uiT("ui.sentence_e006e2f1")}</button><button aria-pressed={showTranslation} onClick={() => setShowTranslation(!showTranslation)}>{uiT("ui.translation_6fbd766b")}</button></div>
-      {examples.length ? examples.map(item => <Example key={item.id} item={item} title={title} grammarId={grammarId} playingId={playingId} onPlay={onPlay} showSentence={showSentence} showTranslation={showTranslation} />) : <p>{uiT("ui.no_example_sentences_available_353b7a58")}</p>}
+      <div className="controls"><button aria-pressed={showSentence} onClick={() => setShowSentence(!showSentence)}>Sentence</button><button aria-pressed={showTranslation} onClick={() => setShowTranslation(!showTranslation)}>Translation</button></div>
+      {examples.length ? examples.map(item => <Example key={item.id} item={item} title={title} grammarId={grammarId} playingId={playingId} onPlay={onPlay} showSentence={showSentence} showTranslation={showTranslation} />) : <p>No example sentences available.</p>}
     </>}
   </article>;
 }
 
 function Example({ item, title, grammarId, playingId, onPlay, showSentence, showTranslation }: { item: BunproJsonApiResource; title: string; grammarId?: string; playingId: string | null; onPlay: (id: string, urls: string[]) => Promise<void>; showSentence: boolean; showTranslation: boolean }) {
-  useInterfaceLanguage();
   const [hidden, setHidden] = useState(false);
   const [menu, setMenu] = useState(false);
   const attributes = item.attributes;
@@ -82,7 +77,7 @@ function Example({ item, title, grammarId, playingId, onPlay, showSentence, show
   const urls = [attributes.female_audio_url, attributes.male_audio_url].filter((url): url is string => typeof url === "string" && /^https?:\/\//.test(url));
   return <article className="example"><button className="play" aria-label={playingId === item.id ? "Pause example audio" : "Play example audio"} disabled={!urls.length} onClick={() => void onPlay(item.id, urls)}>{playingId === item.id ? <Pause size={13} /> : <Play size={13} fill="currentColor" />}</button>
     <div className="example-text"><div lang="ja" hidden={!showSentence}><BunproText value={sentence} grammarId={grammarId} /></div><div className="muted" hidden={!showTranslation || hidden}><BunproText value={attributes.translation} /></div>{attributes.extra_info ? <p className="muted"><Lightbulb size={16} /> <BunproText value={attributes.extra_info} /></p> : null}</div>
-    <div className="options"><button aria-label={uiT("ui.message_508f4581330b")} aria-expanded={menu} onClick={() => setMenu(!menu)}><MoreVertical size={20} /></button>{menu ? <button className="menu" onClick={() => { setHidden(!hidden); setMenu(false); }}>{hidden ? "Show translation" : "Hide translation"}</button> : null}</div>
+    <div className="options"><button aria-label="Example options" aria-expanded={menu} onClick={() => setMenu(!menu)}><MoreVertical size={20} /></button>{menu ? <button className="menu" onClick={() => { setHidden(!hidden); setMenu(false); }}>{hidden ? "Show translation" : "Hide translation"}</button> : null}</div>
   </article>;
 }
 

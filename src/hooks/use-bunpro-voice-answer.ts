@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from "expo-speech-recognition";
 import AudioSessionManager from "../modules/AudioSessionManager";
@@ -24,18 +23,18 @@ export function useBunproVoiceAnswer({ enabled, questionKey, language, onAnswer 
     if (answer) latest.current.onAnswer(answer);
   });
   useSpeechRecognitionEvent("end", () => { if (capture.current?.listening) stop(); });
-  useSpeechRecognitionEvent("error", () => { if (capture.current?.listening) { setError(uiT("ui.message_55a94bba49f4")); stop(); } });
+  useSpeechRecognitionEvent("error", () => { if (capture.current?.listening) { setError("Speech recognition could not hear an answer. You can keep typing."); stop(); } });
   const start = async () => {
     if (!enabled || capture.current) return;
     const key = questionKey; capture.current = { key, listening: false }; setError("");
     try {
       const permission = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
-      if (!permission.granted) { setError(uiT("ui.message_e66910e4ac85")); stop(); return; }
+      if (!permission.granted) { setError("Microphone and speech recognition permission is needed for voice answers."); stop(); return; }
       if (!latest.current.enabled || latest.current.questionKey !== key || capture.current?.key !== key) return;
       capture.current.listening = true;
       setListening(true);
       ExpoSpeechRecognitionModule.start({ lang: language, interimResults: false, continuous: false, addsPunctuation: false });
-    } catch { setError(uiT("ui.message_cd8762dcc099")); stop(); }
+    } catch { setError("Speech recognition could not start. You can keep typing."); stop(); }
   };
   return { listening, error, start, stop };
 }

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import {
@@ -13,7 +12,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function ReminderTimeModal() {
-  useInterfaceLanguage();
   const {
     handleSaveReminderTime,
     reminderHourDraft,
@@ -60,14 +58,17 @@ export function ReminderTimeModal() {
                     { color: theme.textColor, paddingBottom: 8 },
                   ]}
                 >
-                  {uiT("ui.daily_reminder_time_a5685c36")} </Text>
+                  Daily Reminder Time
+                </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary, paddingHorizontal: 16 },
                   ]}
                 >
-                  {uiT("ui.shared_by_daily_review_and_lesson_reminders_in_your_local_timezon_62060e7d")} </Text>
+                  Shared by daily review and lesson reminders in your local
+                  timezone.
+                </Text>
                 <View
                   style={[
                     styles.reminderTimePickerContainer,
@@ -84,7 +85,8 @@ export function ReminderTimeModal() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.hour_f0063b80")} </Text>
+                        Hour
+                      </Text>
                       <Picker
                         selectedValue={reminderHourDraft}
                         onValueChange={(value) =>
@@ -115,7 +117,8 @@ export function ReminderTimeModal() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.minute_4b78665b")} </Text>
+                        Minute
+                      </Text>
                       <Picker
                         selectedValue={reminderMinuteDraft}
                         onValueChange={(value) =>
@@ -155,7 +158,8 @@ export function ReminderTimeModal() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -168,7 +172,8 @@ export function ReminderTimeModal() {
                     <Text
                       style={[styles.reminderTimeButtonText, { color: "#fff" }]}
                     >
-                      {uiT("ui.save_1509f561")} </Text>
+                      Save
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>

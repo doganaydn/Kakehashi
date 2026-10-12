@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import { SettingsIcon as Ionicons } from "../../../ui/settings/settings-icon";
@@ -10,7 +9,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function ApiDebugSection() {
-  useInterfaceLanguage();
   const {
     canAccessApiDebugTools,
     handleClearApiDebug,
@@ -46,7 +44,8 @@ export function ApiDebugSection() {
               { color: theme.textColor, borderBottomColor: theme.border },
             ]}
           >
-            {uiT("ui.api_debug_tools_d518ef47")} </Text>
+            API Debug Tools
+          </Text>
 
           <TouchableOpacity
             style={[styles.settingItem, { borderBottomColor: theme.border }]}
@@ -62,11 +61,13 @@ export function ApiDebugSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.show_api_timeline_summary_ce9041db")} </SettingsLabel>
+                Show API Timeline Summary
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.print_request_timeline_stats_with_slowest_calls_bf364459")} </Text>
+                Print request timeline stats with slowest calls
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -89,11 +90,13 @@ export function ApiDebugSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.export_api_timeline_json_5071b5e8")} </SettingsLabel>
+                Export API Timeline JSON
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.export_url_params_response_preview_and_timing_per_call_7fae2475")} </Text>
+                Export URL, params, response preview, and timing per call
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -116,11 +119,13 @@ export function ApiDebugSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.show_api_summary_43dc5a4c")} </SettingsLabel>
+                Show API Summary
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.print_api_call_statistics_to_console_18aa556f")} </Text>
+                Print API call statistics to console
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -143,11 +148,13 @@ export function ApiDebugSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.show_api_details_50a5a5e2")} </SettingsLabel>
+                Show API Details
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.print_detailed_call_log_with_timestamps_and_payloads_353000c7")} </Text>
+                Print detailed call log with timestamps and payloads
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -170,11 +177,13 @@ export function ApiDebugSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.clear_api_timeline_51eaa4bf")} </SettingsLabel>
+                Clear API Timeline
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.remove_captured_request_timeline_entries_only_3fca0105")} </Text>
+                Remove captured request timeline entries only
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -202,11 +211,13 @@ export function ApiDebugSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.clear_api_debug_history_21bf6fe2")} </SettingsLabel>
+                Clear API Debug History
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.reset_api_call_history_and_in_memory_cache_b454033f")} </Text>
+                Reset API call history and in-memory cache
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -230,14 +241,17 @@ export function ApiDebugSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: "#ff3b30" }]}
                 >
-                  {uiT("ui.clear_all_data_logout_c42eb1d7")} </SettingsLabel>
+                  Clear All Data & Logout
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.completely_reset_app_to_fresh_state_for_debugging_first_time_issu_d971ff4d")} </Text>
+                  Completely reset app to fresh state (for debugging first-time
+                  issues)
+                </Text>
               </View>
               <Ionicons
                 name="chevron-forward"

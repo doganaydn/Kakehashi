@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { useFocusEffect } from "@react-navigation/native";
@@ -36,7 +35,7 @@ function fallbackWeekDays(): ReadingGoalDay[] {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const dateKey = `${year}-${month}-${day}`;
-    const label = new Intl.DateTimeFormat(interfaceLocale(), { weekday: "short" })
+    const label = new Intl.DateTimeFormat(undefined, { weekday: "short" })
       .format(date)
       .slice(0, 1)
       .toUpperCase();
@@ -66,7 +65,6 @@ function getFallbackGoalsProgress(): ReadingGoalsProgress {
 }
 
 export default function EpubSettingsScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [goalsProgress, setGoalsProgress] = useState<ReadingGoalsProgress | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -78,7 +76,7 @@ export default function EpubSettingsScreen() {
       setGoalsProgress(progress);
     } catch (error) {
       console.error("Failed to load EPUB reading settings:", error);
-      Alert.alert(uiT("ui.could_not_load_settings_ed9c827a"), uiT("ui.please_try_again_eea4fb33"));
+      Alert.alert("Could not load settings", "Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +100,7 @@ export default function EpubSettingsScreen() {
         setGoalsProgress(updated);
       } catch (error) {
         console.error("Failed to update EPUB reading goal:", error);
-        Alert.alert(uiT("ui.could_not_update_goal_efe151a1"), uiT("ui.please_try_again_eea4fb33"));
+        Alert.alert("Could not update goal", "Please try again.");
       } finally {
         setIsSaving(false);
       }
@@ -133,14 +131,14 @@ export default function EpubSettingsScreen() {
         >
           <Ionicons name="arrow-back" size={20} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.epub_settings_1ed8e608")}</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>EPUB Settings</Text>
         <View style={styles.headerSpacer} />
       </View>
 
       {isLoading ? (
         <View style={styles.centerState}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>{uiT("ui.loading_settings_157fd50d")}</Text>
+          <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>Loading settings...</Text>
         </View>
       ) : (
         <ScrollView
@@ -157,9 +155,10 @@ export default function EpubSettingsScreen() {
               },
             ]}
           >
-            <Text style={[styles.cardTitle, { color: theme.textColor }]}>{uiT("ui.daily_reading_goal_08a27747")}</Text>
+            <Text style={[styles.cardTitle, { color: theme.textColor }]}>Daily Reading Goal</Text>
             <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.set_how_many_minutes_you_want_to_read_each_day_4c907e23")} </Text>
+              Set how many minutes you want to read each day.
+            </Text>
 
             <View style={styles.goalAdjustRow}>
               <TouchableOpacity
@@ -173,7 +172,8 @@ export default function EpubSettingsScreen() {
 
               <View style={[styles.goalValuePill, { borderColor: theme.border }]}>
                 <Text style={[styles.goalValueText, { color: theme.textColor }]}>
-                  {progress.goalMinutes} {uiT("ui.min_day_b4a7e43a")} </Text>
+                  {progress.goalMinutes} min/day
+                </Text>
               </View>
 
               <TouchableOpacity
@@ -221,9 +221,10 @@ export default function EpubSettingsScreen() {
               },
             ]}
           >
-            <Text style={[styles.cardTitle, { color: theme.textColor }]}>{uiT("ui.today_2b065c7c")}</Text>
+            <Text style={[styles.cardTitle, { color: theme.textColor }]}>Today</Text>
             <Text style={[styles.todayValue, { color: theme.textColor }]}>
-              {progress.todayMinutes} / {progress.goalMinutes} {uiT("ui.min_1f6fa6f6")} </Text>
+              {progress.todayMinutes} / {progress.goalMinutes} min
+            </Text>
             <View
               style={[
                 styles.goalsTrack,
@@ -244,8 +245,8 @@ export default function EpubSettingsScreen() {
             </View>
             <Text style={[styles.todayHint, { color: theme.textSecondary }]}>
               {progress.todayCompleted
-                ? uiT("ui.goal_completed_for_today_9bb1fe4e")
-                : uiT("ui.value_more_minutevalue_needed_111a39cb", {value1: (remainingMinutes), value2: (remainingMinutes === 1 ? "" : "s")})}
+                ? "Goal completed for today."
+                : `${remainingMinutes} more minute${remainingMinutes === 1 ? "" : "s"} needed.`}
             </Text>
           </View>
         </ScrollView>

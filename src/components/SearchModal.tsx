@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
@@ -268,7 +267,6 @@ function subjectMatchesQueryExactly(subject: Subject, query: string, kanaQuery: 
 }
 
 export default function SearchModal({ visible, onClose }: SearchModalProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
   const router = useRouter();
@@ -340,24 +338,24 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
         }
 
         Alert.alert(
-          uiT("ui.cache_repaired_cee32419"),
+          'Cache Repaired',
           result.message,
-          [{ text: uiT("ui.ok_565339bc") }]
+          [{ text: 'OK' }]
         );
       } else {
-        setError(uiT("ui.cache_repair_failed_value_f3d5bb69", {value1: (result.message)}));
+        setError(`Cache repair failed: ${result.message}`);
         Alert.alert(
-          uiT("ui.repair_failed_61aa4a7c"),
+          'Repair Failed',
           result.message,
-          [{ text: uiT("ui.ok_565339bc") }]
+          [{ text: 'OK' }]
         );
       }
     } catch {
-      setError(uiT("ui.message_e74554cd175a"));
+      setError('Failed to repair cache. Please try again.');
       Alert.alert(
-        uiT("ui.error_54a0e8c1"),
-        uiT("ui.failed_to_repair_cache_please_try_again_later_96323fee"),
-        [{ text: uiT("ui.ok_565339bc") }]
+        'Error',
+        'Failed to repair cache. Please try again later.',
+        [{ text: 'OK' }]
       );
     } finally {
       setIsRepairing(false);
@@ -382,15 +380,15 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
 
         if (hasCriticalIssues) {
           Alert.alert(
-            uiT("ui.cache_corrupted_a0be7331"),
-            uiT("ui.the_search_cache_appears_to_be_corrupted_would_you_like_to_repair_4ea3076f"),
+            'Cache Corrupted',
+            'The search cache appears to be corrupted. Would you like to repair it now? This will download fresh data from WaniKani.',
             [
               {
-                text: uiT("ui.repair_now_e1ef3d71"),
+                text: 'Repair Now',
                 onPress: () => handleRepairCache(),
               },
               {
-                text: uiT("ui.try_anyway_2343b6b5"),
+                text: 'Try Anyway',
                 style: 'cancel',
                 onPress: async () => {
                   // Try to load anyway
@@ -398,7 +396,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
                     const response = await getSubjects(apiToken, {}, { skipCollectionCache: true });
                     setAllSubjects(response.data);
                   } catch {
-                    setError(uiT("ui.message_b72235c68c3c"));
+                    setError('Failed to load subjects. Try repairing the cache.');
                   }
                 },
               },
@@ -412,7 +410,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
       const response = await getSubjects(apiToken, {}, { skipCollectionCache: true });
       setAllSubjects(response.data);
     } catch {
-      setError(uiT("ui.message_aa0d4cc48928"));
+      setError('Failed to load subjects for search. Please try again.');
     } finally {
       setIsLoadingSubjects(false);
     }
@@ -514,7 +512,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
 
         setSearchResults(results);
       } catch {
-        setError(uiT("ui.message_46a6a88b063b"));
+        setError('Search failed. Please try again.');
       } finally {
         setIsLoading(false);
       }
@@ -557,7 +555,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
         <Text style={[styles.itemMeaning, { color: theme.textColor }]}>{item.meaning}</Text>
         <View style={styles.itemMetadata}>
           <Text style={[styles.itemType, { color: theme.textSecondary }]}>{item.type}</Text>
-          <Text style={[styles.itemLevel, { color: theme.textLight }]}>{uiT("ui.level_1709305c")} {item.level}</Text>
+          <Text style={[styles.itemLevel, { color: theme.textLight }]}>Level {item.level}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -578,17 +576,18 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
             >
               <Ionicons name="close" size={24} color={theme.headerText} />
             </TouchableOpacity>
-            <Text style={[styles.headerTitle, { color: theme.headerText }]}>{uiT("ui.search_49c266ba")}</Text>
+            <Text style={[styles.headerTitle, { color: theme.headerText }]}>Search</Text>
           </View>
 
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={theme.primary} />
             <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-              {isRepairing ? uiT("ui.repairing_cache_e838ab0f") : uiT("ui.loading_subjects_for_search_0ac0ae97")}
+              {isRepairing ? 'Repairing cache...' : 'Loading subjects for search...'}
             </Text>
             {isRepairing && (
               <Text style={[styles.loadingSubtext, { color: theme.textLight }]}>
-                {uiT("ui.this_may_take_a_moment_c1049c89")} </Text>
+                This may take a moment
+              </Text>
             )}
           </View>
         </View>
@@ -619,7 +618,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
               style={[styles.searchInput, { color: theme.textColor }]}
               value={searchQuery}
               onChangeText={setSearchQuery}
-              placeholder={uiT("ui.search_kanji_vocabulary_or_meanings_d720abb2")}
+              placeholder="Search kanji, vocabulary, or meanings..."
               placeholderTextColor={theme.textSecondary}
               autoFocus
               autoCorrect={false}
@@ -635,21 +634,25 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
             <View style={styles.emptyContainer}>
               <Ionicons name="download-outline" size={64} color={theme.textLight} />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                {uiT("ui.loading_search_data_776b089b")} </Text>
+                Loading search data...
+              </Text>
             </View>
           ) : !searchQuery.trim() ? (
             <View style={styles.emptyContainer}>
               <Ionicons name="search-outline" size={64} color={theme.textLight} />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                {uiT("ui.search_for_kanji_vocabulary_or_meanings_cd068729")} </Text>
+                Search for kanji, vocabulary, or meanings
+              </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                {uiT("ui.type_japanese_characters_or_english_meanings_a8fa6e87")} </Text>
+                Type Japanese characters or English meanings
+              </Text>
             </View>
           ) : isLoading ? (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color={theme.primary} />
               <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-                {uiT("ui.searching_78c9d9f6")} </Text>
+                Searching...
+              </Text>
             </View>
           ) : error ? (
             <View style={styles.errorContainer}>
@@ -661,7 +664,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
                   onPress={() => loadAllSubjects()}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
+                  <Text style={styles.retryButtonText}>Retry</Text>
                 </TouchableOpacity>
                 {cacheHealthStatus && !cacheHealthStatus.isHealthy && (
                   <TouchableOpacity
@@ -670,7 +673,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
                     activeOpacity={0.7}
                   >
                     <Ionicons name="build-outline" size={16} color="white" style={styles.repairIcon} />
-                    <Text style={styles.retryButtonText}>{uiT("ui.repair_cache_ba243317")}</Text>
+                    <Text style={styles.retryButtonText}>Repair Cache</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -679,15 +682,17 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
             <View style={styles.emptyContainer}>
               <Ionicons name="file-tray-outline" size={48} color={theme.textLight} />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                {uiT("ui.no_results_found_7d7e3605")} </Text>
+                No results found
+              </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                {uiT("ui.try_searching_with_different_terms_2f13ee75")} </Text>
+                Try searching with different terms
+              </Text>
             </View>
           ) : (
             <>
               <View style={styles.resultsHeader}>
                 <Text style={[styles.resultsCount, { color: theme.textSecondary }]}>
-                  {searchResults.length} {uiT("ui.result_f6a214f7")}{uiPluralSuffix(searchResults.length !== 1 ? 's' : '')}
+                  {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
                 </Text>
               </View>
               <FlashList

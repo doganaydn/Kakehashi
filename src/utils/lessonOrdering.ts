@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 export type LessonOrderSetting =
   | "random"
   | "currentLevelFirst"
@@ -29,38 +28,39 @@ export const DEFAULT_LESSON_TYPE_ORDER: LessonTypeOrderSetting[] = [
 export const LESSON_ORDER_OPTIONS: readonly LessonOrderOption[] = [
   {
     value: "random",
-    get label() { return uiT("ui.random_67bc4844"); },
-    get description() { return uiT("ui.shuffle_lessons_with_no_fixed_ordering_c4fb79e5"); },
+    label: "Random",
+    description: "Shuffle lessons with no fixed ordering.",
   },
   {
     value: "currentLevelFirst",
-    get label() { return uiT("ui.current_level_first_89d93c04"); },
-    get description() { return uiT("ui.prioritize_higher_level_lessons_before_older_levels_e210d064"); },
+    label: "Current level first",
+    description: "Prioritize higher-level lessons before older levels.",
   },
   {
     value: "lowestLevelFirst",
-    get label() { return uiT("ui.lowest_level_first_3968e619"); },
-    get description() { return uiT("ui.prioritize_lower_level_older_lessons_first_then_wanikani_order_587730d4"); },
+    label: "Lowest level first",
+    description:
+      "Prioritize lower-level (older) lessons first, then WaniKani order.",
   },
   {
     value: "newestUnlockedFirst",
-    get label() { return uiT("ui.newest_unlocked_first_a88a6f19"); },
-    get description() { return uiT("ui.show_lessons_that_became_available_most_recently_17544970"); },
+    label: "Newest unlocked first",
+    description: "Show lessons that became available most recently.",
   },
   {
     value: "oldestUnlockedFirst",
-    get label() { return uiT("ui.oldest_unlocked_first_580976d9"); },
-    get description() { return uiT("ui.show_lessons_that_have_been_waiting_the_longest_ed76a323"); },
+    label: "Oldest unlocked first",
+    description: "Show lessons that have been waiting the longest.",
   },
   {
     value: "ascendingSubjectId",
-    get label() { return uiT("ui.ascending_subject_id_50c6e0cf"); },
-    get description() { return uiT("ui.follow_wanikani_s_canonical_subject_ordering_bc6d0bff"); },
+    label: "Ascending subject ID",
+    description: "Follow WaniKani's canonical subject ordering.",
   },
   {
     value: "descendingSubjectId",
-    get label() { return uiT("ui.descending_subject_id_eaee5d86"); },
-    get description() { return uiT("ui.start_with_the_most_recently_added_subjects_361dd371"); },
+    label: "Descending subject ID",
+    description: "Start with the most recently added subjects.",
   },
 ];
 

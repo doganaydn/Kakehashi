@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import {SettingsIcon as Ionicons} from "../../../ui/settings/settings-icon";
 import React from "react";
 
@@ -15,7 +14,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function LevelAnalyticsExportModal() {
-  useInterfaceLanguage();
   const {
     availableLevelAnalyticsLevels,
     clearLevelAnalyticsLevels,
@@ -66,14 +64,16 @@ export function LevelAnalyticsExportModal() {
                     { color: theme.textColor, paddingBottom: 8 },
                   ]}
                 >
-                  {uiT("ui.export_level_analytics_79267e55")} </Text>
+                  Export Level Analytics
+                </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary, paddingHorizontal: 16 },
                   ]}
                 >
-                  {uiT("ui.select_dataset_type_and_levels_to_include_in_your_csv_export_92a087fc")} </Text>
+                  Select dataset type and levels to include in your CSV export.
+                </Text>
 
                 <View style={styles.levelAnalyticsFormatRow}>
                   <TouchableOpacity
@@ -103,14 +103,16 @@ export function LevelAnalyticsExportModal() {
                         },
                       ]}
                     >
-                      {uiT("ui.summary_8e76a94a")} </Text>
+                      Summary
+                    </Text>
                     <Text
                       style={[
                         styles.levelAnalyticsFormatButtonSubtitle,
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.one_row_per_level_b4668689")} </Text>
+                      One row per level
+                    </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -140,14 +142,16 @@ export function LevelAnalyticsExportModal() {
                         },
                       ]}
                     >
-                      {uiT("ui.detailed_6d46fcd5")} </Text>
+                      Detailed
+                    </Text>
                     <Text
                       style={[
                         styles.levelAnalyticsFormatButtonSubtitle,
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.one_row_per_subject_2be52e78")} </Text>
+                      One row per subject
+                    </Text>
                   </TouchableOpacity>
                 </View>
 
@@ -158,7 +162,7 @@ export function LevelAnalyticsExportModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.included_levels_9e04b7ec")}{selectedLevelAnalyticsLevels.length})
+                    Included Levels ({selectedLevelAnalyticsLevels.length})
                   </Text>
                   <View style={styles.levelAnalyticsQuickActions}>
                     <TouchableOpacity
@@ -174,7 +178,8 @@ export function LevelAnalyticsExportModal() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.all_a52ace42")} </Text>
+                        All
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
@@ -189,7 +194,8 @@ export function LevelAnalyticsExportModal() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.none_dc937b59")} </Text>
+                        None
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -219,7 +225,7 @@ export function LevelAnalyticsExportModal() {
                             { color: theme.textColor },
                           ]}
                         >
-                          {uiT("ui.level_1709305c")} {level}
+                          Level {level}
                         </Text>
                         <Ionicons
                           name={isSelected ? "checkbox" : "square-outline"}
@@ -247,7 +253,8 @@ export function LevelAnalyticsExportModal() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -271,7 +278,8 @@ export function LevelAnalyticsExportModal() {
                     <Text
                       style={[styles.reminderTimeButtonText, { color: "#fff" }]}
                     >
-                      {uiT("ui.export_csv_91f71c14")} </Text>
+                      Export CSV
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>

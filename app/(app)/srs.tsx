@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +8,6 @@ import { useAuthStore } from '../../src/utils/store';
 import { SRS_COLORS } from '../../src/constants/srsColors';
 
 export default function SrsScreen() {
-  useInterfaceLanguage();
   const { apiToken } = useAuthStore();
   const [levels, setLevels] = useState<SrsLevel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -144,12 +142,12 @@ export default function SrsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text style={styles.title}>{uiT("ui.srs_distribution_de71e4da")}</Text>
+        <Text style={styles.title}>SRS Distribution</Text>
         
         {isLoading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#3A86FF" />
-            <Text style={styles.loadingText}>{uiT("ui.loading_srs_data_9bf664b5")}</Text>
+            <Text style={styles.loadingText}>Loading SRS data...</Text>
           </View>
         ) : (
           <SrsBreakdown levels={levels} onLevelPress={handleLevelPress} />

@@ -1,6 +1,5 @@
 package com.portego00.kakehashi
 
-import expo.modules.kakehashiwidget.InterfaceLocale
 import android.Manifest
 import android.app.AlarmManager
 import android.app.Notification
@@ -60,13 +59,11 @@ internal object AndroidReviewNotifications {
   private const val EXTRA_EXACT_TIME = "exactTime"
   private const val EXTRA_IS_TEST = "isTest"
 
-  fun buildDefaultTitle(newReviews: Int, context: Context? = null): String {
-    if (context != null && InterfaceLocale.language(context) == "tr") return "$newReviews yeni tekrar hazır"
+  fun buildDefaultTitle(newReviews: Int): String {
     return "$newReviews new review${if (newReviews == 1) "" else "s"} available"
   }
 
-  fun buildDefaultBody(totalReviews: Int, context: Context? = null): String {
-    if (context != null && InterfaceLocale.language(context) == "tr") return "$totalReviews tekrar sizi bekliyor"
+  fun buildDefaultBody(totalReviews: Int): String {
     return "You have $totalReviews review${if (totalReviews == 1) "" else "s"} waiting"
   }
 
@@ -110,20 +107,16 @@ internal object AndroidReviewNotifications {
     }
 
     val manager = context.getSystemService(NotificationManager::class.java) ?: return
-    val existing = manager.getNotificationChannel(CHANNEL_ID)
-    if (existing != null) {
-      existing.name = if (InterfaceLocale.language(context) == "tr") "Tekrar bildirimleri" else "Review notifications"
-      existing.description = if (InterfaceLocale.language(context) == "tr") "Yeni WaniKani tekrarları için bildirimler" else "Notifications for new WaniKani reviews"
-      manager.createNotificationChannel(existing)
+    if (manager.getNotificationChannel(CHANNEL_ID) != null) {
       return
     }
 
     val channel = NotificationChannel(
       CHANNEL_ID,
-      if (InterfaceLocale.language(context) == "tr") "Tekrar bildirimleri" else "Review notifications",
+      "Review notifications",
       NotificationManager.IMPORTANCE_DEFAULT
     ).apply {
-      description = if (InterfaceLocale.language(context) == "tr") "Yeni WaniKani tekrarları için bildirimler" else "Notifications for new WaniKani reviews"
+      description = "Notifications for new WaniKani reviews"
       setShowBadge(true)
       lockscreenVisibility = Notification.VISIBILITY_PRIVATE
     }
@@ -314,8 +307,8 @@ internal object AndroidReviewNotifications {
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
       .setSmallIcon(R.drawable.notification_icon)
       .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.icon))
-      .setContentTitle(if (!notification.isTest) buildDefaultTitle(notification.newReviews, context) else notification.title)
-      .setContentText(if (!notification.isTest) buildDefaultBody(notification.reviewCount, context) else notification.body)
+      .setContentTitle(notification.title)
+      .setContentText(notification.body)
       .setAutoCancel(true)
       .setPriority(NotificationCompat.PRIORITY_HIGH)
       .setCategory(NotificationCompat.CATEGORY_REMINDER)

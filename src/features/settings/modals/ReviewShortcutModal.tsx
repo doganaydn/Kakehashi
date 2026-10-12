@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React from "react";
 import {
   Modal,
@@ -15,7 +14,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function ReviewShortcutModal() {
-  useInterfaceLanguage();
   const {
     ankiCardMode,
     beginReviewShortcutCapture,
@@ -83,14 +81,17 @@ export function ReviewShortcutModal() {
                       { color: theme.textColor, paddingBottom: 8 },
                     ]}
                   >
-                    {uiT("ui.review_key_shortcuts_e5e97748")} </Text>
+                    Review Key Shortcuts
+                  </Text>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary, paddingHorizontal: 16 },
                     ]}
                   >
-                    {uiT("ui.external_keyboards_only_tap_a_shortcut_then_press_one_key_press_b_f3200061")} </Text>
+                    External keyboards only. Tap a shortcut, then press one key.
+                    Press Backspace to clear.
+                  </Text>
                   <View
                     style={[
                       styles.reviewShortcutGroup,
@@ -112,14 +113,17 @@ export function ReviewShortcutModal() {
                             { color: theme.textColor },
                           ]}
                         >
-                          {uiT("ui.stop_on_incorrect_b005a3ba")} </Text>
+                          Stop on Incorrect
+                        </Text>
                         <Text
                           style={[
                             styles.reviewShortcutGroupSubtitle,
                             { color: theme.textSecondary },
                           ]}
                         >
-                          {uiT("ui.active_in_anki_mode_or_when_pause_on_wrong_answer_or_pause_on_clo_43ee1541")} </Text>
+                          Active in Anki mode, or when Pause on Wrong Answer or
+                          Pause on Close Answer is enabled.
+                        </Text>
                       </View>
                       <Switch
                         value={disableAutoProgressOnWrong}
@@ -217,7 +221,7 @@ export function ReviewShortcutModal() {
                                   ]}
                                 >
                                   {isCapturingThisKey
-                                    ? uiT("ui.press_key_6531eb49")
+                                    ? "Press key"
                                     : formatReviewShortcutLabel(
                                         reviewIncorrectShortcutDraft[
                                           shortcutField.key
@@ -253,14 +257,17 @@ export function ReviewShortcutModal() {
                             { color: theme.textColor },
                           ]}
                         >
-                          {uiT("ui.stop_on_correct_dae9593c")} </Text>
+                          Stop on Correct
+                        </Text>
                         <Text
                           style={[
                             styles.reviewShortcutGroupSubtitle,
                             { color: theme.textSecondary },
                           ]}
                         >
-                          {uiT("ui.active_in_anki_mode_or_when_pause_on_correct_answer_is_enabled_a61fd89b")} </Text>
+                          Active in Anki mode, or when Pause on Correct Answer is
+                          enabled.
+                        </Text>
                       </View>
                       <Switch
                         value={disableAutoProgressOnCorrect}
@@ -355,7 +362,7 @@ export function ReviewShortcutModal() {
                                   ]}
                                 >
                                   {isCapturingThisKey
-                                    ? uiT("ui.press_key_6531eb49")
+                                    ? "Press key"
                                     : formatReviewShortcutLabel(
                                         reviewCorrectShortcutDraft[
                                           shortcutField.key
@@ -384,7 +391,8 @@ export function ReviewShortcutModal() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.done_11a6767d")} </Text>
+                        Done
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </ScrollView>

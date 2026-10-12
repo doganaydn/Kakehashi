@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
@@ -203,7 +202,6 @@ const KanjiGridCell = React.memo(function KanjiGridCell({
   isDark,
   onPressSubject,
 }: KanjiGridCellProps) {
-  useInterfaceLanguage();
   const backgroundColor = getHeatColorForStage(item.srsStage, isDark);
   const textColor = getContrastTextColor(backgroundColor);
   const fontSize = Math.max(12, Math.floor(cellSize * 0.58));
@@ -228,7 +226,6 @@ const KanjiGridCell = React.memo(function KanjiGridCell({
 });
 
 export default function KanjiGridScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { dashboardData, isLoading } = useDashboardData();
   const { width } = useWindowDimensions();
@@ -370,17 +367,17 @@ export default function KanjiGridScreen() {
             style={styles.summaryBackButton}
           />
           <View style={styles.summaryTextGroup}>
-            <Text style={[styles.summaryTitle, { color: theme.textColor }]}>{uiT("ui.kanji_grid_92db1a9d")}</Text>
+            <Text style={[styles.summaryTitle, { color: theme.textColor }]}>Kanji Grid</Text>
             <Text style={[styles.summaryMeta, { color: theme.textSecondary }]}>
-              {stats.started}/{stats.total} {uiT("ui.started_guru_0d472ca0")} {stats.guruPlus} {uiT("ui.burned_1a16059a")} {stats.burned}
+              {stats.started}/{stats.total} started · Guru+ {stats.guruPlus} · Burned {stats.burned}
             </Text>
           </View>
           <View style={styles.summaryBackSpacer} />
         </View>
 
-        <Text style={[styles.legendTitle, { color: summaryColor }]}>{uiT("ui.key_99a52df3")}</Text>
+        <Text style={[styles.legendTitle, { color: summaryColor }]}>Key</Text>
         <View style={styles.legendRow}>
-          <Text style={[styles.legendLabel, { color: summaryColor }]}>{uiT("ui.weak_8d6cea25")}</Text>
+          <Text style={[styles.legendLabel, { color: summaryColor }]}>Weak</Text>
           <View style={styles.legendScale}>
             {Array.from({ length: 9 }, (_, idx) => {
               const stage = idx + 1;
@@ -395,11 +392,11 @@ export default function KanjiGridScreen() {
               );
             })}
           </View>
-          <Text style={[styles.legendLabel, { color: summaryColor }]}>{uiT("ui.strong_30a04fdc")}</Text>
+          <Text style={[styles.legendLabel, { color: summaryColor }]}>Strong</Text>
         </View>
       </View>
     );
-  }, [handleBackPress, stats.burned, stats.guruPlus, stats.started, stats.total, theme, interfaceLocale()]);
+  }, [handleBackPress, stats.burned, stats.guruPlus, stats.started, stats.total, theme]);
 
   const isKanjiDataReady = Boolean(kanjiCatalog);
   const shouldShowSpinner = !isKanjiDataReady || (isLoading && kanjiItems.length === 0);
@@ -425,7 +422,8 @@ export default function KanjiGridScreen() {
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={theme.secondary} />
             <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-              {uiT("ui.loading_kanji_heatmap_579438c7")} </Text>
+              Loading kanji heatmap...
+            </Text>
           </View>
         </>
       ) : kanjiItems.length === 0 ? (
@@ -441,9 +439,11 @@ export default function KanjiGridScreen() {
           </View>
           <View style={styles.loadingContainer}>
             <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-              {uiT("ui.no_kanji_data_available_yet_3cddf56c")} </Text>
+              No kanji data available yet
+            </Text>
             <Text style={[styles.emptyDescription, { color: theme.textSecondary }]}>
-              {uiT("ui.refresh_your_dashboard_once_to_cache_all_kanji_subjects_9ab3f212")} </Text>
+              Refresh your dashboard once to cache all kanji subjects.
+            </Text>
           </View>
         </>
       ) : (

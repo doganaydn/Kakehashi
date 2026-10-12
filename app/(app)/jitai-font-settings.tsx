@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { File } from "expo-file-system";
@@ -40,7 +39,6 @@ function isFilePickerCancellation(error: unknown): boolean {
 }
 
 export default function JitaiFontSettingsScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { jitaiSelectedFontIds, setJitaiSelectedFontIds } = useSettingsStore();
@@ -113,8 +111,8 @@ export default function JitaiFontSettingsScreen() {
     if (jitaiSelectedFontIds.includes(fontId)) {
       if (jitaiSelectedFontIds.length === 1) {
         Alert.alert(
-          uiT("ui.at_least_one_font_is_required_4b611790"),
-          uiT("ui.keep_at_least_one_font_selected_for_jitai_78070c88"),
+          "At least one font is required",
+          "Keep at least one font selected for Jitai.",
         );
         return;
       }
@@ -145,8 +143,8 @@ export default function JitaiFontSettingsScreen() {
     } catch (error) {
       console.error("Failed to download Jitai font:", error);
       Alert.alert(
-        uiT("ui.download_failed_eae34ccb"),
-        uiT("ui.could_not_download_this_font_please_check_your_connection_and_try_81cc3a8a"),
+        "Download failed",
+        "Could not download this font. Please check your connection and try again.",
       );
     } finally {
       setJitaiFontActionId(null);
@@ -176,8 +174,8 @@ export default function JitaiFontSettingsScreen() {
       }
 
       Alert.alert(
-        uiT("ui.font_added_8dc92891"),
-        uiT("ui.value_is_now_included_in_jitai_randomization_b69d0a95", {value1: (customFont.displayName)}),
+        "Font added",
+        `${customFont.displayName} is now included in Jitai randomization.`,
       );
     } catch (error) {
       if (isFilePickerCancellation(error)) {
@@ -186,7 +184,7 @@ export default function JitaiFontSettingsScreen() {
 
       console.error("Failed to import custom Jitai font:", error);
       Alert.alert(
-        uiT("ui.could_not_add_font_d8db8473"),
+        "Could not add font",
         error instanceof Error
           ? error.message
           : "The selected font could not be imported.",
@@ -203,11 +201,11 @@ export default function JitaiFontSettingsScreen() {
   ) => {
     Alert.alert(
       isCustom ? "Remove custom font" : "Remove downloaded font",
-      uiT("ui.remove_value_from_local_storage_9d094709", {value1: (displayName)}),
+      `Remove ${displayName} from local storage?`,
       [
-        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: uiT("ui.remove_c3812fc4"),
+          text: "Remove",
           style: "destructive",
           onPress: async () => {
             try {
@@ -230,7 +228,7 @@ export default function JitaiFontSettingsScreen() {
               );
             } catch (error) {
               console.error("Failed to remove Jitai font:", error);
-              Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.could_not_remove_this_font_7186bb58"));
+              Alert.alert("Error", "Could not remove this font.");
             } finally {
               setJitaiFontActionId(null);
             }
@@ -258,9 +256,10 @@ export default function JitaiFontSettingsScreen() {
         </TouchableOpacity>
         <View style={styles.headerTextContainer}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {uiT("ui.jitai_fonts_85ef08c9")} </Text>
+            Jitai Fonts
+          </Text>
           <Text style={[styles.subtitle, { color: theme.textColor }]}>
-            {uiT("ui.value_selected_for_random_mode_5cb9081f", {value1: (jitaiSelectedFontIds.length)})}
+            {`${jitaiSelectedFontIds.length} selected for random mode`}
           </Text>
         </View>
       </View>
@@ -280,15 +279,19 @@ export default function JitaiFontSettingsScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.installed_fonts_505198c6")} </Text>
+            Installed Fonts
+          </Text>
           <Text style={[styles.sectionSubtext, { color: theme.textSecondary }]}>
-            {uiT("ui.select_the_fonts_to_include_in_jitai_randomization_each_row_inclu_a417e568")} </Text>
+            Select the fonts to include in Jitai randomization. Each row includes
+            a live preview.
+          </Text>
 
           {isLoadingJitaiFonts ? (
             <View style={styles.loadingRow}>
               <ActivityIndicator size="small" color={theme.primary} />
               <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-                {uiT("ui.loading_fonts_d133f6ce")} </Text>
+                Loading fonts...
+              </Text>
             </View>
           ) : (
             <View style={styles.fontList}>
@@ -323,10 +326,10 @@ export default function JitaiFontSettingsScreen() {
                           </Text>
                           <Text style={[styles.fontMeta, { color: theme.textSecondary }]}>
                             {font.source === "bundled"
-                              ? uiT("ui.included_with_app_a4c555d9")
+                              ? "Included with app"
                               : font.source === "custom"
-                                ? uiT("ui.custom_font_c039b7e2")
-                                : uiT("ui.downloaded_f0b0738f")}
+                                ? "Custom font"
+                                : "Downloaded"}
                           </Text>
                         </View>
                       </TouchableOpacity>
@@ -382,9 +385,12 @@ export default function JitaiFontSettingsScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.add_your_own_font_b9aac86d")} </Text>
+            Add Your Own Font
+          </Text>
           <Text style={[styles.sectionSubtext, { color: theme.textSecondary }]}>
-            {uiT("ui.import_a_ttf_or_otf_file_from_your_device_choose_a_font_with_japa_2e37e02e")} </Text>
+            Import a TTF or OTF file from your device. Choose a font with
+            Japanese glyphs, then confirm it using the preview above.
+          </Text>
 
           <TouchableOpacity
             style={[
@@ -410,12 +416,13 @@ export default function JitaiFontSettingsScreen() {
             <Text
               style={[styles.customFontButtonText, { color: theme.primary }]}
             >
-              {uiT("ui.choose_font_file_af720cc9")} </Text>
+              Choose Font File
+            </Text>
           </TouchableOpacity>
           <Text style={[styles.importNote, { color: theme.textSecondary }]}>
-            {uiT("ui.maximum_value_only_import_fonts_you_have_permission_to_use_aab639ff", {value1: (formatJitaiFontSize(
+            {`Maximum ${formatJitaiFontSize(
               MAX_CUSTOM_JITAI_FONT_SIZE_BYTES,
-            ))})}
+            )}. Only import fonts you have permission to use.`}
           </Text>
         </View>
 
@@ -429,13 +436,17 @@ export default function JitaiFontSettingsScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.more_fonts_cf76106b")} </Text>
+            More Fonts
+          </Text>
           <Text style={[styles.sectionSubtext, { color: theme.textSecondary }]}>
-            {uiT("ui.download_extra_fonts_on_demand_they_are_stored_locally_and_not_bu_267bbbec")} </Text>
+            Download extra fonts on demand. They are stored locally and not bundled
+            with the app.
+          </Text>
 
           {downloadableJitaiFonts.length === 0 ? (
             <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-              {uiT("ui.all_available_fonts_are_already_downloaded_7392c872")} </Text>
+              All available fonts are already downloaded.
+            </Text>
           ) : (
             <View style={styles.fontList}>
               {downloadableJitaiFonts.map((font) => {
@@ -457,10 +468,10 @@ export default function JitaiFontSettingsScreen() {
                       </Text>
                       <Text style={[styles.fontMeta, { color: theme.textSecondary }]}>
                         {font.styleLabel
-                          ? uiT("ui.value_value_download_97db9c46", {value1: (font.styleLabel), value2: (formatJitaiFontSize(
+                          ? `${font.styleLabel} · ${formatJitaiFontSize(
                               font.sizeBytes,
-                            ))})
-                          : uiT("ui.value_download_255860d2", {value1: (formatJitaiFontSize(font.sizeBytes))})}
+                            )} download`
+                          : `${formatJitaiFontSize(font.sizeBytes)} download`}
                       </Text>
                     </View>
                     <TouchableOpacity
@@ -478,7 +489,7 @@ export default function JitaiFontSettingsScreen() {
                       {isBusy ? (
                         <ActivityIndicator size="small" color="#ffffff" />
                       ) : (
-                        <Text style={styles.downloadButtonText}>{uiT("ui.download_d6eafe82")}</Text>
+                        <Text style={styles.downloadButtonText}>Download</Text>
                       )}
                     </TouchableOpacity>
                   </View>

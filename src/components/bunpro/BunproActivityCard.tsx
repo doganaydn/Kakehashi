@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -55,7 +54,6 @@ export default function BunproActivityCard({
   onToggleActivityGrammar,
   onToggleActivityVocab,
 }: BunproActivityCardProps) {
-  useInterfaceLanguage();
   const grammarActiveTextColor = getBestContrastTextColor(accent, "#17171c", "#ffffff");
   const vocabActiveTextColor = getBestContrastTextColor(accentSoft, "#17171c", "#ffffff");
 
@@ -99,14 +97,15 @@ export default function BunproActivityCard({
             { color: themeTextColor },
           ]}
         >
-          {uiT("ui.activity_38da1505")} </Text>
-        <Text style={[styles.sectionMeta, { color: softText }]}>{uiT("ui.last_14_days_d9f1e161")}</Text>
+          Activity
+        </Text>
+        <Text style={[styles.sectionMeta, { color: softText }]}>Last 14 days</Text>
       </View>
 
       <View style={styles.seriesToggleRow}>
         <View style={styles.seriesToggleMeta}>
           <Ionicons name="settings-outline" size={14} color={softText} />
-          <Text style={[styles.sectionMeta, { color: softText }]}>{uiT("ui.series_a8295e08")}</Text>
+          <Text style={[styles.sectionMeta, { color: softText }]}>Series</Text>
         </View>
         <View style={styles.seriesToggleButtons}>
           <TouchableOpacity
@@ -125,7 +124,8 @@ export default function BunproActivityCard({
                 { color: showActivityGrammar ? grammarActiveTextColor : accent },
               ]}
             >
-              {uiT("ui.grammar_1325f21d")} </Text>
+              Grammar
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -143,7 +143,8 @@ export default function BunproActivityCard({
                 { color: showActivityVocab ? vocabActiveTextColor : accentSoft },
               ]}
             >
-              {uiT("ui.vocab_eb535ff6")} </Text>
+              Vocab
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -216,14 +217,14 @@ export default function BunproActivityCard({
             {showActivityGrammar ? (
               <View style={styles.legendItem}>
                 <View style={[styles.legendSwatch, { backgroundColor: accent }]} />
-                <Text style={[styles.legendLabel, { color: softText }]}>{uiT("ui.grammar_1325f21d")}</Text>
+                <Text style={[styles.legendLabel, { color: softText }]}>Grammar</Text>
               </View>
             ) : null}
 
             {showActivityVocab ? (
               <View style={styles.legendItem}>
                 <View style={[styles.legendSwatch, { backgroundColor: accentSoft }]} />
-                <Text style={[styles.legendLabel, { color: softText }]}>{uiT("ui.vocab_eb535ff6")}</Text>
+                <Text style={[styles.legendLabel, { color: softText }]}>Vocab</Text>
               </View>
             ) : null}
           </View>
@@ -234,7 +235,8 @@ export default function BunproActivityCard({
           exiting={FadeOut.duration(120)}
           style={[styles.emptyLabel, { color: softText }]}
         >
-          {uiT("ui.enable_at_least_one_series_to_view_activity_d4b66fa4")} </Animated.Text>
+          Enable at least one series to view activity.
+        </Animated.Text>
       )}
     </View>
   );

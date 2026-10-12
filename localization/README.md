@@ -1,6 +1,6 @@
 # UI localization source inventory
 
-This first-party interface source inventory is separate from learning-content packages. The original `source/` directory is a historical candidate snapshot. The Android runtime now has separate English/Turkish resources and a persistent language selector; see [Android implementation and review status](ANDROID-YERELLESTIRME.md).
+This first-party interface source inventory is separate from learning-content packages. It does not enable an interface language selector or change runtime behavior.
 
 See [scope and workflow](ARAYUZ-CEVIRI-KAPSAMI.md), [per-file coverage](source/COVERAGE.md), and [manifest](source/manifest.json).
 

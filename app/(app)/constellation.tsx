@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { useAuthStore } from "@/src/utils/store";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
@@ -101,7 +100,6 @@ interface ReadingAnchor {
 }
 
 export default function ConstellationScreen() {
-  useInterfaceLanguage();
   const { id, rootId, constellationDepth } = useLocalSearchParams();
   const navigation = useNavigation();
   const { dashboardData } = useDashboardData();
@@ -601,7 +599,8 @@ export default function ConstellationScreen() {
         </TouchableOpacity>
         <ActivityIndicator size="large" color={theme.primary} />
         <Text style={{ color: "white", marginTop: 20, textAlign: "center" }}>
-          {uiT("ui.calculating_orbit_d6997eef")} </Text>
+          Calculating orbit...
+        </Text>
       </View>
     );
   }
@@ -617,7 +616,8 @@ export default function ConstellationScreen() {
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         <Text style={{ color: "white", marginTop: 100, textAlign: "center" }}>
-          {uiT("ui.subject_not_found_44594541")} </Text>
+          Subject not found
+        </Text>
       </View>
     );
   }
@@ -641,7 +641,7 @@ export default function ConstellationScreen() {
             <Ionicons name="arrow-back" size={26} color="white" />
           </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>{uiT("ui.constellation_da48ad09")}</Text>
+          <Text style={styles.headerTitle}>Constellation</Text>
 
           <TouchableOpacity
             style={styles.iconButton}
@@ -728,7 +728,6 @@ function ConstellationNode({
   onPress: () => void;
   onLongPress: () => void;
 }) {
-  useInterfaceLanguage();
   // Random respiration effect
   const scale = useSharedValue(1);
   const longPressTriggeredRef = useRef(false);

@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale } from "../features/interface-language/runtime";
 import { startOfMonth, startOfWeek } from "date-fns";
 import {
   emptyRangeSummary,
@@ -125,25 +124,25 @@ function readCombinedSummary(
 }
 
 function formatDayLabel(date: Date): string {
-  return new Intl.DateTimeFormat(interfaceLocale(), { weekday: "short" })
+  return new Intl.DateTimeFormat(undefined, { weekday: "short" })
     .format(date)
     .slice(0, 1)
     .toUpperCase();
 }
 
 function formatMonthDay(date: Date): string {
-  return new Intl.DateTimeFormat(interfaceLocale(), {
+  return new Intl.DateTimeFormat(undefined, {
     month: "short",
     day: "numeric",
   }).format(date);
 }
 
 function formatMonthLabel(date: Date): string {
-  return new Intl.DateTimeFormat(interfaceLocale(), { month: "short" }).format(date);
+  return new Intl.DateTimeFormat(undefined, { month: "short" }).format(date);
 }
 
 function formatFullDate(date: Date): string {
-  return date.toLocaleDateString(interfaceLocale(), {
+  return date.toLocaleDateString(undefined, {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -209,7 +208,7 @@ function buildWeekBuckets(
       startKey,
       endKey,
       label: formatMonthDay(start),
-      accessibilityLabel: uiT("ui.week_of_value_254387b2", {value1: (formatMonthDay(start))}),
+      accessibilityLabel: `Week of ${formatMonthDay(start)}`,
       studyMs: summary.studyMs,
       byCategory: summary.byCategory,
       isCurrent: startKey <= todayKey && todayKey <= endKey,
@@ -245,7 +244,7 @@ function buildMonthBuckets(
       startKey,
       endKey,
       label: formatMonthLabel(start),
-      accessibilityLabel: start.toLocaleDateString(interfaceLocale(), {
+      accessibilityLabel: start.toLocaleDateString(undefined, {
         month: "long",
         year: "numeric",
       }),

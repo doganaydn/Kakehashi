@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
@@ -27,7 +26,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function BunproReviewSettingsSection() {
-  useInterfaceLanguage();
   const username = useAuthStore((state) => state.userData?.username);
   const userId = useAuthStore((state) => state.userData?.id);
   return isPortegoUsername(username) ? (
@@ -36,7 +34,6 @@ export function BunproReviewSettingsSection() {
 }
 
 function BunproReviewSettingsContent() {
-  useInterfaceLanguage();
   const { theme, updateSectionOffset } = useSettingsControllerContext();
   const settings = useSettingsStore((state) => state);
   const focused = useOptionalScreenIsFocused();
@@ -76,19 +73,19 @@ function BunproReviewSettingsContent() {
     if (loading || mutationInFlight.current) return;
     const apiKey = apiKeyInput.trim();
     if (!apiKey) {
-      setStatus({ message: uiT("ui.enter_your_bunpro_api_key_first_40a80f37"), error: true });
+      setStatus({ message: "Enter your Bunpro API key first.", error: true });
       return;
     }
     mutationInFlight.current = true;
     setSaving(true);
-    setStatus({ message: uiT("ui.validating_bunpro_api_key_a36d9a1a"), error: false });
+    setStatus({ message: "Validating Bunpro API key…", error: false });
     try {
       const valid = await validateBunproApiToken(apiKey);
       if (!mounted.current) return;
       if (!valid) {
         setStatus({
           message:
-            uiT("ui.that_api_key_is_invalid_or_bunpro_is_unavailable_right_now_36f9c3b7"),
+            "That API key is invalid or Bunpro is unavailable right now.",
           error: true,
         });
         return;
@@ -97,11 +94,11 @@ function BunproReviewSettingsContent() {
       if (!mounted.current) return;
       setHasApiKey(true);
       setApiKeyInput("");
-      setStatus({ message: uiT("ui.bunpro_api_key_saved_f36e2b8e"), error: false });
+      setStatus({ message: "Bunpro API key saved.", error: false });
     } catch {
       if (mounted.current)
         setStatus({
-          message: uiT("ui.the_api_key_could_not_be_saved_please_try_again_606c4c74"),
+          message: "The API key could not be saved. Please try again.",
           error: true,
         });
     } finally {
@@ -121,14 +118,14 @@ function BunproReviewSettingsContent() {
       if (!mounted.current) return;
       if (remainingToken) {
         setStatus({
-          message: uiT("ui.the_api_key_could_not_be_removed_please_try_again_852e94eb"),
+          message: "The API key could not be removed. Please try again.",
           error: true,
         });
         return;
       }
       setHasApiKey(false);
       setApiKeyInput("");
-      setStatus({ message: uiT("ui.bunpro_api_key_removed_ea678b81"), error: false });
+      setStatus({ message: "Bunpro API key removed.", error: false });
     } finally {
       mutationInFlight.current = false;
       if (mounted.current) setSaving(false);
@@ -183,7 +180,8 @@ function BunproReviewSettingsContent() {
           { color: theme.textColor, borderBottomColor: theme.border },
         ]}
       >
-        {uiT("ui.bunpro_reviews_3d16c9d5")} </Text>
+        Bunpro reviews
+      </Text>
       <View style={styles.settingItemColumn}>
         <View style={[styles.settingRow, { marginBottom: 8 }]}>
           <Ionicons
@@ -196,27 +194,28 @@ function BunproReviewSettingsContent() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.bunpro_api_key_211ae3b6")} </SettingsLabel>
+              Bunpro API key
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
               {loading
-                ? uiT("ui.checking_saved_api_key_1e9c2c25")
+                ? "Checking saved API key…"
                 : hasApiKey
-                  ? uiT("ui.an_api_key_is_saved_paste_a_new_key_to_replace_it_bc57d0e3")
-                  : uiT("ui.add_your_api_key_to_connect_bunpro_51e19fc4")}
+                  ? "An API key is saved. Paste a new key to replace it."
+                  : "Add your API key to connect Bunpro."}
             </Text>
           </View>
         </View>
         <View style={styles.inputRow}>
           <TextInput
-            accessibilityLabel={uiT("ui.bunpro_api_key_211ae3b6")}
+            accessibilityLabel="Bunpro API key"
             value={apiKeyInput}
             onChangeText={(value) => {
               setApiKeyInput(value);
               setStatus(null);
             }}
-            placeholder={uiT("ui.paste_bunpro_api_key_88fa1aa5")}
+            placeholder="Paste Bunpro API key"
             placeholderTextColor={theme.textSecondary}
             autoCapitalize="none"
             autoCorrect={false}
@@ -235,7 +234,7 @@ function BunproReviewSettingsContent() {
           />
           <TouchableOpacity
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.save_bunpro_api_key_139c93aa")}
+            accessibilityLabel="Save Bunpro API key"
             disabled={busy}
             onPress={() => void saveApiKey()}
             style={[
@@ -253,7 +252,7 @@ function BunproReviewSettingsContent() {
           {hasApiKey ? (
             <TouchableOpacity
               accessibilityRole="button"
-              accessibilityLabel={uiT("ui.remove_bunpro_api_key_6f196c8c")}
+              accessibilityLabel="Remove Bunpro API key"
               disabled={busy}
               onPress={() => void removeApiKey()}
               style={[

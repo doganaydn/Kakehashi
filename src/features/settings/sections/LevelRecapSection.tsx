@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -16,7 +15,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function LevelRecapSection() {
-  useInterfaceLanguage();
   const {
     dashboardData,
     handleOpenLevelAnalyticsExportModal,
@@ -49,7 +47,8 @@ export function LevelRecapSection() {
               { color: theme.textColor, borderBottomColor: theme.border },
             ]}
           >
-            {uiT("ui.level_recap_368c8143")} </Text>
+            Level Recap
+          </Text>
 
           <AdvancedSettingsGroup>
             {dashboardData.currentLevel > 1 && (
@@ -71,14 +70,16 @@ export function LevelRecapSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.level_1709305c")} {dashboardData.currentLevel - 1} {uiT("ui.summary_8e76a94a")} </SettingsLabel>
+                    Level {dashboardData.currentLevel - 1} Summary
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.view_your_previous_level_recap_61e932cd")} </Text>
+                    View your previous level recap
+                  </Text>
                 </View>
                 <Ionicons
                   name="chevron-forward"
@@ -105,14 +106,16 @@ export function LevelRecapSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.export_level_analytics_79267e55")} </SettingsLabel>
+                    Export Level Analytics
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.choose_levels_and_export_summary_or_detailed_csv_1653421e")} </Text>
+                    Choose levels and export summary or detailed CSV
+                  </Text>
                 </View>
                 {isExportingLevelAnalytics ? (
                   <ActivityIndicator size="small" color={theme.primary} />

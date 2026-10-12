@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../../src/hooks/useActivityTracking";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -31,7 +30,6 @@ import { getAllSubjects } from "../../../src/utils/cache";
 import { useAuthStore } from "../../../src/utils/store";
 
 export default function MuxPlayerScreen() {
-  useInterfaceLanguage();
   useActivityTracking("video", { mode: "focus" });
   const { theme } = useTheme();
   const router = useRouter();
@@ -304,7 +302,8 @@ export default function MuxPlayerScreen() {
         >
           {isLoadingCaptions ? (
             <Text style={[styles.captionText, { color: theme.textSecondary }]}>
-              {uiT("ui.loading_captions_e5e9c29f")} </Text>
+              Loading captions...
+            </Text>
           ) : currentCue ? (
             renderHighlightedText(
               currentCue.text,
@@ -313,7 +312,7 @@ export default function MuxPlayerScreen() {
             )
           ) : (
             <Text style={[styles.captionText, { color: theme.textLight }]}>
-              {captions.length > 0 ? "..." : uiT("ui.no_captions_available_91a17ed3")}
+              {captions.length > 0 ? "..." : "No captions available"}
             </Text>
           )}
         </View>
@@ -323,7 +322,8 @@ export default function MuxPlayerScreen() {
       {params.trackId && captions.length > 0 && (
         <View style={styles.transcriptContainer}>
           <Text style={[styles.transcriptTitle, { color: theme.textSecondary }]}>
-            {uiT("ui.transcript_721164f0")} </Text>
+            Transcript
+          </Text>
           <ScrollView
             style={styles.transcriptScroll}
             contentContainerStyle={styles.transcriptContent}

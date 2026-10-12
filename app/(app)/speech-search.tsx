@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useRouter } from "expo-router";
@@ -23,7 +22,6 @@ import { useTheme } from "../../src/utils/theme";
 type SearchMode = "japanese" | "english";
 
 export default function SpeechSearchScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const router = useRouter();
@@ -125,7 +123,9 @@ export default function SpeechSearchScreen() {
           "Speech recognition service not available. Please enable it in Settings.";
         break;
       case "language-not-supported":
-        errorMessage = uiT("ui.dynamic_a82e0473349c", {value1: (searchMode === "japanese" ? uiT("ui.japanese_be4ee906") : uiT("common.english"))});
+        errorMessage = `${
+          searchMode === "japanese" ? "Japanese" : "English"
+        } language not supported on this device.`;
         break;
       case "network":
         errorMessage = "Network error. Please check your connection.";
@@ -164,12 +164,12 @@ export default function SpeechSearchScreen() {
       } else {
         console.log("No Japanese text found, setting error");
         setError(
-          uiT("ui.message_4db0fc63f8da")
+          "No Japanese text detected. Please try speaking Japanese words."
         );
       }
     } catch (error) {
       console.error("Error in handleJapaneseResult:", error);
-      setError(uiT("ui.message_28f525b0f3ac"));
+      setError("Failed to process Japanese speech. Please try again.");
     }
   };
 
@@ -202,11 +202,11 @@ export default function SpeechSearchScreen() {
         }, 100);
       } else {
         console.log("Empty translation received");
-        setError(uiT("ui.message_855ac697f2c1"));
+        setError("Translation failed - no result received. Please try again.");
       }
     } catch (error) {
       console.error("Translation error:", error);
-      setError(uiT("ui.message_6b7021222b0f"));
+      setError("Failed to translate to Japanese. Please try again.");
     } finally {
       setIsTranslating(false);
     }
@@ -236,7 +236,7 @@ export default function SpeechSearchScreen() {
       const available =
         await ExpoSpeechRecognitionModule.isRecognitionAvailable();
       if (!available) {
-        setError(uiT("ui.message_7717e6d51d4e"));
+        setError("Speech recognition is not available on this device");
         setIsInitializing(false);
         return;
       }
@@ -252,7 +252,7 @@ export default function SpeechSearchScreen() {
       }
     } catch (err) {
       console.error("Error checking permissions:", err);
-      setError(uiT("ui.message_54a5900a2c15"));
+      setError("Failed to initialize speech recognition");
     } finally {
       setIsInitializing(false);
     }
@@ -268,11 +268,11 @@ export default function SpeechSearchScreen() {
         setPermissionsGranted(true);
         setError(null);
       } else {
-        setError(uiT("ui.message_cb52afa9c177"));
+        setError("Microphone and speech recognition permissions are required");
       }
     } catch (err) {
       console.error("Error requesting permissions:", err);
-      setError(uiT("ui.message_01fabeba94ec"));
+      setError("Failed to request permissions");
     }
   };
 
@@ -299,7 +299,7 @@ export default function SpeechSearchScreen() {
       });
     } catch (err) {
       console.error("Error starting speech recognition:", err);
-      setError(uiT("ui.message_11af4cda30b6"));
+      setError("Failed to start speech recognition");
     }
   };
 
@@ -568,7 +568,8 @@ export default function SpeechSearchScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            {uiT("ui.initializing_speech_recognition_abebe7d7")} </Text>
+            Initializing speech recognition...
+          </Text>
         </View>
       </View>
     );
@@ -591,7 +592,8 @@ export default function SpeechSearchScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {uiT("ui.speech_search_053de3d8")} </Text>
+            Speech Search
+          </Text>
         </View>
 
         <View style={styles.permissionContainer}>
@@ -607,11 +609,14 @@ export default function SpeechSearchScreen() {
               color={theme.textSecondary}
             />
             <Text style={[styles.permissionTitle, { color: theme.textColor }]}>
-              {uiT("ui.microphone_permission_required_a1e58d9c")} </Text>
+              Microphone Permission Required
+            </Text>
             <Text
               style={[styles.permissionText, { color: theme.textSecondary }]}
             >
-              {uiT("ui.we_need_access_to_your_microphone_to_recognize_speech_in_both_jap_45d5873c")} </Text>
+              We need access to your microphone to recognize speech in both
+              Japanese and English.
+            </Text>
             <TouchableOpacity
               style={[
                 styles.permissionButton,
@@ -620,7 +625,7 @@ export default function SpeechSearchScreen() {
               onPress={requestPermissions}
               activeOpacity={0.7}
             >
-              <Text style={styles.permissionButtonText}>{uiT("ui.continue_31fbef16")}</Text>
+              <Text style={styles.permissionButtonText}>Continue</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -647,7 +652,8 @@ export default function SpeechSearchScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.speech_search_053de3d8")} </Text>
+          Speech Search
+        </Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
             onPress={handleShowHistory}
@@ -697,16 +703,18 @@ export default function SpeechSearchScreen() {
           <Text style={[styles.statusTitle, { color: theme.textColor }]}>
             {isRecognizing
               ? searchMode === "japanese"
-                ? uiT("ui.listening_for_japanese_71132ef4")
-                : uiT("ui.listening_for_english_edfeb86c")
-              : uiT("ui.tap_to_speak_value_c754c8fb", {value1: (searchMode === "japanese" ? uiT("ui.japanese_be4ee906") : "English")})}
+                ? "Listening for Japanese..."
+                : "Listening for English..."
+              : `Tap to speak ${
+                  searchMode === "japanese" ? "Japanese" : "English"
+                }`}
           </Text>
           <Text style={[styles.statusSubtitle, { color: theme.textSecondary }]}>
             {isRecognizing
-              ? uiT("ui.speak_clearly_and_naturally_fbb8d6c2")
+              ? "Speak clearly and naturally"
               : searchMode === "japanese"
-              ? uiT("ui.say_japanese_words_or_phrases_to_search_your_vocabulary_605553cd")
-              : uiT("ui.say_english_words_they_will_be_translated_to_japanese_412c2a56")}
+              ? "Say Japanese words or phrases to search your vocabulary"
+              : "Say English words - they will be translated to Japanese"}
           </Text>
         </View>
 
@@ -827,7 +835,8 @@ export default function SpeechSearchScreen() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.english_95779ac5")} </Text>
+                  English:
+                </Text>
                 <Text
                   style={[styles.transcriptText, { color: theme.textColor }]}
                 >
@@ -850,7 +859,8 @@ export default function SpeechSearchScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.translating_to_japanese_c4f45b95")} </Text>
+                      Translating to Japanese...
+                    </Text>
                   </View>
                 ) : (
                   translatedText && (
@@ -868,7 +878,8 @@ export default function SpeechSearchScreen() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.japanese_99b9c246")} </Text>
+                        Japanese:
+                      </Text>
                       <Text
                         style={[
                           styles.transcriptText,
@@ -891,7 +902,8 @@ export default function SpeechSearchScreen() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.recognized_0730cb77")} </Text>
+                  Recognized:
+                </Text>
                 <Text
                   style={[styles.transcriptText, { color: theme.textColor }]}
                 >
@@ -927,7 +939,8 @@ export default function SpeechSearchScreen() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.listening_53de028c")} </Text>
+                  Listening:
+                </Text>
                 <Text
                   style={[styles.transcriptText, { color: theme.textColor }]}
                 >

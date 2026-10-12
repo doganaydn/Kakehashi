@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { SRS_COLORS } from "../constants/srsColors";
 import type { SrsLevel } from "../types/wanikani";
 
@@ -53,7 +52,7 @@ const SRS_STAGE_META: StageMeta[] = [
   {
     stage: 1,
     roman: "I",
-    get label() { return uiT("ui.apprentice_i_9b147e79"); },
+    label: "Apprentice I",
     shortLabel: "Appr I",
     group: "Apprentice",
     color: SRS_COLORS.apprentice.hex,
@@ -61,7 +60,7 @@ const SRS_STAGE_META: StageMeta[] = [
   {
     stage: 2,
     roman: "II",
-    get label() { return uiT("ui.apprentice_ii_17ea8522"); },
+    label: "Apprentice II",
     shortLabel: "Appr II",
     group: "Apprentice",
     color: SRS_COLORS.apprentice.hex,
@@ -69,7 +68,7 @@ const SRS_STAGE_META: StageMeta[] = [
   {
     stage: 3,
     roman: "III",
-    get label() { return uiT("ui.apprentice_iii_f60e604d"); },
+    label: "Apprentice III",
     shortLabel: "Appr III",
     group: "Apprentice",
     color: SRS_COLORS.apprentice.hex,
@@ -77,7 +76,7 @@ const SRS_STAGE_META: StageMeta[] = [
   {
     stage: 4,
     roman: "IV",
-    get label() { return uiT("ui.apprentice_iv_a58cb527"); },
+    label: "Apprentice IV",
     shortLabel: "Appr IV",
     group: "Apprentice",
     color: SRS_COLORS.apprentice.hex,
@@ -85,7 +84,7 @@ const SRS_STAGE_META: StageMeta[] = [
   {
     stage: 5,
     roman: "V",
-    get label() { return uiT("ui.guru_i_c0e7845c"); },
+    label: "Guru I",
     shortLabel: "Guru I",
     group: "Guru",
     color: SRS_COLORS.guru.hex,
@@ -93,7 +92,7 @@ const SRS_STAGE_META: StageMeta[] = [
   {
     stage: 6,
     roman: "VI",
-    get label() { return uiT("ui.guru_ii_99fc38e2"); },
+    label: "Guru II",
     shortLabel: "Guru II",
     group: "Guru",
     color: SRS_COLORS.guru.hex,

@@ -1,7 +1,5 @@
 package com.portego00.kakehashi
 
-import expo.modules.kakehashiwidget.InterfaceLocale
-
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
@@ -34,7 +32,7 @@ class ReviewNotificationManagerModule(
       val currentReviews = reviewData.getIntOrDefault("currentReviews", 0)
       val settings = reviewData.getMap("settings")
         ?: run {
-          promise.reject("INVALID_DATA", InterfaceLocale.context(reactContext).getString(R.string.native_ui_14))
+          promise.reject("INVALID_DATA", "Missing notification settings")
           return
         }
 
@@ -105,13 +103,13 @@ class ReviewNotificationManagerModule(
     }
 
     if (pendingPermissionPromise != null) {
-      promise.reject("PERMISSION_PENDING", InterfaceLocale.context(reactContext).getString(R.string.native_ui_15))
+      promise.reject("PERMISSION_PENDING", "Notification permission request already in progress")
       return
     }
 
     val activity = reactContext.currentActivity as? PermissionAwareActivity
     if (activity == null) {
-      promise.reject("NO_ACTIVITY", InterfaceLocale.context(reactContext).getString(R.string.native_ui_16))
+      promise.reject("NO_ACTIVITY", "No active activity to request permissions")
       return
     }
 
@@ -171,7 +169,7 @@ class ReviewNotificationManagerModule(
   @ReactMethod
   fun scheduleTestNotification(promise: Promise) {
     if (!AndroidReviewNotifications.hasNotificationPermission(reactContext)) {
-      promise.reject("PERMISSION_DENIED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_17))
+      promise.reject("PERMISSION_DENIED", "Notification permissions not granted")
       return
     }
 
@@ -183,8 +181,8 @@ class ReviewNotificationManagerModule(
       val triggerAt = System.currentTimeMillis() + 60_000L
       val testNotification = ScheduledReviewNotification(
         identifier = "test-notification",
-        title = InterfaceLocale.context(reactContext).getString(R.string.native_ui_18),
-        body = InterfaceLocale.context(reactContext).getString(R.string.native_ui_19),
+        title = "WaniKani Test Notification",
+        body = "This is a test! You have 42 new reviews available.",
         badge = 142,
         triggerAtMillis = triggerAt,
         alertsEnabled = true,

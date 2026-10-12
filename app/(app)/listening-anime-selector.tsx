@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
@@ -32,7 +31,6 @@ interface AnimeItem {
 }
 
 export default function ListeningAnimeSelector() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const params = useLocalSearchParams();
@@ -70,7 +68,7 @@ export default function ListeningAnimeSelector() {
         setAnimes(items);
       } catch (error) {
         console.error("Failed to load anime list", error);
-        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_anime_list_90b8b30a"));
+        Alert.alert("Error", "Failed to load anime list.");
       } finally {
         setIsLoading(false);
       }
@@ -276,7 +274,8 @@ export default function ListeningAnimeSelector() {
           <Ionicons name="arrow-back" size={24} color={theme.headerText} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.headerText }]}>
-          {uiT("ui.select_anime_7719d8b6")} </Text>
+          Select Anime
+        </Text>
         <TouchableOpacity
           style={styles.saveButton}
           onPress={handleSave}
@@ -291,7 +290,8 @@ export default function ListeningAnimeSelector() {
               },
             ]}
           >
-            {uiT("ui.save_1509f561")} </Text>
+            Save
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -321,7 +321,7 @@ export default function ListeningAnimeSelector() {
               />
               <TextInput
                 style={[styles.searchInput, { color: theme.textColor }]}
-                placeholder={uiT("ui.search_anime_376a0b6a")}
+                placeholder="Search anime..."
                 placeholderTextColor={theme.textSecondary}
                 value={searchQuery}
                 onChangeText={setSearchQuery}
@@ -342,7 +342,8 @@ export default function ListeningAnimeSelector() {
                 onPress={handleSelectAll}
               >
                 <Text style={[styles.chipText, { color: theme.textColor }]}>
-                  {uiT("ui.select_all_d1ec69e6")} </Text>
+                  Select All
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -356,17 +357,19 @@ export default function ListeningAnimeSelector() {
                 onPress={handleDeselectAll}
               >
                 <Text style={[styles.chipText, { color: theme.textColor }]}>
-                  {uiT("ui.deselect_all_5cd261bc")} </Text>
+                  Deselect All
+                </Text>
               </TouchableOpacity>
             </View>
 
             {/* Count */}
             <View style={styles.countRow}>
               <Text style={[styles.countText, { color: theme.textSecondary }]}>
-                {selectedCount} {uiT("ui.of_28391d3b")} {filteredAnimes.length} {uiT("ui.selected_d7cbbb68")} </Text>
+                {selectedCount} of {filteredAnimes.length} selected
+              </Text>
               {infoFetchProgress && (
                 <Text style={[styles.countText, { color: theme.textSecondary }]}>
-                  {" "}{uiT("ui.loading_info_823e7018")} {infoFetchProgress.fetched}/{infoFetchProgress.total}
+                  {" "}· Loading info {infoFetchProgress.fetched}/{infoFetchProgress.total}
                 </Text>
               )}
             </View>

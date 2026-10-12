@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import React from "react";
@@ -9,7 +8,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function HapticSection() {
-  useInterfaceLanguage();
   const {
     hapticFeedbackEnabled,
     setHapticFeedbackEnabled,
@@ -38,7 +36,8 @@ export function HapticSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.haptic_9b9bf8d6")} </Text>
+          Haptic
+        </Text>
 
         <View
           style={[styles.settingItem, { borderBottomColor: "transparent" }]}
@@ -53,11 +52,13 @@ export function HapticSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.haptic_feedback_1dda578b")} </SettingsLabel>
+              Haptic Feedback
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.vibrate_on_key_actions_across_the_app_40cfd5b1")} </Text>
+              Vibrate on key actions across the app
+            </Text>
           </View>
           <Switch
             value={hapticFeedbackEnabled}

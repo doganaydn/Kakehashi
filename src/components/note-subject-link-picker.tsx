@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, {
   useCallback,
@@ -114,7 +113,6 @@ export default function NoteSubjectLinkPicker({
   onSearchFocus,
   onSelect,
 }: NoteSubjectLinkPickerProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { height: windowHeight } = useWindowDimensions();
   const apiToken = useAuthStore((state) => state.apiToken);
@@ -153,7 +151,7 @@ export default function NoteSubjectLinkPicker({
         setSubjects(response.data.filter(isSubject));
       } catch {
         if (!cancelled) {
-          setError(uiT("ui.message_d7dedd4beae4"));
+          setError("Search data could not be loaded. Check your connection and try again.");
         }
       } finally {
         if (!cancelled) setIsLoading(false);
@@ -198,7 +196,7 @@ export default function NoteSubjectLinkPicker({
       return (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.dynamic_72b09baa7c3d", {value1: (getDisplayCharacters(item)), value2: (meaning)})}
+          accessibilityLabel={`Link to ${getDisplayCharacters(item)}, ${meaning}`}
           onPress={() => onSelect(item)}
           style={({ pressed }) => [
             styles.resultRow,
@@ -233,8 +231,8 @@ export default function NoteSubjectLinkPicker({
               style={[styles.resultMeta, { color: theme.textSecondary }]}
             >
               {readings
-                ? uiT("ui.value_level_value_150b607a", {value1: (readings), value2: (item.data.level)})
-                : uiT("ui.value_level_value_150b607a", {value1: (formatSubjectType(item.object)), value2: (item.data.level)})}
+                ? `${readings} · Level ${item.data.level}`
+                : `${formatSubjectType(item.object)} · Level ${item.data.level}`}
             </Text>
           </View>
 
@@ -265,7 +263,7 @@ export default function NoteSubjectLinkPicker({
       <View style={[styles.header, { borderBottomColor: theme.border }]}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.back_to_note_0115b46d")}
+          accessibilityLabel="Back to note"
           hitSlop={8}
           onPress={onCancel}
           style={({ pressed }) => [
@@ -276,12 +274,12 @@ export default function NoteSubjectLinkPicker({
           <Ionicons name="arrow-back" size={20} color={theme.textColor} />
         </Pressable>
 
-        <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.link_a_subject_f3d9072e")}</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>Link a subject</Text>
 
         {linkedSubjectId && onRemove ? (
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.remove_word_link_40cec423")}
+            accessibilityLabel="Remove word link"
             hitSlop={8}
             onPress={onRemove}
             style={({ pressed }) => [
@@ -289,7 +287,7 @@ export default function NoteSubjectLinkPicker({
               { opacity: pressed ? 0.55 : 1 },
             ]}
           >
-            <Text style={[styles.removeText, { color: theme.error }]}>{uiT("ui.remove_c3812fc4")}</Text>
+            <Text style={[styles.removeText, { color: theme.error }]}>Remove</Text>
           </Pressable>
         ) : (
           <View style={styles.headerButton} />
@@ -311,7 +309,7 @@ export default function NoteSubjectLinkPicker({
           onChangeText={setQuery}
           onFocus={onSearchFocus}
           onSubmitEditing={() => Keyboard.dismiss()}
-          placeholder={uiT("ui.japanese_reading_or_meaning_6e8ba177")}
+          placeholder="Japanese, reading, or meaning"
           placeholderTextColor={theme.textLight}
           returnKeyType="search"
           style={[styles.searchInput, { color: theme.textColor }]}
@@ -324,7 +322,7 @@ export default function NoteSubjectLinkPicker({
           accessibilityRole="button"
           accessibilityLabel={
             vocabularyTypes.length > 0
-              ? uiT("ui.dynamic_30b97ad5b6e5", {value1: (vocabularyTypes.length)})
+              ? `Vocabulary type filters, ${vocabularyTypes.length} selected`
               : "Vocabulary type filters"
           }
           accessibilityState={{ selected: vocabularyTypes.length > 0 }}
@@ -348,7 +346,7 @@ export default function NoteSubjectLinkPicker({
       {isLoading ? (
         <View style={styles.centerState}>
           <ActivityIndicator size="small" color={theme.primary} />
-          <Text style={[styles.stateText, { color: theme.textSecondary }]}>{uiT("ui.loading_subjects_52f3eede")}</Text>
+          <Text style={[styles.stateText, { color: theme.textSecondary }]}>Loading subjects…</Text>
         </View>
       ) : error ? (
         <View style={styles.centerState}>
@@ -363,12 +361,12 @@ export default function NoteSubjectLinkPicker({
               { borderColor: theme.border, opacity: pressed ? 0.6 : 1 },
             ]}
           >
-            <Text style={[styles.retryText, { color: theme.primary }]}>{uiT("ui.try_again_d8b8392e")}</Text>
+            <Text style={[styles.retryText, { color: theme.primary }]}>Try again</Text>
           </Pressable>
         </View>
       ) : !trimmedQuery && vocabularyTypes.length === 0 ? (
         <View style={styles.centerState}>
-          <Text style={[styles.stateText, { color: theme.textSecondary }]}>{uiT("ui.search_for_the_subject_this_text_should_open_1f72ed0b")}</Text>
+          <Text style={[styles.stateText, { color: theme.textSecondary }]}>Search for the subject this text should open.</Text>
         </View>
       ) : isSearching ? (
         <View style={styles.centerState}>
@@ -376,7 +374,7 @@ export default function NoteSubjectLinkPicker({
         </View>
       ) : results.length === 0 ? (
         <View style={styles.centerState}>
-          <Text style={[styles.stateText, { color: theme.textSecondary }]}>{uiT("ui.no_matching_subjects_7c916ea7")}</Text>
+          <Text style={[styles.stateText, { color: theme.textSecondary }]}>No matching subjects</Text>
         </View>
       ) : (
         <FlatList
@@ -391,8 +389,8 @@ export default function NoteSubjectLinkPicker({
       {showsCharactersChoice ? (
         <Pressable
           accessibilityRole="checkbox"
-          accessibilityLabel={uiT("ui.include_japanese_text_2e596991")}
-          accessibilityHint={uiT("ui.adds_the_subject_s_japanese_text_after_your_selected_text_inside_8be7d8c9")}
+          accessibilityLabel="Include Japanese text"
+          accessibilityHint="Adds the subject's Japanese text after your selected text inside the same link. This choice is remembered."
           accessibilityState={{ checked: includeCharacters }}
           onPress={() => onIncludeCharactersChange?.(!includeCharacters)}
           style={({ pressed }) => [
@@ -406,8 +404,8 @@ export default function NoteSubjectLinkPicker({
             color={includeCharacters ? theme.primary : theme.textSecondary}
           />
           <View style={styles.charactersChoiceText}>
-            <Text style={[styles.charactersChoiceTitle, { color: theme.textColor }]}>{uiT("ui.include_japanese_text_2e596991")}</Text>
-            <Text style={[styles.charactersChoiceHint, { color: theme.textSecondary }]}>{uiT("ui.add_it_after_the_selected_text_5faab69e")}</Text>
+            <Text style={[styles.charactersChoiceTitle, { color: theme.textColor }]}>Include Japanese text</Text>
+            <Text style={[styles.charactersChoiceHint, { color: theme.textSecondary }]}>Add it after the selected text</Text>
           </View>
         </Pressable>
       ) : null}
@@ -430,10 +428,10 @@ export default function NoteSubjectLinkPicker({
                 ]}
               >
                 <View style={[styles.header, { borderBottomColor: theme.border }]}>
-                  <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.filter_subjects_28e12438")}</Text>
+                  <Text style={[styles.title, { color: theme.textColor }]}>Filter subjects</Text>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={uiT("ui.close_vocabulary_type_filters_167fe148")}
+                    accessibilityLabel="Close vocabulary type filters"
                     onPress={() => setShowVocabularyTypes(false)}
                     style={styles.filterButton}
                   >

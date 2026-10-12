@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import { router, Tabs, useSegments } from "expo-router";
@@ -16,12 +15,10 @@ function tabBarKey({ direct, overflow }: ReturnType<typeof useTabNavigation>) {
 }
 
 export default function TabsLayout() {
-  useInterfaceLanguage();
   return <TabBarVisibilityProvider><TabsContent /></TabBarVisibilityProvider>;
 }
 
 function TabsContent() {
-  useInterfaceLanguage();
   const tabBarHidden = useTabBarHidden();
   const { theme, themeMode, isDark } = useTheme();
   const useNativeTabs = supportsNativeTabs();
@@ -107,7 +104,7 @@ function TabsContent() {
           tabBarIcon: ({ color, size }) => <Ionicons name={tab.id === "progress" ? "stats-chart" : tab.icon} size={size} color={color} />,
         }} />)}
 
-        <Tabs.Screen name="more" options={{ title: uiT("ui.more_d47d7cb0"), href: overflow.length ? undefined : null,
+        <Tabs.Screen name="more" options={{ title: "More", href: overflow.length ? undefined : null,
           tabBarIcon: ({ color, size }) => <Ionicons name="ellipsis-horizontal" size={size} color={color} />,
         }} />
         <Tabs.Screen
@@ -149,11 +146,11 @@ function TabsContent() {
       </NativeTabs.Trigger>)}
       <NativeTabs.Trigger name="more" hidden={!overflow.length}>
         <NativeTabs.Trigger.Icon sf="ellipsis" />
-        <NativeTabs.Trigger.Label>{uiT("ui.more_d47d7cb0")}</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>More</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="search" role="search">
         <NativeTabs.Trigger.Icon sf="magnifyingglass" />
-        <NativeTabs.Trigger.Label>{uiT("ui.search_49c266ba")}</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );

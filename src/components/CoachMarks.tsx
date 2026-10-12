@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -67,7 +66,6 @@ export function CoachMarks({
   onStepChange,
   allowSkip = true,
 }: CoachMarksProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
@@ -517,7 +515,8 @@ export function CoachMarks({
           {allowSkip && (
             <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
               <Text style={[styles.skipButtonText, { color: theme.textSecondary }]}>
-                {uiT("ui.skip_28d03596")} </Text>
+                Skip
+              </Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity
@@ -542,7 +541,7 @@ export function CoachMarks({
               />
             )}
             <Text style={styles.nextButtonText}>
-              {currentStepIndex < steps.length - 1 ? uiT("ui.next_1ff57a29") : uiT("ui.got_it_aca2a322")}
+              {currentStepIndex < steps.length - 1 ? "Next" : "Got it!"}
             </Text>
             {currentStepIndex < steps.length - 1 && (
               <Ionicons name="arrow-forward" size={16} color="white" />

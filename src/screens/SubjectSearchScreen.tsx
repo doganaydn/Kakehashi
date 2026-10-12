@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import React, {
@@ -165,7 +164,6 @@ export default function SubjectSearchScreen({
   topPadding = 60,
   showNativeTopTitle = true,
 }: SubjectSearchScreenProps = {}) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
   const { dashboardData } = useDashboardData();
@@ -436,7 +434,7 @@ export default function SubjectSearchScreen({
       console.log(`Loaded ${subjects.length} subjects for search:`, counts);
     } catch (err) {
       console.error("Error loading subjects:", err);
-      setError(uiT("ui.message_aa0d4cc48928"));
+      setError("Failed to load subjects for search. Please try again.");
       setIsCacheMissing(true);
     } finally {
       setIsLoadingSubjects(false);
@@ -506,7 +504,7 @@ export default function SubjectSearchScreen({
     } catch (err) {
       console.error("Error rebuilding cache:", err);
       setError(
-        uiT("ui.message_6ebf4e6e4367")
+        "Failed to rebuild cache. Please check your internet connection and try again."
       );
       setIsRebuildingCache(false);
       setCacheRebuildProgress(0);
@@ -570,7 +568,7 @@ export default function SubjectSearchScreen({
         );
       } catch (err) {
         console.error("Search error:", err);
-        setError(uiT("ui.message_46a6a88b063b"));
+        setError("Search failed. Please try again.");
       } finally {
         setIsLoading(false);
       }
@@ -599,7 +597,6 @@ export default function SubjectSearchScreen({
 
   // Component to render radical character with SVG fallback
   const RadicalCharacter = ({ item }: { item: SearchResult }) => {
-  useInterfaceLanguage();
     const bestImg = pickBestImage(item.characterImages || undefined);
     const svgUrl = bestImg?.type === "svg" ? bestImg.url : null;
     const svgXml = useRemoteSvg(svgUrl, "#ffffff");
@@ -742,7 +739,7 @@ export default function SubjectSearchScreen({
               </Text>
             )}
             <Text style={[styles.itemLevel, { color: theme.textLight }]}>
-              {uiT("ui.level_1709305c")} {item.level}
+              Level {item.level}
             </Text>
           </View>
         </View>
@@ -815,7 +812,7 @@ export default function SubjectSearchScreen({
       accessibilityRole="button"
       accessibilityLabel={
         activeFilterCount > 0
-          ? uiT("ui.dynamic_3766397355e8", {value1: (activeFilterCount)})
+          ? `Search filters, ${activeFilterCount} active`
           : "Search filters"
       }
       onAccessibilityTap={() => setShowFilters(true)}
@@ -854,7 +851,8 @@ export default function SubjectSearchScreen({
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            {uiT("ui.loading_subjects_for_search_0ac0ae97")} </Text>
+            Loading subjects for search...
+          </Text>
         </View>
       </View>
     );
@@ -873,11 +871,14 @@ export default function SubjectSearchScreen({
             color={theme.textSecondary}
           />
           <Text style={[styles.cacheErrorTitle, { color: theme.textColor }]}>
-            {uiT("ui.search_data_missing_d5def448")} </Text>
+            Search Data Missing
+          </Text>
           <Text
             style={[styles.cacheErrorMessage, { color: theme.textSecondary }]}
           >
-            {uiT("ui.the_search_data_has_been_cleared_by_your_device_this_can_happen_w_57fdd3b1")} </Text>
+            The search data has been cleared by your device. This can happen
+            when your device is low on storage or after app updates.
+          </Text>
           <TouchableOpacity
             style={[styles.rebuildButton, { backgroundColor: theme.primary }]}
             onPress={rebuildCache}
@@ -889,10 +890,11 @@ export default function SubjectSearchScreen({
               color="white"
               style={{ marginRight: 8 }}
             />
-            <Text style={styles.rebuildButtonText}>{uiT("ui.download_search_data_20e8cf05")}</Text>
+            <Text style={styles.rebuildButtonText}>Download Search Data</Text>
           </TouchableOpacity>
           <Text style={[styles.cacheErrorNote, { color: theme.textLight }]}>
-            {uiT("ui.this_will_download_all_wanikani_subjects_to_enable_offline_search_a835f7b2")} </Text>
+            This will download all WaniKani subjects to enable offline search.
+          </Text>
         </View>
       </View>
     );
@@ -907,7 +909,8 @@ export default function SubjectSearchScreen({
         <View style={styles.cacheRebuildContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.cacheRebuildTitle, { color: theme.textColor }]}>
-            {uiT("ui.downloading_search_data_5a313e21")} </Text>
+            Downloading Search Data
+          </Text>
           <View
             style={[
               styles.progressBarContainer,
@@ -930,9 +933,12 @@ export default function SubjectSearchScreen({
               { color: theme.textSecondary },
             ]}
           >
-            {cacheRebuildProgress}{uiT("ui.complete_b8985e8d")} </Text>
+            {cacheRebuildProgress}% Complete
+          </Text>
           <Text style={[styles.cacheRebuildNote, { color: theme.textLight }]}>
-            {uiT("ui.this_only_needs_to_be_done_once_the_data_will_be_saved_for_offlin_74a557ae")} </Text>
+            This only needs to be done once. The data will be saved for offline
+            use.
+          </Text>
         </View>
       </View>
     );
@@ -944,7 +950,8 @@ export default function SubjectSearchScreen({
         <View style={styles.emptyContainer}>
           <Ionicons name="download-outline" size={64} color={theme.textLight} />
           <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-            {uiT("ui.loading_search_data_776b089b")} </Text>
+            Loading search data...
+          </Text>
         </View>
       );
     } else if (!searchQuery.trim()) {
@@ -961,9 +968,11 @@ export default function SubjectSearchScreen({
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                {uiT("ui.no_subjects_match_these_filters_dd84671a")} </Text>
+                No subjects match these filters
+              </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                {uiT("ui.try_clearing_a_filter_d264a91b")} </Text>
+                Try clearing a filter
+              </Text>
             </View>
           }
         />
@@ -973,7 +982,8 @@ export default function SubjectSearchScreen({
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            {uiT("ui.searching_78c9d9f6")} </Text>
+            Searching...
+          </Text>
         </View>
       );
     } else if (error) {
@@ -988,7 +998,7 @@ export default function SubjectSearchScreen({
             onPress={() => loadAllSubjects()}
             activeOpacity={0.7}
           >
-            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
+            <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
       );
@@ -1001,9 +1011,11 @@ export default function SubjectSearchScreen({
             color={theme.textLight}
           />
           <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-            {uiT("ui.no_results_found_7d7e3605")} </Text>
+            No results found
+          </Text>
           <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-            {uiT("ui.try_searching_with_different_terms_2f13ee75")} </Text>
+            Try searching with different terms
+          </Text>
         </View>
       );
     } else {
@@ -1055,7 +1067,7 @@ export default function SubjectSearchScreen({
                 onChangeText={setSearchQuery}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-                placeholder={uiT("ui.search_kanji_vocabulary_or_meanings_d720abb2")}
+                placeholder="Search kanji, vocabulary, or meanings..."
                 placeholderTextColor={theme.textSecondary}
                 autoCorrect={false}
                 returnKeyType="search"
@@ -1118,7 +1130,8 @@ export default function SubjectSearchScreen({
         >
           {showNativeTopTitle && (
             <Text style={[styles.nativeSearchTitle, { color: theme.textColor }]}>
-              {uiT("ui.search_49c266ba")} </Text>
+              Search
+            </Text>
           )}
           {!isTablet && (
             <View style={{ flexDirection: "row", gap: 12 }}>

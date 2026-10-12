@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { router, useLocalSearchParams } from "expo-router";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -32,7 +31,6 @@ interface Question {
 }
 
 export default function RecentLessonsReview() {
-  useInterfaceLanguage();
   useActivityTracking("recent_lessons_review");
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
@@ -311,12 +309,12 @@ export default function RecentLessonsReview() {
         const emptyMessage =
           recentLessonsWindow === "apprentice"
             ? "You don't have any lessons in Apprentice stages that need reviewing."
-            : uiT("ui.dynamic_3c18b99a2b9e", {value1: (recentLessonsWindowLabel.toLowerCase())});
+            : `You don't have any lessons started in ${recentLessonsWindowLabel.toLowerCase()}.`;
 
         Alert.alert(
-          uiT("ui.no_recent_lessons_2e1746c6"),
+          "No Recent Lessons",
           emptyMessage,
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          [{ text: "OK", onPress: () => router.back() }]
         );
         setIsPreparing(false);
         // Mark as loaded so we don't try again repeatedly
@@ -439,8 +437,8 @@ export default function RecentLessonsReview() {
       setLoadedWindow(recentLessonsWindow);
     } catch (error) {
       console.error("Error preparing review items:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_review_items_please_try_again_e8d7b987"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to load review items. Please try again.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     } finally {
       setIsPreparing(false);
@@ -786,7 +784,7 @@ export default function RecentLessonsReview() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={theme.primary} />
-        <Text style={styles.loadingText}>{uiT("ui.loading_recent_lessons_a8853747")}</Text>
+        <Text style={styles.loadingText}>Loading recent lessons...</Text>
       </View>
     );
   }

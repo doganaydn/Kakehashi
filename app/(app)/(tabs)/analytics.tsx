@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { router } from "expo-router";
@@ -44,7 +43,6 @@ import { useTheme } from "../../../src/utils/theme";
 type ProgressCategory = 'jlpt' | 'joyo' | 'frequency';
 
 export default function AnalyticsTab() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const username = useAuthStore(state => state.userData?.username);
   const eligible = isPortegoUsername(username);
@@ -54,9 +52,10 @@ export default function AnalyticsTab() {
       <View style={[styles.header, { backgroundColor: theme.headerBackground }]}>
         <View style={styles.headerOverlay} />
         <View style={styles.headerContent}>
-          <Text style={[styles.headerTitle, { color: theme.headerText }]}>{uiT("ui.analytics_94c116ee")}</Text>
+          <Text style={[styles.headerTitle, { color: theme.headerText }]}>Analytics</Text>
           <Text style={[styles.headerSubtitle, { color: theme.headerText }]}>
-            {uiT("ui.progress_insights_and_statistics_21a48244")} </Text>
+            Progress insights and statistics
+          </Text>
         </View>
         <View style={styles.headerButtons}>
           <GlassButton
@@ -78,7 +77,6 @@ export default function AnalyticsTab() {
 }
 
 function WaniKaniAnalytics() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const {
     dashboardData,
@@ -236,7 +234,7 @@ function WaniKaniAnalytics() {
     return (
       <View style={[styles.loadingContainer, { backgroundColor: theme.backgroundColor }]}>
         <ActivityIndicator size="large" color={theme.secondary} />
-        <Text style={[styles.loadingText, { color: theme.textColor }]}>{uiT("ui.loading_analytics_data_622be7e8")}</Text>
+        <Text style={[styles.loadingText, { color: theme.textColor }]}>Loading analytics data...</Text>
       </View>
     );
   }
@@ -351,9 +349,11 @@ function WaniKaniAnalytics() {
           >
             <View style={styles.sectionHeader}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.srs_breakdown_d54333b2")} </Text>
+                SRS Breakdown
+              </Text>
               <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.distribution_of_items_across_srs_levels_895d802f")} </Text>
+                Distribution of items across SRS levels
+              </Text>
             </View>
             <SrsBreakdown
               levels={dashboardData.srsLevels || []}
@@ -375,9 +375,11 @@ function WaniKaniAnalytics() {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.kanji_grid_92db1a9d")} </Text>
+                Kanji Grid
+              </Text>
               <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.heatmap_view_of_all_kanji_by_srs_strength_e6a8266c")} </Text>
+                Heatmap view of all kanji by SRS strength
+              </Text>
             </View>
             <TouchableOpacity
               style={[
@@ -400,7 +402,8 @@ function WaniKaniAnalytics() {
                 <Ionicons name="grid-outline" size={28} color="#ffffff" />
               </View>
               <Text style={[styles.kanjiGridActionText, { color: theme.textColor }]}>
-                {uiT("ui.open_kanji_grid_heatmap_c98963b0")} </Text>
+                Open Kanji Grid Heatmap
+              </Text>
               <Ionicons name="chevron-forward" size={20} color={theme.textSecondary} />
             </TouchableOpacity>
           </View>
@@ -424,7 +427,6 @@ interface AnimatedProgressBarProps {
 }
 
 function AnimatedProgressBar({ label, learned, total, percent, theme, isLast = false, category, level, learnedThreshold }: AnimatedProgressBarProps) {
-  useInterfaceLanguage();
   const progressWidth = useSharedValue(0);
 
   useEffect(() => {
@@ -473,7 +475,7 @@ function AnimatedProgressBar({ label, learned, total, percent, theme, isLast = f
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
               <Ionicons name="list" size={14} color={theme.textSecondary} />
-              <Text style={[styles.viewDetailsText, { color: theme.textSecondary }]}>{uiT("ui.view_dcc839a4")}</Text>
+              <Text style={[styles.viewDetailsText, { color: theme.textSecondary }]}>View</Text>
             </TouchableOpacity>
             <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
           </View>

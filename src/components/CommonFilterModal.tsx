@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -52,7 +51,6 @@ export const CommonFilterModal: React.FC<CommonFilterModalProps> = ({
   showVocabularyTypes = false,
   subjects,
 }) => {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [pendingValues, setPendingValues] =
     useState<Record<string, any>>(currentValues);
@@ -256,7 +254,8 @@ export const CommonFilterModal: React.FC<CommonFilterModalProps> = ({
               activeOpacity={0.7}
             >
               <Text style={[styles.buttonText, { color: theme.textSecondary }]}>
-                {uiT("ui.cancel_19766ed6")} </Text>
+                Cancel
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[

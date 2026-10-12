@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import { getSrsStageLabel } from "./srsBreakdownStages";
 
 function normalizeSrsStage(stage: number | null | undefined): number {
@@ -15,7 +14,7 @@ export function getSrsStageDisplayLabel(
   const normalizedStage = normalizeSrsStage(stage);
 
   if (normalizedStage <= 0) {
-    return uiT("ui.not_started_6d54f9ec");
+    return "Not Started";
   }
 
   return getSrsStageLabel(Math.min(normalizedStage, 9));

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -33,7 +32,6 @@ function LessonThresholdInput({
   value: number;
   onChange: (value: number) => void;
 }) {
-  useInterfaceLanguage();
   const [draftValue, setDraftValue] = React.useState(String(value));
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -55,7 +53,7 @@ function LessonThresholdInput({
   return (
     <TextInput
       accessibilityLabel={accessibilityLabel}
-      accessibilityHint={uiT("ui.enter_zero_to_disable_this_limit_d6bee738")}
+      accessibilityHint="Enter zero to disable this limit"
       style={[styles.lessonThresholdInput, { borderColor, color: textColor }]}
       value={draftValue}
       onFocus={() => {
@@ -77,7 +75,6 @@ function LessonThresholdInput({
 }
 
 export function LessonSettingsSection() {
-  useInterfaceLanguage();
   const lessonSearchButtonEnabled = useSettingsStore(
     (state) => state.lessonSearchButtonEnabled,
   );
@@ -162,7 +159,8 @@ export function LessonSettingsSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.lesson_settings_665263b5")} </Text>
+          Lesson Settings
+        </Text>
         <AdvancedSettingsGroup grouped>
           <View>
             <View
@@ -174,14 +172,16 @@ export function LessonSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.lesson_batch_size_5675b8f2")} </SettingsLabel>
+                  Lesson Batch Size
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.number_of_items_per_lesson_batch_2_10_87144064")} </Text>
+                  Number of items per lesson batch (2-10)
+                </Text>
               </View>
               <View style={styles.batchSizeSelector}>
                 <TouchableOpacity
@@ -249,14 +249,16 @@ export function LessonSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.daily_lesson_limit_fc8fbcb3")} </SettingsLabel>
+                  Daily Lesson Limit
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.cap_lessons_per_day_in_your_device_timezone_88dd1c02")} </Text>
+                  Cap lessons per day in your device timezone
+                </Text>
               </View>
               <Switch
                 value={isDailyLessonLimitEnabled}
@@ -278,14 +280,15 @@ export function LessonSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.daily_limit_5a2f8b3d")} </SettingsLabel>
+                    Daily Limit
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.number_of_lessons_per_day_value_value_step_value_1a60b29c", {value1: (dailyLessonLimitMin), value2: (dailyLessonLimitMax), value3: (dailyLessonLimitStep)})}
+                    {`Number of lessons per day (${dailyLessonLimitMin}-${dailyLessonLimitMax}, step ${dailyLessonLimitStep})`}
                   </Text>
                 </View>
                 <View style={styles.batchSizeSelector}>
@@ -356,17 +359,20 @@ export function LessonSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.apprentice_lesson_threshold_620882cc")} </SettingsLabel>
+                  Apprentice Lesson Threshold
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.stop_offering_home_page_lessons_above_this_count_0_no_limit_7e80ee4d")} </Text>
+                  Stop offering home-page lessons above this count (0 = no
+                  limit)
+                </Text>
               </View>
               <LessonThresholdInput
-                accessibilityLabel={uiT("ui.apprentice_lesson_threshold_f75cff42")}
+                accessibilityLabel="Apprentice lesson threshold"
                 borderColor={theme.border}
                 textColor={theme.textColor}
                 value={apprenticeLessonThreshold}
@@ -382,17 +388,20 @@ export function LessonSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.guru_lesson_threshold_c5d4bece")} </SettingsLabel>
+                  Guru Lesson Threshold
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.stop_offering_home_page_lessons_above_this_count_0_no_limit_7e80ee4d")} </Text>
+                  Stop offering home-page lessons above this count (0 = no
+                  limit)
+                </Text>
               </View>
               <LessonThresholdInput
-                accessibilityLabel={uiT("ui.guru_lesson_threshold_5730babb")}
+                accessibilityLabel="Guru lesson threshold"
                 borderColor={theme.border}
                 textColor={theme.textColor}
                 value={guruLessonThreshold}
@@ -409,7 +418,8 @@ export function LessonSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  {uiT("ui.lesson_order_bed9fc2e")} </SettingsLabel>
+                  Lesson Order
+                </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
@@ -427,32 +437,32 @@ export function LessonSettingsSection() {
             </TouchableOpacity>
           </View>
           <SettingsDisclosure
-            title={uiT("ui.lesson_presentation_c8301635")}
-            description={uiT("ui.browsing_detail_layout_and_illustrations_c525f6aa")}
+            title="Lesson presentation"
+            description="Browsing, detail layout and illustrations"
             icon="lessons"
           >
             <AdvancedSetting>
               <SettingsChoiceCards
-                label={uiT("ui.lesson_picker_layout_e0e6af46")}
+                label="Lesson picker layout"
                 compact
                 value={lessonPickerViewMode}
                 theme={theme}
                 options={[
-                  { value: "cards", label: uiT("ui.cards_a52fcbbc"), art: "tiles" },
-                  { value: "list", label: uiT("ui.list_6f202f54"), art: "list" },
+                  { value: "cards", label: "Cards", art: "tiles" },
+                  { value: "list", label: "List", art: "list" },
                 ]}
                 onChange={setLessonPickerViewMode}
               />
             </AdvancedSetting>
             <AdvancedSetting>
               <SettingsChoiceCards
-                label={uiT("ui.lesson_detail_layout_6b74fa02")}
+                label="Lesson detail layout"
                 compact
                 value={singlePageLessonView ? "page" : "tabs"}
                 theme={theme}
                 options={[
-                  { value: "tabs", label: uiT("ui.tabs_8e5ea509"), art: "tabs" },
-                  { value: "page", label: uiT("ui.single_page_6c9b2e0e"), art: "page" },
+                  { value: "tabs", label: "Tabs", art: "tabs" },
+                  { value: "page", label: "Single page", art: "page" },
                 ]}
                 onChange={(value) => setSinglePageLessonView(value === "page")}
               />
@@ -470,14 +480,17 @@ export function LessonSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.mnemonic_illustrations_2ca37ec3")} </SettingsLabel>
+                    Mnemonic Illustrations
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.show_radical_mnemonic_images_in_subject_details_and_lesson_pages_658dff47")} </Text>
+                    Show radical mnemonic images in subject details and lesson
+                    pages
+                  </Text>
                 </View>
                 <Switch
                   value={showMnemonicIllustrations}
@@ -489,10 +502,10 @@ export function LessonSettingsSection() {
             </AdvancedSetting>
           </SettingsDisclosure>
           <SettingsDisclosure
-            title={uiT("ui.advanced_lesson_preferences_6bc516c9")}
-            description={uiT("ui.content_filters_quizzes_and_reminders_043924ac")}
+            title="Advanced lesson preferences"
+            description="Content filters, quizzes and reminders"
             icon="settings"
-            accessibilityLabel={uiT("ui.advanced_settings_7b0bd218")}
+            accessibilityLabel="Advanced settings"
           >
             <AdvancedSetting>
               <View
@@ -507,14 +520,16 @@ export function LessonSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.weekend_lesson_reminders_6c531722")} </SettingsLabel>
+                    Weekend Lesson Reminders
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.send_lesson_reminders_on_saturdays_and_sundays_93eb2c5f")} </Text>
+                    Send lesson reminders on Saturdays and Sundays
+                  </Text>
                 </View>
                 <Switch
                   value={dailyLessonReminderIncludeWeekends}
@@ -541,14 +556,16 @@ export function LessonSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.hide_kana_vocabulary_ec445f1b")} </SettingsLabel>
+                    Hide Kana Vocabulary
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.exclude_kana_vocabulary_from_lessons_and_lesson_counts_f2bfe6eb")} </Text>
+                    Exclude kana vocabulary from lessons and lesson counts
+                  </Text>
                 </View>
                 <Switch
                   value={excludeKanaVocabularyFromLessons}
@@ -571,17 +588,19 @@ export function LessonSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.lesson_search_button_6d2a2b2d")} </SettingsLabel>
+                    Lesson Search Button
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.search_from_lesson_cards_without_leaving_your_lesson_session_648deaaf")} </Text>
+                    Search from lesson cards without leaving your lesson session
+                  </Text>
                 </View>
                 <Switch
-                  accessibilityLabel={uiT("ui.lesson_search_button_6d2a2b2d")}
+                  accessibilityLabel="Lesson Search Button"
                   value={lessonSearchButtonEnabled}
                   onValueChange={setLessonSearchButtonEnabled}
                   trackColor={{ false: "#767577", true: theme.primary }}
@@ -602,14 +621,16 @@ export function LessonSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.skip_custom_lesson_quiz_d6d55140")} </SettingsLabel>
+                    Skip Custom Lesson Quiz
+                  </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.skip_the_quiz_step_in_custom_lessons_a653c9bb")} </Text>
+                    Skip the quiz step in custom lessons
+                  </Text>
                 </View>
                 <Switch
                   value={skipCustomLessonQuiz}

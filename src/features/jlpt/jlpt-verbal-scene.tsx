@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Svg, {
@@ -24,7 +23,6 @@ function Person({
   pose: Scene["speaker"]["pose"];
   color: string;
 }) {
-  useInterfaceLanguage();
   const x = xBySide[side];
   const toward = side === "left" ? 1 : -1;
   const armEnd =
@@ -81,7 +79,6 @@ function Person({
 }
 
 export function JlptVerbalScene({ scene }: { scene: Scene }) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const speakerX = xBySide[scene.speaker.side];
   const propX = scene.prop
@@ -96,7 +93,7 @@ export function JlptVerbalScene({ scene }: { scene: Scene }) {
     <View
       accessible
       accessibilityRole="image"
-      accessibilityLabel={uiT("ui.dynamic_0536dc82d30c", {value1: (scene.description)})}
+      accessibilityLabel={`${scene.description}. The arrow marks the next speaker.`}
       style={[
         styles.container,
         { borderColor: theme.border, backgroundColor: theme.backgroundColor },
@@ -175,7 +172,8 @@ export function JlptVerbalScene({ scene }: { scene: Scene }) {
         />
       </Svg>
       <Text style={[styles.caption, { color: theme.textSecondary }]}>
-        {uiT("ui.arrow_marks_the_person_who_will_speak_f2667343")} </Text>
+        Arrow marks the person who will speak.
+      </Text>
     </View>
   );
 }

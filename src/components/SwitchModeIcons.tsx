@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import React from "react";
 import Svg, { Circle, Path, Text as SvgText } from "react-native-svg";
 
@@ -10,7 +9,6 @@ type SwitchIconProps = {
 const BUNPRO_ICON_STROKE_WIDTH = 3;
 
 export function BunproSwitchIcon({ color, size = 22 }: SwitchIconProps) {
-  useInterfaceLanguage();
   return (
     <Svg width={size} height={size} viewBox="0 0 48 48" fill="none">
       <Circle
@@ -34,7 +32,6 @@ export function BunproSwitchIcon({ color, size = 22 }: SwitchIconProps) {
 }
 
 export function WanikaniSwitchIcon({ color, size = 22 }: SwitchIconProps) {
-  useInterfaceLanguage();
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <SvgText
@@ -46,7 +43,8 @@ export function WanikaniSwitchIcon({ color, size = 22 }: SwitchIconProps) {
         fontWeight="900"
         textAnchor="middle"
       >
-        {uiT("ui.wk_0ebb2504")} </SvgText>
+        WK
+      </SvgText>
     </Svg>
   );
 }

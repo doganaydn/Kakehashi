@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -26,7 +25,6 @@ export function SpotifyConnectionSetup({
   expanded: boolean;
   onToggle: () => void;
 }) {
-  useInterfaceLanguage();
   const {
     getSpotifyStatusLabel,
     handleSpotifyLogin,
@@ -62,7 +60,7 @@ export function SpotifyConnectionSetup({
     try {
       await Linking.openURL(url);
     } catch {
-      setError(uiT("ui.message_a7d7a79db6cc"));
+      setError("Could not open the browser. Please try again.");
     }
   };
 
@@ -73,7 +71,7 @@ export function SpotifyConnectionSetup({
     const nextClientId = remove ? "" : clientIdDraft.trim();
     if (!remove && !isSpotifyClientIdValid(nextClientId)) {
       setError(
-        uiT("ui.message_4c87969c3d65"),
+        "Enter the 32-character Client ID from your Spotify app’s Settings. Do not paste the Client Secret.",
       );
       return;
     }
@@ -104,7 +102,7 @@ export function SpotifyConnectionSetup({
     try {
       await handleSpotifyLogout();
     } catch {
-      setError(uiT("ui.message_103b64fb52a2"));
+      setError("Could not disconnect Spotify. Please try again.");
     }
   };
 
@@ -114,26 +112,28 @@ export function SpotifyConnectionSetup({
         style={setupStyles.disclosure}
         onPress={onToggle}
         accessibilityRole="button"
-        accessibilityLabel={uiT("ui.spotify_connection_settings_30824256")}
+        accessibilityLabel="Spotify connection settings"
         accessibilityState={{ expanded }}
       >
         <View style={setupStyles.disclosureText}>
-          <Text style={headingStyle}>{uiT("ui.spotify_connection_1e8002a4")}</Text>
+          <Text style={headingStyle}>Spotify connection</Text>
           <Text style={bodyStyle}>
             {spotifyClientId
               ? getSpotifyStatusLabel()
-              : uiT("ui.set_up_your_personal_spotify_app_to_connect_c1dffa34")}
+              : "Set up your personal Spotify app to connect."}
           </Text>
         </View>
         <Text style={linkStyle}>
-          {expanded ? uiT("ui.hide_ac20a57b") : spotifyClientId ? uiT("ui.manage_5a234448") : uiT("ui.set_up_4da10f1f")}
+          {expanded ? "Hide" : spotifyClientId ? "Manage" : "Set up"}
         </Text>
       </TouchableOpacity>
 
       {expanded && (
         <View style={setupStyles.content}>
           <Text style={bodyStyle}>
-            {uiT("ui.your_personal_client_id_connects_playlists_and_playback_song_sear_ccb9a4f0")} </Text>
+            Your personal Client ID connects playlists and playback. Song search
+            continues to work without this setup.
+          </Text>
 
           <TouchableOpacity
             onPress={() => setShowGuide((visible) => !visible)}
@@ -142,46 +142,63 @@ export function SpotifyConnectionSetup({
             accessibilityState={{ expanded: showGuide }}
           >
             <Text style={linkStyle}>
-              {showGuide ? uiT("ui.hide_setup_guide_6f9e7e49") : uiT("ui.show_setup_guide_df5af19c")}
+              {showGuide ? "Hide setup guide" : "Show setup guide"}
             </Text>
           </TouchableOpacity>
 
           {showGuide && (
             <View style={setupStyles.guide}>
               <View style={setupStyles.step}>
-                <Text style={headingStyle}>{uiT("ui.before_you_start_74e492d5")}</Text>
+                <Text style={headingStyle}>Before you start</Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.you_need_spotify_premium_on_the_account_that_owns_the_developer_a_31cb612d")} </Text>
+                  You need Spotify Premium on the account that owns the
+                  developer app. Premium must stay active for development mode
+                  and is also required for playback control.
+                </Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.install_spotify_and_sign_in_with_that_same_account_open_spotify_a_a988bd3c")} </Text>
+                  Install Spotify and sign in with that same account. Open
+                  Spotify and play a track before using playback in Kakehashi.
+                </Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.spotify_development_apps_allow_up_to_5_authorized_users_this_guid_95d14b50")} </Text>
+                  Spotify development apps allow up to 5 authorized users. This
+                  guide sets up an app for your own account.
+                </Text>
               </View>
 
               <View style={setupStyles.step}>
                 <Text style={headingStyle}>
-                  {uiT("ui.1_open_the_developer_dashboard_73c893f4")} </Text>
+                  1. Open the developer dashboard
+                </Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.sign_in_with_your_premium_spotify_account_and_accept_spotify_s_de_f6754cb7")} </Text>
+                  Sign in with your Premium Spotify account and accept Spotify’s
+                  developer terms if prompted.
+                </Text>
                 <TouchableOpacity
                   accessibilityRole="link"
                   style={setupStyles.textButton}
                   onPress={() => void openLink(SPOTIFY_DASHBOARD_URL)}
                 >
                   <Text style={linkStyle}>
-                    {uiT("ui.open_spotify_developer_dashboard_cc109654")} </Text>
+                    Open Spotify Developer Dashboard
+                  </Text>
                 </TouchableOpacity>
               </View>
 
               <View style={setupStyles.step}>
-                <Text style={headingStyle}>{uiT("ui.2_create_your_spotify_app_a8482501")}</Text>
+                <Text style={headingStyle}>2. Create your Spotify app</Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.choose_create_app_use_kakehashi_personal_as_the_app_name_and_pers_6885d313")} </Text>
+                  Choose Create app. Use “Kakehashi personal” as the app name
+                  and “Personal playlist access and playback” as the
+                  description. Select Web API when asked which API you will use.
+                </Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.add_this_exact_value_under_redirect_uris_choose_add_then_save_the_e1c72e4c")} </Text>
+                  Add this exact value under Redirect URIs, choose Add, then
+                  save the app. Long-press the address below to copy it. Every
+                  character must match, including the slashes.
+                </Text>
                 <Text
                   selectable
-                  accessibilityLabel={uiT("ui.dynamic_a11eceb5b70e", {value1: (spotifyRedirectUri)})}
+                  accessibilityLabel={`Spotify redirect URI: ${spotifyRedirectUri}`}
                   style={[
                     setupStyles.redirectUri,
                     {
@@ -196,26 +213,34 @@ export function SpotifyConnectionSetup({
               </View>
 
               <View style={setupStyles.step}>
-                <Text style={headingStyle}>{uiT("ui.3_copy_your_client_id_db4be48f")}</Text>
+                <Text style={headingStyle}>3. Copy your Client ID</Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.open_your_new_app_s_settings_and_copy_the_client_id_in_users_mana_2abd35e5")} </Text>
+                  Open your new app’s Settings and copy the Client ID. In Users
+                  Management, add your own Spotify account’s name and email if
+                  it is not already listed.
+                </Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.kakehashi_only_needs_the_client_id_the_client_secret_is_never_nee_c7175754")} </Text>
+                  Kakehashi only needs the Client ID. The Client Secret is never
+                  needed; keep it private.
+                </Text>
               </View>
 
               <View style={setupStyles.step}>
-                <Text style={headingStyle}>{uiT("ui.4_save_and_connect_e13b3522")}</Text>
+                <Text style={headingStyle}>4. Save and connect</Text>
                 <Text style={bodyStyle}>
-                  {uiT("ui.paste_your_client_id_below_and_tap_save_client_id_then_tap_connec_c094c18e")} </Text>
+                  Paste your Client ID below and tap Save Client ID. Then tap
+                  Connect Spotify, sign in with the same account, and approve
+                  the requested access.
+                </Text>
               </View>
             </View>
           )}
 
           <View style={setupStyles.step}>
-            <Text style={headingStyle}>{uiT("ui.client_id_8726db01")}</Text>
+            <Text style={headingStyle}>Client ID</Text>
             <TextInput
-              accessibilityLabel={uiT("ui.spotify_client_id_8426bbd3")}
-              placeholder={uiT("ui.paste_your_32_character_client_id_20a99e7e")}
+              accessibilityLabel="Spotify Client ID"
+              placeholder="Paste your 32-character Client ID"
               placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
@@ -238,8 +263,10 @@ export function SpotifyConnectionSetup({
               ]}
             />
             <Text style={bodyStyle}>
-              {uiT("ui.use_the_client_id_not_the_client_secret_it_is_saved_on_this_devic_167d8df5")} {spotifyClientId
-                ? uiT("ui.replacing_or_removing_it_disconnects_spotify_5c2cc103")
+              Use the Client ID, not the Client Secret. It is saved on this
+              device.
+              {spotifyClientId
+                ? " Replacing or removing it disconnects Spotify."
                 : ""}
             </Text>
           </View>
@@ -278,7 +305,8 @@ export function SpotifyConnectionSetup({
                 <Text
                   style={[setupStyles.buttonText, { color: theme.primary }]}
                 >
-                  {uiT("ui.save_client_id_53cc74ba")} </Text>
+                  Save Client ID
+                </Text>
               )}
             </TouchableOpacity>
             {!isConnected && (
@@ -306,7 +334,8 @@ export function SpotifyConnectionSetup({
                   <ActivityIndicator size="small" color="#fff" />
                 ) : (
                   <Text style={[setupStyles.buttonText, { color: "#fff" }]}>
-                    {uiT("ui.connect_spotify_f6e6c0da")} </Text>
+                    Connect Spotify
+                  </Text>
                 )}
               </TouchableOpacity>
             )}
@@ -314,7 +343,8 @@ export function SpotifyConnectionSetup({
 
           {hasUnsavedChanges && (
             <Text style={bodyStyle}>
-              {uiT("ui.save_your_client_id_before_connecting_980ea9ef")} </Text>
+              Save your Client ID before connecting.
+            </Text>
           )}
           {!!spotifyClientId && (
             <View style={setupStyles.actions}>
@@ -326,7 +356,7 @@ export function SpotifyConnectionSetup({
                   style={setupStyles.textButton}
                   onPress={() => void disconnect()}
                 >
-                  <Text style={linkStyle}>{uiT("ui.disconnect_spotify_79d1bd50")}</Text>
+                  <Text style={linkStyle}>Disconnect Spotify</Text>
                 </TouchableOpacity>
               )}
               <TouchableOpacity
@@ -337,7 +367,8 @@ export function SpotifyConnectionSetup({
                 onPress={() => void saveClientId(true)}
               >
                 <Text style={[setupStyles.link, { color: theme.error }]}>
-                  {uiT("ui.remove_client_id_ca663251")} </Text>
+                  Remove Client ID
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -349,35 +380,48 @@ export function SpotifyConnectionSetup({
             onPress={() => setShowTroubleshooting((visible) => !visible)}
           >
             <Text style={linkStyle}>
-              {showTroubleshooting ? uiT("ui.hide_troubleshooting_47887442") : uiT("ui.troubleshooting_c3af076f")}
+              {showTroubleshooting ? "Hide troubleshooting" : "Troubleshooting"}
             </Text>
           </TouchableOpacity>
           {showTroubleshooting && (
             <View style={setupStyles.guide}>
               <Text style={bodyStyle}>
-                {uiT("ui.invalid_redirect_uri_check_that_your_app_s_saved_redirect_uris_in_eccfe674")} </Text>
+                Invalid redirect URI: check that your app’s saved Redirect URIs
+                includes the exact address shown in step 2.
+              </Text>
               <Text style={bodyStyle}>
-                {uiT("ui.access_denied_check_the_saved_client_id_sign_in_with_the_account_f21d01c7")} </Text>
+                Access denied: check the saved Client ID, sign in with the
+                account listed in Users Management, and approve all requested
+                permissions.
+              </Text>
               <Text style={bodyStyle}>
-                {uiT("ui.premium_required_check_that_the_developer_app_owner_s_premium_sub_2da40811")} </Text>
+                Premium required: check that the developer app owner’s Premium
+                subscription is active and that you connect that same account.
+              </Text>
               <Text style={bodyStyle}>
-                {uiT("ui.playlist_will_not_import_spotify_development_apps_can_only_read_t_f14324a7")} </Text>
+                Playlist will not import: Spotify development apps can only read
+                tracks from playlists you own or collaborate on.
+              </Text>
               <Text style={bodyStyle}>
-                {uiT("ui.no_active_device_open_spotify_play_a_track_then_return_to_kakehas_2cb925bd")} </Text>
+                No active device: open Spotify, play a track, then return to
+                Kakehashi and try again. Keep Spotify signed in to the connected
+                account.
+              </Text>
               <TouchableOpacity
                 accessibilityRole="link"
                 style={setupStyles.textButton}
                 onPress={() => void openLink(SPOTIFY_DEVELOPMENT_MODE_URL)}
               >
                 <Text style={linkStyle}>
-                  {uiT("ui.spotify_development_mode_requirements_5f7b4781")} </Text>
+                  Spotify development mode requirements
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 accessibilityRole="link"
                 style={setupStyles.textButton}
                 onPress={() => void openLink(SPOTIFY_REDIRECT_URI_URL)}
               >
-                <Text style={linkStyle}>{uiT("ui.spotify_redirect_uri_help_996dd782")}</Text>
+                <Text style={linkStyle}>Spotify redirect URI help</Text>
               </TouchableOpacity>
             </View>
           )}

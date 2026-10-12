@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import {SettingsIcon as Ionicons} from "../../../ui/settings/settings-icon";
 import React from "react";
 
@@ -14,7 +13,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function AndroidVocabularyVoicePickerModal() {
-  useInterfaceLanguage();
   const {
     closeVocabularyAudioVoicePicker,
     getVocabularyAudioVoiceIconName,
@@ -61,7 +59,8 @@ export function AndroidVocabularyVoicePickerModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.vocabulary_audio_voice_bfc74eeb")} </Text>
+                    Vocabulary Audio Voice
+                  </Text>
 
                   {VOCABULARY_AUDIO_VOICE_OPTIONS.map((option) => {
                     const isSelected = vocabularyAudioVoice === option.value;
@@ -112,7 +111,8 @@ export function AndroidVocabularyVoicePickerModal() {
                         { color: theme.error },
                       ]}
                     >
-                      {uiT("ui.cancel_19766ed6")} </Text>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </TouchableWithoutFeedback>

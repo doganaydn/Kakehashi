@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -62,7 +61,6 @@ interface KanjiMatch {
 }
 
 export default function TextResultsScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const kanjiTextColor = getReadableTextColor(subjectColors.kanji);
@@ -208,7 +206,7 @@ export default function TextResultsScreen() {
           setJapaneseText(translated);
         } catch (err) {
           console.error("Translation error:", err);
-          setError(uiT("ui.message_9341525d2f65"));
+          setError("Failed to translate text. Please try again.");
           setIsLoading(false);
           setIsTranslating(false);
           return;
@@ -224,7 +222,7 @@ export default function TextResultsScreen() {
       await findMatches(textToAnalyze);
     } catch (err) {
       console.error("Error processing text:", err);
-      setError(uiT("ui.message_bdfa6ac0efd0"));
+      setError("Failed to process text. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -327,7 +325,7 @@ export default function TextResultsScreen() {
       setKanjiMatches(kanjiMatchesFound);
     } catch (err) {
       console.error("Error finding matches:", err);
-      setError(uiT("ui.message_40435a73d2df"));
+      setError("Failed to find vocabulary matches");
     }
   };
 
@@ -613,7 +611,7 @@ export default function TextResultsScreen() {
             </Text>
             <View style={styles.matchMetadata}>
               <Text style={[styles.levelText, { color: theme.textLight }]}>
-                {uiT("ui.level_1709305c")} {item.level}
+                Level {item.level}
               </Text>
             </View>
             {item.readings && item.readings.length > 0 && (
@@ -704,7 +702,7 @@ export default function TextResultsScreen() {
             </Text>
             <View style={styles.matchMetadata}>
               <Text style={[styles.levelText, { color: theme.textLight }]}>
-                {uiT("ui.level_1709305c")} {item.level}
+                Level {item.level}
               </Text>
             </View>
             {item.readings && item.readings.length > 0 && (
@@ -772,14 +770,15 @@ export default function TextResultsScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {uiT("ui.analyzing_34c196b4")} </Text>
+            Analyzing...
+          </Text>
         </View>
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           {/* Show input text with skeleton for translation/matches */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {isEnglishMode ? uiT("ui.input_translation_2918c76b") : uiT("ui.analyzed_text_8ec8bb35")}
+                {isEnglishMode ? "Input & Translation" : "Analyzed Text"}
               </Text>
             </View>
 
@@ -792,7 +791,7 @@ export default function TextResultsScreen() {
               {isEnglishMode && (
                 <View style={styles.originalTextWrapper}>
                   <View style={styles.languageBadge}>
-                    <Text style={styles.languageBadgeText}>{uiT("ui.en_69374b09")}</Text>
+                    <Text style={styles.languageBadgeText}>EN</Text>
                   </View>
                   <Text
                     style={[styles.originalInputText, { color: theme.textColor }]}
@@ -819,7 +818,7 @@ export default function TextResultsScreen() {
                 {isEnglishMode ? (
                   <View style={styles.japaneseTextWrapper}>
                     <View style={[styles.languageBadge, { backgroundColor: "#34C759" }]}>
-                      <Text style={styles.languageBadgeText}>{uiT("ui.ja_2c245768")}</Text>
+                      <Text style={styles.languageBadgeText}>JA</Text>
                     </View>
                     <View style={styles.skeletonTextContainer}>
                       <Animated.View
@@ -879,7 +878,8 @@ export default function TextResultsScreen() {
             <View style={styles.sectionHeader}>
               <View style={styles.sectionTitleRow}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.vocabulary_matches_e1a18c03")} </Text>
+                  Vocabulary Matches
+                </Text>
               </View>
             </View>
             <View style={styles.skeletonMatchesContainer}>
@@ -933,7 +933,8 @@ export default function TextResultsScreen() {
             <View style={styles.sectionHeader}>
               <View style={styles.sectionTitleRow}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.kanji_matches_35ac7b70")} </Text>
+                  Kanji Matches
+                </Text>
               </View>
             </View>
             <View style={styles.skeletonMatchesContainer}>
@@ -1002,7 +1003,8 @@ export default function TextResultsScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {uiT("ui.error_54a0e8c1")} </Text>
+            Error
+          </Text>
         </View>
         <View style={styles.errorContainer}>
           <Ionicons name="alert-circle-outline" size={64} color={theme.error} />
@@ -1012,7 +1014,7 @@ export default function TextResultsScreen() {
             onPress={handleNewSearch}
             activeOpacity={0.7}
           >
-            <Text style={styles.retryButtonText}>{uiT("ui.try_again_df0fe9e0")}</Text>
+            <Text style={styles.retryButtonText}>Try Again</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -1033,7 +1035,8 @@ export default function TextResultsScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.results_219c4a6c")} </Text>
+          Results
+        </Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
             style={styles.headerButton}
@@ -1065,7 +1068,7 @@ export default function TextResultsScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {isEnglishMode ? uiT("ui.input_translation_2918c76b") : uiT("ui.analyzed_text_8ec8bb35")}
+              {isEnglishMode ? "Input & Translation" : "Analyzed Text"}
             </Text>
           </View>
 
@@ -1078,7 +1081,7 @@ export default function TextResultsScreen() {
             {isEnglishMode && (
               <View style={styles.originalTextWrapper}>
                 <View style={styles.languageBadge}>
-                  <Text style={styles.languageBadgeText}>{uiT("ui.en_69374b09")}</Text>
+                  <Text style={styles.languageBadgeText}>EN</Text>
                 </View>
                 <Text
                   style={[styles.originalInputText, { color: theme.textColor }]}
@@ -1091,7 +1094,7 @@ export default function TextResultsScreen() {
             <View style={styles.japaneseTextWrapper}>
               {isEnglishMode && (
                 <View style={[styles.languageBadge, { backgroundColor: "#34C759" }]}>
-                  <Text style={styles.languageBadgeText}>{uiT("ui.ja_2c245768")}</Text>
+                  <Text style={styles.languageBadgeText}>JA</Text>
                 </View>
               )}
               <View style={styles.textWithAudio}>
@@ -1126,7 +1129,8 @@ export default function TextResultsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.translating_f21771ab")} </Text>
+                      Translating...
+                    </Text>
                   </View>
                 ) : translation ? (
                   <Text
@@ -1152,7 +1156,8 @@ export default function TextResultsScreen() {
           >
             <View style={styles.sectionTitleRow}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.vocabulary_matches_e1a18c03")} </Text>
+                Vocabulary Matches
+              </Text>
               {vocabularyMatches.length > 0 && (
                 <View
                   style={[
@@ -1189,7 +1194,8 @@ export default function TextResultsScreen() {
                 <Text
                   style={[styles.emptyText, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.no_vocabulary_matches_found_70e11543")} </Text>
+                  No vocabulary matches found
+                </Text>
               </View>
             ) : (
               <View style={styles.matchList}>
@@ -1215,7 +1221,8 @@ export default function TextResultsScreen() {
           >
             <View style={styles.sectionTitleRow}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.kanji_matches_35ac7b70")} </Text>
+                Kanji Matches
+              </Text>
               {kanjiMatches.length > 0 && (
                 <View
                   style={[
@@ -1252,7 +1259,8 @@ export default function TextResultsScreen() {
                 <Text
                   style={[styles.emptyText, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.no_kanji_matches_found_2365630e")} </Text>
+                  No kanji matches found
+                </Text>
               </View>
             ) : (
               <View style={styles.matchList}>

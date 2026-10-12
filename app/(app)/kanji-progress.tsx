@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { FlashList } from "@shopify/flash-list";
@@ -39,7 +38,6 @@ type KanjiData = {
 };
 
 export default function KanjiProgressScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const params = useLocalSearchParams();
   const { dashboardData, isLoading } = useDashboardData();
@@ -356,7 +354,6 @@ export default function KanjiProgressScreen() {
 
   // Header Component (Segmented Control + Stats)
   const ListHeader = useMemo(() => {
-  useInterfaceLanguage();
     // Stats colors
     const passedColor = theme.isDark ? "#27ae60" : "#219653";
     const learningColor = theme.isDark ? "#e67e22" : "#d35400";
@@ -409,7 +406,8 @@ export default function KanjiProgressScreen() {
         >
           <View style={styles.overviewHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {getCategoryTitle()} {uiT("ui.stats_b4a73657")} </Text>
+              {getCategoryTitle()} Stats
+            </Text>
           </View>
 
           {/* Main Progression Bar */}
@@ -478,7 +476,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.legendLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.learned_04b2612f")} </Text>
+                Learned
+              </Text>
             </View>
             <View style={styles.legendItem}>
               <View
@@ -487,7 +486,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.legendLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.learning_8b45bb20")} </Text>
+                Learning
+              </Text>
             </View>
             <View style={styles.legendItem}>
               <View
@@ -496,7 +496,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.legendLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.locked_a424e33d")} </Text>
+                Locked
+              </Text>
             </View>
             <View style={styles.legendItem}>
               <View
@@ -505,7 +506,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.legendLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.not_in_wk_2aeb90f1")} </Text>
+                Not in WK
+              </Text>
             </View>
           </View>
 
@@ -514,7 +516,8 @@ export default function KanjiProgressScreen() {
           <Text
             style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
           >
-            {uiT("ui.srs_levels_730a8a7e")} </Text>
+            SRS Levels
+          </Text>
 
           {/* SRS Legend */}
           <View style={styles.legendRow}>
@@ -528,7 +531,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.legendLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.appr_8b51b0fd")} </Text>
+                Appr.
+              </Text>
             </View>
             <View style={styles.legendItem}>
               <View
@@ -566,7 +570,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.legendLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.enlight_3127a487")} </Text>
+                Enlight.
+              </Text>
             </View>
             <View style={styles.legendItem}>
               <View
@@ -591,7 +596,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.statGridLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.pass_rate_5a05aeca")} </Text>
+                Pass Rate
+              </Text>
               <Text style={[styles.statGridValue, { color: theme.textColor }]}>
                 {stats.learnedPercent}%
               </Text>
@@ -600,7 +606,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.statGridLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.total_c9b3c382")} </Text>
+                Total
+              </Text>
               <Text style={[styles.statGridValue, { color: theme.textColor }]}>
                 {stats.total}
               </Text>
@@ -609,7 +616,8 @@ export default function KanjiProgressScreen() {
               <Text
                 style={[styles.statGridLabel, { color: theme.textSecondary }]}
               >
-                {uiT("ui.coverage_523487a5")} </Text>
+                Coverage
+              </Text>
               <Text style={[styles.statGridValue, { color: theme.textColor }]}>
                 {stats.coveragePercent}%
               </Text>
@@ -618,7 +626,7 @@ export default function KanjiProgressScreen() {
         </View>
       </View>
     );
-  }, [theme, stats, selectedIndex, selectedSubLevel, interfaceLocale()]);
+  }, [theme, stats, selectedIndex, selectedSubLevel]);
 
   if (!category || !level) {
     return (
@@ -626,7 +634,8 @@ export default function KanjiProgressScreen() {
         style={[styles.container, { backgroundColor: theme.backgroundColor }]}
       >
         <Text style={[styles.errorText, { color: theme.error }]}>
-          {uiT("ui.invalid_parameters_4fcab85b")} </Text>
+          Invalid parameters
+        </Text>
       </View>
     );
   }
@@ -661,7 +670,8 @@ export default function KanjiProgressScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.loading_kanji_data_6ce4381e")} </Text>
+            Loading kanji data...
+          </Text>
         </View>
       ) : kanjiData.length > 0 ? (
         <FlashList
@@ -680,7 +690,7 @@ export default function KanjiProgressScreen() {
       ) : (
         <View style={styles.loadingContainer}>
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            {uiT("ui.no_kanji_data_available_for_00369509")} {getSubLevelLabel(selectedSubLevel)}
+            No kanji data available for {getSubLevelLabel(selectedSubLevel)}
           </Text>
         </View>
       )}

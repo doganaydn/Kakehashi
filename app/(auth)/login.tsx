@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { LinearGradient } from "expo-linear-gradient";
@@ -46,7 +45,6 @@ const LOGIN_METHOD_LABELS: Record<LoginMethod, string> = {
 };
 
 export default function Login() {
-  useInterfaceLanguage();
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("token");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [email, setEmail] = useState("");
@@ -213,7 +211,7 @@ export default function Login() {
 
   const handleEmailLogin = async () => {
     if (!email.trim() || !password.trim()) {
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_enter_both_email_and_password_46f1fb1e"));
+      Alert.alert("Error", "Please enter both email and password");
       return;
     }
 
@@ -246,8 +244,8 @@ export default function Login() {
         // Navigation is handled by AuthContext
       } else {
         Alert.alert(
-          uiT("ui.error_54a0e8c1"),
-          uiT("ui.login_succeeded_but_api_token_is_invalid_please_try_again_4c6e7a8e"),
+          "Error",
+          "Login succeeded but API token is invalid. Please try again.",
         );
       }
     } catch (error: any) {
@@ -275,7 +273,7 @@ export default function Login() {
         }
       }
 
-      Alert.alert(uiT("ui.error_54a0e8c1"), errorMessage);
+      Alert.alert("Error", errorMessage);
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -284,7 +282,7 @@ export default function Login() {
 
   const handleTokenLogin = async () => {
     if (!apiToken.trim()) {
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_enter_your_api_token_a1829bc4"));
+      Alert.alert("Error", "Please enter your API token");
       return;
     }
 
@@ -306,10 +304,10 @@ export default function Login() {
 
         // Navigation is handled by AuthContext
       } else {
-        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.invalid_api_token_please_check_and_try_again_b25130f1"));
+        Alert.alert("Error", "Invalid API token. Please check and try again.");
       }
     } catch (error) {
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_authenticate_please_try_again_later_dd224bfe"));
+      Alert.alert("Error", "Failed to authenticate. Please try again later.");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -419,13 +417,13 @@ export default function Login() {
               >
                 {loginMethod === "email" ? (
                   <>
-                    <Text style={styles.label}>{uiT("ui.email_969ccbd3")}</Text>
+                    <Text style={styles.label}>Email</Text>
                     <TextInput
                       style={styles.input}
                       defaultValue={email}
                       onChangeText={setEmail}
                       onFocus={syncAndroidKeyboardMetrics}
-                      placeholder={uiT("ui.enter_your_email_2837f6fa")}
+                      placeholder="Enter your email"
                       placeholderTextColor="#999"
                       autoCapitalize="none"
                       keyboardType="email-address"
@@ -436,7 +434,7 @@ export default function Login() {
                       onSubmitEditing={() => passwordInputRef.current?.focus()}
                     />
 
-                    <Text style={styles.label}>{uiT("ui.password_e7cf3ef4")}</Text>
+                    <Text style={styles.label}>Password</Text>
                     <View style={styles.passwordContainer}>
                       <TextInput
                         ref={passwordInputRef}
@@ -444,7 +442,7 @@ export default function Login() {
                         defaultValue={password}
                         onChangeText={setPassword}
                         onFocus={syncAndroidKeyboardMetrics}
-                        placeholder={uiT("ui.enter_your_password_c06bf967")}
+                        placeholder="Enter your password"
                         placeholderTextColor="#999"
                         secureTextEntry={!showPassword}
                         autoCapitalize="none"
@@ -468,13 +466,13 @@ export default function Login() {
                   </>
                 ) : (
                   <>
-                    <Text style={styles.label}>{uiT("ui.api_token_c85b0e36")}</Text>
+                    <Text style={styles.label}>API Token</Text>
                     <TextInput
                       style={styles.input}
                       defaultValue={apiToken}
                       onChangeText={setApiToken}
                       onFocus={syncAndroidKeyboardMetrics}
-                      placeholder={uiT("ui.paste_your_api_token_here_eb20ca18")}
+                      placeholder="Paste your API token here"
                       placeholderTextColor="#999"
                       secureTextEntry
                       autoCapitalize="none"
@@ -493,7 +491,7 @@ export default function Login() {
                   {isLoading ? (
                     <ActivityIndicator color="white" />
                   ) : (
-                    <Text style={styles.buttonText}>{uiT("ui.login_9d6322c1")}</Text>
+                    <Text style={styles.buttonText}>Login</Text>
                   )}
                 </TouchableOpacity>
 
@@ -503,8 +501,8 @@ export default function Login() {
                 >
                   <Text style={styles.linkText}>
                     {loginMethod === "token"
-                      ? uiT("ui.get_your_api_token_from_wanikani_settings_9cc50f8d")
-                      : uiT("ui.or_get_your_api_token_from_wanikani_settings_6f8f4a5a")}
+                      ? "Get your API token from WaniKani settings"
+                      : "Or get your API token from WaniKani settings"}
                   </Text>
                 </TouchableOpacity>
               </Animated.View>
@@ -514,7 +512,7 @@ export default function Login() {
               onPress={() => setShowPrivacyPolicy(true)}
               style={styles.privacyLink}
             >
-              <Text style={styles.privacyLinkText}>{uiT("ui.privacy_policy_506ff394")}</Text>
+              <Text style={styles.privacyLinkText}>Privacy Policy</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </ScrollView>

@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -12,7 +11,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function ReadingDefaultsSection() {
-  useInterfaceLanguage();
   const {
     handleBlockedFullModeSelection,
     hasStoredJpdbApiKey,
@@ -53,7 +51,8 @@ export function ReadingDefaultsSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.reading_defaults_df5e164d")} </Text>
+          Reading Defaults
+        </Text>
 
         <View
           style={[
@@ -75,16 +74,18 @@ export function ReadingDefaultsSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.nhk_news_default_view_ec3e90f6")} </SettingsLabel>
+                NHK News Default View
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.pick_the_study_mode_that_opens_first_in_news_articles_b995f06d")} </Text>
+                Pick the study mode that opens first in News articles.
+              </Text>
             </View>
           </View>
           <SettingsChoiceCards
             compact
-            label={uiT("ui.news_study_mode_c13f8527")}
+            label="News study mode"
             value={newsDefaultStudyMode}
             theme={theme}
             options={STUDY_MODE_DEFAULT_OPTIONS.map((option) => ({
@@ -121,11 +122,14 @@ export function ReadingDefaultsSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.hide_furigana_by_default_27a81862")} </SettingsLabel>
+              Hide Furigana by Default
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.start_news_articles_without_furigana_when_no_study_mode_is_select_72596f1d")} </Text>
+              Start News articles without furigana when No Study Mode is
+              selected.
+            </Text>
           </View>
           <Switch
             value={hideNewsFuriganaByDefault}
@@ -150,11 +154,13 @@ export function ReadingDefaultsSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.hide_meaning_in_tooltips_7f8fe39b")} </SettingsLabel>
+              Hide meaning in tooltips
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.tap_the_meaning_row_in_reader_vocabulary_tooltips_to_reveal_it_500a3661")} </Text>
+              Tap the meaning row in reader vocabulary tooltips to reveal it.
+            </Text>
           </View>
           <Switch
             value={hideVocabularyTooltipMeanings}
@@ -179,11 +185,13 @@ export function ReadingDefaultsSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.hide_reading_in_tooltips_3b1b0707")} </SettingsLabel>
+              Hide reading in tooltips
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.tap_the_reading_row_in_reader_vocabulary_tooltips_to_reveal_it_d3ceb054")} </Text>
+              Tap the reading row in reader vocabulary tooltips to reveal it.
+            </Text>
           </View>
           <Switch
             value={hideVocabularyTooltipReadings}
@@ -210,16 +218,18 @@ export function ReadingDefaultsSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.song_lyrics_default_view_d78b3a75")} </SettingsLabel>
+                Song Lyrics Default View
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.pick_the_default_study_mode_for_lyric_lines_711a4ac1")} </Text>
+                Pick the default study mode for lyric lines.
+              </Text>
             </View>
           </View>
           <SettingsChoiceCards
             compact
-            label={uiT("ui.song_lyrics_study_mode_ce0d8e4c")}
+            label="Song lyrics study mode"
             value={songsLyricsDefaultStudyMode}
             theme={theme}
             options={SONG_LYRICS_STUDY_MODE_DEFAULT_OPTIONS.map((option) => ({

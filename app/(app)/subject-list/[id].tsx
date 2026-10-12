@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { useLearningDisplay } from "../../../src/features/turkish-content/display";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
@@ -82,7 +81,7 @@ const DEFAULT_ACTIVE_SRS_STAGES = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 const SELECTED_SUBJECT_SORT_SECTIONS = [
   {
     id: "sortMode",
-    get title() { return uiT("ui.sort_by_c9129025"); },
+    title: "Sort by",
     options: SUBJECT_LIST_ITEM_SORT_OPTIONS,
   },
 ];
@@ -97,7 +96,6 @@ function setsEqual(a: Set<number>, b: Set<number>): boolean {
 }
 
 export default function SubjectListEditorScreen() {
-  useInterfaceLanguage();
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { apiToken } = useAuthStore();
@@ -190,9 +188,9 @@ export default function SubjectListEditorScreen() {
       const lists = await getSubjectLists();
       const found = lists.find((entry) => entry.id === id);
       if (!found) {
-        Alert.alert(uiT("ui.list_not_found_b674f8c2"), uiT("ui.this_list_may_have_been_deleted_efe610a8"), [
+        Alert.alert("List not found", "This list may have been deleted.", [
           {
-            text: uiT("ui.ok_565339bc"),
+            text: "OK",
             onPress: () => router.back(),
           },
         ]);
@@ -207,8 +205,8 @@ export default function SubjectListEditorScreen() {
       setActionSubjectIds(new Set());
     } catch (error) {
       console.error("Failed to load subject list:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_this_list_0a32421f"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to load this list.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     } finally {
       setIsLoadingList(false);
@@ -291,7 +289,7 @@ export default function SubjectListEditorScreen() {
       setCacheRebuildProgress(100);
     } catch (error) {
       console.error("Failed to rebuild cache for list editor:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_download_subject_data_please_try_again_3e33c4ac"));
+      Alert.alert("Error", "Failed to download subject data. Please try again.");
     } finally {
       setTimeout(() => {
         setIsRebuildingCache(false);
@@ -561,7 +559,6 @@ export default function SubjectListEditorScreen() {
   };
 
   const SubjectRadicalCharacter = ({ item }: { item: Subject }) => {
-  useInterfaceLanguage();
     const bestImg = pickBestImage(item.data.character_images || undefined);
     const svgUrl = bestImg?.type === "svg" ? bestImg.url : null;
     const svgXml = useRemoteSvg(svgUrl, "#ffffff");
@@ -640,7 +637,7 @@ export default function SubjectListEditorScreen() {
       return true;
     } catch (error) {
       console.error("Failed to save list:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_save_list_changes_0c41682d"));
+      Alert.alert("Error", "Failed to save list changes.");
       return false;
     } finally {
       setIsSaving(false);
@@ -681,8 +678,8 @@ export default function SubjectListEditorScreen() {
 
     if (transferredCount === 0) {
       Alert.alert(
-        uiT("ui.nothing_transferred_41d853e2"),
-        uiT("ui.those_subjects_are_no_longer_available_in_the_source_list_e5073428")
+        "Nothing Transferred",
+        "Those subjects are no longer available in the source list."
       );
       return;
     }
@@ -690,15 +687,15 @@ export default function SubjectListEditorScreen() {
     const subjectLabel = transferredCount === 1 ? "subject" : "subjects";
     if (result.mode === "move") {
       Alert.alert(
-        uiT("ui.subjects_moved_92d7bec8"),
-        uiT("ui.value_value_moved_to_value_b533c7e9", {value1: (transferredCount), value2: (subjectLabel), value3: (result.destinationList.name)})
+        "Subjects Moved",
+        `${transferredCount} ${subjectLabel} moved to "${result.destinationList.name}".`
       );
       return;
     }
 
     Alert.alert(
-      uiT("ui.subjects_copied_fd8ad623"),
-      uiT("ui.value_value_are_now_in_value_e06e8ea6", {value1: (transferredCount), value2: (subjectLabel), value3: (result.destinationList.name)})
+      "Subjects Copied",
+      `${transferredCount} ${subjectLabel} are now in "${result.destinationList.name}".`
     );
   };
 
@@ -724,8 +721,8 @@ export default function SubjectListEditorScreen() {
     }
     if (selectedKanjiIds.length < 2) {
       Alert.alert(
-        uiT("ui.select_more_kanji_c48b1b6c"),
-        uiT("ui.choose_at_least_two_kanji_to_start_a_matching_review_c04330df"),
+        "Select More Kanji",
+        "Choose at least two kanji to start a matching review.",
       );
       return;
     }
@@ -815,12 +812,12 @@ export default function SubjectListEditorScreen() {
   const handleDelete = () => {
     if (!list) return;
     Alert.alert(
-      uiT("ui.delete_list_ed620ecf"),
-      uiT("ui.delete_value_this_won_t_delete_any_subjects_6eaa3150", {value1: (list.name)}),
+      "Delete List",
+      `Delete "${list.name}"? This won't delete any subjects.`,
       [
-        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
-          text: uiT("ui.delete_e2d0a549"),
+          text: "Delete",
           style: "destructive",
           onPress: async () => {
             const deleted = await deleteSubjectList(list.id);
@@ -853,7 +850,7 @@ export default function SubjectListEditorScreen() {
     try {
       const renamed = await renameSubjectList(list.id, targetName);
       if (!renamed) {
-        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.could_not_rename_this_list_679a3d0c"));
+        Alert.alert("Error", "Could not rename this list.");
         return;
       }
 
@@ -863,7 +860,7 @@ export default function SubjectListEditorScreen() {
       setIsRenameModalVisible(false);
     } catch (error) {
       console.error("Failed to rename list:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_rename_this_list_a8239229"));
+      Alert.alert("Error", "Failed to rename this list.");
     } finally {
       setIsRenaming(false);
     }
@@ -871,21 +868,21 @@ export default function SubjectListEditorScreen() {
 
   const openHeaderMenu = () => {
     const actions: Parameters<typeof Alert.alert>[2] = [
-      { text: uiT("ui.sort_items_41e38107"), onPress: handleOpenSelectedSort },
-      { text: uiT("ui.rename_3064d79a"), onPress: handleStartRename },
+      { text: "Sort Items", onPress: handleOpenSelectedSort },
+      { text: "Rename", onPress: handleStartRename },
     ];
 
     if (selectedSubjectIds.size > 0) {
       actions.push({
-        text: uiT("ui.remove_all_from_list_e379a80e"),
+        text: "Remove All From List",
         style: "destructive",
         onPress: clearSelection,
       });
     }
 
     actions.push(
-      { text: uiT("ui.delete_e2d0a549"), style: "destructive", onPress: handleDelete },
-      { text: uiT("ui.cancel_19766ed6"), style: "cancel" }
+      { text: "Delete", style: "destructive", onPress: handleDelete },
+      { text: "Cancel", style: "cancel" }
     );
 
     Alert.alert(listName || "List options", undefined, actions);
@@ -896,9 +893,9 @@ export default function SubjectListEditorScreen() {
       router.back();
       return;
     }
-    Alert.alert(uiT("ui.discard_changes_85bcf416"), uiT("ui.you_have_unsaved_changes_in_this_list_fa09d692"), [
-      { text: uiT("ui.keep_editing_624a83c7"), style: "cancel" },
-      { text: uiT("ui.discard_eb1a70e3"), style: "destructive", onPress: () => router.back() },
+    Alert.alert("Discard changes?", "You have unsaved changes in this list.", [
+      { text: "Keep Editing", style: "cancel" },
+      { text: "Discard", style: "destructive", onPress: () => router.back() },
     ]);
   };
 
@@ -981,7 +978,7 @@ export default function SubjectListEditorScreen() {
     return (
       <TouchableOpacity
         accessibilityRole="checkbox"
-        accessibilityLabel={uiT("ui.dynamic_e8982bd8409f", {value1: (display.meaning(item, "—"))})}
+        accessibilityLabel={`Select ${display.meaning(item, "—")} for list actions`}
         accessibilityState={{ checked: isActionSelected, disabled: isSaving }}
         disabled={isSaving}
         onPress={() => toggleActionSubject(item.id)}
@@ -1051,7 +1048,8 @@ export default function SubjectListEditorScreen() {
       <View style={[styles.loadingContainer, { backgroundColor: theme.backgroundColor }]}>
         <ActivityIndicator size="large" color={theme.primary} />
         <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-          {uiT("ui.loading_list_b4aeb78f")} </Text>
+          Loading list...
+        </Text>
       </View>
     );
   }
@@ -1071,10 +1069,12 @@ export default function SubjectListEditorScreen() {
               style={[styles.headerTitle, { color: theme.textColor }]}
               numberOfLines={1}
             >
-              {listName.trim() || uiT("ui.untitled_list_5fdf8e8c")}
+              {listName.trim() || "Untitled List"}
             </Text>
             <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
-              {selectedSubjectIds.size} {uiT("ui.item_4a33eacd")} {uiPluralSuffix(selectedSubjectIds.size === 1 ? "" : "s")} {uiT("ui.in_list_43c5d9b6")} </Text>
+              {selectedSubjectIds.size} item
+              {selectedSubjectIds.size === 1 ? "" : "s"} in list
+            </Text>
           </View>
           <View style={styles.headerActions}>
             <SubjectListStudyMenu
@@ -1108,25 +1108,25 @@ export default function SubjectListEditorScreen() {
                   }
                 >
                   <SwiftUI.Button
-                    label={uiT("ui.sort_items_41e38107")}
+                    label="Sort Items"
                     systemImage="arrow.up.arrow.down"
                     onPress={handleOpenSelectedSort}
                   />
                   {selectedSubjectIds.size > 0 ? (
                     <SwiftUI.Button
-                      label={uiT("ui.remove_all_from_list_e379a80e")}
+                      label="Remove All From List"
                       systemImage="trash.slash"
                       role="destructive"
                       onPress={clearSelection}
                     />
                   ) : null}
                   <SwiftUI.Button
-                    label={uiT("ui.rename_3064d79a")}
+                    label="Rename"
                     systemImage="pencil"
                     onPress={handleStartRename}
                   />
                   <SwiftUI.Button
-                    label={uiT("ui.delete_e2d0a549")}
+                    label="Delete"
                     systemImage="trash"
                     role="destructive"
                     onPress={handleDelete}
@@ -1171,7 +1171,8 @@ export default function SubjectListEditorScreen() {
                 { color: activeTab === "browse" ? theme.primary : theme.textSecondary },
               ]}
             >
-              {uiT("ui.browse_3227aa96")} </Text>
+              Browse
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -1190,7 +1191,7 @@ export default function SubjectListEditorScreen() {
                 { color: activeTab === "selected" ? theme.primary : theme.textSecondary },
               ]}
             >
-              {uiT("ui.in_list_7445a9d7")}{selectedSubjectIds.size})
+              In List ({selectedSubjectIds.size})
             </Text>
           </TouchableOpacity>
         </View>
@@ -1232,7 +1233,7 @@ export default function SubjectListEditorScreen() {
             onPress={() => setShowFilters(true)}
             accessibilityRole="button"
             accessibilityLabel={filters.vocabularyTypes.length > 0
-              ? uiT("ui.dynamic_449982eb8a98", {value1: (filters.vocabularyTypes.length)})
+              ? `Filters, ${filters.vocabularyTypes.length} vocabulary types selected`
               : "Filters"}
           >
             <Ionicons name="options" size={20} color={filters.vocabularyTypes.length > 0 ? theme.primary : theme.textSecondary} />
@@ -1262,16 +1263,16 @@ export default function SubjectListEditorScreen() {
               <Text style={[styles.bulkActionText, { color: theme.textSecondary }]}>
                 {allMatchingSelected
                   ? hasActiveFilters
-                    ? uiT("ui.deselect_filtered_a8aa8ae5")
-                    : uiT("ui.deselect_all_5cd261bc")
+                    ? "Deselect Filtered"
+                    : "Deselect All"
                   : hasActiveFilters
-                    ? uiT("ui.select_filtered_082e1daa")
-                    : uiT("ui.select_all_d1ec69e6")}
+                    ? "Select Filtered"
+                    : "Select All"}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              accessibilityLabel={uiT("ui.dynamic_077b99cf9e24", {value1: (selectedSubjectIds.size)})}
+              accessibilityLabel={`Transfer all ${selectedSubjectIds.size} subjects in this list`}
               accessibilityRole="button"
               accessibilityState={{
                 disabled: selectedSubjectIds.size === 0 || isSaving,
@@ -1291,7 +1292,8 @@ export default function SubjectListEditorScreen() {
                 color={theme.textSecondary}
               />
               <Text style={[styles.bulkActionText, { color: theme.textSecondary }]}>
-                {uiT("ui.transfer_list_80795bdb")} </Text>
+                Transfer List
+              </Text>
             </TouchableOpacity>
 
           </View>
@@ -1299,7 +1301,8 @@ export default function SubjectListEditorScreen() {
           <View style={styles.listActions}>
             <View style={styles.selectionSummary}>
               <Text style={[styles.selectionCount, { color: theme.textSecondary }]}>
-                {selectedActionSubjectIds.length} {uiT("ui.selected_d7cbbb68")} </Text>
+                {selectedActionSubjectIds.length} selected
+              </Text>
               <TouchableOpacity
                 accessibilityRole="button"
                 accessibilityState={{ disabled: matchingListSubjects.length === 0 || isSaving }}
@@ -1309,15 +1312,15 @@ export default function SubjectListEditorScreen() {
               >
                 <Text style={[styles.selectionCount, { color: theme.primary }]}>
                   {allMatchingActionSelected
-                    ? hasListFilters ? uiT("ui.deselect_filtered_a8aa8ae5") : uiT("ui.deselect_all_5cd261bc")
-                    : hasListFilters ? uiT("ui.select_filtered_082e1daa") : uiT("ui.select_all_d1ec69e6")}
+                    ? hasListFilters ? "Deselect Filtered" : "Deselect All"
+                    : hasListFilters ? "Select Filtered" : "Select All"}
                 </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.selectedActionsRow}>
               <TouchableOpacity
                 accessibilityRole="button"
-                accessibilityLabel={uiT("ui.remove_selected_subjects_from_this_list_94fac157")}
+                accessibilityLabel="Remove selected subjects from this list"
                 accessibilityState={{ disabled: selectedActionSubjectIds.length === 0 || isSaving }}
                 disabled={selectedActionSubjectIds.length === 0 || isSaving}
                 onPress={removeSelectedSubjects}
@@ -1328,11 +1331,11 @@ export default function SubjectListEditorScreen() {
                 ]}
               >
                 <Ionicons name="remove-circle-outline" size={18} color={theme.error} />
-                <Text style={[styles.bulkActionText, { color: theme.error }]}>{uiT("ui.remove_selected_859af8fa")}</Text>
+                <Text style={[styles.bulkActionText, { color: theme.error }]}>Remove Selected</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 accessibilityRole="button"
-                accessibilityLabel={uiT("ui.transfer_selected_subjects_to_another_list_2fa29202")}
+                accessibilityLabel="Transfer selected subjects to another list"
                 accessibilityState={{ disabled: selectedActionSubjectIds.length === 0 || isSaving }}
                 disabled={selectedActionSubjectIds.length === 0 || isSaving}
                 onPress={() => void handleOpenTransfer(selectedActionSubjectIds)}
@@ -1343,7 +1346,7 @@ export default function SubjectListEditorScreen() {
                 ]}
               >
                 <Ionicons name="swap-horizontal-outline" size={18} color={theme.primary} />
-                <Text style={[styles.bulkActionText, { color: theme.primary }]}>{uiT("ui.transfer_selected_19386b3f")}</Text>
+                <Text style={[styles.bulkActionText, { color: theme.primary }]}>Transfer Selected</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1353,29 +1356,34 @@ export default function SubjectListEditorScreen() {
           <View style={styles.centerState}>
             <ActivityIndicator size="large" color={theme.primary} />
             <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-              {uiT("ui.loading_subjects_b7f62111")} </Text>
+              Loading subjects...
+            </Text>
           </View>
         ) : isCacheMissing && !isRebuildingCache ? (
           <View style={styles.centerState}>
             <Ionicons name="warning-outline" size={56} color={theme.textSecondary} />
             <Text style={[styles.centerStateTitle, { color: theme.textColor }]}>
-              {uiT("ui.data_missing_c8d62ff7")} </Text>
+              Data Missing
+            </Text>
             <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>
-              {uiT("ui.subject_data_is_missing_download_it_to_edit_this_list_2c604df5")} </Text>
+              Subject data is missing. Download it to edit this list.
+            </Text>
             <TouchableOpacity
               style={[styles.downloadButton, { backgroundColor: theme.primary }]}
               onPress={rebuildCache}
             >
-              <Text style={styles.downloadButtonText}>{uiT("ui.download_data_1e7cba22")}</Text>
+              <Text style={styles.downloadButtonText}>Download Data</Text>
             </TouchableOpacity>
           </View>
         ) : isRebuildingCache ? (
           <View style={styles.centerState}>
             <ActivityIndicator size="large" color={theme.primary} />
             <Text style={[styles.centerStateTitle, { color: theme.textColor }]}>
-              {uiT("ui.downloading_data_9b8966c0")} </Text>
+              Downloading Data
+            </Text>
             <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>
-              {cacheRebuildProgress}{uiT("ui.complete_fe9543cf")} </Text>
+              {cacheRebuildProgress}% complete
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -1400,8 +1408,8 @@ export default function SubjectListEditorScreen() {
               <View style={styles.emptyState}>
                 <Text style={[styles.emptyStateText, { color: theme.textSecondary }]}>
                   {activeTab === "browse"
-                    ? uiT("ui.no_subjects_match_your_current_search_and_filters_cf2c4982")
-                    : uiT("ui.no_subjects_in_this_list_match_your_search_0ddcf1e8")}
+                    ? "No subjects match your current search and filters."
+                    : "No subjects in this list match your search."}
                 </Text>
               </View>
             }
@@ -1420,7 +1428,7 @@ export default function SubjectListEditorScreen() {
         >
           <TouchableOpacity
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.save_list_changes_f242d457")}
+            accessibilityLabel="Save list changes"
             accessibilityState={{ disabled: !hasUnsavedChanges || isSaving }}
             style={[
               styles.saveButton,
@@ -1437,7 +1445,7 @@ export default function SubjectListEditorScreen() {
             ) : (
               <>
                 <Ionicons name="save-outline" size={20} color="#fff" />
-                <Text style={styles.saveButtonText}>{uiT("ui.save_changes_35322b5b")}</Text>
+                <Text style={styles.saveButtonText}>Save Changes</Text>
               </>
             )}
           </TouchableOpacity>
@@ -1466,7 +1474,8 @@ export default function SubjectListEditorScreen() {
               ]}
             >
               <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-                {uiT("ui.rename_list_0a05fc8c")} </Text>
+                Rename List
+              </Text>
               <TextInput
                 value={pendingListName}
                 onChangeText={setPendingListName}
@@ -1478,7 +1487,7 @@ export default function SubjectListEditorScreen() {
                     color: theme.textColor,
                   },
                 ]}
-                placeholder={uiT("ui.list_name_6c1247b5")}
+                placeholder="List name"
                 placeholderTextColor={theme.textLight}
                 autoFocus
                 returnKeyType="done"
@@ -1493,7 +1502,8 @@ export default function SubjectListEditorScreen() {
                   disabled={isRenaming}
                 >
                   <Text style={[styles.modalButtonText, { color: theme.textColor }]}>
-                    {uiT("ui.cancel_19766ed6")} </Text>
+                    Cancel
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
@@ -1506,7 +1516,7 @@ export default function SubjectListEditorScreen() {
                   disabled={isRenaming}
                 >
                   <Text style={styles.modalPrimaryButtonText}>
-                    {isRenaming ? uiT("ui.saving_dc85af8f") : uiT("ui.save_1509f561")}
+                    {isRenaming ? "Saving..." : "Save"}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -1527,7 +1537,7 @@ export default function SubjectListEditorScreen() {
         />
         <CommonFilterModal
           visible={showFilters && activeTab === "selected"}
-          title={uiT("ui.filter_list_b45a6629")}
+          title="Filter List"
           currentValues={selectedFilterValues}
           sections={[]}
           showVocabularyTypes
@@ -1543,7 +1553,7 @@ export default function SubjectListEditorScreen() {
         />
         <CommonFilterModal
           visible={showSelectedSortModal && activeTab === "selected"}
-          title={uiT("ui.sort_list_ffa3bfaa")}
+          title="Sort List"
           currentValues={selectedSortValues}
           sections={SELECTED_SUBJECT_SORT_SECTIONS}
           applyButtonLabel="Apply Sort"

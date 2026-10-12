@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -60,7 +59,6 @@ export default function TransferSubjectListsModal({
   onClose,
   onTransferred,
 }: TransferSubjectListsModalProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const loadGenerationRef = useRef(0);
@@ -134,7 +132,7 @@ export default function TransferSubjectListsModal({
 
       console.error("Failed to load transfer destination lists:", loadError);
       setLists([]);
-      setError(uiT("ui.message_db742932781c"));
+      setError("Failed to load your lists.");
       setIsLoading(false);
     }
   }, [updateDestinationLists]);
@@ -175,7 +173,7 @@ export default function TransferSubjectListsModal({
 
       if (!result) {
         setError(
-          uiT("ui.message_88f8404b883a")
+          "This transfer could not be completed. Refresh your lists and try again."
         );
         return;
       }
@@ -184,7 +182,7 @@ export default function TransferSubjectListsModal({
       onClose();
     } catch (transferError) {
       console.error("Failed to transfer subjects between lists:", transferError);
-      setError(uiT("ui.message_9a3cd67fadaf"));
+      setError("Failed to transfer these subjects. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -203,7 +201,7 @@ export default function TransferSubjectListsModal({
     >
       <View style={styles.overlay}>
         <Pressable
-          accessibilityLabel={uiT("ui.close_transfer_subjects_modal_42f7537a")}
+          accessibilityLabel="Close transfer subjects modal"
           accessibilityRole="button"
           accessibilityState={{ disabled: isSubmitting }}
           disabled={isSubmitting}
@@ -224,16 +222,17 @@ export default function TransferSubjectListsModal({
           <View style={styles.header}>
             <View style={styles.headerTextContainer}>
               <Text style={[styles.title, { color: theme.textColor }]}>
-                {uiT("ui.transfer_subjects_e89ddc4d")} </Text>
+                Transfer Subjects
+              </Text>
               <Text
                 style={[styles.subtitle, { color: theme.textSecondary }]}
                 numberOfLines={2}
               >
-                {subjectCountLabel} {uiT("ui.from_75857a45")} {sourceLabel}
+                {subjectCountLabel} from {sourceLabel}
               </Text>
             </View>
             <TouchableOpacity
-              accessibilityLabel={uiT("ui.close_transfer_subjects_modal_42f7537a")}
+              accessibilityLabel="Close transfer subjects modal"
               accessibilityRole="button"
               accessibilityState={{ disabled: isSubmitting }}
               disabled={isSubmitting}
@@ -245,7 +244,8 @@ export default function TransferSubjectListsModal({
           </View>
 
           <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            {uiT("ui.action_64cff131")} </Text>
+            Action
+          </Text>
           <View
             style={[
               styles.modeSelector,
@@ -318,18 +318,22 @@ export default function TransferSubjectListsModal({
             >
               <Ionicons name="warning-outline" size={18} color={theme.error} />
               <Text style={[styles.warningText, { color: theme.textColor }]}>
-                {uiT("ui.moving_removes_these_subjects_from_00a81cfa")} {sourceLabel} {uiT("ui.after_adding_them_to_the_destination_9049ebe9")} </Text>
+                Moving removes these subjects from {sourceLabel} after adding
+                them to the destination.
+              </Text>
             </View>
           ) : null}
 
           <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>
-            {uiT("ui.destination_293d404a")} </Text>
+            Destination
+          </Text>
 
           {isLoading ? (
             <View style={styles.stateContainer}>
               <ActivityIndicator size="small" color={theme.primary} />
               <Text style={[styles.stateText, { color: theme.textSecondary }]}>
-                {uiT("ui.loading_lists_ab8a0c9b")} </Text>
+                Loading lists...
+              </Text>
             </View>
           ) : lists.length === 0 ? (
             <View style={styles.stateContainer}>
@@ -341,11 +345,11 @@ export default function TransferSubjectListsModal({
               <Text style={[styles.stateText, { color: theme.textSecondary }]}>
                 {error
                   ? error
-                  : uiT("ui.no_other_lists_are_available_create_another_subject_list_first_b52455e1")}
+                  : "No other lists are available. Create another Subject List first."}
               </Text>
               {error ? (
                 <TouchableOpacity
-                  accessibilityLabel={uiT("ui.retry_loading_destination_lists_9b9b9f8d")}
+                  accessibilityLabel="Retry loading destination lists"
                   accessibilityRole="button"
                   onPress={() => void loadLists()}
                   style={[
@@ -356,7 +360,8 @@ export default function TransferSubjectListsModal({
                   <Text
                     style={[styles.retryButtonText, { color: theme.textColor }]}
                   >
-                    {uiT("ui.retry_942087cc")} </Text>
+                    Retry
+                  </Text>
                 </TouchableOpacity>
               ) : null}
             </View>
@@ -371,7 +376,7 @@ export default function TransferSubjectListsModal({
                 return (
                   <TouchableOpacity
                     key={list.id}
-                    accessibilityHint={uiT("ui.sets_this_list_as_the_transfer_destination_5b9a492b")}
+                    accessibilityHint="Sets this list as the transfer destination"
                     accessibilityLabel={`${list.name}, ${list.subjectIds.length} subject${
                       list.subjectIds.length === 1 ? "" : "s"
                     }`}
@@ -408,7 +413,8 @@ export default function TransferSubjectListsModal({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {list.subjectIds.length} {uiT("ui.subject_a9491f4c")} {uiPluralSuffix(list.subjectIds.length === 1 ? "" : "s")}
+                        {list.subjectIds.length} subject
+                        {list.subjectIds.length === 1 ? "" : "s"}
                       </Text>
                     </View>
                     <Ionicons
@@ -437,7 +443,7 @@ export default function TransferSubjectListsModal({
 
           <View style={styles.footer}>
             <TouchableOpacity
-              accessibilityLabel={uiT("ui.cancel_subject_transfer_3eeaa608")}
+              accessibilityLabel="Cancel subject transfer"
               accessibilityRole="button"
               accessibilityState={{ disabled: isSubmitting }}
               disabled={isSubmitting}
@@ -447,7 +453,8 @@ export default function TransferSubjectListsModal({
               <Text
                 style={[styles.footerButtonText, { color: theme.textColor }]}
               >
-                {uiT("ui.cancel_19766ed6")} </Text>
+                Cancel
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               accessibilityLabel={`${mode === "move" ? "Move" : "Copy"} ${
@@ -474,7 +481,7 @@ export default function TransferSubjectListsModal({
                 <ActivityIndicator size="small" color="#ffffff" />
               ) : (
                 <Text style={styles.submitButtonText}>
-                  {mode === "move" ? uiT("ui.move_subjects_4c4d5be6") : uiT("ui.copy_subjects_f7d9d894")}
+                  {mode === "move" ? "Move Subjects" : "Copy Subjects"}
                 </Text>
               )}
             </TouchableOpacity>

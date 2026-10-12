@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "@/src/utils/haptics";
 import { LinearGradient } from "expo-linear-gradient";
@@ -27,7 +26,6 @@ const triggerCounterHaptic = () => {
 };
 
 function AnimatedCounter({ value, delay, suffix }: { value: number; delay: number; suffix: string }) {
-  useInterfaceLanguage();
   const scale = useSharedValue(0.5);
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(30);
@@ -74,7 +72,6 @@ export function TimeSlide({
   comparedToAverageDays,
   isFasterThanAverage,
 }: TimeSlideProps) {
-  useInterfaceLanguage();
   const comparisonOpacity = useSharedValue(0);
   const comparisonTranslateY = useSharedValue(16);
 
@@ -98,8 +95,8 @@ export function TimeSlide({
     comparedToAverageDays === 0
       ? "Right on your average pace!"
       : isFasterThanAverage
-      ? uiT("ui.dynamic_ee0fc6a037e9", {value1: (comparedToAverageDays), value2: (comparedToAverageDays === 1 ? "" : uiPluralSuffix("s"))})
-      : uiT("ui.dynamic_e306e3db4d93", {value1: (comparedToAverageDays), value2: (comparedToAverageDays === 1 ? "" : uiPluralSuffix("s"))});
+      ? `${comparedToAverageDays} day${comparedToAverageDays === 1 ? "" : "s"} faster than your average`
+      : `${comparedToAverageDays} day${comparedToAverageDays === 1 ? "" : "s"} slower than your average`;
 
   const iconName: keyof typeof Ionicons.glyphMap =
     comparedToAverageDays === 0
@@ -123,14 +120,14 @@ export function TimeSlide({
       style={styles.container}
     >
       <View style={styles.content}>
-        <Text style={styles.headerText}>{uiT("ui.it_took_you_9726f4a0")}</Text>
+        <Text style={styles.headerText}>It took you</Text>
 
         <View style={styles.timeRow}>
           <AnimatedCounter value={timeDays} delay={400} suffix="days" />
           <AnimatedCounter value={timeHours} delay={700} suffix="hours" />
         </View>
 
-        <Text style={styles.toCompleteText}>{uiT("ui.to_complete_this_level_f8583e9f")}</Text>
+        <Text style={styles.toCompleteText}>to complete this level</Text>
 
         <Animated.View style={[styles.comparisonCard, comparisonStyle]}>
           <Ionicons name={iconName} size={28} color={iconColor} style={styles.comparisonIcon} />

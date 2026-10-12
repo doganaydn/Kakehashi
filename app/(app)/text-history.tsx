@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -21,7 +20,6 @@ import {
 import { useSubjectColors } from "../../src/utils/subjectColors";
 
 export default function TextHistoryScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const router = useRouter();
@@ -92,12 +90,14 @@ export default function TextHistoryScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {uiT("ui.text_history_1923f3b1")} </Text>
+            Text History
+          </Text>
         </View>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            {uiT("ui.loading_history_9a0b6655")} </Text>
+            Loading history...
+          </Text>
         </View>
       </View>
     );
@@ -113,7 +113,8 @@ export default function TextHistoryScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          {uiT("ui.text_history_1923f3b1")} </Text>
+          Text History
+        </Text>
         <View style={styles.headerButtons}>
           {history.length > 0 && (
             <TouchableOpacity
@@ -121,7 +122,8 @@ export default function TextHistoryScreen() {
               style={styles.clearButton}
             >
               <Text style={[styles.clearButtonText, { color: theme.error }]}>
-                {uiT("ui.clear_all_ddceb7ad")} </Text>
+                Clear All
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -136,16 +138,18 @@ export default function TextHistoryScreen() {
             color={theme.textSecondary}
           />
           <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-            {uiT("ui.no_text_history_yet_64f9ea2b")} </Text>
+            No text history yet
+          </Text>
           <Text style={[styles.emptySubtext, { color: theme.textSecondary }]}>
-            {uiT("ui.your_text_searches_will_appear_here_00ca1ca0")} </Text>
+            Your text searches will appear here
+          </Text>
           <TouchableOpacity
             style={[styles.newSearchButton, { backgroundColor: theme.primary }]}
             onPress={handleNewSearch}
             activeOpacity={0.7}
           >
             <Ionicons name="add" size={20} color="white" />
-            <Text style={styles.newSearchButtonText}>{uiT("ui.new_text_search_baa7a5b6")}</Text>
+            <Text style={styles.newSearchButtonText}>New Text Search</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -177,7 +181,7 @@ export default function TextHistoryScreen() {
                   ]}
                 >
                   <Text style={styles.modeIndicatorText}>
-                    {item.isEnglishMode ? uiT("ui.en_ja_ee020b31") : uiT("ui.ja_2c245768")}
+                    {item.isEnglishMode ? "EN→JA" : "JA"}
                   </Text>
                 </View>
 
@@ -224,7 +228,8 @@ export default function TextHistoryScreen() {
                       <Text
                         style={[styles.statText, { color: theme.textSecondary }]}
                       >
-                        {item.vocabularyMatchCount} {uiT("ui.vocab_273e2549")} </Text>
+                        {item.vocabularyMatchCount} vocab
+                      </Text>
                     </View>
                     <View style={styles.statBadge}>
                       <View
@@ -236,7 +241,8 @@ export default function TextHistoryScreen() {
                       <Text
                         style={[styles.statText, { color: theme.textSecondary }]}
                       >
-                        {item.kanjiMatchCount} {uiT("ui.kanji_7faabe85")} </Text>
+                        {item.kanjiMatchCount} kanji
+                      </Text>
                     </View>
                   </View>
                 </View>

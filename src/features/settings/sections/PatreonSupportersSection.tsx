@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import {
@@ -13,7 +12,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function PatreonSupportersSection() {
-  useInterfaceLanguage();
   const { router, theme, updateSectionOffset } = useSettingsControllerContext();
 
   return (
@@ -37,7 +35,8 @@ export function PatreonSupportersSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.patreon_supporters_eb6ce9e4")} </Text>
+          Patreon Supporters
+        </Text>
         <TouchableOpacity
           style={[styles.settingItem, { borderBottomColor: "transparent" }]}
           onPress={() => router.push("/patreon-supporters")}
@@ -52,11 +51,13 @@ export function PatreonSupportersSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.view_supporters_c9b64ae0")} </SettingsLabel>
+              View Supporters
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.see_all_patreon_supporters_and_join_them_fcf5628d")} </Text>
+              See all Patreon supporters and join them
+            </Text>
           </View>
           <Ionicons
             name="chevron-forward"

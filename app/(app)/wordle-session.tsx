@@ -1,4 +1,3 @@
-import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -417,7 +416,6 @@ function WordleBoard({
   revealedTileCount,
   tileFlipAnimations,
 }: WordleBoardProps) {
-  useInterfaceLanguage();
   const cellSize = useMemo(() => {
     const horizontalPadding = 36;
     const gaps = (wordLength - 1) * 8;
@@ -546,7 +544,6 @@ function WordleSummary({
   onPlayAgain,
   onBackToDashboard,
 }: WordleSummaryProps) {
-  useInterfaceLanguage();
   const attemptsUsed = guesses.length;
 
   return (
@@ -568,24 +565,24 @@ function WordleSummary({
           />
         </View>
         <Text style={[styles.summaryTitle, { color: theme.textColor }]}> 
-          {isWon ? uiT("ui.solved_518d4730") : uiT("ui.out_of_tries_783ebd92")}
+          {isWon ? "Solved!" : "Out of Tries"}
         </Text>
         <Text style={[styles.summarySubtitle, { color: theme.textSecondary }]}> 
           {isWon
-            ? uiT("ui.that_was_a_clean_read_936d8741")
-            : uiT("ui.no_worries_the_answer_is_shown_below_0233d9ba")}
+            ? "That was a clean read."
+            : "No worries, the answer is shown below."}
         </Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.summaryContent}> 
         <View style={[styles.answerCard, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}> 
-          <Text style={[styles.answerLabel, { color: theme.textSecondary }]}>{uiT("ui.answer_b2a3aa60")}</Text>
+          <Text style={[styles.answerLabel, { color: theme.textSecondary }]}>Answer</Text>
           <Text style={[styles.answerReading, fontStyles.japaneseBold, { color: theme.textColor }]}> 
             {targetWord.reading}
           </Text>
           <Text style={[styles.answerMeaning, { color: theme.textSecondary }]}> 
             {targetWord.meaning}
-            {targetWord.kanjiForm ? uiT("ui.value_2bc87f34", {value1: (targetWord.kanjiForm)}) : ""}
+            {targetWord.kanjiForm ? ` • ${targetWord.kanjiForm}` : ""}
           </Text>
         </View>
 
@@ -630,7 +627,7 @@ function WordleSummary({
           activeOpacity={0.85}
         >
           <Ionicons name="refresh" size={18} color="#fff" />
-          <Text style={styles.summaryButtonText}>{uiT("ui.play_again_82959974")}</Text>
+          <Text style={styles.summaryButtonText}>Play Again</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -639,7 +636,7 @@ function WordleSummary({
           activeOpacity={0.85}
         >
           <Ionicons name="home-outline" size={18} color={theme.textColor} />
-          <Text style={[styles.summaryButtonText, { color: theme.textColor }]}>{uiT("ui.dashboard_67b69646")}</Text>
+          <Text style={[styles.summaryButtonText, { color: theme.textColor }]}>Dashboard</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -647,7 +644,6 @@ function WordleSummary({
 }
 
 export default function WordleSessionScreen() {
-  useInterfaceLanguage();
   useActivityTracking("wordle");
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
@@ -860,8 +856,8 @@ export default function WordleSessionScreen() {
         }
 
         if (!params.sessionId) {
-          Alert.alert(uiT("ui.session_not_available_3b81ebff"), uiT("ui.couldn_t_restore_that_wordle_run_d193396a"), [
-            { text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/wordle-config") },
+          Alert.alert("Session Not Available", "Couldn't restore that Wordle run.", [
+            { text: "OK", onPress: () => router.replace("/wordle-config") },
           ]);
           return;
         }
@@ -912,11 +908,30 @@ export default function WordleSessionScreen() {
       }
     } catch (error) {
       console.error("Failed to load Wordle config:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_wordle_configuration_5d558bc0"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to load Wordle configuration.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     }
-  }, [isPortegoUser, params.includeKanaVocabulary, params.includeVocabulary, params.maxAttempts, params.maxLevel, params.minLevel, params.resume, params.selectedListIds, params.sessionId, params.srsApprentice, params.srsBurned, params.srsEnlightened, params.srsGuru, params.srsMaster, params.useCustomLevelRange, params.wordLength, restoreSavedSession, userLevel, ]);
+  }, [
+    isPortegoUser,
+    params.includeKanaVocabulary,
+    params.includeVocabulary,
+    params.maxAttempts,
+    params.maxLevel,
+    params.minLevel,
+    params.resume,
+    params.selectedListIds,
+    params.sessionId,
+    params.srsApprentice,
+    params.srsBurned,
+    params.srsEnlightened,
+    params.srsGuru,
+    params.srsMaster,
+    params.useCustomLevelRange,
+    params.wordLength,
+    restoreSavedSession,
+    userLevel,
+  ]);
 
   useEffect(() => {
     void loadConfig();
@@ -1070,9 +1085,9 @@ export default function WordleSessionScreen() {
       const wordCandidates = buildWordleCandidates(filteredSubjects, config);
       if (wordCandidates.length < 6) {
         Alert.alert(
-          uiT("ui.not_enough_words_4780f915"),
-          uiT("ui.not_enough_learned_words_match_your_filters_and_length_try_wideni_8b9341e4"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/wordle-config") }],
+          "Not Enough Words",
+          "Not enough learned words match your filters and length. Try widening your settings.",
+          [{ text: "OK", onPress: () => router.replace("/wordle-config") }],
         );
         return;
       }
@@ -1088,9 +1103,9 @@ export default function WordleSessionScreen() {
       const dedupedCandidates = Array.from(dedupedByReading.values());
       if (dedupedCandidates.length < 6) {
         Alert.alert(
-          uiT("ui.not_enough_unique_words_91d6683f"),
-          uiT("ui.your_current_filters_produce_too_few_unique_readings_for_a_fair_g_9aaff8ae"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/wordle-config") }],
+          "Not Enough Unique Words",
+          "Your current filters produce too few unique readings for a fair game.",
+          [{ text: "OK", onPress: () => router.replace("/wordle-config") }],
         );
         return;
       }
@@ -1116,13 +1131,20 @@ export default function WordleSessionScreen() {
       setIsRevealAnimating(false);
     } catch (error) {
       console.error("Failed to build Wordle game:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_build_kana_wordle_56b62e9c"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to build Kana Wordle.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     } finally {
       setIsLoading(false);
     }
-  }, [apiToken, clearSavedSession, config, initializeFlipAnimations, isAuthLoading, userLevel, ]);
+  }, [
+    apiToken,
+    clearSavedSession,
+    config,
+    initializeFlipAnimations,
+    isAuthLoading,
+    userLevel,
+  ]);
 
   useEffect(() => {
     if (config && !hasRestoredSession) {
@@ -1288,7 +1310,7 @@ export default function WordleSessionScreen() {
       return;
     }
 
-    setFeedbackMessage(uiT("ui.dynamic_21af57540ddd", {value1: (config.maxAttempts - nextGuessCount)}));
+    setFeedbackMessage(`${config.maxAttempts - nextGuessCount} attempts left.`);
     setFeedbackTone("neutral");
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   }, [
@@ -1309,21 +1331,21 @@ export default function WordleSessionScreen() {
       return;
     }
 
-    Alert.alert(uiT("ui.exit_kana_wordle_ca17ddfb"), uiT("ui.want_to_save_this_run_for_later_b0b28467"), [
-      { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+    Alert.alert("Exit Kana Wordle", "Want to save this run for later?", [
+      { text: "Cancel", style: "cancel" },
       {
-        text: uiT("ui.save_exit_d4623351"),
+        text: "Save & Exit",
         onPress: async () => {
           const ok = await persistSession();
           if (!ok) {
-            Alert.alert(uiT("ui.couldn_t_save_82c0d2ef"), uiT("ui.please_try_again_eea4fb33"));
+            Alert.alert("Couldn't Save", "Please try again.");
             return;
           }
           router.back();
         },
       },
       {
-        text: uiT("ui.discard_eb1a70e3"),
+        text: "Discard",
         style: "destructive",
         onPress: async () => {
           await clearSavedSession();
@@ -1350,9 +1372,11 @@ export default function WordleSessionScreen() {
       >
         <Ionicons name="lock-closed-outline" size={28} color={theme.textSecondary} />
         <Text style={[styles.gatedTitle, { color: theme.textColor }]}>
-          {uiT("ui.wordle_is_portego_only_e0503c2f")} </Text>
+          Wordle Is Portego-Only
+        </Text>
         <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>
-          {uiT("ui.this_mode_is_currently_enabled_only_for_the_portego_account_c549ed51")} </Text>
+          This mode is currently enabled only for the Portego account.
+        </Text>
       </SafeAreaView>
     );
   }
@@ -1363,7 +1387,8 @@ export default function WordleSessionScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}> 
-            {uiT("ui.building_your_kana_wordle_a4a2e8f7")} </Text>
+            Building your Kana Wordle...
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -1374,7 +1399,8 @@ export default function WordleSessionScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}> 
         <View style={styles.loadingContainer}>
           <Text style={[styles.loadingText, { color: theme.textColor }]}> 
-            {uiT("ui.couldn_t_load_kana_wordle_3d39b207")} </Text>
+            Couldn&apos;t load Kana Wordle.
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -1403,7 +1429,7 @@ export default function WordleSessionScreen() {
           <TouchableOpacity onPress={handleExit} style={styles.iconButton} activeOpacity={0.75}>
             <Ionicons name="chevron-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.kana_wordle_640f06f7")}</Text>
+          <Text style={[styles.headerTitle, { color: theme.textColor }]}>Kana Wordle</Text>
         </View>
 
         <View style={styles.headerRight}>
@@ -1441,7 +1467,8 @@ export default function WordleSessionScreen() {
       >
         <View style={styles.attemptsInfoRow}>
           <Text style={[styles.attemptsInfoText, { color: theme.textSecondary }]}>
-            {remainingAttempts} {uiT("ui.attempt_c7ce66d0")}{uiPluralSuffix(remainingAttempts === 1 ? "" : "s")} {"left"} </Text>
+            {remainingAttempts} attempt{remainingAttempts === 1 ? "" : "s"} left
+          </Text>
         </View>
 
         <WordleBoard
@@ -1479,13 +1506,13 @@ export default function WordleSessionScreen() {
               },
             ]}
           >
-            {feedbackMessage || uiT("ui.type_a_guess_and_submit_d3bd1e0e")}
+            {feedbackMessage || "Type a guess and submit."}
           </Text>
         </View>
 
         {usedKana.length > 0 ? (
           <View style={[styles.usedKanaCard, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}> 
-            <Text style={[styles.usedKanaTitle, { color: theme.textColor }]}>{uiT("ui.used_kana_4833716d")}</Text>
+            <Text style={[styles.usedKanaTitle, { color: theme.textColor }]}>Used Kana</Text>
             <View style={styles.usedKanaWrap}>
               {usedKana.map(({ kana, status }) => {
                 const backgroundColor =
@@ -1569,7 +1596,7 @@ export default function WordleSessionScreen() {
               activeOpacity={0.85}
               disabled={!canSubmitGuess}
             >
-              <Text style={styles.submitButtonText}>{uiT("ui.guess_cd2e0e15")}</Text>
+              <Text style={styles.submitButtonText}>Guess</Text>
             </TouchableOpacity>
           </View>
         </View>

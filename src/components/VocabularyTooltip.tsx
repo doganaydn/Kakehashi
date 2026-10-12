@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
@@ -57,7 +56,6 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
   onViewSubject,
   onTooltipLayout,
 }) => {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const hideVocabularyTooltipMeanings = useSettingsStore(
     (state) => state.hideVocabularyTooltipMeanings
@@ -201,7 +199,7 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
           </Text>
           <View style={styles.tooltipLevelBadge}>
             <Text style={styles.tooltipLevelBadgeText}>
-              {isWaniKaniBacked ? uiT("ui.lv_value_7c1085b4", {value1: (selectedItem.level)}) : uiT("ui.jpdb_a35a1116")}
+              {isWaniKaniBacked ? `Lv ${selectedItem.level}` : "JPDB"}
             </Text>
           </View>
         </View>
@@ -209,7 +207,7 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
         <View style={styles.tooltipPopupContent}>
           {primaryReading && (
             renderTooltipValueRow({
-              label: uiT("ui.reading_2fef096a"),
+              label: "Reading:",
               value: primaryReading,
               hidden: shouldHideReading,
               revealLabel: "Tap to reveal",
@@ -219,7 +217,7 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
           )}
 
           {renderTooltipValueRow({
-            label: uiT("ui.meaning_65a5e88a"),
+            label: "Meaning:",
             value: selectedItem.meaning,
             hidden: shouldHideMeaning,
             revealLabel: "Tap to reveal",
@@ -234,7 +232,8 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.kanji_90ac5dd2")} </Text>
+                Kanji:
+              </Text>
               <View style={styles.tooltipKanjiCompositionWrap}>
                 {jpdbKanjiComposition.map((kanjiEntry) => (
                   <TouchableOpacity
@@ -268,7 +267,8 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
                   { color: theme.textSecondary },
                 ]}
               >
-                {uiT("ui.form_31988f23")} </Text>
+                Form:
+              </Text>
               <Text
                 style={[
                   styles.tooltipPopupValue,
@@ -290,7 +290,8 @@ export const VocabularyTooltip: React.FC<VocabularyTooltipProps> = ({
               activeOpacity={0.7}
             >
               <Text style={styles.tooltipPopupButtonText}>
-                {uiT("ui.view_details_95747715")} </Text>
+                view details
+              </Text>
               <Ionicons name="arrow-forward" size={14} color="white" />
             </TouchableOpacity>
           ) : null}

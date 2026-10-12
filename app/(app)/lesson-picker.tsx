@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -31,7 +30,6 @@ const isLessonPickerSubjectObject = (
   object === "kana_vocabulary";
 
 export default function LessonPickerScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
   const dailyLessonLimit = useSettingsStore((state) => state.dailyLessonLimit);
@@ -60,9 +58,9 @@ export default function LessonPickerScreen() {
 
       if (lessonsResponse.data.length === 0) {
         Alert.alert(
-          uiT("ui.no_lessons_available_3ea7844b"),
-          uiT("ui.you_don_t_have_any_lessons_available_right_now_4399b03c"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "No Lessons Available",
+          "You don't have any lessons available right now.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -126,9 +124,9 @@ export default function LessonPickerScreen() {
 
       if (items.length === 0) {
         Alert.alert(
-          uiT("ui.no_lessons_available_3ea7844b"),
-          uiT("ui.no_lessons_are_available_with_your_current_kana_vocabulary_filter_9df5668f"),
-          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
+          "No Lessons Available",
+          "No lessons are available with your current kana vocabulary filter.",
+          [{ text: "OK", onPress: () => router.back() }]
         );
         return;
       }
@@ -136,8 +134,8 @@ export default function LessonPickerScreen() {
       setAllLessons(items);
     } catch (error) {
       console.error("Error loading lessons:", error);
-      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_lessons_please_try_again_ba45f7c0"), [
-        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
+      Alert.alert("Error", "Failed to load lessons. Please try again.", [
+        { text: "OK", onPress: () => router.back() },
       ]);
     } finally {
       setIsLoading(false);
@@ -162,8 +160,8 @@ export default function LessonPickerScreen() {
   const handleStartLessons = useCallback(async (selectedLessons: LessonPickerItem[]) => {
     if (selectedLessons.length === 0) {
       Alert.alert(
-        uiT("ui.no_lessons_selected_87514e44"),
-        uiT("ui.please_select_at_least_one_lesson_to_start_5a13afd7")
+        "No Lessons Selected",
+        "Please select at least one lesson to start."
       );
       return;
     }
@@ -187,12 +185,12 @@ export default function LessonPickerScreen() {
             remainingDailyLessonSlots === 1 ? "slot" : "slots";
 
           Alert.alert(
-            uiT("ui.daily_lesson_limit_warning_1397a393"),
-            uiT("ui.you_ve_selected_value_lessons_which_is_value_value_over_your_rema_29059e22", {value1: (selectedLessons.length), value2: (overBy), value3: (lessonPlural), value4: (remainingDailyLessonSlots), value5: (slotPlural)}),
+            "Daily Lesson Limit Warning",
+            `You've selected ${selectedLessons.length} lessons, which is ${overBy} ${lessonPlural} over your remaining daily limit (${remainingDailyLessonSlots} ${slotPlural} left today).`,
             [
-              { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+              { text: "Cancel", style: "cancel" },
               {
-                text: uiT("ui.continue_31fbef16"),
+                text: "Continue",
                 onPress: () => navigateToLessons(selectedLessons),
               },
             ]
@@ -223,7 +221,8 @@ export default function LessonPickerScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            {uiT("ui.loading_lessons_d19eb1da")} </Text>
+            Loading lessons...
+          </Text>
         </View>
       </View>
     );

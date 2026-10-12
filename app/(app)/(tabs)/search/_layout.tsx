@@ -1,10 +1,8 @@
-import { uiT, useInterfaceLanguage } from "../../../../src/features/interface-language/runtime";
 import { Stack, useRouter } from "expo-router";
 import { supportsNativeTabs } from "../../../../src/utils/nativeTabs";
 import { nativeSearchBarRef } from "./searchBarRef";
 
 export default function SearchLayout() {
-  useInterfaceLanguage();
   const router = useRouter();
   const showNativeSearchBar = supportsNativeTabs();
 
@@ -22,7 +20,7 @@ export default function SearchLayout() {
             ? {
                 ref: nativeSearchBarRef,
                 placement: "automatic",
-                placeholder: uiT("ui.search_kanji_vocabulary_or_meanings_d720abb2"),
+                placeholder: "Search kanji, vocabulary, or meanings...",
                 autoFocus: true,
                 onChangeText: (event) => {
                   const text = event?.nativeEvent?.text ?? "";

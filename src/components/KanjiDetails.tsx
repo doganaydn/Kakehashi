@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { formatTurkishMeaning } from "../features/turkish-content/format";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
@@ -183,7 +182,6 @@ const RadicalComponent = React.memo(
     styles,
     radicalContentColor = "#ffffff",
   }: RadicalComponentProps) {
-  useInterfaceLanguage();
     const [processedImageUrl, setProcessedImageUrl] = useState<string | null>(null);
     const contentDisplay = useLearningDisplay();
     const componentMeaning = contentDisplay.meaning({...component, object: "radical"}, component.meanings[0] || "radical");
@@ -226,8 +224,12 @@ const RadicalComponent = React.memo(
           disabled
             ? undefined
             : reminderEnabled
-              ? uiT("ui.dynamic_fb1dc87ee79c", {value1: (isExpanded ? uiT("ui.hide_ac20a57b") : uiT("ui.dynamic_0df6f1cad36c")), value2: (componentMeaning)})
-              : uiT("ui.dynamic_654efc73ddc3", {value1: (componentMeaning)})
+              ? `${isExpanded ? "Hide" : "Show"} ${
+                  componentMeaning
+                } radical reminder`
+              : `Open full details for ${
+                  componentMeaning
+                } radical`
         }
         accessibilityState={
           reminderEnabled ? { expanded: isExpanded } : undefined
@@ -290,7 +292,6 @@ function RadicalMnemonicIllustration({
   radicalId,
   styles,
 }: RadicalMnemonicIllustrationProps) {
-  useInterfaceLanguage();
   const { showMnemonicIllustrations } = useSettingsStore();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
@@ -417,7 +418,6 @@ export default function KanjiDetails({
   onSynonymsChange,
   embedded = false,
 }: KanjiDetailsProps) {
-  useInterfaceLanguage();
   const {
     groupKanjiVocabularyExamplesByReading,
     showInlineRadicalReminders,
@@ -570,8 +570,8 @@ export default function KanjiDetails({
       <TouchableOpacity
         key={key}
         accessibilityRole="button"
-        accessibilityLabel={uiT("ui.dynamic_982551ce4339", {value1: (displayReading)})}
-        accessibilityHint={uiT("ui.plays_this_kanji_reading_using_your_device_voice_6969b8e4")}
+        accessibilityLabel={`Speak Japanese pronunciation ${displayReading}`}
+        accessibilityHint="Plays this kanji reading using your device voice"
         activeOpacity={0.7}
         onPress={() => {
           void speakKanjiReading(reading.reading);
@@ -798,7 +798,8 @@ export default function KanjiDetails({
             <Text
               style={[styles.readingPitchLabel, { color: theme.textSecondary }]}
             >
-              {uiT("ui.pitch_accent_for_eee7ba03")} </Text>
+              Pitch accent for
+            </Text>
             <View
               style={[
                 styles.readingPitchCurrentReadingBadge,
@@ -832,7 +833,8 @@ export default function KanjiDetails({
           ]}
         >
           <Text style={[styles.readingPitchLabel, { color: theme.textSecondary }]}>
-            {uiT("ui.pitch_accent_for_eee7ba03")} </Text>
+            Pitch accent for
+          </Text>
           <View
             style={[
               styles.readingPitchCurrentReadingBadge,
@@ -967,7 +969,8 @@ export default function KanjiDetails({
             {/* Name Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.name_dcd1d522")} </Text>
+                Name
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -978,15 +981,16 @@ export default function KanjiDetails({
                   primary={translatedMeaning.primary} alternatives={translatedMeaning.alternatives}
                   english={originalPrimaryMeaning} englishAlternatives={kanji.meanings.filter(m => !m.primary && m.meaning !== originalPrimaryMeaning).map(m => m.meaning)}
                   rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
-                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>{uiT("ui.primary_efe10c80")}</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
-                  {kanji.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>{uiT("ui.alternative_b59b72be")}</Text><Text style={[styles.value, {color: theme.textColor}]}>{kanji.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
+                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Primary</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
+                  {kanji.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Alternative</Text><Text style={[styles.value, {color: theme.textColor}]}>{kanji.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
                 </>}
 
                 <View style={styles.row}>
                   <Text
                     style={[styles.label, { color: theme.textSecondary }]}
                   >
-                    {uiT("ui.user_synonyms_4eacfc42")} </Text>
+                    User Synonyms
+                  </Text>
                   <View style={styles.synonymsValueContainer}>
                     <Text
                       style={[
@@ -1001,7 +1005,7 @@ export default function KanjiDetails({
                     >
                       {kanji.userSynonyms?.length
                         ? kanji.userSynonyms.join(", ")
-                        : uiT("ui.none_dc937b59")}
+                        : "None"}
                     </Text>
                     <TouchableOpacity
                       style={[
@@ -1016,7 +1020,8 @@ export default function KanjiDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.manage_5a234448")} </Text>
+                        Manage
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -1033,7 +1038,8 @@ export default function KanjiDetails({
             {/* Mnemonic Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.mnemonic_761a18b8")} </Text>
+                Mnemonic
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -1056,7 +1062,8 @@ export default function KanjiDetails({
             {kanji.meaningHint && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.meaning_hint_2d1abe95")} </Text>
+                  Meaning Hint
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -1078,7 +1085,8 @@ export default function KanjiDetails({
             {/* Readings Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.readings_f3a97d44")} </Text>
+                Readings
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -1101,7 +1109,8 @@ export default function KanjiDetails({
                     <Text
                       style={[styles.readingLabel, { color: theme.textColor }]}
                     >
-                      {uiT("ui.on_yomi_f8701478")} </Text>
+                      On&apos;yomi
+                    </Text>
                     <View style={styles.readingValues}>
                       {onyomiReadings.map((reading, index) =>
                         renderReadingBadge(
@@ -1133,7 +1142,8 @@ export default function KanjiDetails({
                     <Text
                       style={[styles.readingLabel, { color: theme.textColor }]}
                     >
-                      {uiT("ui.kun_yomi_f2900a2b")} </Text>
+                      Kun&apos;yomi
+                    </Text>
                     <View style={styles.readingValues}>
                       {kunyomiReadings.map((reading, index) =>
                         renderReadingBadge(reading, `kun-${index}`)
@@ -1152,7 +1162,8 @@ export default function KanjiDetails({
                     <Text
                       style={[styles.readingLabel, { color: theme.textColor }]}
                     >
-                      {uiT("ui.nanori_cf453dce")} </Text>
+                      Nanori
+                    </Text>
                     <View style={styles.readingValues}>
                       {nanoriReadings.map((reading, index) =>
                         renderReadingBadge(reading, `nanori-${index}`)
@@ -1171,7 +1182,8 @@ export default function KanjiDetails({
             {/* Reading Mnemonic Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.mnemonic_761a18b8")} </Text>
+                Mnemonic
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -1188,7 +1200,8 @@ export default function KanjiDetails({
             {kanji.readingHint && (
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                  {uiT("ui.reading_hint_d50b274b")} </Text>
+                  Reading Hint
+                </Text>
                 <View
                   style={[
                     styles.infoBox,
@@ -1220,7 +1233,8 @@ export default function KanjiDetails({
             {/* Notes Section */}
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                {uiT("ui.notes_8a7525b1")} </Text>
+                Notes
+              </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -1237,10 +1251,11 @@ export default function KanjiDetails({
                   >
                     <View style={styles.noteHeader}>
                       <Text style={[styles.noteTitle, { color: theme.textColor }]}>
-                        {uiT("ui.meaning_note_2991d09a")} </Text>
+                        Meaning Note
+                      </Text>
                       <TouchableOpacity
                         accessible={Boolean(kanji.meaningNote)}
-                        accessibilityLabel={uiT("ui.edit_meaning_note_2f42b615")}
+                        accessibilityLabel="Edit meaning note"
                         accessibilityRole="button"
                         hitSlop={8}
                         onPress={(event) => {
@@ -1264,7 +1279,8 @@ export default function KanjiDetails({
                       />
                     ) : (
                       <Text style={[styles.noteText, { color: theme.textLight }]}>
-                        {uiT("ui.click_to_add_meaning_note_60fcf744")} </Text>
+                        Click to add meaning note
+                      </Text>
                     )}
                   </NoteFieldContainer>
                 ) : (
@@ -1276,10 +1292,11 @@ export default function KanjiDetails({
                   >
                     <View style={styles.noteHeader}>
                       <Text style={[styles.noteTitle, { color: theme.textColor }]}>
-                        {uiT("ui.reading_note_72ec4fc8")} </Text>
+                        Reading Note
+                      </Text>
                       <TouchableOpacity
                         accessible={Boolean(kanji.readingNote)}
-                        accessibilityLabel={uiT("ui.edit_reading_note_2b0b57f8")}
+                        accessibilityLabel="Edit reading note"
                         accessibilityRole="button"
                         hitSlop={8}
                         onPress={(event) => {
@@ -1303,7 +1320,8 @@ export default function KanjiDetails({
                       />
                     ) : (
                       <Text style={[styles.noteText, { color: theme.textLight }]}>
-                        {uiT("ui.click_to_add_reading_note_b0266e3e")} </Text>
+                        Click to add reading note
+                      </Text>
                     )}
                   </NoteFieldContainer>
                 )}
@@ -1314,7 +1332,8 @@ export default function KanjiDetails({
         {sortedComponentSubjects.length > 0 && (
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {uiT("ui.composition_47fca483")} </Text>
+              Composition
+            </Text>
             <View
               style={[
                 styles.infoBox,
@@ -1361,7 +1380,8 @@ export default function KanjiDetails({
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.tap_a_radical_to_see_its_reminder_here_29b9ff23")} </Text>
+                  Tap a radical to see its reminder here.
+                </Text>
               )}
               {showInlineRadicalReminders && expandedComponent && (
                 <Animated.View
@@ -1384,7 +1404,7 @@ export default function KanjiDetails({
                           { color: theme.textColor },
                         ]}
                       >
-                        {contentDisplay.meaning({...expandedComponent, object: "radical"}, uiT("ui.radical_af294da6"))}
+                        {contentDisplay.meaning({...expandedComponent, object: "radical"}, "Radical")}
                       </Text>
                       <Text
                         style={[
@@ -1392,14 +1412,14 @@ export default function KanjiDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.radical_level_f45d78f1")} {expandedComponent.level}
+                        Radical · Level {expandedComponent.level}
                       </Text>
                     </View>
                     <TouchableOpacity
                       onPress={() => setExpandedComponentId(null)}
                       style={styles.radicalReminderClose}
                       accessibilityRole="button"
-                      accessibilityLabel={uiT("ui.close_radical_reminder_66c25a17")}
+                      accessibilityLabel="Close radical reminder"
                     >
                       <Ionicons
                         name="close"
@@ -1415,7 +1435,8 @@ export default function KanjiDetails({
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.mnemonic_761a18b8")} </Text>
+                    Mnemonic
+                  </Text>
                   {expandedComponent.mnemonic ? (
                     <View style={styles.mnemonicContainer}>
                       {formatMnemonic(expandedComponent.mnemonic)}
@@ -1427,7 +1448,8 @@ export default function KanjiDetails({
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.no_mnemonic_is_available_for_this_radical_cd3519b9")} </Text>
+                      No mnemonic is available for this radical.
+                    </Text>
                   )}
 
                   <RadicalMnemonicIllustration
@@ -1444,7 +1466,9 @@ export default function KanjiDetails({
                       ]}
                       onPress={() => onSubjectPress(expandedComponent.id)}
                       accessibilityRole="button"
-                      accessibilityLabel={uiT("ui.dynamic_b6892e84e9b5", {value1: (contentDisplay.meaning({...expandedComponent, object: "radical"}, "radical"))})}
+                      accessibilityLabel={`Open full details for ${
+                        contentDisplay.meaning({...expandedComponent, object: "radical"}, "radical")
+                      }`}
                     >
                       <Text
                         style={[
@@ -1452,7 +1476,8 @@ export default function KanjiDetails({
                           { color: subjectColors.radical },
                         ]}
                       >
-                        {uiT("ui.open_full_radical_page_9393dd7f")} </Text>
+                        Open full radical page
+                      </Text>
                       <Ionicons
                         name="arrow-forward"
                         size={16}
@@ -1470,7 +1495,8 @@ export default function KanjiDetails({
         {sortedSimilarSubjects.length > 0 && (
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {uiT("ui.visually_similar_kanji_28370798")} </Text>
+              Visually Similar Kanji
+            </Text>
             <View
               style={[
                 styles.infoBox,
@@ -1555,9 +1581,11 @@ export default function KanjiDetails({
                       ]}
                     >
                       {showAllSimilar
-                        ? uiT("ui.show_less_0264d7b0")
-                        : uiT("ui.show_value_more_07bba10f", {value1: (sortedSimilarSubjects.length -
-                            maxInitialSimilarItems)})}
+                        ? "Show Less"
+                        : `Show ${
+                            sortedSimilarSubjects.length -
+                            maxInitialSimilarItems
+                          } More`}
                     </Text>
                     <Ionicons
                       name={showAllSimilar ? "chevron-up" : "chevron-down"}
@@ -1576,8 +1604,8 @@ export default function KanjiDetails({
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
               {groupKanjiVocabularyExamplesByReading
-                ? uiT("ui.examples_by_reading_142b38e9")
-                : uiT("ui.vocabulary_examples_f9e788ab")}
+                ? "Examples by Reading"
+                : "Vocabulary Examples"}
             </Text>
             <View
               style={[
@@ -1600,7 +1628,8 @@ export default function KanjiDetails({
         {/* Your Progression Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.your_progression_064bccbc")} </Text>
+            Your Progression
+          </Text>
           <View
             style={[styles.infoBox, { backgroundColor: theme.cardBackground }]}
           >
@@ -1612,7 +1641,8 @@ export default function KanjiDetails({
                   <Text
                     style={[styles.loadingText, { color: theme.textSecondary }]}
                   >
-                    {uiT("ui.loading_progression_ace1a0ad")} </Text>
+                    Loading progression...
+                  </Text>
                 </View>
               ) : progressionStatus === "offline" ? (
                 /* Offline State */
@@ -1621,14 +1651,16 @@ export default function KanjiDetails({
                     <Ionicons name="cloud-offline" size={28} color="#fff" />
                   </View>
                   <Text style={[styles.srsName, { color: theme.textColor }]}>
-                    {uiT("ui.offline_a1794783")} </Text>
+                    Offline
+                  </Text>
                   <Text
                     style={[
                       styles.notStartedText,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.cannot_determine_progression_while_offline_49a777ed")} </Text>
+                    Cannot determine progression while offline
+                  </Text>
                 </View>
               ) : kanji.srsStage === undefined ||
                 kanji.srsStage === null ||
@@ -1639,7 +1671,7 @@ export default function KanjiDetails({
                     <Ionicons name="lock-closed" size={28} color="#fff" />
                   </View>
                   <Text style={[styles.srsName, { color: theme.textColor }]}>
-                    {kanji.srsStage === 0 ? uiT("ui.initiate_505d1ad3") : uiT("ui.not_started_6d54f9ec")}
+                    {kanji.srsStage === 0 ? "Initiate" : "Not Started"}
                   </Text>
                   <Text
                     style={[
@@ -1647,7 +1679,8 @@ export default function KanjiDetails({
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.complete_the_lesson_to_start_tracking_progress_513c5cc1")} </Text>
+                    Complete the lesson to start tracking progress
+                  </Text>
                 </View>
               ) : (
                 /* Started State */
@@ -1672,7 +1705,7 @@ export default function KanjiDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        {uiT("ui.next_review_2ba0a1df")}{" "}
+                        Next review:{" "}
                         <Text
                           style={{ fontWeight: "600", color: theme.textColor }}
                         >
@@ -1689,7 +1722,8 @@ export default function KanjiDetails({
                             { color: theme.textColor },
                           ]}
                         >
-                          {Math.round(kanji.percentageCorrect)}{uiT("ui.accuracy_39f874d5")} </Text>
+                          {Math.round(kanji.percentageCorrect)}% Accuracy
+                        </Text>
                       </View>
                     )}
                   </View>
@@ -1703,7 +1737,8 @@ export default function KanjiDetails({
                       <Text
                         style={[styles.statTitle, { color: theme.textColor }]}
                       >
-                        {uiT("ui.meaning_1f5d64b9")} </Text>
+                        Meaning
+                      </Text>
 
                       <View style={styles.streakContainer}>
                         <View style={styles.streakItem}>
@@ -1713,7 +1748,8 @@ export default function KanjiDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.current_e0d1b682")} </Text>
+                            Current
+                          </Text>
                           <Text
                             style={[
                               styles.streakValue,
@@ -1730,7 +1766,8 @@ export default function KanjiDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.longest_802803c7")} </Text>
+                            Longest
+                          </Text>
                           <Text
                             style={[
                               styles.streakValue,
@@ -1787,7 +1824,8 @@ export default function KanjiDetails({
                       <Text
                         style={[styles.statTitle, { color: theme.textColor }]}
                       >
-                        {uiT("ui.reading_463816d0")} </Text>
+                        Reading
+                      </Text>
 
                       <View style={styles.streakContainer}>
                         <View style={styles.streakItem}>
@@ -1797,7 +1835,8 @@ export default function KanjiDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.current_e0d1b682")} </Text>
+                            Current
+                          </Text>
                           <Text
                             style={[
                               styles.streakValue,
@@ -1814,7 +1853,8 @@ export default function KanjiDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.longest_802803c7")} </Text>
+                            Longest
+                          </Text>
                           <Text
                             style={[
                               styles.streakValue,
@@ -1983,7 +2023,8 @@ export default function KanjiDetails({
                 activeTab === "meaning" && styles.activeTabText,
               ]}
             >
-              {uiT("ui.meaning_1f5d64b9")} </Text>
+              Meaning
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.tab, activeTab === "reading" && styles.activeTab]}
@@ -1996,7 +2037,8 @@ export default function KanjiDetails({
                 activeTab === "reading" && styles.activeTabText,
               ]}
             >
-              {uiT("ui.reading_463816d0")} </Text>
+              Reading
+            </Text>
           </TouchableOpacity>
           {showStrokeOrder && (
             <TouchableOpacity
@@ -2010,7 +2052,8 @@ export default function KanjiDetails({
                   activeTab === "stroke" && styles.activeTabText,
                 ]}
               >
-                {uiT("ui.stroke_1582a13f")} </Text>
+                Stroke
+              </Text>
             </TouchableOpacity>
           )}
         </View>

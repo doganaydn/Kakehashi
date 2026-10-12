@@ -3,15 +3,14 @@
 Fork: https://github.com/doganaydn/Kakehashi · Dal: turkish-content.
 Upstream: Portego-00/Kakehashi; e9d29f4 güncellemesi birleştirildi.
 
-- Derlenmiş kişisel Android sürümü: 1.5.0-tr.17 / code 42 / arm64-v8a. Son kaynak derleme/teslim sonucu ana projenin BUILD-MANIFEST-tr.17.json kaydında tutulur.
+- Kişisel Android sürümü: 1.5.0-tr.18 / code 43 / arm64-v8a.
 - Uygulama kimliği: com.portego00.kakehashi.tr. Önceki kişisel imza ve kapalı upstream OTA korunur.
-- Kullanıcı önceki tr.15 APK'yı telefonunda sorunsuz kullandığını bildirdi; her özellik ayrı doğrulanmış sayılmaz.
+- Önceki tr.15 sürümü kullanıcı tarafından sorunsuz kullanılmıştı. tr.18 geri dönüş APK'sının telefon kontrolü henüz yapılmadı.
 - Güncel dosya: translation-packages/wanikani-tr-v3.json, paket 1.5.0.
 - 1–60 anlamları, 491 radikal, 1–15 seviyelerden 5.522 cümle ve kullanım açıklaması.
 - Veri APK'ya gömülü değildir; Settings → Appearance üzerinden içe aktarılır.
 - Seçimli eş anlam aktarımı ve geri alma açık kullanıcı onayı gerektirir; otomatik aktarım yok.
-- Android arayüzünde İngilizce varsayılan; Appearance → App language ile Türkçe seçilebilir. Öğrenme paketi ve UI dili ayrıdır. Çevrimdışı kaynaklar runtime'a bağlıdır; dil tercihi Android widget/bildirim tarafında da saklanır.
-- Türkçe UI kataloğu taslak ve ayrıca düzeltilmiş metinlerden oluşur. Tüm ekranların cihaz kontrolü ve uzun metinlerin dilsel ikinci kontrolü bitmiş sayılmaz. Ayrıntı: localization/ANDROID-YERELLESTIRME.md.
+- Kullanıcı isteğiyle arayüz yerelleştirmesi aktif daldan kaldırıldı; İngilizce arayüz ve Türkçe öğrenme paketiyle devam ediliyor. Deneme kodu ui-localization-experiment-tr17 dalında saklandı. UI çeviri çalışması şu an aktif değil.
 
 ## Çalışma kuralları
 
@@ -26,3 +25,5 @@ Tamamlanan uygulama değişiklikleri kontrollerden sonra origin/turkish-content 
 - UPSTREAM-MERGE-2026-10-11.md: son upstream birleştirmesinin kontrol kaydı.
 
 BUILD-ANDROID.ps1 kişisel ARM64 derlemesini yapar. Yerel SDK/JDK ve kısa derleme klasörü Git dışındadır. APK/kurulum teslimleri ana panel projesinin paylasim klasöründedir. Eski çalışma günlükleri ve gereksiz paket kopyaları ana projedeki temizlik arşivine alındı; canlı kaynak ağacında tutulmaz. Küçük v1/v2 test örnekleri geriye dönük uyumluluk için korunur. Genel proje tip denetimindeki hatalar bilinir; test sonucu bu denetimin tamamen geçtiği anlamına gelmez.
+
+- Upstream PR #117: https://github.com/Portego-00/Kakehashi/pull/117 · optional-translation-packages dalında, bu geri dönüşten etkilenmedi.

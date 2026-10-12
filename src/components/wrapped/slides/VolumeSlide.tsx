@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useMemo, useState } from "react";
 import { LayoutChangeEvent, StyleSheet, Text, View } from "react-native";
@@ -31,7 +30,6 @@ function BarSegment({
   targetWidth: number;
   delay: number;
 }) {
-  useInterfaceLanguage();
   const animWidth = useSharedValue(0);
 
   useEffect(() => {
@@ -67,7 +65,6 @@ function LegendItem({
   label: string;
   delay: number;
 }) {
-  useInterfaceLanguage();
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(12);
 
@@ -105,7 +102,6 @@ export function VolumeSlide({
   vocabCount,
   totalReviews,
 }: VolumeSlideProps) {
-  useInterfaceLanguage();
   const subjectColors = useSubjectColors();
   /* Track measured bar width */
   const [barWidth, setBarWidth] = useState(0);
@@ -217,7 +213,8 @@ export function VolumeSlide({
       <View style={styles.content}>
         {/* Header */}
         <Animated.Text style={[styles.headerText, headerStyle]}>
-          {uiT("ui.you_learned_7c9e8d2a")} </Animated.Text>
+          You learned
+        </Animated.Text>
 
         {/* Big number */}
         <Animated.View style={[styles.totalWrap, totalStyle]}>
@@ -233,7 +230,8 @@ export function VolumeSlide({
 
         {/* Subtitle */}
         <Animated.Text style={[styles.subtitleText, subtitleStyle]}>
-          {uiT("ui.subjects_to_guru_39581229")} </Animated.Text>
+          subjects to Guru
+        </Animated.Text>
 
         {/* Proportional breakdown bar */}
         <View style={styles.barContainer}>
@@ -267,19 +265,19 @@ export function VolumeSlide({
           <LegendItem
             color={subjectColors.radical}
             count={radicalCount}
-            label={uiT("ui.radicals_80608601")}
+            label="Radicals"
             delay={1500}
           />
           <LegendItem
             color={subjectColors.kanji}
             count={kanjiCount}
-            label={uiT("ui.kanji_45f62a35")}
+            label="Kanji"
             delay={1600}
           />
           <LegendItem
             color={subjectColors.vocabulary}
             count={vocabCount}
-            label={uiT("ui.vocab_eb535ff6")}
+            label="Vocab"
             delay={1700}
           />
         </View>
@@ -289,7 +287,7 @@ export function VolumeSlide({
           <Text style={styles.reviewsNumber}>
             {totalReviews.toLocaleString()}
           </Text>
-          <Text style={styles.reviewsLabel}>{uiT("ui.reviews_along_the_way_75779a8e")}</Text>
+          <Text style={styles.reviewsLabel}>reviews along the way</Text>
         </Animated.View>
       </View>
     </LinearGradient>

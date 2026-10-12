@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -50,7 +49,6 @@ interface KanjiMatch {
 }
 
 export default function SpeechResultsScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const kanjiTextColor = getReadableTextColor(subjectColors.kanji);
@@ -257,7 +255,7 @@ export default function SpeechResultsScreen() {
       setKanjiMatches(kanjiMatchesFound);
     } catch (err) {
       console.error("Error finding vocabulary matches:", err);
-      setError(uiT("ui.message_40435a73d2df"));
+      setError("Failed to find vocabulary matches");
     } finally {
       setIsLoading(false);
     }
@@ -364,7 +362,7 @@ export default function SpeechResultsScreen() {
               <Text
                 style={[styles.vocabularyLevel, { color: theme.textLight }]}
               >
-                {uiT("ui.level_1709305c")} {item.level}
+                Level {item.level}
               </Text>
             </View>
             {item.readings && item.readings.length > 0 && (
@@ -399,7 +397,8 @@ export default function SpeechResultsScreen() {
                   <Text
                     style={[styles.moreReadings, { color: theme.textLight }]}
                   >
-                    +{item.readings.length - 2} {uiT("ui.more_187897ce")} </Text>
+                    +{item.readings.length - 2} more
+                  </Text>
                 )}
               </View>
             )}
@@ -462,7 +461,7 @@ export default function SpeechResultsScreen() {
               <Text
                 style={[styles.vocabularyLevel, { color: theme.textLight }]}
               >
-                {uiT("ui.level_1709305c")} {item.level}
+                Level {item.level}
               </Text>
             </View>
             {item.readings && item.readings.length > 0 && (
@@ -497,7 +496,8 @@ export default function SpeechResultsScreen() {
                   <Text
                     style={[styles.moreReadings, { color: theme.textLight }]}
                   >
-                    +{item.readings.length - 2} {uiT("ui.more_187897ce")} </Text>
+                    +{item.readings.length - 2} more
+                  </Text>
                 )}
               </View>
             )}
@@ -658,7 +658,7 @@ export default function SpeechResultsScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.results_219c4a6c")}</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Results</Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
             style={styles.headerButton}
@@ -686,7 +686,8 @@ export default function SpeechResultsScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {uiT("ui.detected_text_13b4198b")} </Text>
+              Detected Text
+            </Text>
           </View>
           
           <View style={[styles.recognizedTextCard, { backgroundColor: theme.cardBackground }]}>
@@ -695,7 +696,8 @@ export default function SpeechResultsScreen() {
                 {/* Show English original first */}
                 <View style={styles.originalLanguageWrapper}>
                   <Text style={[styles.languageLabel, { color: theme.textSecondary }]}>
-                    {uiT("ui.english_95779ac5")} </Text>
+                    English:
+                  </Text>
                   <Text
                     style={[
                       styles.originalLanguageText,
@@ -710,7 +712,8 @@ export default function SpeechResultsScreen() {
                 <View style={styles.lineWithAudio}>
                   <View style={styles.lineTextContainer}>
                     <Text style={[styles.languageLabel, { color: theme.textSecondary }]}>
-                      {uiT("ui.japanese_translation_e65cc453")} </Text>
+                      Japanese Translation:
+                    </Text>
                     <Text
                       style={[
                         styles.recognizedText,
@@ -777,7 +780,8 @@ export default function SpeechResultsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.translating_f21771ab")} </Text>
+                      Translating...
+                    </Text>
                   </View>
                 ) : translation ? (
                   <View style={styles.translationContainer}>
@@ -800,7 +804,8 @@ export default function SpeechResultsScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {uiT("ui.vocabulary_matches_e1a18c03")} </Text>
+              Vocabulary Matches
+            </Text>
             {vocabularyMatches.length > 0 && (
               <View
                 style={[
@@ -828,7 +833,8 @@ export default function SpeechResultsScreen() {
               <Text
                 style={[styles.loadingText, { color: theme.textSecondary }]}
               >
-                {uiT("ui.searching_for_vocabulary_matches_b58dd694")} </Text>
+                Searching for vocabulary matches...
+              </Text>
             </View>
           ) : error ? (
             <View
@@ -859,9 +865,11 @@ export default function SpeechResultsScreen() {
                 color={theme.textLight}
               />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                {uiT("ui.no_vocabulary_matches_found_70e11543")} </Text>
+                No vocabulary matches found
+              </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                {uiT("ui.try_speaking_more_clearly_or_different_words_7297eafe")} </Text>
+                Try speaking more clearly or different words
+              </Text>
             </View>
           ) : (
             <View style={styles.vocabularyList}>
@@ -882,7 +890,8 @@ export default function SpeechResultsScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              {uiT("ui.kanji_matches_35ac7b70")} </Text>
+              Kanji Matches
+            </Text>
             {kanjiMatches.length > 0 && (
               <View
                 style={[
@@ -908,7 +917,8 @@ export default function SpeechResultsScreen() {
               <Text
                 style={[styles.loadingText, { color: theme.textSecondary }]}
               >
-                {uiT("ui.searching_for_kanji_matches_efb212ae")} </Text>
+                Searching for kanji matches...
+              </Text>
             </View>
           ) : error ? (
             <View
@@ -939,9 +949,11 @@ export default function SpeechResultsScreen() {
                 color={theme.textLight}
               />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                {uiT("ui.no_kanji_matches_found_2365630e")} </Text>
+                No kanji matches found
+              </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                {uiT("ui.individual_kanji_that_are_not_part_of_vocabulary_words_b0e63d5e")} </Text>
+                Individual kanji that are not part of vocabulary words
+              </Text>
             </View>
           ) : (
             <View style={styles.vocabularyList}>

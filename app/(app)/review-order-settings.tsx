@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { StatusBar } from "expo-status-bar";
@@ -59,14 +58,14 @@ interface PreviewItem extends OrderableReviewItem {
 const FALLBACK_PREVIEW_ITEMS: PreviewItem[] = [
   {
     id: 101,
-    get label() { return uiT("ui.water_radical_0cc50261"); },
+    label: "Water radical",
     subject: { object: "radical", data: { level: 10, readings: null } },
     srsStage: 2,
     availableAt: "2026-03-05T07:00:00.000Z",
   },
   {
     id: 102,
-    get label() { return uiT("ui.language_a4fe6526"); },
+    label: "Language",
     subject: {
       object: "kanji",
       data: { level: 10, readings: [{ reading: "go" }] },
@@ -76,7 +75,7 @@ const FALLBACK_PREVIEW_ITEMS: PreviewItem[] = [
   },
   {
     id: 103,
-    get label() { return uiT("ui.school_6cd2e331"); },
+    label: "School",
     subject: {
       object: "vocabulary",
       data: { level: 8, readings: [{ reading: "gakkou" }] },
@@ -86,7 +85,7 @@ const FALLBACK_PREVIEW_ITEMS: PreviewItem[] = [
   },
   {
     id: 104,
-    get label() { return uiT("ui.fire_c141faa8"); },
+    label: "Fire",
     subject: {
       object: "kanji",
       data: { level: 7, readings: [{ reading: "ka" }] },
@@ -96,14 +95,14 @@ const FALLBACK_PREVIEW_ITEMS: PreviewItem[] = [
   },
   {
     id: 105,
-    get label() { return uiT("ui.person_radical_18e9efc3"); },
+    label: "Person radical",
     subject: { object: "radical", data: { level: 6, readings: null } },
     srsStage: 3,
     availableAt: "2026-03-04T18:00:00.000Z",
   },
   {
     id: 106,
-    get label() { return uiT("ui.kana_vocab_ddfebdb9"); },
+    label: "Kana vocab",
     subject: { object: "kana_vocabulary", data: { level: 10, readings: null } },
     srsStage: 2,
     availableAt: "2026-03-05T11:00:00.000Z",
@@ -137,20 +136,20 @@ interface ReviewQuestionOrderOption {
 const REVIEW_TYPE_OPTIONS: readonly ReviewTypeOption[] = [
   {
     value: "radical",
-    get label() { return uiT("ui.radicals_80608601"); },
-    get description() { return uiT("ui.building_blocks_and_components_9acc0df3"); },
+    label: "Radicals",
+    description: "Building blocks and components",
     icon: "shapes-outline",
   },
   {
     value: "kanji",
-    get label() { return uiT("ui.kanji_45f62a35"); },
-    get description() { return uiT("ui.characters_with_meaning_and_readings_d30b0d55"); },
+    label: "Kanji",
+    description: "Characters with meaning and readings",
     icon: "book-outline",
   },
   {
     value: "vocabulary",
-    get label() { return uiT("ui.vocabulary_eebd90a0"); },
-    get description() { return uiT("ui.words_including_kana_only_vocabulary_cfba61cb"); },
+    label: "Vocabulary",
+    description: "Words (including kana-only vocabulary)",
     icon: "chatbox-ellipses-outline",
   },
 ];
@@ -158,13 +157,13 @@ const REVIEW_TYPE_OPTIONS: readonly ReviewTypeOption[] = [
 const REVIEW_QUESTION_ORDER_OPTIONS: readonly ReviewQuestionOrderOption[] = [
   {
     value: "meaning",
-    get label() { return uiT("ui.meaning_first_24d77736"); },
-    get description() { return uiT("ui.ask_meaning_before_reading_when_both_questions_exist_8efa5282"); },
+    label: "Meaning first",
+    description: "Ask meaning before reading when both questions exist.",
   },
   {
     value: "reading",
-    get label() { return uiT("ui.reading_first_6da1bfd2"); },
-    get description() { return uiT("ui.ask_reading_before_meaning_when_both_questions_exist_eafdc796"); },
+    label: "Reading first",
+    description: "Ask reading before meaning when both questions exist.",
   },
 ];
 
@@ -210,32 +209,32 @@ function getPreviewLabel(subject: any): string {
 function getSubjectTypeLabel(subjectType: PreviewSubjectType): string {
   switch (subjectType) {
     case "radical":
-      return uiT("ui.radical_af294da6");
+      return "Radical";
     case "kanji":
-      return uiT("ui.kanji_45f62a35");
+      return "Kanji";
     case "vocabulary":
-      return uiT("ui.vocabulary_eebd90a0");
+      return "Vocabulary";
     case "kana_vocabulary":
-      return uiT("ui.kana_vocab_597d8c17");
+      return "Kana Vocab";
     default:
-      return uiT("ui.item_652bcc3a");
+      return "Item";
   }
 }
 
 function getSrsStageLabel(stage: number): { label: string; iconLevel: SrsIconLevel } {
   switch (stage) {
     case 1:
-      return { label: uiT("ui.apprentice_i_9b147e79"), iconLevel: "Apprentice" };
+      return { label: "Apprentice I", iconLevel: "Apprentice" };
     case 2:
-      return { label: uiT("ui.apprentice_ii_17ea8522"), iconLevel: "Apprentice" };
+      return { label: "Apprentice II", iconLevel: "Apprentice" };
     case 3:
-      return { label: uiT("ui.apprentice_iii_f60e604d"), iconLevel: "Apprentice" };
+      return { label: "Apprentice III", iconLevel: "Apprentice" };
     case 4:
-      return { label: uiT("ui.apprentice_iv_a58cb527"), iconLevel: "Apprentice" };
+      return { label: "Apprentice IV", iconLevel: "Apprentice" };
     case 5:
-      return { label: uiT("ui.guru_i_c0e7845c"), iconLevel: "Guru" };
+      return { label: "Guru I", iconLevel: "Guru" };
     case 6:
-      return { label: uiT("ui.guru_ii_99fc38e2"), iconLevel: "Guru" };
+      return { label: "Guru II", iconLevel: "Guru" };
     case 7:
       return { label: "Master", iconLevel: "Master" };
     case 8:
@@ -275,7 +274,6 @@ function sameTypeOrder(
 }
 
 export default function ReviewOrderSettings() {
-  useInterfaceLanguage();
   const { theme, isDark } = useTheme();
   const { dashboardData } = useDashboardData();
   const {
@@ -457,7 +455,7 @@ export default function ReviewOrderSettings() {
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.review_order_1f1edc73")}</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>Review Order</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
@@ -471,10 +469,12 @@ export default function ReviewOrderSettings() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.regular_reviews_e3cc5dc0")} </Text>
+            Regular Reviews
+          </Text>
 
           <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-            {uiT("ui.used_by_regular_wanikani_review_sessions_a6a3bc18")} </Text>
+            Used by regular WaniKani review sessions.
+          </Text>
 
           {REVIEW_ORDER_OPTIONS.map((option, index) => {
             const isSelected = reviewOrder === option.value;
@@ -524,10 +524,12 @@ export default function ReviewOrderSettings() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.custom_reviews_276f3376")} </Text>
+            Custom Reviews
+          </Text>
 
           <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-            {uiT("ui.used_by_custom_reviews_and_custom_lesson_quizzes_defaults_to_rand_8be17fbc")} </Text>
+            Used by custom reviews and custom lesson quizzes. Defaults to random.
+          </Text>
 
           {REVIEW_ORDER_OPTIONS.map((option, index) => {
             const isSelected = customReviewOrder === option.value;
@@ -579,9 +581,11 @@ export default function ReviewOrderSettings() {
           <View style={[styles.optionRow, { borderBottomColor: theme.border }]}>
             <View style={styles.optionTextWrap}>
               <Text style={[styles.optionTitle, { color: theme.textColor }]}>
-                {uiT("ui.group_by_item_type_e10220f1")} </Text>
+                Group by item type
+              </Text>
               <Text style={[styles.optionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.keep_radicals_kanji_and_vocabulary_grouped_in_your_custom_order_t_9c207711")} </Text>
+                Keep radicals, kanji, and vocabulary grouped in your custom order, then apply the main review order within each group.
+              </Text>
             </View>
             <Switch
               value={reviewTypeOrderEnabled}
@@ -607,7 +611,8 @@ export default function ReviewOrderSettings() {
             </View>
           ) : (
             <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.disabled_means_item_types_stay_mixed_according_to_your_main_order_808eebe6")} </Text>
+              Disabled means item types stay mixed according to your main order.
+            </Text>
           )}
         </View>
 
@@ -628,9 +633,11 @@ export default function ReviewOrderSettings() {
           >
             <View style={styles.optionTextWrap}>
               <Text style={[styles.optionTitle, { color: theme.textColor }]}>
-                {uiT("ui.force_meaning_reading_order_47fa9953")} </Text>
+                Force meaning/reading order
+              </Text>
               <Text style={[styles.optionDescription, { color: theme.textSecondary }]}>
-                {uiT("ui.off_keeps_the_default_behavior_random_in_spread_mode_meaning_then_7cb65ebf")} </Text>
+                Off keeps the default behavior (random in spread mode, meaning then reading in back-to-back mode).
+              </Text>
             </View>
             <Switch
               value={reviewQuestionOrderEnabled}
@@ -679,7 +686,8 @@ export default function ReviewOrderSettings() {
             })
           ) : (
             <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.turn_this_on_to_always_show_your_preferred_question_type_first_1495ab1f")} </Text>
+              Turn this on to always show your preferred question type first.
+            </Text>
           )}
         </View>
 
@@ -693,13 +701,16 @@ export default function ReviewOrderSettings() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.example_preview_6c159c01")} </Text>
+            Example Preview
+          </Text>
           {previewUsesSampleItems ? (
             <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.no_available_reviews_found_so_this_preview_uses_sample_items_58c88573")} </Text>
+              No available reviews found, so this preview uses sample items.
+            </Text>
           ) : (
             <Text style={[styles.previewSubtitle, { color: theme.textSecondary }]}>
-              {uiT("ui.preview_built_from_your_currently_available_reviews_8d549200")} </Text>
+              Preview built from your currently available reviews.
+            </Text>
           )}
           <View style={styles.previewList}>
             {orderedPreviewItems.map((item, index) => {
@@ -759,7 +770,7 @@ export default function ReviewOrderSettings() {
                         ]}
                       >
                         <Text style={[styles.levelChipText, { color: theme.primary }]}>
-                          {uiT("ui.level_1709305c")} {item.subject.data.level}
+                          Level {item.subject.data.level}
                         </Text>
                       </View>
 
@@ -808,7 +819,8 @@ export default function ReviewOrderSettings() {
                           ]}
                         >
                           <Text style={[styles.criticalChipText, { color: theme.primary }]}>
-                            {uiT("ui.critical_427dd296")} </Text>
+                            Critical
+                          </Text>
                         </View>
                       ) : null}
                     </View>

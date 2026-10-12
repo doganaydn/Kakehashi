@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import {SettingsIcon as Ionicons} from "../../../ui/settings/settings-icon";
 import React from "react";
 
@@ -15,7 +14,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function AnswerStopDetailsPreviewModal() {
-  useInterfaceLanguage();
   const {
     answerStopPreviewImageHeight,
     setShowAnswerStopDetailsPreview,
@@ -75,7 +73,8 @@ export function AnswerStopDetailsPreviewModal() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.answer_pause_details_b769f5de")} </Text>
+                    Answer Pause Details
+                  </Text>
                 </View>
 
                 <Text
@@ -84,7 +83,10 @@ export function AnswerStopDetailsPreviewModal() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.when_a_review_stops_after_an_answer_the_answer_field_actions_and_1652702f")} </Text>
+                  When a review stops after an answer, the answer field,
+                  actions, and subject details slide up together below the
+                  subject.
+                </Text>
 
                 <View
                   style={[
@@ -102,7 +104,7 @@ export function AnswerStopDetailsPreviewModal() {
                       { height: answerStopPreviewImageHeight },
                     ]}
                     contentFit="contain"
-                    accessibilityLabel={uiT("ui.preview_of_the_answer_pause_details_sheet_6578855e")}
+                    accessibilityLabel="Preview of the answer pause details sheet"
                   />
                 </View>
 
@@ -114,7 +116,7 @@ export function AnswerStopDetailsPreviewModal() {
                   onPress={() => setShowAnswerStopDetailsPreview(false)}
                   activeOpacity={0.85}
                 >
-                  <Text style={styles.answerStopPreviewCloseText}>{uiT("ui.got_it_5ad3dbd1")}</Text>
+                  <Text style={styles.answerStopPreviewCloseText}>Got it</Text>
                 </TouchableOpacity>
               </View>
             </TouchableWithoutFeedback>

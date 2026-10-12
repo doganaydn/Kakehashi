@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import {
@@ -14,7 +13,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function SupportSection() {
-  useInterfaceLanguage();
   const {
     getCurrentPatchNotesVersion,
     handlePatreonPress,
@@ -50,7 +48,8 @@ export function SupportSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          {uiT("ui.support_be91940b")} </Text>
+          Support
+        </Text>
 
         <TouchableOpacity
           style={[styles.settingItem, { borderBottomColor: theme.border }]}
@@ -66,12 +65,14 @@ export function SupportSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.issues_feedback_c7ece822")} </SettingsLabel>
+              Issues & Feedback
+            </SettingsLabel>
 
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.join_the_discussion_report_bugs_and_request_features_b4de4270")} </Text>
+              Join the discussion, report bugs, and request features
+            </Text>
           </View>
           <Ionicons
             name="chevron-forward"
@@ -88,18 +89,20 @@ export function SupportSection() {
             <GitHubMark
               size={24}
               color={theme.isDark ? "#FFFFFF" : "#24292F"}
-              accessibilityLabel={uiT("ui.github_f911e414")}
+              accessibilityLabel="GitHub"
             />
           </View>
           <View style={styles.settingTextContainer}>
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.open_source_fdb627ef")} </SettingsLabel>
+              Open Source
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.contribute_to_kakehashi_or_star_the_repo_c01fe36d")} </Text>
+              Contribute to Kakehashi or star the repo
+            </Text>
           </View>
           <Ionicons
             name="chevron-forward"
@@ -129,11 +132,13 @@ export function SupportSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.rate_app_b2eeb197")} </SettingsLabel>
+              Rate App
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.help_others_discover_this_app_6b23d004")} </Text>
+              Help others discover this App
+            </Text>
           </View>
           <Ionicons
             name="chevron-forward"
@@ -163,7 +168,8 @@ export function SupportSection() {
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.support_the_app_with_recurring_support_94259a73")} </Text>
+              Support the app with recurring support
+            </Text>
           </View>
           <Ionicons
             name="chevron-forward"
@@ -194,15 +200,17 @@ export function SupportSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              {uiT("ui.what_s_new_561b17ed")} </SettingsLabel>
+              What&apos;s New
+            </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              {uiT("ui.see_the_latest_updates_02a0035d")} </Text>
+              See the latest updates
+            </Text>
           </View>
           {lastSeenPatchNotesVersion !== getCurrentPatchNotesVersion() && (
             <View style={styles.newBadge}>
-              <Text style={styles.newBadgeText}>{uiT("ui.new_a253ff09")}</Text>
+              <Text style={styles.newBadgeText}>NEW</Text>
             </View>
           )}
           <Ionicons
@@ -233,11 +241,13 @@ export function SupportSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.bunpro_survey_001933d9")} </SettingsLabel>
+                Bunpro Survey
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.2_quick_questions_de9c30fc")} </Text>
+                2 quick questions
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -262,11 +272,13 @@ export function SupportSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.tip_developer_b34defc4")} </SettingsLabel>
+                Tip Developer
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.support_ongoing_development_4c7e318c")} </Text>
+                Support ongoing development
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"

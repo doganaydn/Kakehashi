@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { router } from "expo-router";
@@ -38,9 +37,9 @@ const WIDGET_CARD_OPTIONS: {
   title: string;
   icon: React.ComponentProps<typeof Ionicons>["name"];
 }[] = [
-  { key: "lessons", get title() { return uiT("ui.lesson_card_7b5e8729"); }, icon: "book-outline" },
-  { key: "reviews", get title() { return uiT("ui.review_card_e84797a5"); }, icon: "checkmark-done-outline" },
-  { key: "streak", get title() { return uiT("ui.app_streak_41d6e3b6"); }, icon: "flame-outline" },
+  { key: "lessons", title: "Lesson Card", icon: "book-outline" },
+  { key: "reviews", title: "Review Card", icon: "checkmark-done-outline" },
+  { key: "streak", title: "App Streak", icon: "flame-outline" },
 ];
 
 const CARD_COLOR_FIELDS: Record<
@@ -48,14 +47,14 @@ const CARD_COLOR_FIELDS: Record<
   { key: WidgetCardStyleColorKey; label: string }[]
 > = {
   lessons: [
-    { key: "widgetLessonCardGradientStart", get label() { return uiT("ui.gradient_start_0c840355"); } },
-    { key: "widgetLessonCardGradientEnd", get label() { return uiT("ui.gradient_end_845b2bf1"); } },
+    { key: "widgetLessonCardGradientStart", label: "Gradient Start" },
+    { key: "widgetLessonCardGradientEnd", label: "Gradient End" },
   ],
   reviews: [
-    { key: "widgetReviewCardGradientStart", get label() { return uiT("ui.gradient_start_0c840355"); } },
-    { key: "widgetReviewCardGradientEnd", get label() { return uiT("ui.gradient_end_845b2bf1"); } },
+    { key: "widgetReviewCardGradientStart", label: "Gradient Start" },
+    { key: "widgetReviewCardGradientEnd", label: "Gradient End" },
   ],
-  streak: [{ key: "widgetStreakCardGradientStart", get label() { return uiT("ui.flame_color_54a3c5d2"); } }],
+  streak: [{ key: "widgetStreakCardGradientStart", label: "Flame Color" }],
 };
 
 const PREVIEW_STREAK_DAYS: UsageStreakDay[] = [
@@ -77,7 +76,6 @@ function toEditableHex(value: string): string {
 }
 
 export default function WidgetCustomizationSettings() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
 
@@ -311,19 +309,20 @@ export default function WidgetCustomizationSettings() {
           style={styles.backButton}
           onPress={() => router.back()}
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.go_back_6aadac2f")}
+          accessibilityLabel="Go back"
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.widget_customization_4eb17e99")} </Text>
+          Widget Customization
+        </Text>
         <TouchableOpacity
           style={styles.resetButton}
           onPress={resetDefaults}
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.reset_widget_styles_cc6b7662")}
+          accessibilityLabel="Reset widget styles"
         >
-          <Text style={[styles.resetButtonText, { color: theme.primary }]}>{uiT("ui.reset_daee7606")}</Text>
+          <Text style={[styles.resetButtonText, { color: theme.primary }]}>Reset</Text>
         </TouchableOpacity>
       </View>
 
@@ -343,9 +342,11 @@ export default function WidgetCustomizationSettings() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            {uiT("ui.card_styles_a616611b")} </Text>
+            Card Styles
+          </Text>
           <Text style={[styles.sectionSubtext, { color: theme.textSecondary }]}>
-            {uiT("ui.pick_a_card_and_customize_its_colors_20ae0ae5")} </Text>
+            Pick a card and customize its colors.
+          </Text>
 
           <View style={styles.segmentRow}>
             {WIDGET_CARD_OPTIONS.map((option) => {
@@ -390,7 +391,8 @@ export default function WidgetCustomizationSettings() {
           <View style={styles.switchRowCompact}>
             <View style={styles.switchTextWrap}>
               <Text style={[styles.inlineSwitchLabel, { color: theme.textColor }]}>
-                {uiT("ui.follow_app_theme_for_this_card_97411d65")} </Text>
+                Follow app theme for this card
+              </Text>
             </View>
             <Switch
               value={selectedCardFollowTheme}
@@ -403,9 +405,11 @@ export default function WidgetCustomizationSettings() {
           <View style={styles.switchRowCompact}>
             <View style={styles.switchTextWrap}>
               <Text style={[styles.inlineSwitchLabel, { color: theme.textColor }]}>
-                {uiT("ui.group_apprentice_and_guru_stages_3c471fc3")} </Text>
+                Group Apprentice and Guru stages
+              </Text>
               <Text style={[styles.sectionSubtext, { color: theme.textSecondary }]}>
-                {uiT("ui.applies_to_srs_chart_in_card_details_and_the_srs_details_page_a31b9c80")} </Text>
+                Applies to SRS chart, in-card details, and the SRS details page.
+              </Text>
             </View>
             <Switch
               value={widgetSrsBreakdownGroupStages}
@@ -437,7 +441,8 @@ export default function WidgetCustomizationSettings() {
 
           {selectedCardFollowTheme ? (
             <Text style={[styles.sectionSubtext, { color: theme.textSecondary }]}>
-              {uiT("ui.disable_theme_follow_for_this_card_to_edit_its_custom_colors_d55118ef")} </Text>
+              Disable theme follow for this card to edit its custom colors.
+            </Text>
           ) : null}
 
           <View

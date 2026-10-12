@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Check, Eraser, Hand, Highlighter, Pencil, Plus, Redo2, Undo2 } from "lucide-react";
 import { encodeInlineInk, INLINE_INK_MAX_POINTS, INLINE_INK_MAX_STROKES, parseInlineInk, type InlineInkDocument, type InlineInkStroke } from "../../../web/src/features/notebooks/inline-ink";
@@ -22,7 +21,6 @@ function message(error: unknown) { return error instanceof Error ? error.message
 
 /** A canvas in the document's own scroll layer. No native overlay or modal. */
 export function InlineHandwriting(props: InlineHandwritingProps) {
-  useInterfaceLanguage();
   const actions = useRef(props); actions.current = props;
   const canvas = useRef<HTMLCanvasElement>(null);
   const session = useRef({
@@ -137,7 +135,7 @@ export function InlineHandwriting(props: InlineHandwritingProps) {
     if (active.stroke) {
       const last = active.stroke.points.at(-1);
       if (last && Math.hypot(last[0] - next[0], last[1] - next[1]) < 0.2) return;
-      if (scope.points >= INLINE_INK_MAX_POINTS) { finish(); setError(uiT("ui.message_c37e1ba143ae")); return; }
+      if (scope.points >= INLINE_INK_MAX_POINTS) { finish(); setError("This area is full. Add another handwriting block to continue."); return; }
       active.stroke.points.push(next); scope.points++; active.changed = true;
     } else {
       const strokes = scope.document.strokes.filter((stroke) => !hitsInlineStroke(stroke, next[0], next[1], 10));
@@ -150,7 +148,7 @@ export function InlineHandwriting(props: InlineHandwritingProps) {
     const scope = session.current;
     if (!scope.loaded || scope.saving || scope.active || tool === "scroll" || (event.pointerType === "touch" && !finger) || (event.pointerType !== "pen" && event.pointerType !== "touch" && event.pointerType !== "mouse") || (event.pointerType === "mouse" && event.button !== 0)) return;
     event.preventDefault(); event.stopPropagation();
-    if (tool !== "eraser" && (scope.document.strokes.length >= INLINE_INK_MAX_STROKES || scope.points >= INLINE_INK_MAX_POINTS)) { setError(uiT("ui.message_c37e1ba143ae")); return; }
+    if (tool !== "eraser" && (scope.document.strokes.length >= INLINE_INK_MAX_STROKES || scope.points >= INLINE_INK_MAX_POINTS)) { setError("This area is full. Add another handwriting block to continue."); return; }
     if (!point(event)) return;
     const before = copy(scope.document);
     const stroke: InlineInkStroke | undefined = tool === "eraser" ? undefined : { id: `ink-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`, tool, color, width: tool === "marker" ? Math.min(24, width * 4) : width, points: [] };
@@ -206,26 +204,26 @@ export function InlineHandwriting(props: InlineHandwritingProps) {
   const locked = loading || saving || !session.current.loaded;
 
   return <figure className="nb-handwriting nb-inline-ink" contentEditable={false} onMouseDown={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
-    <div className="nb-ink-tools" role="toolbar" aria-label={uiT("ui.message_48c94b9e0cbc")}>
+    <div className="nb-ink-tools" role="toolbar" aria-label="Handwriting tools">
       <div className="nb-ink-tool-scroll">
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_a04bd35be167")} aria-pressed={tool === "pen"} disabled={locked} onClick={() => { finish(); setTool("pen"); }}><Pencil size={18} /></button>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_13ce08699c85")} aria-pressed={tool === "marker"} disabled={locked} onClick={() => { finish(); setTool("marker"); }}><Highlighter size={18} /></button>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_25b631b03e47")} aria-pressed={tool === "eraser"} disabled={locked} onClick={() => { finish(); setTool("eraser"); }}><Eraser size={18} /></button>
-        <label className="nb-ink-color" title={uiT("ui.ink_color_6ca8e0c3")}><span className="nb-ink-sr-only">{uiT("ui.ink_color_6ca8e0c3")}</span><input type="color" aria-label={uiT("ui.ink_color_6ca8e0c3")} value={color} disabled={locked} onChange={(event) => setColor(event.target.value as InlineInkStroke["color"])} /></label>
-        <label className="nb-ink-width"><span className="nb-ink-sr-only">{uiT("ui.stroke_width_facec269")}</span><select aria-label={uiT("ui.stroke_width_facec269")} value={width} disabled={locked} onChange={(event) => setWidth(Number(event.target.value))}><option value={1.5}>{uiT("ui.thin_da68daae")}</option><option value={3}>{uiT("ui.medium_8e588cd1")}</option><option value={6}>{uiT("ui.thick_b7e275f8")}</option></select></label>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_2cf837443f0e")} disabled={locked || !meta.undo} onClick={() => history(false)}><Undo2 size={18} /></button>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.message_da5ccc87855d")} disabled={locked || !meta.redo} onClick={() => history(true)}><Redo2 size={18} /></button>
-        <button type="button" className="nb-icon-button" aria-label={uiT("ui.scroll_page_7191adb2")} aria-pressed={tool === "scroll"} disabled={locked} onClick={() => { finish(); setTool(tool === "scroll" ? "pen" : "scroll"); }}><Hand size={18} /></button>
+        <button type="button" className="nb-icon-button" aria-label="Pen" aria-pressed={tool === "pen"} disabled={locked} onClick={() => { finish(); setTool("pen"); }}><Pencil size={18} /></button>
+        <button type="button" className="nb-icon-button" aria-label="Marker" aria-pressed={tool === "marker"} disabled={locked} onClick={() => { finish(); setTool("marker"); }}><Highlighter size={18} /></button>
+        <button type="button" className="nb-icon-button" aria-label="Erase stroke" aria-pressed={tool === "eraser"} disabled={locked} onClick={() => { finish(); setTool("eraser"); }}><Eraser size={18} /></button>
+        <label className="nb-ink-color" title="Ink color"><span className="nb-ink-sr-only">Ink color</span><input type="color" aria-label="Ink color" value={color} disabled={locked} onChange={(event) => setColor(event.target.value as InlineInkStroke["color"])} /></label>
+        <label className="nb-ink-width"><span className="nb-ink-sr-only">Stroke width</span><select aria-label="Stroke width" value={width} disabled={locked} onChange={(event) => setWidth(Number(event.target.value))}><option value={1.5}>Thin</option><option value={3}>Medium</option><option value={6}>Thick</option></select></label>
+        <button type="button" className="nb-icon-button" aria-label="Undo handwriting" disabled={locked || !meta.undo} onClick={() => history(false)}><Undo2 size={18} /></button>
+        <button type="button" className="nb-icon-button" aria-label="Redo handwriting" disabled={locked || !meta.redo} onClick={() => history(true)}><Redo2 size={18} /></button>
+        <button type="button" className="nb-icon-button" aria-label="Scroll page" aria-pressed={tool === "scroll"} disabled={locked} onClick={() => { finish(); setTool(tool === "scroll" ? "pen" : "scroll"); }}><Hand size={18} /></button>
       </div>
       <button type="button" className="nb-ink-done" disabled={locked} onClick={() => void save()}><Check size={18} />{saving ? "Saving…" : "Done"}</button>
     </div>
-    <canvas ref={canvas} width={meta.width} height={meta.height} className="nb-ink-canvas" role="img" aria-label={uiT("ui.message_f80d7f1586a5")} data-stroke-count={meta.strokes} style={{ touchAction: tool === "scroll" ? "pan-y" : "none", aspectRatio: `${meta.width} / ${meta.height}` }} onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={pointerEnd} onLostPointerCapture={pointerEnd} onContextMenu={(event) => event.preventDefault()} />
-    {loading ? <div className="nb-ink-status" role="status">{uiT("ui.loading_handwriting_ab3d261a")}</div> : null}
+    <canvas ref={canvas} width={meta.width} height={meta.height} className="nb-ink-canvas" role="img" aria-label="Handwriting drawing area" data-stroke-count={meta.strokes} style={{ touchAction: tool === "scroll" ? "pan-y" : "none", aspectRatio: `${meta.width} / ${meta.height}` }} onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={pointerEnd} onLostPointerCapture={pointerEnd} onContextMenu={(event) => event.preventDefault()} />
+    {loading ? <div className="nb-ink-status" role="status">Loading handwriting…</div> : null}
     <div className="nb-ink-footer">
-      <label><input type="checkbox" checked={finger} disabled={locked} onChange={(event) => { finish(); setFinger(event.target.checked); }} />{uiT("ui.draw_with_finger_3bccb43b")}</label>
+      <label><input type="checkbox" checked={finger} disabled={locked} onChange={(event) => { finish(); setFinger(event.target.checked); }} />Draw with finger</label>
       <span className="nb-ink-save-state">{tool === "scroll" ? "Scroll mode" : dirty ? "Unsaved changes" : ""}</span>
-      <button type="button" disabled={locked || meta.height >= 4096} onClick={grow}><Plus size={16} />{uiT("ui.more_space_f4f5ab90")}</button>
+      <button type="button" disabled={locked || meta.height >= 4096} onClick={grow}><Plus size={16} />More space</button>
     </div>
-    {error ? <div className="nb-ink-error" role="alert">{error}{!session.current.loaded ? <button type="button" onClick={() => setRetry((value) => value + 1)}>{uiT("ui.retry_942087cc")}</button> : null}</div> : null}
+    {error ? <div className="nb-ink-error" role="alert">{error}{!session.current.loaded ? <button type="button" onClick={() => setRetry((value) => value + 1)}>Retry</button> : null}</div> : null}
   </figure>;
 }

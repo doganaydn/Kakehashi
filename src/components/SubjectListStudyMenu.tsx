@@ -1,4 +1,3 @@
-import { uiPluralSuffix,  uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import {
@@ -54,15 +53,14 @@ export default function SubjectListStudyMenu({
   onSimilarKanji,
   onKanjiWriting,
 }: SubjectListStudyMenuProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const [isFallbackMenuVisible, setIsFallbackMenuVisible] = useState(false);
   const actions = useMemo<StudyMenuAction[]>(
     () => [
       {
         id: "review",
-        label: uiT("ui.standard_review_0c432927"),
-        description: uiT("ui.meaning_and_reading_questions_for_all_selected_items_bd0bdda6"),
+        label: "Standard Review",
+        description: "Meaning and reading questions for all selected items",
         icon: "checkmark-circle-outline",
         systemImage: "checkmark.circle",
         count: selectedItemCount,
@@ -70,8 +68,8 @@ export default function SubjectListStudyMenu({
       },
       {
         id: "kanji-match",
-        label: uiT("ui.kanji_match_65538f9d"),
-        description: uiT("ui.connect_selected_kanji_to_their_meanings_f01793ec"),
+        label: "Kanji Match",
+        description: "Connect selected kanji to their meanings",
         icon: "git-compare-outline",
         systemImage: "link",
         count: selectedKanjiCount,
@@ -80,16 +78,16 @@ export default function SubjectListStudyMenu({
       },
       {
         id: "lessons",
-        label: uiT("ui.custom_lessons_d4dcbb33"),
-        description: uiT("ui.revisit_lesson_content_for_the_selected_items_d06720c3"),
+        label: "Custom Lessons",
+        description: "Revisit lesson content for the selected items",
         icon: "school-outline",
         systemImage: "graduationcap",
         onPress: onCustomLessons,
       },
       {
         id: "random-test",
-        label: uiT("ui.random_test_b7448a38"),
-        description: uiT("ui.configure_a_mixed_test_for_this_list_40a04229"),
+        label: "Random Test",
+        description: "Configure a mixed test for this list",
         icon: "dice-outline",
         systemImage: "dice",
         requiresList: true,
@@ -97,8 +95,8 @@ export default function SubjectListStudyMenu({
       },
       {
         id: "similar-kanji",
-        label: uiT("ui.similar_kanji_6df70171"),
-        description: uiT("ui.match_lookalike_kanji_from_this_list_efc6ffe0"),
+        label: "Similar Kanji",
+        description: "Match lookalike kanji from this list",
         icon: "copy-outline",
         systemImage: "square.on.square",
         requiresList: true,
@@ -106,8 +104,8 @@ export default function SubjectListStudyMenu({
       },
       {
         id: "kanji-writing",
-        label: uiT("ui.kanji_writing_da747d0f"),
-        description: uiT("ui.configure_writing_practice_for_this_list_1095525c"),
+        label: "Kanji Writing",
+        description: "Configure writing practice for this list",
         icon: "brush-outline",
         systemImage: "pencil",
         requiresList: true,
@@ -123,7 +121,7 @@ export default function SubjectListStudyMenu({
       onStandardReview,
       selectedItemCount,
       selectedKanjiCount,
-    , interfaceLocale()],
+    ],
   );
   const visibleActions = actions.filter(
     (action) => !action.requiresList || hasSelectedLists,
@@ -156,7 +154,7 @@ export default function SubjectListStudyMenu({
                   triggerStyle,
                   { backgroundColor: theme.cardBackground },
                 ]}
-                accessibilityLabel={uiT("ui.choose_study_mode_371f2167")}
+                accessibilityLabel="Choose study mode"
               >
                 <Ionicons
                   name="play-circle-outline"
@@ -202,7 +200,7 @@ export default function SubjectListStudyMenu({
         onPress={() => setIsFallbackMenuVisible(true)}
         activeOpacity={0.7}
         accessibilityRole="button"
-        accessibilityLabel={uiT("ui.choose_study_mode_371f2167")}
+        accessibilityLabel="Choose study mode"
       >
         <Ionicons
           name="play-circle-outline"
@@ -230,16 +228,18 @@ export default function SubjectListStudyMenu({
             <View style={styles.header}>
               <View style={styles.heading}>
                 <Text style={[styles.title, { color: theme.textColor }]}>
-                  {uiT("ui.choose_study_mode_6d8786e9")} </Text>
+                  Choose Study Mode
+                </Text>
                 <Text style={[styles.summary, { color: theme.textSecondary }]}>
-                  {selectedItemCount} {uiT("ui.selected_item_4b94a973")} {uiPluralSuffix(selectedItemCount === 1 ? "" : "s")}
+                  {selectedItemCount} selected item
+                  {selectedItemCount === 1 ? "" : "s"}
                 </Text>
               </View>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => setIsFallbackMenuVisible(false)}
                 accessibilityRole="button"
-                accessibilityLabel={uiT("ui.close_study_mode_menu_c6cde7e9")}
+                accessibilityLabel="Close study mode menu"
               >
                 <Ionicons
                   name="close"

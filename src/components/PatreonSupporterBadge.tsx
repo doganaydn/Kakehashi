@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { PatreonMark } from "./PatreonMark";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -11,7 +10,6 @@ type PatreonSupporterBadgeProps = {
 export function PatreonSupporterBadge({
   compact = false,
 }: PatreonSupporterBadgeProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const backgroundColor = theme.isDark ? "rgba(249, 104, 84, 0.22)" : "#FCE7E3";
   const borderColor = theme.isDark ? "rgba(249, 104, 84, 0.45)" : "#F6B2A8";
@@ -30,7 +28,8 @@ export function PatreonSupporterBadge({
         color={textColor}
       />
       <Text style={[styles.text, compact && styles.textCompact, { color: textColor }]}>
-        {uiT("ui.supporter_2ce6c010")} </Text>
+        Supporter
+      </Text>
     </View>
   );
 }

@@ -1,4 +1,3 @@
-import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useItemMeaning } from "../features/turkish-content/item-display";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -22,7 +21,6 @@ type CriticalItemsProps = {
 };
 
 const UnlockItemCharacter = ({ item }: { item: UnlockItem }) => {
-  useInterfaceLanguage();
   const isRadical = item.type === "radical";
 
   // For radicals, try SVG fallback if no characters
@@ -60,13 +58,12 @@ const UnlockItemCharacter = ({ item }: { item: UnlockItem }) => {
 };
 
 export function RecentUnlocks({ items, onItemPress, onViewAll }: UnlocksProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const itemMeaning = useItemMeaning();
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(interfaceLocale(), { month: "short", day: "numeric" });
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
   const getItemColor = (type: string): string => {
@@ -95,7 +92,8 @@ export function RecentUnlocks({ items, onItemPress, onViewAll }: UnlocksProps) {
     >
       <View style={styles.headerRow}>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.new_unlocks_in_the_last_30_days_42bfe87b")} </Text>
+          New Unlocks In The Last 30 Days
+        </Text>
       </View>
 
       <View style={styles.itemsContainer}>
@@ -134,14 +132,14 @@ export function RecentUnlocks({ items, onItemPress, onViewAll }: UnlocksProps) {
         onPress={onViewAll}
       >
         <Text style={[styles.viewAllText, { color: theme.textSecondary }]}>
-          {uiT("ui.see_more_unlocks_142da732")} </Text>
+          See More Unlocks
+        </Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const CriticalItemCharacter = ({ item }: { item: CriticalItem }) => {
-  useInterfaceLanguage();
   const isRadical = item.type === "radical";
 
   // For radicals, try SVG fallback if no characters
@@ -183,7 +181,6 @@ export function CriticalItems({
   onItemPress,
   onViewAll,
 }: CriticalItemsProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const itemMeaning = useItemMeaning();
 
@@ -213,7 +210,8 @@ export function CriticalItems({
     >
       <View style={styles.headerRow}>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.critical_condition_items_8fd4fe6a")} </Text>
+          Critical Condition Items
+        </Text>
       </View>
 
       <View style={styles.itemsContainer}>
@@ -271,7 +269,8 @@ export function CriticalItems({
         onPress={onViewAll}
       >
         <Text style={[styles.viewAllText, { color: theme.textSecondary }]}>
-          {uiT("ui.see_more_critical_items_5754449a")} </Text>
+          See More Critical Items
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -288,13 +287,12 @@ export function BurnedItems({
   onItemPress,
   onViewAll,
 }: BurnedItemsProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const itemMeaning = useItemMeaning();
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(interfaceLocale(), { month: "short", day: "numeric" });
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
   const getItemColor = (type: string): string => {
@@ -323,13 +321,15 @@ export function BurnedItems({
     >
       <View style={styles.headerRow}>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.burned_items_in_the_last_30_days_814c1224")} </Text>
+          Burned Items In The Last 30 Days
+        </Text>
       </View>
 
       {items.length === 0 ? (
         <View style={styles.burnedContainer}>
           <Text style={[styles.burnedText, { color: theme.textSecondary }]}>
-            {uiT("ui.turtles_are_safe_for_now_581cddb2")} </Text>
+            Turtles are safe... for now.
+          </Text>
         </View>
       ) : (
         <View style={styles.itemsContainer}>
@@ -372,7 +372,8 @@ export function BurnedItems({
           onPress={onViewAll}
         >
           <Text style={[styles.viewAllText, { color: theme.textSecondary }]}>
-            {uiT("ui.see_more_burned_items_968f3c32")} </Text>
+            See More Burned Items
+          </Text>
         </TouchableOpacity>
       )}
     </View>

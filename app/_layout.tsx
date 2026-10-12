@@ -1,4 +1,3 @@
-import { useInterfaceLanguage,  initializeInterfaceLanguage } from "../src/features/interface-language/runtime";
 import { useFonts } from "expo-font";
 import * as Linking from "expo-linking";
 import * as Notifications from "expo-notifications";
@@ -99,7 +98,6 @@ type PendingDeepLinkIntent =
     };
 
 function RootLayoutContentInner() {
-  useInterfaceLanguage();
   const { setIsRunning, setProgress } = useBackgroundTasks();
   const [appIsReady, setAppIsReady] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
@@ -1107,7 +1105,6 @@ function RootLayoutContentInner() {
 }
 
 function RootLayoutContent() {
-  useInterfaceLanguage();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ErrorBoundary>
@@ -1120,8 +1117,6 @@ function RootLayoutContent() {
 }
 
 export default function RootLayout() {
-  useInterfaceLanguage();
-  useEffect(() => { void initializeInterfaceLanguage(); }, []);
   return (
     <ThemeProvider>
       <SessionProvider>

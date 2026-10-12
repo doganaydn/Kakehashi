@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 export type PatchNoteChangeType = "feature" | "improvement" | "fix" | "design";
 
 export type PatchNoteChange = {
@@ -25,25 +24,25 @@ export const CHANGE_TYPE_CONFIG: Record<
 > = {
   feature: {
     icon: "sparkles",
-    get label() { return uiT("release_notes.18fdd549b2ed"); },
+    label: "New",
     color: "#9333EA",
     backgroundColor: "rgba(147, 51, 234, 0.15)",
   },
   improvement: {
     icon: "trending-up",
-    get label() { return uiT("release_notes.c3b959224fda"); },
+    label: "Improved",
     color: "#3B82F6",
     backgroundColor: "rgba(59, 130, 246, 0.15)",
   },
   fix: {
     icon: "bug",
-    get label() { return uiT("release_notes.1246fc93bca0"); },
+    label: "Fixed",
     color: "#22C55E",
     backgroundColor: "rgba(34, 197, 94, 0.15)",
   },
   design: {
     icon: "color-palette",
-    get label() { return uiT("release_notes.0072e6b93494"); },
+    label: "Design",
     color: "#EC4899",
     backgroundColor: "rgba(236, 72, 153, 0.15)",
   },
@@ -62,9 +61,10 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "design",
-        get title() { return uiT("release_notes.f15550acd30a"); },
-        get description() { return uiT("release_notes.8a892bd2d838"); },
-        link: { route: "/settings", get label() { return uiT("ui.open_settings_3f940108"); } },
+        title: "Settings Screen Revamp",
+        description:
+          "Refreshed mobile and web settings with clearer sections, new icons, visual choices, quick navigation, and search.",
+        link: { route: "/settings", label: "Open Settings" },
       },
     ],
   },
@@ -74,9 +74,10 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.64f9048dacfe"); },
-        get description() { return uiT("release_notes.ab580a68987c"); },
-        link: { route: "/widget-settings", get label() { return uiT("release_notes.417deafbb258"); } },
+        title: "Android Home Screen Widgets",
+        description:
+          "Add Reviews, Critical Items, or Streak widgets to your Android home screen in small or medium sizes, with the same artwork and color themes as iOS. Choose your widget content and colors in Widgets settings.",
+        link: { route: "/widget-settings", label: "Open Widgets Settings" },
       },
     ],
   },
@@ -86,12 +87,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.review_presets_6addcd9f"); },
-        get description() { return uiT("release_notes.ae52470fc9c8"); },
+        title: "Review Presets",
+        description:
+          "Save up to 3 presets with custom batch sizes and review orders, then select one from the Home review card. Enable Review Presets under Review Batch Size in advanced Review Settings.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
     ],
@@ -102,8 +104,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.b8e159fd7fc8"); },
-        get description() { return uiT("release_notes.6414b2dc9f8e"); },
+        title: "Multiple Choice Keyboard Shortcuts",
+        description:
+          "Use 1–4 to select multiple choice answers with an external keyboard on mobile and iPad, or in the web app.",
       },
     ],
   },
@@ -113,17 +116,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.306489892646"); },
-        get description() { return uiT("release_notes.6c0926f87a91"); },
-        link: { route: "/(app)/(tabs)/progress", get label() { return uiT("release_notes.00d70365fc68"); } },
+        title: "Level Goals",
+        description:
+          "Set a target level, timeframe, or calendar date with a guided setup, then track your progress on the Level screen. Update or remove your goal through Edit goal.",
+        link: { route: "/(app)/(tabs)/progress", label: "Set a Level Goal" },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.569906d85911"); },
-        get description() { return uiT("release_notes.f166d17c41c4"); },
+        title: "Plan Your Pace",
+        description:
+          "Link your level pace and daily lessons, preview estimated reviews, and choose a review session size in Review forecast. Apply your daily plan or use its target date for your goal. Enable Plan your pace under Review forecast in Home Customization; off by default.",
         link: {
           route: "/home-customization-settings",
-          get label() { return uiT("release_notes.9dd60a912a4f"); },
+          label: "Enable Plan Your Pace",
         },
       },
     ],
@@ -134,8 +139,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.f67631a840a6"); },
-        get description() { return uiT("release_notes.d353ff13ded9"); },
+        title: "Save News Articles",
+        description:
+          "Save stories for later, even after they leave the feed. Find them in Saved articles or use the Saved only filter.",
       },
     ],
   },
@@ -145,8 +151,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.7cea7ffd9613"); },
-        get description() { return uiT("release_notes.f0c3461a0e5f"); },
+        title: "Transfer Selected Subjects",
+        description:
+          "Select subjects in the In List tab to copy or move them to another list.",
       },
     ],
   },
@@ -156,17 +163,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.2aeff15f13ca"); },
-        get description() { return uiT("release_notes.e9d39d1f5ccc"); },
+        title: "More Tabs",
+        description:
+          "Enable more tabs in Customize Tabs. Extra tabs appear in a More menu when your tab bar is full.",
         link: {
           route: "/tab-settings",
-          get label() { return uiT("ui.customize_tabs_2d2fca4d"); },
+          label: "Customize Tabs",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.46962201a908"); },
-        get description() { return uiT("release_notes.e8604514979e"); },
+        title: "Reliable Stroke Order Animation",
+        description:
+          "Fixed kanji stroke order animations skipping or stopping unexpectedly in details and lessons, including when replaying an animation.",
       },
     ],
   },
@@ -176,8 +185,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.ec577ad121ad"); },
-        get description() { return uiT("release_notes.94bbf3b1ced3"); },
+        title: "Mark News as Read",
+        description:
+          "Keep track of read stories and filter for unread news. Saved on your device.",
       },
     ],
   },
@@ -187,21 +197,23 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.139ff5ec59f7"); },
-        get description() { return uiT("release_notes.c1fcdc8c8031"); },
+        title: "Optional Jitai Font Cycling",
+        description:
+          "Cycle through all selected Jitai fonts with a new option in advanced Review Settings. Off by default.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.5cd78a3b8980"); },
-        get description() { return uiT("release_notes.3eff1b7b585d"); },
+        title: "Critical Items Widgets",
+        description:
+          "Keep your lowest-accuracy items on your iPhone home screen: one in the small widget or up to three in medium, with readings, meanings, and accuracy. Starts below 75% accuracy and expands to 80%, 85%, then 90% only if needed. Uses your widget background colors with readable text.",
         link: {
           route: "/widget-settings",
-          get label() { return uiT("release_notes.be646e0cbfdd"); },
+          label: "Customize Home Widget",
         },
       },
     ],
@@ -212,8 +224,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.c0edf50c6064"); },
-        get description() { return uiT("release_notes.33dfaa2a61e7"); },
+        title: "Continuous Voice Review Answers",
+        description:
+          "On iOS, tap the mic once to keep answering consecutive review questions, with an animated listening indicator that responds to your voice. Listening pauses during pronunciation playback. Tap the mic again to stop.",
       },
     ],
   },
@@ -223,18 +236,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.c2025f523406"); },
-        get description() { return uiT("release_notes.5767283aaf3d"); },
+        title: "General Improvements for Android",
+        description:
+          "Improved text layouts, audio playback, Spotify sign-in, and attachment uploads on Android.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.4785b8015948"); },
-        get description() { return uiT("release_notes.1888f53741f8"); },
+        title: "Apple Watch App (Beta)",
+        description:
+          "Review on your Apple Watch and check upcoming reviews, with progress synced through your iPhone.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.880e8ca90faf"); },
-        get description() { return uiT("release_notes.883d063b3d5e"); },
+        title: "More Reliable Offline Studying",
+        description:
+          "Study from cached reviews, save answers locally, and sync your progress when you're back online.",
       },
     ],
   },
@@ -244,8 +260,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.e7271a6ec526"); },
-        get description() { return uiT("release_notes.ff84e253f67c"); },
+        title: "Vocabulary Crash",
+        description:
+          "Fixed a crash when reviewing or opening details for kana-vocabulary words like ドキドキ.",
       },
     ],
   },
@@ -255,13 +272,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.d2fc8950be12"); },
-        get description() { return uiT("release_notes.eea291184dc8"); },
+        title: "Fully Hidden Translations",
+        description:
+          "Added a Japanese-only option that removes translations and reveal buttons from context sentences, media examples, and patterns of use in vocabulary details and lessons.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.15953ad578ad"); },
-        get description() { return uiT("release_notes.dab501d9239e"); },
+        title: "Multiple Choice Answers",
+        description:
+          "Multiple choice reviews now fill missing options with answers from learned items, while keeping similar choices first.",
       },
     ],
   },
@@ -271,18 +290,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.d3548996fe1a"); },
-        get description() { return uiT("release_notes.e4ec194b547f"); },
+        title: "Advanced Note Editor Setting",
+        description:
+          "Notes use plain text by default. Enable formatting and subject links in Settings → Notes; existing formatted notes keep rich editing.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.caf5ef7ec873"); },
-        get description() { return uiT("release_notes.d38c9b8f940e"); },
+        title: "Smoother Note Editing",
+        description:
+          "More writing space, controls closer to the keyboard, and cleaner scrolling. Cursor position is preserved when switching modes or editing links.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.299c6ccf950f"); },
-        get description() { return uiT("release_notes.8e7a90f2917c"); },
+        title: "More Flexible Note Links",
+        description:
+          "Optionally add Japanese text when linking a selection, with your choice remembered. Toggle linked typing without removing the existing link.",
       },
     ],
   },
@@ -292,8 +314,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.6a457735a078"); },
-        get description() { return uiT("release_notes.764f445116ac"); },
+        title: "Vocabulary Type Filters",
+        description:
+          "Filter vocabulary by parts of speech, including proper nouns and verbal nouns, across Search, subject lists, and study pickers.",
       },
     ],
   },
@@ -303,18 +326,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.c689a1b775f4"); },
-        get description() { return uiT("release_notes.944bc93a297f"); },
+        title: "Multiple Choice Reviews",
+        description:
+          "Enable Multiple Choice in Review Settings to choose from similar readings and related meanings instead of typing.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.lesson_search_button_6d2a2b2d"); },
-        get description() { return uiT("release_notes.692a3fc75ae0"); },
+        title: "Lesson Search Button",
+        description:
+          "Look up subjects from lesson cards without losing your place. Enable in advanced Lesson Settings; off by default.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.39b25df08a75"); },
-        get description() { return uiT("release_notes.d7da65074b86"); },
+        title: "Audio Vocab Answers",
+        description:
+          "Audio Vocab quizzes now reveal the English meaning and Japanese reading together on mobile and web.",
       },
     ],
   },
@@ -324,17 +350,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.audio_vocab_31f3aa3d"); },
-        get description() { return uiT("release_notes.c9384aed2f99"); },
+        title: "Audio Vocab",
+        description:
+          "Listen to WaniKani recordings or text-to-speech context sentences and recall the target word’s English meaning in Extra Study.",
         link: {
           route: "/audio-vocab",
-          get label() { return uiT("release_notes.c6643127ce0f"); },
+          label: "Open Audio Vocab",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.bf4bd245e28f"); },
-        get description() { return uiT("release_notes.07baa4141b84"); },
+        title: "JLPT Quiz Results",
+        description:
+          "Fixed a crash when finishing JLPT quizzes in the mobile app.",
       },
     ],
   },
@@ -344,22 +372,25 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.8f66a7437685"); },
-        get description() { return uiT("release_notes.15a70d62d63d"); },
+        title: "JLPT Quizzes",
+        description:
+          "Practice N5 through N1 with quick mixed-skill quizzes or timed mock exams, including listening, detailed results, and weak-area review.",
         link: {
           route: "/jlpt",
-          get label() { return uiT("release_notes.026d3bc61dd5"); },
+          label: "Open JLPT Quizzes",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.2cbca6f3925a"); },
-        get description() { return uiT("release_notes.c30735b295d1"); },
+        title: "Personal Context Sentences",
+        description:
+          "Add your own Japanese and English examples from the + button in Context Sentences, with automatic translation, kana, audio, and dedicated review practice. Sentences are saved locally on this device.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.b4b23e69dc60"); },
-        get description() { return uiT("release_notes.d8abd20e4d68"); },
+        title: "News Furigana Default",
+        description:
+          "News articles can now open with furigana hidden by default when using No Study Mode.",
       },
     ],
   },
@@ -369,11 +400,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.word_search_2a17a96d"); },
-        get description() { return uiT("release_notes.ecbc7d71dfac"); },
+        title: "Word Search",
+        description:
+          "Find Japanese vocabulary hidden in a grid by matching kanji clues to kana readings, or kana clues to written words.",
         link: {
           route: "/word-search-config",
-          get label() { return uiT("release_notes.0a4b0494ef9d"); },
+          label: "Play Word Search",
         },
       },
     ],
@@ -384,8 +416,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.5110d9338ff7"); },
-        get description() { return uiT("release_notes.327f91610b5a"); },
+        title: "Full NHK News",
+        description:
+          "Read full Standard NHK News stories with images and study highlighting, using Easy, Standard, or Both sources.",
       },
     ],
   },
@@ -395,13 +428,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.2237ca7c708a"); },
-        get description() { return uiT("release_notes.9a6e76aac4ec"); },
+        title: "Formatted Notes",
+        description:
+          "Select note text to make it bold, italic, or underlined across subject details, lessons, and reviews.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.86f644edbdf6"); },
-        get description() { return uiT("release_notes.05a11e1b4814"); },
+        title: "All-Level Subject List Practice",
+        description:
+          "Extra Study quizzes now include selected Subject List items above your current level unless you enable a custom level range.",
       },
     ],
   },
@@ -411,26 +446,29 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.35816aec8763"); },
-        get description() { return uiT("release_notes.d7d6626b9616"); },
+        title: "Subject List Transfers",
+        description:
+          "Copy or move every subject from one Subject List to another using the new Transfer List action under Browse.",
         link: {
           route: "/subject-lists",
-          get label() { return uiT("release_notes.3af7259e37b8"); },
+          label: "Open Subject Lists",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.ed750c75e852"); },
-        get description() { return uiT("release_notes.4ec69884ed42"); },
+        title: "Custom Review Frequency Filters",
+        description:
+          "Combine any Custom Review SRS stages with a maximum word-frequency rank you choose. First-time checks are cached and resume automatically if Jiten asks the app to pause.",
         link: {
           route: "/custom-review-selection",
-          get label() { return uiT("release_notes.ebe1a1e48063"); },
+          label: "Open Custom Review",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.34184c401c16"); },
-        get description() { return uiT("release_notes.ceec4e6fe7ff"); },
+        title: "Lesson Answer Controls",
+        description:
+          "Fixed an issue where the answer button and Enter key could stop responding after an incorrect or skipped question, especially near the end of a lesson.",
       },
     ],
   },
@@ -440,13 +478,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.c94b4c93bb85"); },
-        get description() { return uiT("release_notes.ffa4602c5406"); },
+        title: "English to Japanese Synonyms",
+        description:
+          "English to Japanese quizzes now accept matching Japanese words that share the prompted meaning.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.0f6344eb7e05"); },
-        get description() { return uiT("release_notes.aaf4319b2910"); },
+        title: "Similar Kanji Readings",
+        description:
+          "Similar Kanji Match now shows each kanji’s reading after you submit a round.",
       },
     ],
   },
@@ -456,48 +496,56 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.3f7f33c068e3"); },
-        get description() { return uiT("release_notes.ec93c12d8df8"); },
+        title: "Anki Pitch Accent Placement",
+        description:
+          "Pitch accent now appears only on reading cards or combined cards, so meaning cards no longer reveal the reading.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.cfe8e423545d"); },
-        get description() { return uiT("release_notes.423cfe13a1eb"); },
+        title: "Android Review Counts",
+        description:
+          "Review counts now refresh more reliably when opening the app and returning from a review session.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.116a2bfb7692"); },
-        get description() { return uiT("release_notes.b18860abeaad"); },
+        title: "Android Offline Audio",
+        description:
+          "Vocabulary audio now starts more responsively while offline audio downloads continue in the background.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.94344de5559c"); },
-        get description() { return uiT("release_notes.8e9518e1a04d"); },
+        title: "Filled Bookmark Indicators",
+        description:
+          "Bookmark icons now appear filled when a subject is already saved to one of your lists.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.d78c690f96db"); },
-        get description() { return uiT("release_notes.15e2994aac93"); },
+        title: "Lesson Frequency Filters",
+        description:
+          "Filter available vocabulary lessons by common frequency-rank ranges.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.review_input_size_f727103b"); },
-        get description() { return uiT("release_notes.842cca4ef5c9"); },
+        title: "Review Input Size",
+        description:
+          "Added an advanced review setting to adjust the answer input text size.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.efb59af79425"); },
-        get description() { return uiT("release_notes.c4cfc3b22172"); },
+        title: "Anki Keyboard Shortcuts",
+        description:
+          "Bluetooth keyboard shortcuts now work in Anki-style reviews.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.89b9b8b3f078"); },
-        get description() { return uiT("release_notes.ca63e690e107"); },
+        title: "Japanese Keyboard Switching",
+        description:
+          "Crossword, Wordle, and Bunpro answers now switch to a Japanese keyboard when enabled.",
       },
     ],
   },
@@ -507,12 +555,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.bf303a58b975"); },
-        get description() { return uiT("release_notes.85d7b59b83c5"); },
+        title: "SRS Lesson Thresholds",
+        description:
+          "Set Apprentice and Guru item thresholds to pause home-page lessons until reviews bring those counts back down.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.bd93917c945e"); },
+          label: "Open Lesson Settings",
         },
       },
     ],
@@ -523,12 +572,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.kanji_reading_speech_9264f5d6"); },
-        get description() { return uiT("release_notes.f1327ec983d6"); },
+        title: "Kanji Reading Speech",
+        description:
+          "Optionally tap On’yomi, Kun’yomi, and Nanori readings to hear them with your device’s Japanese voice in kanji details and lessons.",
         link: {
           route: "/settings",
           params: { scrollTo: "kanji" },
-          get label() { return uiT("release_notes.2eb86885856b"); },
+          label: "Open Kanji Settings",
         },
       },
     ],
@@ -539,17 +589,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.a38e538ea06b"); },
-        get description() { return uiT("release_notes.5bb09e0f21aa"); },
+        title: "Scrollable Review Context Sentences",
+        description:
+          "Context sentences in vocabulary reviews can now be scrolled into view while the keyboard is open.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.kanji_etymology_cc05e5b5"); },
-        get description() { return uiT("release_notes.e5e05293b809"); },
+        title: "Kanji Etymology",
+        description:
+          "Added an optional setting to show sourced character origins and formation notes in kanji details and lessons.",
         link: {
           route: "/settings",
           params: { scrollTo: "kanji" },
-          get label() { return uiT("release_notes.2eb86885856b"); },
+          label: "Open Kanji Settings",
         },
       },
     ],
@@ -560,8 +612,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.f80f262a8324"); },
-        get description() { return uiT("release_notes.db2deb3be03f"); },
+        title: "Crossword JLPT and Kana Audio",
+        description:
+          "Added JLPT word filters and audio replay for kana-only words in crossword statistics.",
       },
     ],
   },
@@ -571,21 +624,23 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.af92a3bc0816"); },
-        get description() { return uiT("release_notes.43b81f8e1a57"); },
+        title: "Kanji Examples by Reading",
+        description:
+          "Added a setting to group vocabulary examples by On’yomi, Kun’yomi, and Nanori.",
         link: {
           route: "/settings",
           params: { scrollTo: "kanji" },
-          get label() { return uiT("release_notes.2eb86885856b"); },
+          label: "Open Kanji Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.6667bc5e5407"); },
-        get description() { return uiT("release_notes.3c3a285ab596"); },
+        title: "Subject List Review Shortcuts",
+        description:
+          "Use the shortcut on a subject list row, or open the study menu from the list editor and Custom Review headers, to choose Standard Review, Kanji Match, Custom Lessons, Random Test, Similar Kanji, or Kanji Writing.",
         link: {
           route: "/subject-lists",
-          get label() { return uiT("release_notes.3af7259e37b8"); },
+          label: "Open Subject Lists",
         },
       },
     ],
@@ -596,11 +651,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.84df71d9cec2"); },
-        get description() { return uiT("release_notes.e44735f7662c"); },
+        title: "Custom Jitai Fonts",
+        description:
+          "Import TTF or OTF font files into the Jitai randomizer, with new downloadable Japanese calligraphy fonts also available.",
         link: {
           route: "/jitai-font-settings",
-          get label() { return uiT("release_notes.28c82f8ff285"); },
+          label: "Manage Jitai Fonts",
         },
       },
     ],
@@ -611,22 +667,25 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.66e1a8ef8f1c"); },
-        get description() { return uiT("release_notes.32542044a8a0"); },
+        title: "Combined JLPT Filters",
+        description:
+          "Filter Custom Reviews and Subject Lists by one or more JLPT levels.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.vocabulary_frequency_746baa1e"); },
-        get description() { return uiT("release_notes.b05da87d6a81"); },
+        title: "Vocabulary Frequency",
+        description:
+          "Optionally show vocabulary frequency ranks in lessons, reviews, and subject details.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.inline_radical_reminders_da63a6aa"); },
-        get description() { return uiT("release_notes.4d4a37bdd1f1"); },
+        title: "Inline Radical Reminders",
+        description:
+          "Optionally view radical mnemonics and illustrations directly from kanji details.",
         link: {
           route: "/settings",
           params: { scrollTo: "kanji" },
-          get label() { return uiT("release_notes.2eb86885856b"); },
+          label: "Open Kanji Settings",
         },
       },
     ],
@@ -637,18 +696,18 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.faa94fd668bf"); },
-        get description() { return uiT("release_notes.785961d34a92"); },
+        title: "Song Lyrics Quiz",
+        description: "Added a level-aware fill-in-the-blank mode for songs.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.5c7ffafb7d85"); },
-        get description() { return uiT("release_notes.a54c3cd372d1"); },
+        title: "Crossword Reinforcement",
+        description: "Added optional kanji-first solutions and audio hints.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.weekend_lesson_reminders_6c531722"); },
-        get description() { return uiT("release_notes.a8d458d4b884"); },
+        title: "Weekend Lesson Reminders",
+        description: "Added an option to turn off lesson reminders on weekends.",
       },
     ],
   },
@@ -658,18 +717,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.similar_kanji_match_e9a0b1a8"); },
-        get description() { return uiT("release_notes.23527e243d7c"); },
+        title: "Similar Kanji Match",
+        description:
+          "Added a new Extra Study mode for practicing visually similar kanji by matching them to their meanings.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.9372dce0b0dc"); },
-        get description() { return uiT("release_notes.b669b2b52de2"); },
+        title: "Level Timing Exclusions",
+        description:
+          "Level Timing now keeps excluded bars saved more reliably across refreshes, reloads, and app restarts.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.3415c21a2a2a"); },
-        get description() { return uiT("release_notes.e07a51e32c11"); },
+        title: "Japanese Text Analysis",
+        description:
+          "Paste Japanese text in Extra Study to analyze its grammar and vocabulary, with optional English translation.",
       },
     ],
   },
@@ -679,8 +741,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.45eb7bd7ab98"); },
-        get description() { return uiT("release_notes.fba42e011e00"); },
+        title: "Radical Name Questions",
+        description:
+          "Radical review and lesson quiz prompts now ask for the radical name instead of calling it a meaning question.",
       },
     ],
   },
@@ -690,11 +753,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.098f29bc0863"); },
-        get description() { return uiT("release_notes.d401b271123e"); },
+        title: "Anki Pitch Accent Numbers",
+        description:
+          "Added Anki settings to show compact pitch accent labels, numbers, and an optional mini graph after revealing vocabulary cards.",
         link: {
           route: "/anki-settings",
-          get label() { return uiT("release_notes.ad95c6b4173c"); },
+          label: "Open Anki Settings",
         },
       },
     ],
@@ -705,8 +769,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.02ec3cd77e64"); },
-        get description() { return uiT("release_notes.7b59fa4313a8"); },
+        title: "Expanded App Text Size",
+        description:
+          "Added 200% and 300% app text size options for more comfortable reading on Mac and other large displays.",
       },
     ],
   },
@@ -716,17 +781,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.816b0ebc0bd2"); },
-        get description() { return uiT("release_notes.d09a72aa453e"); },
+        title: "Compact Subject Lists",
+        description:
+          "Made Subject Lists easier to manage with tap-to-enter cards, rename from the edit icon, optional item previews, saved manual list ordering, and a settings menu for compact view controls.",
         link: {
           route: "/subject-lists",
-          get label() { return uiT("release_notes.3af7259e37b8"); },
+          label: "Open Subject Lists",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.4562f619c28f"); },
-        get description() { return uiT("release_notes.292faa69d8a2"); },
+        title: "Context Sentence Choices",
+        description:
+          "Multiple-choice context sentence practice now prefers answer choices with matching parts of speech, making distractors less obvious from grammar alone.",
       },
     ],
   },
@@ -736,13 +803,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.7b8e16fabae0"); },
-        get description() { return uiT("release_notes.3ee7faec9b7d"); },
+        title: "Recent Mistakes Subject Lists",
+        description:
+          "Added an Add to Subject List action to Recent Mistakes so the current mistake batch can be saved into custom subject lists for mixed review sessions.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.fe9e5c111598"); },
-        get description() { return uiT("release_notes.15070b4df57b"); },
+        title: "Lesson Order Level Priority",
+        description:
+          "Fixed interleaved lessons so lowest-level-first ordering finishes older-level items before newly unlocked level items.",
       },
     ],
   },
@@ -752,13 +821,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.app_text_size_866b45cd"); },
-        get description() { return uiT("release_notes.e98ab70afbe5"); },
+        title: "App Text Size",
+        description:
+          "Added a setting to increase app text size for more comfortable reading on larger displays.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.c94987238107"); },
-        get description() { return uiT("release_notes.e8d95890a257"); },
+        title: "WaniKani Mnemonic Tags",
+        description:
+          "Fixed WaniKani mnemonic rendering so malformed reading tags no longer show tag fragments in review and subject details.",
       },
     ],
   },
@@ -768,8 +839,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.8d10fd24c26b"); },
-        get description() { return uiT("release_notes.7e0162a29735"); },
+        title: "Review Wrap Up Toggle",
+        description:
+          "Fixed Wrap Up in reviews, custom reviews, and recent lesson reviews so tapping the wrapping-up pill restores the full remaining queue.",
       },
     ],
   },
@@ -779,8 +851,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.eff66ba9f9c7"); },
-        get description() { return uiT("release_notes.48b261f84e63"); },
+        title: "Paused Review Note Editing",
+        description:
+          "Fixed meaning and reading note cards in paused review details so they can be opened and saved after an incorrect answer.",
       },
     ],
   },
@@ -790,8 +863,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.vocabulary_context_sentence_hints_9ea91fd4"); },
-        get description() { return uiT("release_notes.bb9ca8748136"); },
+        title: "Vocabulary Context Sentence Hints",
+        description:
+          "Added an optional review setting that shows vocabulary context sentence hints during reviews, with English translations hidden until you reveal them from the hint.",
       },
     ],
   },
@@ -801,22 +875,25 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.c2cb2ac46c65"); },
-        get description() { return uiT("release_notes.8b3b75b10e35"); },
+        title: "Study Time Tracking",
+        description:
+          "The app now saves how long you spend on reviews, lessons, extra study, NHK news, songs, reading, and videos each day. Check daily, weekly, and monthly totals with averages from the new Study Time card in Analytics.",
         link: {
           route: "/study-time",
-          get label() { return uiT("release_notes.a35396f98f5d"); },
+          label: "Open Study Time",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.6068eff17286"); },
-        get description() { return uiT("release_notes.367e5aadb072"); },
+        title: "Resume Lessons Stale Items",
+        description:
+          "Resuming a saved lesson session no longer shows items you already completed on the WaniKani website or another client.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.1e164fd11c17"); },
-        get description() { return uiT("release_notes.44d84443a93f"); },
+        title: "Resume or Start Fresh",
+        description:
+          "Opening lessons with a saved session now asks whether to resume it or discard it and start fresh, instead of always resuming.",
       },
     ],
   },
@@ -826,8 +903,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.7d5ad555352e"); },
-        get description() { return uiT("release_notes.33806e94258e"); },
+        title: "Katakana Typing in Reviews",
+        description:
+          "Reading inputs now preserve caps-based katakana conversion, so typing romaji with caps produces katakana instead of being forced back to hiragana.",
       },
     ],
   },
@@ -837,20 +915,22 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.4cb75d8123c5"); },
-        get description() { return uiT("release_notes.10a32ea4ba40"); },
+        title: "Custom Review Order",
+        description:
+          "Custom reviews and custom lesson quizzes now have their own review order setting, defaulting to random so regular review ordering stays separate.",
         link: {
           route: "/review-order-settings",
-          get label() { return uiT("release_notes.4aef31c0efe4"); },
+          label: "Open Review Order Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.072e0daf8a8e"); },
-        get description() { return uiT("release_notes.5a74cfd41da4"); },
+        title: "Subject List Sorting",
+        description:
+          "Custom subject lists now remember your selected item sort, including newest-added and oldest-added ordering.",
         link: {
           route: "/subject-lists",
-          get label() { return uiT("release_notes.3af7259e37b8"); },
+          label: "Open Subject Lists",
         },
       },
     ],
@@ -861,13 +941,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.7fd5810cd491"); },
-        get description() { return uiT("release_notes.fc6fcfedc2ba"); },
+        title: "Resumable Lesson Sessions",
+        description:
+          "Started lesson sessions can now be resumed if you leave the lesson flow or return after switching tasks.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.a9d629650f52"); },
-        get description() { return uiT("release_notes.6f7ea52e358e"); },
+        title: "Lesson Batch Type Minimums",
+        description:
+          "Added an option to include at least one radical and one kanji in each lesson batch when available.",
       },
     ],
   },
@@ -877,18 +959,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.6066f2aa998f"); },
-        get description() { return uiT("release_notes.a83750177d55"); },
+        title: "Spotify Playback and Playlists",
+        description:
+          "Added Spotify account connection, Spotify playback from song lyrics, and playlist importing for Spotify and Apple Music.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.7e6a19bb86fb"); },
-        get description() { return uiT("release_notes.da55fe52bc38"); },
+        title: "Level-Up Estimate Exclusions",
+        description:
+          "Level Up In estimates now respect levels ignored in Level Timing, keeping long outliers from skewing the countdown.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.e2b5288b60fa"); },
-        get description() { return uiT("release_notes.239b8c7347a7"); },
+        title: "Fresher Random Tests",
+        description:
+          "Random Test now avoids reusing subjects from recent tests when enough fresh items are available.",
       },
     ],
   },
@@ -898,8 +983,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.ec4bb5e4126e"); },
-        get description() { return uiT("release_notes.b2354287aec2"); },
+        title: "Song Lyrics Timing Offset",
+        description:
+          "Synced song lyrics now include an optional per-song delay control for matching videos with intros or timing differences.",
       },
     ],
   },
@@ -909,13 +995,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.d776da7de656"); },
-        get description() { return uiT("release_notes.ce9ffc1f99f4"); },
+        title: "Fresher Crossword Puzzles",
+        description:
+          "Crosswords now avoid reusing recent words as often while still keeping puzzle quality high.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.f8dec8fd7072"); },
-        get description() { return uiT("release_notes.fec1f7d7b6b2"); },
+        title: "Lesson Pattern Audio",
+        description:
+          "Patterns of Use examples in lessons now include a play button for hearing Japanese sentences.",
       },
     ],
   },
@@ -925,13 +1013,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.2c1523e059f8"); },
-        get description() { return uiT("release_notes.b6dc3de5fb3e"); },
+        title: "Practice Mistakes Navigation",
+        description:
+          "Constellation exit no longer ends Practice Mistakes review.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.fb730d7759bf"); },
-        get description() { return uiT("release_notes.a2e9d5f41677"); },
+        title: "Reader Tooltip Reveal Settings",
+        description:
+          "Added tap-to-reveal settings for tooltip meanings and readings.",
       },
     ],
   },
@@ -941,8 +1031,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.e25d54c57e32"); },
-        get description() { return uiT("release_notes.6d437db2e5ea"); },
+        title: "Offline Lessons and Reviews",
+        description:
+          "Lessons and reviews now keep working without a connection. Progress is saved locally, synced when you're back online.",
       },
     ],
   },
@@ -952,8 +1043,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.a1115719ba7d"); },
-        get description() { return uiT("release_notes.9bff895d6e9f"); },
+        title: "Kakehashi is Open Source",
+        description:
+          "Kakehashi is now open source, with a new GitHub entry in Settings for reading the code, starring the repo, or contributing.",
       },
     ],
   },
@@ -963,8 +1055,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.4746a702c649"); },
-        get description() { return uiT("release_notes.86e891a346bb"); },
+        title: "Skipped Review Ordering",
+        description:
+          "Skipped reviews now keep meaning and reading questions spaced out unless back-to-back mode is enabled.",
       },
     ],
   },
@@ -974,8 +1067,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.fcbf21368ebf"); },
-        get description() { return uiT("release_notes.96bed549be8e"); },
+        title: "Review Type Ordering",
+        description:
+          "Most overdue reviews now stay grouped by radical, kanji, and vocabulary when item type order is enabled.",
       },
     ],
   },
@@ -985,22 +1079,25 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.e573500352a5"); },
-        get description() { return uiT("release_notes.cfca3aa1c35a"); },
+        title: "Lock Screen Review Widget",
+        description:
+          "Added a Lock Screen widget for checking available reviews at a glance.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.0b6f9e7f8326"); },
-        get description() { return uiT("release_notes.1b6873ec51ca"); },
+        title: "Android Japanese Keyboard Switching",
+        description:
+          "Added Android support for automatically requesting a Japanese keyboard for reading and writing inputs, matching the existing iOS behavior.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.review_character_size_ab236bdb"); },
-        get description() { return uiT("release_notes.84cd22f72c9a"); },
+        title: "Review Character Size",
+        description:
+          "Added a review setting to adjust the size of the large Japanese prompt while keeping the current size as the default.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
     ],
@@ -1011,12 +1108,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.1576077f8933"); },
-        get description() { return uiT("release_notes.1177aefd3b8f"); },
+        title: "Review Answer Pause Details",
+        description:
+          "Added a review setting to show subject details below the answer field when reviews stop after correct, close, or incorrect answers.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
     ],
@@ -1027,13 +1125,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.c17f291be9ae"); },
-        get description() { return uiT("release_notes.231936513003"); },
+        title: "Today's Study Counts",
+        description:
+          "Today's Study now keeps completed lessons from increasing the reviews count.",
       },
       {
         type: "feature",
-        get title() { return uiT("ui.single_kanji_vocab_similar_kanji_9d0c6c09"); },
-        get description() { return uiT("release_notes.1f4d076c3a8c"); },
+        title: "Single-Kanji Vocab Similar Kanji",
+        description:
+          "Added an optional setting to show visually similar kanji on single-kanji vocabulary details and lessons.",
       },
     ],
   },
@@ -1043,8 +1143,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.7ac2eb600dcb"); },
-        get description() { return uiT("release_notes.4b8685ba0653"); },
+        title: "Subject Lists Shortcuts",
+        description:
+          "Added quicker entry points for managing Subject Lists from Extra Study and as an optional Home dashboard widget.",
       },
     ],
   },
@@ -1054,17 +1155,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.aa5f311adda9"); },
-        get description() { return uiT("release_notes.730938484862"); },
+        title: "Easier Settings Navigation",
+        description:
+          "Settings navigation is now easier to use, even with many options.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.df2c90cc02b0"); },
-        get description() { return uiT("release_notes.19a7d5dccf31"); },
+        title: "Lesson Picker View Mode Setting",
+        description:
+          "Added a lesson setting to choose card or list view for the lesson picker.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.bd93917c945e"); },
+          label: "Open Lesson Settings",
         },
       },
     ],
@@ -1075,18 +1178,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "design",
-        get title() { return uiT("release_notes.afcfe0b2f9c7"); },
-        get description() { return uiT("release_notes.228203d73ca3"); },
+        title: "Context Sentence Practice Redesign",
+        description:
+          "Redesigned Context Sentence Practice with a centered sentence + translation layout, Bunpro-style writing input, optional JPDB sentence breakdown, and stop-after-answer review flow.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.da74eb51fc15"); },
-        get description() { return uiT("release_notes.2fabc23f301b"); },
+        title: "Writing Mode Kana Support",
+        description:
+          "Writing mode now accepts hiragana input for vocabulary answers, even when not using a Japanese keyboard.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.6d54f3fdfc00"); },
-        get description() { return uiT("release_notes.af827174a56f"); },
+        title: "Review Forecast Table Now Row",
+        description:
+          "Review Forecast table mode now includes a Now row so current available reviews are shown as a clear anchor.",
       },
     ],
   },
@@ -1096,8 +1202,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.c3e37efd4328"); },
-        get description() { return uiT("release_notes.457b58d7ce8a"); },
+        title: "Hiragana Vocab Quiz",
+        description:
+          "Added a new Extra Study mode that shows vocabulary prompts in hiragana and asks for the English meaning.",
       },
     ],
   },
@@ -1107,8 +1214,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.c3a15c97220e"); },
-        get description() { return uiT("release_notes.8cd2c5917ff6"); },
+        title: "Crossword Extra Study Mode",
+        description:
+          "Added a new Crossword mode in Extra Study where you solve hiragana clues from English meanings.",
       },
     ],
   },
@@ -1118,13 +1226,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.b3c4ff21ae14"); },
-        get description() { return uiT("release_notes.f462d1d97882"); },
+        title: "Interleave Lesson Types",
+        description:
+          "Added a Lesson Order option to proportionally mix radicals, kanji, and vocabulary through the queue.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.d6423b3ffb91"); },
-        get description() { return uiT("release_notes.b68627e0825a"); },
+        title: "Review Search Button Setting",
+        description:
+          "Added a review setting to show a Search button below Wrap Up, opening a dedicated search screen with standard back navigation.",
       },
     ],
   },
@@ -1134,8 +1244,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.c9fd4a53d817"); },
-        get description() { return uiT("release_notes.9a2a2801c531"); },
+        title: "Review Forecast SRS Breakdown Mode",
+        description:
+          "Review Forecast charts can now be color-split by SRS stage groups (Apprentice, Guru, Master, Enlightened).",
       },
     ],
   },
@@ -1145,8 +1256,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.e2f6b43b7526"); },
-        get description() { return uiT("release_notes.73196dbbda1a"); },
+        title: "Continue Later for Extra Study",
+        description:
+          "Extra Study sessions can now be suspended with Continue Later and resumed next time, with a prompt to resume or discard saved progress.",
       },
     ],
   },
@@ -1156,8 +1268,8 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.affde5129687"); },
-        get description() { return uiT("release_notes.b68f548d5712"); },
+        title: "Constellation Pinch Zoom",
+        description: "Constellation view now supports pinch-to-zoom.",
       },
     ],
   },
@@ -1167,18 +1279,20 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.034c4a873b4f"); },
-        get description() { return uiT("release_notes.d7f5dca18cb5"); },
+        title: "Hide Kana Vocabulary in Lessons",
+        description:
+          "Added a lesson setting to exclude kana vocabulary from lessons and lesson counts.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.bd93917c945e"); },
+          label: "Open Lesson Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.7ed5df0cd59a"); },
-        get description() { return uiT("release_notes.7d50e25a7900"); },
+        title: "Level + SRS Stage in Selection Lists",
+        description:
+          "Custom Review, Custom Lessons, and Subject List search rows now show each item as Level • SRS stage",
       },
     ],
   },
@@ -1188,17 +1302,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.6e932e0a959b"); },
-        get description() { return uiT("release_notes.babd0e7c02e8"); },
+        title: "Video Caption Analysis (Beta)",
+        description:
+          "Added a Video tab for subtitle-driven analysis and history. Enable it in Customize Tabs. For full JPDB parsing/grammar quality, add your JPDB API key in Settings (without it, fallback WaniKani matching is used).",
         link: {
           route: "/tab-settings",
-          get label() { return uiT("ui.customize_tabs_2d2fca4d"); },
+          label: "Customize Tabs",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.d7ded78cf8a6"); },
-        get description() { return uiT("release_notes.c800f0fa47be"); },
+        title: "Kana Input Long Vowel Space Mapping",
+        description:
+          "In review kana input, typed spaces now convert to ー (long vowel mark) during romaji-to-kana conversion.",
       },
     ],
   },
@@ -1208,23 +1324,27 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.pause_on_close_answer_737b2b66"); },
-        get description() { return uiT("release_notes.7e31fcb6c3c0"); },
+        title: "Pause on Close Answer",
+        description:
+          "Added a review setting to pause on fuzzy-close meaning answers so you can mark them correct or incorrect.",
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.4e3907ebab3a"); },
-        get description() { return uiT("release_notes.8850190f3351"); },
+        title: "Review Forecast Redesign",
+        description:
+          "Updated card styling and chart bars to match the new analytics look.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.690ecdca4fa1"); },
-        get description() { return uiT("release_notes.eec0ba3fc392"); },
+        title: "Split SRS Breakdown Widgets",
+        description:
+          "You can now split SRS Breakdown into separate graph and breakdown widgets.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.0a1cca708eb3"); },
-        get description() { return uiT("release_notes.1596a6b4d5c7"); },
+        title: "Lesson Order Settings",
+        description:
+          "Added lesson order settings so you can choose how upcoming lessons are prioritized.",
       },
     ],
   },
@@ -1234,18 +1354,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.bd081abf8d01"); },
-        get description() { return uiT("release_notes.5800105b98d4"); },
+        title: "Review Stats by Level",
+        description:
+          "Review Stats now lets you check exact meaning, reading, and total accuracy for individual WaniKani levels.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.13313849a86e"); },
-        get description() { return uiT("release_notes.268c26bbf073"); },
+        title: "Arrow Key Lesson Navigation",
+        description:
+          "You can now move through lessons with arrow keys when using an external keyboard or on macOS.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.a1aa0fdb3f5c"); },
-        get description() { return uiT("release_notes.564bcc198886"); },
+        title: "Spreadsheet Export for Summaries",
+        description:
+          "Level and subject summaries can now be exported to a spreadsheet from the settings screen.",
       },
     ],
   },
@@ -1255,8 +1378,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.75325bfe4950"); },
-        get description() { return uiT("release_notes.e68505298dd4"); },
+        title: "SRS Stage Grouping Toggle",
+        description:
+          "Active Item Spread now supports grouping Apprentice I-IV and Guru I-II with an in-card toggle. Grouping is reflected in the graph, in-card Details, and the SRS details page.",
       },
     ],
   },
@@ -1266,11 +1390,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.069d2af33bd3"); },
-        get description() { return uiT("release_notes.f228d7c7cd06"); },
+        title: "Anki Replay Button Setting",
+        description:
+          "Added an Anki setting to show a Replay button after reveal, so you can replay vocabulary audio again when available.",
         link: {
           route: "/anki-settings",
-          get label() { return uiT("release_notes.ad95c6b4173c"); },
+          label: "Open Anki Settings",
         },
       },
     ],
@@ -1281,33 +1406,37 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.340f8d632c82"); },
-        get description() { return uiT("release_notes.ee996cd10017"); },
+        title: "Critical Items Quick Study Menu",
+        description:
+          "Added a tap menu in Critical Items to start Re-do lessons or Review Items using your currently filtered critical subjects.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.b91a994aafac"); },
-        get description() { return uiT("release_notes.801a188b95b5"); },
+        title: "Skip Quiz in Custom Lessons",
+        description: "Added a setting to skip the quiz step in custom lessons.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.bd93917c945e"); },
+          label: "Open Lesson Settings",
         },
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.d554d55015e4"); },
-        get description() { return uiT("release_notes.6b513abd1ca6"); },
+        title: "SRS Breakdown Redesign",
+        description:
+          "Redesigned the SRS Breakdown in Analytics into a compact single-card widget with stage icons, dynamic graph scaling, per-bar values, and an animated in-card Details view.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.1be900aa1da4"); },
-        get description() { return uiT("release_notes.713b78a17ea3"); },
+        title: "Learned Items Progress Rings",
+        description:
+          "Added a new Learned Items card under SRS Breakdown in Analytics, showing Radical/Kanji/Vocabulary Guru I+.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.9372dce0b0dc"); },
-        get description() { return uiT("release_notes.2d799cb75054"); },
+        title: "Level Timing Exclusions",
+        description:
+          "You can now tap completed level bars in Level Timing to exclude them from average, median, fastest, and slowest stats. Excluded levels are saved.",
       },
     ],
   },
@@ -1317,13 +1446,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.8a2bedd19fef"); },
-        get description() { return uiT("release_notes.8235e7800ea7"); },
+        title: "News Sorting Options",
+        description:
+          "Added sorting for Other News in the News tab: sort by Date (newest first) or Known Kanji % (highest first).",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.9b4818c9c670"); },
-        get description() { return uiT("release_notes.41ebe19ad6b6"); },
+        title: "Kanji Grid Heatmap",
+        description:
+          "Added a new Kanji Grid heatmap in Analytics to view all kanji sorted by SRS strength with color-coded progress.",
       },
     ],
   },
@@ -1333,8 +1464,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.6dff07427449"); },
-        get description() { return uiT("release_notes.5e932b4a6da1"); },
+        title: "Last-Answer Feedback Before Results",
+        description:
+          "Random Test, Meaning→Reading Test, Listening Practice, and Context Sentence Practice now wait briefly before opening results so you can see whether the final answer was correct or incorrect.",
       },
     ],
   },
@@ -1344,8 +1476,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.82b6c674c5b7"); },
-        get description() { return uiT("release_notes.e3a4706f1305"); },
+        title: "JPDB Lyrics Translation",
+        description:
+          "Song lyrics can now be translated line-by-line to English using your JPDB API key.",
       },
     ],
   },
@@ -1355,23 +1488,26 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.31563c0e3125"); },
-        get description() { return uiT("release_notes.81569f78e0d5"); },
+        title: "Similar Vocabulary Toggle",
+        description:
+          "Added a setting to show similar vocabulary in meaning and reading sections.",
         link: {
           route: "/settings",
           params: { scrollTo: "vocabContext" },
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.6a2ec5e450ca"); },
-        get description() { return uiT("release_notes.c89b3f0eec71"); },
+        title: "Improved Vocabulary Parsing",
+        description:
+          "Upgraded vocabulary parsing for study readers with better vocabulary token detection using JPDB. Create an account at JPDB, set your API key in Settings, and you'll get better Vocabulary matches in News, EPUB reader, and Song lyrics, as well as optional grammar analysis.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.6aecd8c0f90c"); },
-        get description() { return uiT("release_notes.228e5fd4e432"); },
+        title: "Constellation Meaning Grouping",
+        description:
+          "Constellation now groups vocabulary around kanji reading clusters.",
       },
     ],
   },
@@ -1381,22 +1517,25 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.buttonless_anki_mode_4915d5f1"); },
-        get description() { return uiT("release_notes.4ef0665b349b"); },
+        title: "Buttonless Anki Mode",
+        description:
+          "Added an Anki option to hide action buttons after reveal: tap left to mark incorrect, tap right to mark correct, swipe up for details, and swipe down to skip.",
         link: {
           route: "/anki-settings",
-          get label() { return uiT("release_notes.ad95c6b4173c"); },
+          label: "Open Anki Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.847175f1a2f0"); },
-        get description() { return uiT("release_notes.a9ec9e627622"); },
+        title: "English to Japanese Kanji Option",
+        description:
+          "Meaning Reading Test now supports kanji subjects as an optional question type.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.86ea1635364a"); },
-        get description() { return uiT("release_notes.681c29a76bdb"); },
+        title: "Save Session Mistakes to Lists",
+        description:
+          "Review results now lets you add all mistakes to saved lists or create a new list in one tap.",
       },
     ],
   },
@@ -1406,13 +1545,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.7893ef11e092"); },
-        get description() { return uiT("release_notes.ddffba2001ae"); },
+        title: "Automatic OTA Before Dashboard Load",
+        description:
+          "To avoid rate limits caused by loading the dashboard twice, OTA updates are now checked and applied automatically before the dashboard loads.",
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.8dd0054b4af8"); },
-        get description() { return uiT("release_notes.385acd7ceb91"); },
+        title: "Critical Review Count Border",
+        description:
+          "Reviews count now gets a visible border when critical items are ready.",
       },
     ],
   },
@@ -1422,8 +1563,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.c876724e2522"); },
-        get description() { return uiT("release_notes.9b0266805373"); },
+        title: "Verb Conjugation Recognition",
+        description:
+          "Improved vocabulary recognition for conjugated verbs in News, Songs, Translator, and EPUB, with better tooltip/modal linking to the base WaniKani entry.",
       },
     ],
   },
@@ -1433,8 +1575,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.95d8dd40a12e"); },
-        get description() { return uiT("release_notes.ebbedb2ea47b"); },
+        title: "Mnemonic Illustrations Toggle",
+        description:
+          "Added a new setting to enable or disable radical mnemonic illustrations in subject details and lessons.",
       },
     ],
   },
@@ -1444,13 +1587,14 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.4c3cca1e64cc"); },
-        get description() { return uiT("release_notes.db94690b3ad1"); },
+        title: "Subject Lists Device Sync",
+        description: "Custom subject lists now sync across your devices.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.2ee6724180cb"); },
-        get description() { return uiT("release_notes.3298e6aecfb8"); },
+        title: "Anki SRS Indicator Alignment",
+        description:
+          "SRS indicator now stays aligned with the bottom Anki overlay row and avoids card overlap.",
       },
     ],
   },
@@ -1460,32 +1604,36 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.30b39a93ceca"); },
-        get description() { return uiT("release_notes.009f239fb28c"); },
+        title: "Review Item Level + SRS Stage",
+        description:
+          "New optional review setting to show each item's level and current SRS stage during reviews and extra study quizzes.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.4a44e257a1ce"); },
-        get description() { return uiT("release_notes.e7f7fe7d6bcb"); },
+        title: "Review Heatmap Past Year View",
+        description:
+          "Added a rolling Past year page between current and previous year, now shown by default in Review Activity.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.e4f8083fcd97"); },
-        get description() { return uiT("release_notes.c3e8a7177131"); },
+        title: "Anki Part-of-Speech Display",
+        description:
+          "Anki cards now show WaniKani part-of-speech info after reveal when enabled in Anki Settings.",
         link: {
           route: "/anki-settings",
-          get label() { return uiT("release_notes.ad95c6b4173c"); },
+          label: "Open Anki Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.430d6a9cb736"); },
-        get description() { return uiT("release_notes.5ae351e43be6"); },
+        title: "Random Test Progress Count",
+        description:
+          "Random Test now shows the correct selected test size in the top progress header instead of counting expanded meaning/reading prompts.",
       },
     ],
   },
@@ -1495,8 +1643,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.c1c2c7b5c57e"); },
-        get description() { return uiT("release_notes.f3df687eb279"); },
+        title: "Random Test Review-Style Results",
+        description:
+          "Random Test now uses review-style results with a mistakes tab, includes both meaning and reading when available, and follows your review grouping/back-to-back question settings.",
       },
     ],
   },
@@ -1506,17 +1655,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.home_customization_2482c0e7"); },
-        get description() { return uiT("release_notes.cb8b043ad13e"); },
+        title: "Home Customization",
+        description:
+          "Customize your Home layout with widget ordering, visibility, and per-widget settings.",
         link: {
           route: "/home-customization-settings",
-          get label() { return uiT("release_notes.9b6bc7c06b3d"); },
+          label: "Open Home Customization",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.cd61272a8e81"); },
-        get description() { return uiT("release_notes.00071bb5ed6b"); },
+        title: "Level Timing Reset Markers",
+        description:
+          "Level timing now handles account resets correctly and shows reset markers on the chart.",
       },
     ],
   },
@@ -1526,25 +1677,27 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.c29038949973"); },
-        get description() { return uiT("release_notes.f10459d033ab"); },
+        title: "Kana->Kanji Anki Reveal",
+        description: "Shows kanji instead of reading in Anki mode.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.efa0b061c61f"); },
-        get description() { return uiT("release_notes.9445f6ff48c6"); },
+        title: "Anki Extra Answers Toggle",
+        description:
+          "Option to show other accepted answers and user synonyms on reveal.",
         link: {
           route: "/anki-settings",
-          get label() { return uiT("release_notes.ad95c6b4173c"); },
+          label: "Open Anki Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.5dfb637b508b"); },
-        get description() { return uiT("release_notes.e8d2207a3b22"); },
+        title: "EPUB Reader (Beta)",
+        description:
+          "Added a new beta EPUB reader to read books inside the app.",
         link: {
           route: "/tab-settings",
-          get label() { return uiT("ui.customize_tabs_2d2fca4d"); },
+          label: "Customize Tabs",
         },
       },
     ],
@@ -1555,32 +1708,35 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.78dc15446a88"); },
-        get description() { return uiT("release_notes.d38ceac01f75"); },
+        title: "Patreon Support Option",
+        description: "Added Patreon to the Support page for recurring support.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.fe196edae8e2"); },
-        get description() { return uiT("release_notes.b5df294121e8"); },
+        title: "Reviews Widget Live Refresh",
+        description: "Reviews widget now updates correctly with new reviews.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.f4ab782e77a6"); },
-        get description() { return uiT("release_notes.84131e5b15f9"); },
+        title: "Single-Kanji Vocab Reading",
+        description:
+          "Single-kanji vocab now warns when you enter a kanji reading instead of the vocab reading.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.7731a2f1ce22"); },
-        get description() { return uiT("release_notes.0a710f7c3a49"); },
+        title: "Kanji Pitch Accent Support",
+        description:
+          "Kanji Reading tab now shows pitch accents for On'yomi, Kun'yomi, and Nanori, with swipe navigation when multiple patterns are available.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.e19b7f2ce105"); },
-        get description() { return uiT("release_notes.ad469f5e8e4f"); },
+        title: "Vocabulary Patterns of Use",
+        description:
+          "Added optional Patterns of Use with selectable usage chips in Vocabulary details and lesson Context tabs.",
         link: {
           route: "/settings",
           params: { scrollTo: "vocabContext" },
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
     ],
@@ -1591,28 +1747,31 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.e3eb06f91119"); },
-        get description() { return uiT("release_notes.488c6b45e077"); },
+        title: "Configurable Review Wrap Up",
+        description: "Set Wrap Up target to 5, 10, 15, or 20 subjects.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.6fe72315be7e"); },
-        get description() { return uiT("release_notes.900a5e2c8e16"); },
+        title: "Paused Wrong-Answer Button Order",
+        description:
+          "Swapped Mark Incorrect and Mark Correct positions in stop-on-incorrect mode to match Anki layout.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.61906c02a4ce"); },
-        get description() { return uiT("release_notes.ba9a82234cb1"); },
+        title: "Paused Review Skip Action",
+        description:
+          "Changed Ask Again to Skip in paused incorrect state and requeue without counting a wrong answer.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.abb2045030fb"); },
-        get description() { return uiT("release_notes.59c5ba11b29a"); },
+        title: "Global Haptic Feedback Toggle",
+        description:
+          "Added a toggle to enable or disable haptic feedback across the app.",
       },
     ],
   },
@@ -1622,38 +1781,43 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.77762f4feb59"); },
-        get description() { return uiT("release_notes.239a0dcb1431"); },
+        title: "Subject Color Customization",
+        description: "Set custom colors for radicals, kanji, and vocabulary.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.bac12d256d96"); },
-        get description() { return uiT("release_notes.f0c3746de8f0"); },
+        title: "Card Style Customization",
+        description: "Customize lesson, review, and streak card styles.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.100ce83db2f3"); },
-        get description() { return uiT("release_notes.6317b3682ff3"); },
+        title: "Level-Up Kanji Indicator",
+        description:
+          "Added a segmented bar for remaining kanji to Guru (90%) before level up.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.583f7e4231e2"); },
-        get description() { return uiT("release_notes.ef77d2797fdb"); },
+        title: "Daily Lesson Limit Step Alignment",
+        description:
+          "Daily lesson limit now snaps to your lesson batch size increments.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.f1981471f681"); },
-        get description() { return uiT("release_notes.3ac6e69b3655"); },
+        title: "Lesson Reading Autoplay",
+        description:
+          "Added a setting to autoplay vocabulary audio when opening the Reading tab during lessons.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.d236baffa5ee"); },
-        get description() { return uiT("release_notes.97ace19f74b1"); },
+        title: "Anki Skip Button Placement",
+        description:
+          "Moved the pre-reveal Skip button above the card to avoid overlap with answer actions.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.952e461f7376"); },
-        get description() { return uiT("release_notes.9df6fff507ad"); },
+        title: "Anki Previous Answer Mini-Card",
+        description:
+          "Added the previous-answer mini-card in Anki mode after answering.",
       },
     ],
   },
@@ -1663,33 +1827,38 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.1181ae1fafa3"); },
-        get description() { return uiT("release_notes.b408198f5de9"); },
+        title: "Intentional Exit for Study Sessions",
+        description:
+          "Disabled swipe-back in lessons, reviews, and extra study quizzes.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.a6440cd2968c"); },
-        get description() { return uiT("release_notes.b24b389bd62a"); },
+        title: "Review Key Shortcuts (External Keyboard)",
+        description:
+          "Added customizable external-keyboard shortcuts for paused review states (mark incorrect/correct, ask again, add synonym, etc.).",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.e9d7993a31ac"); },
-        get description() { return uiT("release_notes.e75f4cb92006"); },
+        title: "Replay Audio During Paused Reviews",
+        description:
+          "Paused review cards now include a replay button with a replaying state indicator and shortcut support.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.00dad813f24c"); },
-        get description() { return uiT("release_notes.7238b293cf32"); },
+        title: "Daily Reminder Notifications",
+        description:
+          "New daily review reminder notifications are now available in Settings.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.28a23583ab30"); },
-        get description() { return uiT("release_notes.0d3e2b6c0006"); },
+        title: "Lyrics Override in Error State",
+        description:
+          "Manual lyrics/video selection now works immediately even when auto-lyrics lookup fails.",
       },
     ],
   },
@@ -1699,22 +1868,23 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.d30afb25154c"); },
-        get description() { return uiT("release_notes.4df2f21375b6"); },
+        title: "Anki Answer Visibility",
+        description: "Choose blurred or fully hidden answers in Anki mode.",
         link: {
           route: "/anki-settings",
-          get label() { return uiT("release_notes.ad95c6b4173c"); },
+          label: "Open Anki Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.d537ca2524f2"); },
-        get description() { return uiT("release_notes.8b3ed30df61d"); },
+        title: "Vocabulary Type Filter",
+        description: "Vocabulary filter now also includes kana vocabulary.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.f360acde3fc1"); },
-        get description() { return uiT("release_notes.a3184d3402a1"); },
+        title: "Review Back Navigation Focus",
+        description:
+          "Fixed iPad/macOS focus mismatch when returning from subject details.",
       },
     ],
   },
@@ -1724,18 +1894,21 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.6bce3e0af349"); },
-        get description() { return uiT("release_notes.d7900bdba256"); },
+        title: "Recent Mistakes 24h Filter",
+        description:
+          "Fixed stale review-stat sync that could hide very recent mistakes from the 24h tab.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.33777f95a1d2"); },
-        get description() { return uiT("release_notes.31f8a670705d"); },
+        title: "Home Widget Theme Rendering",
+        description:
+          "Fixed home widget styling issues in Clear and Tinted theme modes.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.b5ad5ade9808"); },
-        get description() { return uiT("release_notes.1bdac9316da7"); },
+        title: "Lesson Picker Daily Limit",
+        description:
+          "Lesson Picker now shows all available lessons and warns when your selection goes over your daily limit.",
       },
     ],
   },
@@ -1745,39 +1918,43 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.bfa94ea82de1"); },
-        get description() { return uiT("release_notes.40a4dddb0e39"); },
+        title: "iOS Home Screen Widgets (Beta)",
+        description:
+          "Added beta widgets on iOS so you can quickly check review timing, totals, and streaks.",
         link: {
           route: "/widget-settings",
-          get label() { return uiT("release_notes.0311ad459105"); },
+          label: "Open Widget Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.637e387dce37"); },
-        get description() { return uiT("release_notes.49b7c598dabf"); },
+        title: "Background Audio Playback",
+        description:
+          "Other apps can now keep playing audio while Kakehashi plays audio.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.90ccf4478186"); },
-        get description() { return uiT("release_notes.d98d524e71eb"); },
+        title: "iPad Windowed Layout",
+        description:
+          "Fixed iPad split-view/window mode sizing so all buttons stay visible and tappable.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.3a5a23ee6a1f"); },
-        get description() { return uiT("release_notes.e218ee9c3f71"); },
+        title: "Question Order Override",
+        description:
+          "Added an option to always ask meaning-first or reading-first.",
         link: {
           route: "/review-order-settings",
-          get label() { return uiT("release_notes.ba21228c371b"); },
+          label: "Open Review Order",
         },
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.ec753490e07b"); },
-        get description() { return uiT("release_notes.809fa13d22d7"); },
+        title: "New Themes: Sepia and Midnight",
+        description: "Added two new theme presets: Sepia and Midnight.",
         link: {
           route: "/settings",
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
     ],
@@ -1788,18 +1965,20 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.23b488aed08d"); },
-        get description() { return uiT("release_notes.c10d9b87895d"); },
+        title: "Skip in Extra Study and Anki",
+        description:
+          "Skip now works in supported extra study sessions and Anki mode.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.7f428bf8f3c9"); },
-        get description() { return uiT("release_notes.8955692ef4e7"); },
+        title: "Swipeable Detail Tabs",
+        description:
+          "You can now switch tabs by swiping in Radical, Kanji, and Vocabulary details.",
       },
     ],
   },
@@ -1809,17 +1988,18 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.bb89cc931045"); },
-        get description() { return uiT("release_notes.c9430d0b9c91"); },
+        title: "More Vocabulary Audio Voice Modes",
+        description:
+          "Added Random and Both options for vocabulary autoplay voice selection.",
         link: {
           route: "/settings",
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.9af17b5e78ce"); },
-        get description() { return uiT("release_notes.a0d47666bbac"); },
+        title: "Constellation Radical Icons",
+        description: "Fixed radical SVG fallback in constellation details.",
       },
     ],
   },
@@ -1829,12 +2009,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.subject_lists_20c1f7d1"); },
-        get description() { return uiT("release_notes.a5f0e41bb115"); },
+        title: "Subject Lists",
+        description:
+          "You can now create and manage custom subject lists to use in extra study modes.",
         link: {
           route: "/settings",
           params: { scrollTo: "subjectLists" },
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
     ],
@@ -1845,48 +2026,55 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.pitch_accent_visualization_b7f4abf3"); },
-        get description() { return uiT("release_notes.f7395b34e89f"); },
+        title: "Pitch Accent Visualization",
+        description:
+          "Added a pitch accent graph for vocabulary details and lesson pages, including accent type and downstep pattern.",
         link: {
           route: "/settings",
           params: { scrollTo: "vocabContext" },
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.333c2522e750"); },
-        get description() { return uiT("release_notes.feaa594fb940"); },
+        title: "Skip Reviews Setting",
+        description:
+          "Added an optional review setting to skip the current item (resets meaning/reading and moves it to the end).",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.215388b390f5"); },
-        get description() { return uiT("release_notes.5dddb5faec22"); },
+        title: "Notification Sync Crash on Some Devices",
+        description:
+          "Fixed a race condition in review badge/notification sync that could freeze navigation or crash the app on some non-iOS devices and iOS-on-Mac builds.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.f3c94183062d"); },
-        get description() { return uiT("release_notes.fb21e9dc452b"); },
+        title: "Extra Study Results",
+        description:
+          "Vocab Reading and Kana to Kanji now use the detailed review-style results screen with mistakes and item links.",
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.394d140e6a2c"); },
-        get description() { return uiT("release_notes.bc3996faaad8"); },
+        title: "Results Cards",
+        description:
+          "Now results show both reading and meaning. You can hide them to quickly re-quiz yourself on your mistakes.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.cb38e74d9cfc"); },
-        get description() { return uiT("release_notes.710bca7032bf"); },
+        title: "Custom Study Queue Defaults",
+        description:
+          "Custom Review now defaults search to your current level range, and Custom Review/Lessons now respect review ordering and back-to-back settings.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.01e036dc6069"); },
-        get description() { return uiT("release_notes.d67b8ee8c4b8"); },
+        title: "Vocabulary Audio Reading Filter",
+        description:
+          "Fixed hidden reading audio being picked and improved voice consistency.",
       },
     ],
   },
@@ -1896,8 +2084,8 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.7ffeae678432"); },
-        get description() { return uiT("release_notes.2888939d2623"); },
+        title: "App loading improvements",
+        description: "The app now loads faster.",
       },
     ],
   },
@@ -1907,17 +2095,18 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.09f3c5d2c08d"); },
-        get description() { return uiT("release_notes.c863390e132d"); },
+        title: "Unguided Writing Test",
+        description:
+          "Added an unguided kanji writing mode that grades your answer only after you submit.",
         link: {
           route: "/writing-practice-config",
-          get label() { return uiT("release_notes.0f7a7ac0d17b"); },
+          label: "Open Writing Practice",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.2afcf628ed2b"); },
-        get description() { return uiT("release_notes.f1e987460014"); },
+        title: "Android UI Fixes",
+        description: "Fixed several Android-only UI issues.",
       },
     ],
   },
@@ -1927,12 +2116,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.bba9cbe2c585"); },
-        get description() { return uiT("release_notes.49fadee5d174"); },
+        title: "Review Ordering Settings",
+        description:
+          "Added a dedicated Review Order screen with multiple queue ordering modes, plus optional type grouping.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
     ],
@@ -1943,21 +2133,23 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.62a8037bd800"); },
-        get description() { return uiT("release_notes.bb6fee613811"); },
+        title: "Context Sentence Audio Playback Mode",
+        description:
+          "Added a new setting to choose manual or auto-play sentence audio in Context Sentence Practice (default is manual).",
         link: {
           route: "/context-sentence-practice-config",
-          get label() { return uiT("release_notes.5bdc4be3f184"); },
+          label: "Open Context Practice",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("ui.daily_lesson_limit_fc8fbcb3"); },
-        get description() { return uiT("release_notes.d4938349b2c1"); },
+        title: "Daily Lesson Limit",
+        description:
+          "Added a Lesson Settings option to cap how many lessons you can do per day.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.bd93917c945e"); },
+          label: "Open Lesson Settings",
         },
       },
     ],
@@ -1968,20 +2160,22 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.f98595c554c2"); },
-        get description() { return uiT("release_notes.a1e9859d68ee"); },
+        title: "Listening Practice Audio Speed Control",
+        description:
+          "Added playback speed controls to listening questions (when Context Audio Speed Control is enabled in Settings).",
         link: {
           route: "/settings",
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.f489f7a78fd4"); },
-        get description() { return uiT("release_notes.c58f3fca5de7"); },
+        title: "Context Sentence Practice Sentence Assist",
+        description:
+          "Added options to auto-play sentence TTS and hide translations until tap in Context Sentence Practice.",
         link: {
           route: "/context-sentence-practice-config",
-          get label() { return uiT("release_notes.5bdc4be3f184"); },
+          label: "Open Context Practice",
         },
       },
     ],
@@ -1992,8 +2186,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "improvement",
-        get title() { return uiT("release_notes.c20050bdc20d"); },
-        get description() { return uiT("release_notes.3c5693c26c14"); },
+        title: "Smarter Search",
+        description:
+          "Search now uses fuzzy matching and improved ranking in the Search tab.",
       },
     ],
   },
@@ -2003,50 +2198,57 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.8af118d0a34e"); },
-        get description() { return uiT("release_notes.7e766a6f77ae"); },
+        title: "Reading Autoplay Audio Coverage",
+        description:
+          "Autoplay vocabulary audio now works consistently in Recent Lessons Review and extra study reading sessions.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.c2457fb12fec"); },
-        get description() { return uiT("release_notes.32fb120c3775"); },
+        title: "Separate Meaning/Reading Notes on Subject Tabs",
+        description:
+          "Kanji and vocabulary detail pages now show note cards by tab: Meaning tab shows meaning notes and Reading tab shows reading notes, each saved independently.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.c910200e2482"); },
-        get description() { return uiT("release_notes.0705a2111db0"); },
+        title: "Kanji/Vocabulary Lesson Note Cards",
+        description:
+          "Lessons now support editable study notes: Meaning tabs show a meaning note card and Reading tabs show a reading note card for kanji and vocabulary.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.482e0f566919"); },
-        get description() { return uiT("release_notes.25e9e0cac28f"); },
+        title: "Kanji Lesson Similar Card Placement",
+        description:
+          "In kanji lessons, the Visually Similar Kanji section now appears directly under Radicals and above Stroke Order.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.726bb32f0fd0"); },
-        get description() { return uiT("release_notes.c35d65f5e9fa"); },
+        title: "Anki Mode Scope Selector",
+        description:
+          "Added a review setting to choose where Anki card mode applies: Both, Meaning only, or Reading only.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.919714dc4ea2"); },
-        get description() { return uiT("release_notes.60ef1921073d"); },
+        title: "Hide Context Translations",
+        description:
+          "Added a vocabulary context setting to blur English translations in details and lessons until you tap to reveal.",
         link: {
           route: "/settings",
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.959655a2171c"); },
-        get description() { return uiT("release_notes.ef478305b70c"); },
+        title: "Context Sentence Audio Speed Control",
+        description:
+          "Added optional per-sentence playback speed controls for vocabulary context audio, including regular and media context sentences.",
         link: {
           route: "/settings",
-          get label() { return uiT("ui.open_settings_3f940108"); },
+          label: "Open Settings",
         },
       },
     ],
@@ -2057,8 +2259,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.2b69e6f79346"); },
-        get description() { return uiT("release_notes.aeb5194dcbf8"); },
+        title: "Lesson Review Autoplay Audio",
+        description:
+          "When vocabulary autoplay audio is enabled, lesson review questions now play pronunciation audio after a correct answer.",
       },
     ],
   },
@@ -2068,12 +2271,13 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.bef56bf830b9"); },
-        get description() { return uiT("release_notes.0e16b149eedf"); },
+        title: "Voice Review Answers (Beta)",
+        description:
+          "New beta setting to answer review questions with speech recognition. Includes reading-focused recognition hints, stop-and-submit/retry controls while recording, and delayed auto-submit so detected answers remain visible briefly before grading.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
     ],
@@ -2084,18 +2288,20 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.pause_on_correct_answer_1e40fb3e"); },
-        get description() { return uiT("release_notes.1bc74e3483f5"); },
+        title: "Pause on Correct Answer",
+        description:
+          "Added a new review setting to pause after correct answers and show accepted answers before moving on.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.97014227b2da"); },
-        get description() { return uiT("release_notes.10c7852da44d"); },
+        title: "Recent Mistakes Hidden During Vacation Mode",
+        description:
+          "The dashboard now hides Recent Mistakes while vacation mode is active.",
       },
     ],
   },
@@ -2105,8 +2311,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.6311e12da57b"); },
-        get description() { return uiT("release_notes.0f6b171b248e"); },
+        title: "Level-Up Time Remaining",
+        description:
+          "Added expected time remaining to level up in the Level tab.",
       },
     ],
   },
@@ -2116,13 +2323,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.777a274a3f6e"); },
-        get description() { return uiT("release_notes.a4f106f4951a"); },
+        title: "Context Sentence Cloze Matching",
+        description:
+          "Fixed cloze blanking for vocabulary forms that differ from sentence text, including entries with leading/trailing 〜 and common verb/adjective conjugations like 受かる → 受かった.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.72392114b639"); },
-        get description() { return uiT("release_notes.30e34a2bd59e"); },
+        title: "Redesigned Stop on Wrong Popup",
+        description:
+          "The stop on wrong popup now shows a specific button to mark as incorrect.",
       },
     ],
   },
@@ -2132,17 +2341,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.31150888f129"); },
-        get description() { return uiT("release_notes.e9427ee2e172"); },
+        title: "Context Sentences Extra Study",
+        description:
+          "Added a new Extra Study mode that shows a sentence with one missing vocabulary word plus translation, and lets you answer in multiple choice or writing mode using WaniKani context sentences.",
         link: {
           route: "/context-sentence-practice-config",
-          get label() { return uiT("release_notes.00e19ec3190a"); },
+          label: "Try Context Sentences",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.b242f887676a"); },
-        get description() { return uiT("release_notes.c5aa1815ce13"); },
+        title: "Persistent Extra Study Configs",
+        description:
+          "All Extra Study mode settings now persist between sessions, and each mode keeps its own independent configuration.",
       },
     ],
   },
@@ -2152,17 +2363,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.e6df3573f885"); },
-        get description() { return uiT("release_notes.f659285fad7e"); },
+        title: "Listening Practice Answer Mode",
+        description:
+          "Listening Practice now supports two vocabulary answer modes: multiple choice or writing. Writing mode requires Japanese keyboard switching and checks for the exact vocabulary form.",
         link: {
           route: "/listening-practice-config",
-          get label() { return uiT("release_notes.646e75bdd8f9"); },
+          label: "Open Listening Practice",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.a56e002ae656"); },
-        get description() { return uiT("release_notes.699d091730b0"); },
+        title: "Radical Lesson Synonyms",
+        description:
+          "In lessons, radical subjects now let you add and manage user synonyms directly from the first tab.",
       },
     ],
   },
@@ -2172,18 +2385,20 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "fix",
-        get title() { return uiT("release_notes.0b334dc51308"); },
-        get description() { return uiT("release_notes.9cec3d3ab869"); },
+        title: "Accepted Answers Show User Synonyms",
+        description:
+          'When "Accept user synonyms as answers" is enabled, paused review cards now include your custom synonyms in the accepted meaning list.',
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.bb002f0b7cd4"); },
-        get description() { return uiT("release_notes.189cb4f1279e"); },
+        title: "Clearer Review Input Placeholders",
+        description:
+          'Review answer fields now show "Your Response" for meaning questions and "答え" for reading questions.',
       },
     ],
   },
@@ -2193,21 +2408,23 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.51820a5afb68"); },
-        get description() { return uiT("release_notes.41e7fc2f7db5"); },
+        title: "Kana to Kanji Extra Study",
+        description:
+          "Added a new Extra Study mode where you see kana prompts and answer with vocabulary containing kanji. Kana-only vocabulary is excluded from this mode.",
         link: {
           route: "/kana-kanji-config",
-          get label() { return uiT("release_notes.3152e81e82e3"); },
+          label: "Try Kana to Kanji",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.fe0d6a05755b"); },
-        get description() { return uiT("release_notes.8d78cadb3f26"); },
+        title: "Auto Switch to Japanese Keyboard",
+        description:
+          "New setting to automatically switch to a Japanese keyboard for reading input, useful for kanji-focused study modes.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
     ],
@@ -2218,11 +2435,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.a8b8901c4337"); },
-        get description() { return uiT("release_notes.6550a3660ad4"); },
+        title: "Apple Music Sync Setting",
+        description:
+          "Added a new music playback setting to sync songs with Apple Music, including Apple Music login/refresh support in Settings.",
         link: {
           route: "/settings",
-          get label() { return uiT("release_notes.5615fa822e79"); },
+          label: "Open Music Settings",
         },
       },
     ],
@@ -2233,11 +2451,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.34f64f998e2a"); },
-        get description() { return uiT("release_notes.bb776b99008e"); },
+        title: "Speech Recognition in Translator",
+        description:
+          "The speech recognition experience has been refreshed and integrated into the new Translator page, replacing the previous standalone flow.",
         link: {
           route: "/translator",
-          get label() { return uiT("release_notes.60d87612fcc2"); },
+          label: "Try Translator",
         },
       },
     ],
@@ -2248,13 +2467,15 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.eb5b03e555a6"); },
-        get description() { return uiT("release_notes.3b3f9b3c7d7f"); },
+        title: "App Usage Streak + Freeze",
+        description:
+          "New dashboard streak widget tracks daily app usage, adds a 1-per-7-days streak freeze with reload countdown, and includes the updated streak card visuals.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.dcd4ee838ecc"); },
-        get description() { return uiT("release_notes.111387a4bf4d"); },
+        title: "Tap to Copy Subject Characters",
+        description:
+          'Tap radical, kanji, and vocabulary characters in detail pages and lesson flow to copy them instantly, with a subtle animated "Copied!" tooltip confirmation.',
       },
     ],
   },
@@ -2264,38 +2485,42 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.3f838ec4b228"); },
-        get description() { return uiT("release_notes.415fa40ad59c"); },
+        title: "Jitai Font Pool Management",
+        description:
+          "Choose exactly which fonts are used for randomized review text, and manage them from a dedicated Jitai fonts screen.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.d8b91b8fc2c5"); },
+          label: "Open Review Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.fc103a7114d3"); },
-        get description() { return uiT("release_notes.f3b7a8ccfae5"); },
+        title: "Downloadable Jitai Fonts",
+        description:
+          "Install additional Jitai fonts on demand and keep them saved locally, so the app bundle stays smaller.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.ff34b964aacd"); },
+          label: "Manage Fonts",
         },
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.a245ee314ec3"); },
-        get description() { return uiT("release_notes.af6b5d69a1d9"); },
+        title: "Quick Font Toggle During Reviews",
+        description:
+          "When Jitai is enabled, use the new icon under Wrap Up to temporarily show the default font for the current question, then switch back without re-rolling.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.2c44d4c01e05"); },
-        get description() { return uiT("release_notes.f9c8ef8c4731"); },
+        title: "Anki Autoplay Trigger Timing",
+        description:
+          "In Anki mode with vocabulary autoplay enabled, audio now plays when you reveal the answer instead of waiting until you tap Correct.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.692374a1f36e"); },
-        get description() { return uiT("release_notes.62a7433ff180"); },
+        title: "SRS Search Filtering",
+        description: "Search and custom selection filters now show SRS.",
       },
     ],
   },
@@ -2305,22 +2530,24 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.68f6cad3e626"); },
-        get description() { return uiT("release_notes.dd9562947c0a"); },
+        title: "AniList Sync",
+        description:
+          "Sync your AniList watched anime to filter Immersion Kit sentences. Works alongside MyAnimeList sync with reliable ID-based matching.",
         link: {
           route: "/immersion-kit-settings",
           params: { showSection: "anilist" },
-          get label() { return uiT("release_notes.d667f0ab5984"); },
+          label: "Try AniList Sync",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.ca92273b3e99"); },
-        get description() { return uiT("release_notes.5b0acb02471f"); },
+        title: "Niai Similar Kanji",
+        description:
+          "Switch to the Niai community database for visually similar kanji. Often more comprehensive than WaniKani's built-in data, especially for kanji that don't have similar kanji in WaniKani.",
         link: {
           route: "/settings",
           params: { scrollTo: "kanji" },
-          get label() { return uiT("release_notes.e590ec48d5c0"); },
+          label: "Try in Settings",
         },
       },
     ],
@@ -2331,37 +2558,41 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.db5331a24c39"); },
-        get description() { return uiT("release_notes.691297197e5f"); },
+        title: "Level Rewind",
+        description:
+          "Celebrate leveling up with an animated recap of your journey. See your time, accuracy, most missed items, star performers, and watch your radicals and kanji rain down.",
         link: {
           route: "/settings",
           params: { scrollTo: "levelRecap" },
-          get label() { return uiT("release_notes.3e95946ee742"); },
+          label: "View in Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("ui.review_batch_size_4040bacd"); },
-        get description() { return uiT("release_notes.e6064e465313"); },
+        title: "Review Batch Size",
+        description:
+          "Limit how many reviews are loaded into each session. Choose a batch size from 5 to 100 to keep sessions manageable.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.3890ae2a6e12"); },
+          label: "Enable in Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.913480d18081"); },
-        get description() { return uiT("release_notes.0a2c1c5d8339"); },
+        title: "Listening Practice Auto-Play Toggle",
+        description:
+          "New setting to disable automatic audio playback between questions. Press play manually when you're ready.",
         link: {
           route: "/listening-practice-config",
-          get label() { return uiT("release_notes.9b4221e3e5b5"); },
+          label: "Try Listening Practice",
         },
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.48170736262c"); },
-        get description() { return uiT("release_notes.4bd509d36a33"); },
+        title: "Listening Practice Session Results",
+        description:
+          "Completely redesigned summary screen with detailed cards for each question — replay audio, see the anime screenshot, highlighted vocabulary in context, and your answers at a glance.",
       },
     ],
   },
@@ -2371,22 +2602,25 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.98c4460f4853"); },
-        get description() { return uiT("release_notes.d11aad82e84e"); },
+        title: "SRS Progression Indicator",
+        description:
+          "See your SRS level change in real-time when completing review items. Shows the new level and time until next review.",
       },
       {
         type: "improvement",
-        get title() { return uiT("release_notes.a25dbd3bc378"); },
-        get description() { return uiT("release_notes.74e8788f71ce"); },
+        title: "Smooth Lesson Navigation",
+        description:
+          "Swipe between lesson subjects with smooth transitions. When on the last tab, swiping continues to the next subject seamlessly.",
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.f6708925f130"); },
-        get description() { return uiT("release_notes.9e43e621f713"); },
+        title: "Single Page Lesson View",
+        description:
+          "New opt-in setting to display all lesson content in one scrollable page instead of tabs.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.3890ae2a6e12"); },
+          label: "Enable in Settings",
         },
       },
     ],
@@ -2397,11 +2631,12 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.b11b89741853"); },
-        get description() { return uiT("release_notes.3196440acd05"); },
+        title: "Customizable Tab Bar",
+        description:
+          "Choose which tabs to show in your navigation bar. Show Items and Analytics as separate tabs, or keep them grouped in the Level tab.",
         link: {
           route: "/tab-settings",
-          get label() { return uiT("ui.customize_tabs_2d2fca4d"); },
+          label: "Customize Tabs",
         },
       },
     ],
@@ -2412,17 +2647,19 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.7378a0abe6c6"); },
-        get description() { return uiT("release_notes.d97a4b57aed8"); },
+        title: "Follow System Appearance",
+        description:
+          "New theme option to automatically switch between light and dark mode based on your device settings.",
         link: {
           route: "/settings",
-          get label() { return uiT("release_notes.ad6802eb4247"); },
+          label: "Try it in Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.636525da8c6f"); },
-        get description() { return uiT("release_notes.6f6b82bbb9bb"); },
+        title: "Lesson Quiz Repeating Questions",
+        description:
+          "Fixed a bug where questions would repeat indefinitely during lesson quizzes, even when answered correctly.",
       },
     ],
   },
@@ -2432,33 +2669,37 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.a258726410d1"); },
-        get description() { return uiT("release_notes.2a825a6715ee"); },
+        title: "Stroke Strictness Setting",
+        description:
+          "Customize how strict stroke recognition is during writing practice.",
         link: {
           route: "/settings",
           params: { scrollTo: "kanji" },
-          get label() { return uiT("release_notes.0ac8685e0b11"); },
+          label: "Adjust in Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("ui.back_to_back_questions_559ccdbc"); },
-        get description() { return uiT("release_notes.3d9522835658"); },
+        title: "Back-to-Back Questions",
+        description:
+          "Skip the result screen and jump straight to the next question for faster review sessions.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.3890ae2a6e12"); },
+          label: "Enable in Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.117ed9537c97"); },
-        get description() { return uiT("release_notes.52a1959c2133"); },
+        title: "Context in English→Japanese Quiz",
+        description:
+          "Now shows context sentences when practicing from English to Japanese.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.d4e0f3ad4f4b"); },
-        get description() { return uiT("release_notes.1e40e42b3b79"); },
+        title: "Cache Reliability",
+        description:
+          "Fixed issues that could cause cached data to become corrupted.",
       },
     ],
   },
@@ -2468,21 +2709,23 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.katakana_madness_c21f54fc"); },
-        get description() { return uiT("release_notes.25201bdf5bf5"); },
+        title: "Katakana Madness",
+        description:
+          "Display on'yomi readings in katakana instead of hiragana for a more authentic experience.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.3890ae2a6e12"); },
+          label: "Enable in Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("ui.kanji_writing_practice_590d1ada"); },
-        get description() { return uiT("release_notes.317e9f98575c"); },
+        title: "Kanji Writing Practice",
+        description:
+          "Practice writing kanji with stroke order guidance and handwriting recognition.",
         link: {
           route: "/writing-practice-config",
-          get label() { return uiT("release_notes.8fb2b4181cb2"); },
+          label: "Try Writing Practice",
         },
       },
     ],
@@ -2493,18 +2736,20 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.user_synonyms_4eacfc42"); },
-        get description() { return uiT("release_notes.7b6f6ad98822"); },
+        title: "User Synonyms",
+        description:
+          "Add your own synonyms to vocabulary items for more personalized learning.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.6313fd5fdcc2"); },
+          label: "Configure in Settings",
         },
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.7375c29392cf"); },
-        get description() { return uiT("release_notes.e065979997af"); },
+        title: "Empty Review Card",
+        description:
+          "When there are no reviews left, show time till next review.",
       },
     ],
   },
@@ -2514,8 +2759,9 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.993941a4159d"); },
-        get description() { return uiT("release_notes.fc3b03478f2a"); },
+        title: "Recent Mistakes Widget",
+        description:
+          "New dashboard widget showing your recently missed items for quick review.",
       },
     ],
   },
@@ -2525,28 +2771,31 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("release_notes.049b0ee94748"); },
-        get description() { return uiT("release_notes.7ba0aa5b8916"); },
+        title: "Customizable Lesson Batch Size",
+        description:
+          "Choose how many lessons to do at once to match your learning pace.",
         link: {
           route: "/settings",
           params: { scrollTo: "lessons" },
-          get label() { return uiT("release_notes.0ac8685e0b11"); },
+          label: "Adjust in Settings",
         },
       },
       {
         type: "feature",
-        get title() { return uiT("release_notes.fc0a6e2b9924"); },
-        get description() { return uiT("release_notes.9156aaa9ff60"); },
+        title: "Disable Auto-Progress on Wrong",
+        description:
+          "Option to manually advance after wrong answers for more thorough review.",
         link: {
           route: "/settings",
           params: { scrollTo: "reviews" },
-          get label() { return uiT("release_notes.3890ae2a6e12"); },
+          label: "Enable in Settings",
         },
       },
       {
         type: "design",
-        get title() { return uiT("release_notes.464fe646455b"); },
-        get description() { return uiT("release_notes.644ee446da2d"); },
+        title: "Improved Input UI",
+        description:
+          "Redesigned answer input based on user feedback for better usability.",
       },
     ],
   },
@@ -2556,18 +2805,20 @@ export const PATCH_NOTES: PatchNote[] = [
     changes: [
       {
         type: "feature",
-        get title() { return uiT("ui.stroke_order_animation_42d704c1"); },
-        get description() { return uiT("release_notes.74016e60bb45"); },
+        title: "Stroke Order Animation",
+        description:
+          "See animated stroke order for kanji to learn proper writing technique.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.b90ce280886e"); },
-        get description() { return uiT("release_notes.efc132a4a963"); },
+        title: "Immersion Kit Anime Selection",
+        description:
+          "Fixed issues with selecting animes for context sentences.",
       },
       {
         type: "fix",
-        get title() { return uiT("release_notes.a422ac0c20a8"); },
-        get description() { return uiT("release_notes.2058f847bf0d"); },
+        title: "Cache Improvements",
+        description: "Improved data caching for better offline experience.",
       },
     ],
   },

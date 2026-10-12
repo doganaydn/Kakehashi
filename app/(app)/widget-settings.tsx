@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -39,20 +38,20 @@ const WIDGET_CONTENT_OPTIONS: {
 }[] = [
   {
     value: "reviews",
-    get title() { return uiT("ui.current_upcoming_reviews_a3fbf3a8"); },
-    get description() { return uiT("ui.show_available_reviews_next_review_timing_and_today_total_36654510"); },
+    title: "Current & Upcoming Reviews",
+    description: "Show available reviews, next review timing, and today total",
     icon: "time",
   },
   {
     value: "critical",
-    get title() { return uiT("ui.critical_items_759959bc"); },
-    get description() { return uiT("ui.lowest_accuracy_items_one_in_small_up_to_three_in_medium_starts_b_50bb4f7d"); },
+    title: "Critical Items",
+    description: "Lowest-accuracy items: one in small, up to three in medium. Starts below 75%, expanding to 80%, 85%, then 90% if empty.",
     icon: "warning",
   },
   {
     value: "streak",
-    get title() { return uiT("ui.app_use_streak_dcb0f6b3"); },
-    get description() { return uiT("ui.show_current_streak_best_streak_and_freeze_status_e3ea7c65"); },
+    title: "App Use Streak",
+    description: "Show current streak, best streak, and freeze status",
     icon: "flame",
   },
 ];
@@ -64,13 +63,13 @@ const WIDGET_COLOR_MODE_OPTIONS: {
 }[] = [
   {
     value: "automatic",
-    get title() { return uiT("ui.automatic_d461a493"); },
-    get description() { return uiT("ui.changes_by_morning_afternoon_and_night_2565f522"); },
+    title: "Automatic",
+    description: "Changes by morning, afternoon, and night",
   },
   {
     value: "defaults",
-    get title() { return uiT("ui.defaults_610b7468"); },
-    get description() { return uiT("ui.uses_the_default_colors_for_each_widget_c06d5470"); },
+    title: "Defaults",
+    description: "Uses the default colors for each widget",
   },
 ];
 
@@ -79,26 +78,25 @@ const WIDGET_STREAK_GRADIENT_OPTIONS: {
   label: string;
   preview: [string, string];
 }[] = [
-  { value: "sunset", get label() { return uiT("ui.sunset_275dbda9"); }, preview: ["#FF7A18", "#FF3F6C"] },
-  { value: "ocean", get label() { return uiT("ui.ocean_fed12611"); }, preview: ["#0EA5E9", "#4338CA"] },
-  { value: "emerald", get label() { return uiT("ui.emerald_af1ccb31"); }, preview: ["#10B981", "#0F766E"] },
-  { value: "violet", get label() { return uiT("ui.violet_2a364288"); }, preview: ["#A855F7", "#4C1D95"] },
-  { value: "rose", get label() { return uiT("ui.rose_e10d8509"); }, preview: ["#FB7185", "#BE185D"] },
-  { value: "amber", get label() { return uiT("ui.amber_a5cccbce"); }, preview: ["#F59E0B", "#EA580C"] },
-  { value: "aurora", get label() { return uiT("ui.aurora_e9de098c"); }, preview: ["#06B6D4", "#22C55E"] },
-  { value: "slate", get label() { return uiT("ui.slate_10ad4c38"); }, preview: ["#64748B", "#334155"] },
-  { value: "skyline", get label() { return uiT("ui.skyline_3cb5c345"); }, preview: ["#38BDF8", "#A78BFA"] },
-  { value: "obsidian", get label() { return uiT("ui.obsidian_9db22d41"); }, preview: ["#111827", "#020617"] },
-  { value: "graphite", get label() { return uiT("ui.graphite_1d261a85"); }, preview: ["#374151", "#111827"] },
+  { value: "sunset", label: "Sunset", preview: ["#FF7A18", "#FF3F6C"] },
+  { value: "ocean", label: "Ocean", preview: ["#0EA5E9", "#4338CA"] },
+  { value: "emerald", label: "Emerald", preview: ["#10B981", "#0F766E"] },
+  { value: "violet", label: "Violet", preview: ["#A855F7", "#4C1D95"] },
+  { value: "rose", label: "Rose", preview: ["#FB7185", "#BE185D"] },
+  { value: "amber", label: "Amber", preview: ["#F59E0B", "#EA580C"] },
+  { value: "aurora", label: "Aurora", preview: ["#06B6D4", "#22C55E"] },
+  { value: "slate", label: "Slate", preview: ["#64748B", "#334155"] },
+  { value: "skyline", label: "Skyline", preview: ["#38BDF8", "#A78BFA"] },
+  { value: "obsidian", label: "Obsidian", preview: ["#111827", "#020617"] },
+  { value: "graphite", label: "Graphite", preview: ["#374151", "#111827"] },
   {
     value: "midnightBloom",
-    get label() { return uiT("ui.midnight_bloom_1b7fd42e"); },
+    label: "Midnight Bloom",
     preview: ["#312E81", "#111827"],
   },
 ];
 
 export default function WidgetSettings() {
-  useInterfaceLanguage();
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
   const userData = useAuthStore((state) => state.userData);
@@ -211,12 +209,13 @@ export default function WidgetSettings() {
           style={styles.backButton}
           onPress={() => router.back()}
           accessibilityRole="button"
-          accessibilityLabel={uiT("ui.go_back_6aadac2f")}
+          accessibilityLabel="Go back"
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          {uiT("ui.home_widget_273b7f71")} </Text>
+          Home Widget
+        </Text>
       </View>
 
       <ScrollView
@@ -229,20 +228,20 @@ export default function WidgetSettings() {
           <TouchableOpacity
             style={[styles.settingItem, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}
             accessibilityRole="button"
-            accessibilityLabel={uiT("ui.add_kakehashi_widget_to_home_screen_36bd4037")}
+            accessibilityLabel="Add Kakehashi widget to home screen"
             onPress={async () => {
               try {
                 if (await requestPinHomeWidget()) return;
               } catch {
                 // Launchers without pin support still offer the widget picker.
               }
-              Alert.alert(uiT("ui.add_home_widget_80564361"), uiT("ui.touch_and_hold_an_empty_space_on_your_home_screen_choose_widgets_394cdaee"));
+              Alert.alert("Add Home Widget", "Touch and hold an empty space on your home screen, choose Widgets, then select Kakehashi. Resize it for the small or medium layout.");
             }}
           >
             <Ionicons name="add-circle-outline" size={24} color={theme.primary} style={styles.settingIcon} />
             <View style={styles.settingTextContainer}>
-              <Text style={[styles.settingText, { color: theme.textColor }]}>{uiT("ui.add_to_home_screen_e1090dd0")}</Text>
-              <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>{uiT("ui.content_and_colors_below_apply_to_all_kakehashi_widgets_1cb0113f")}</Text>
+              <Text style={[styles.settingText, { color: theme.textColor }]}>Add to Home Screen</Text>
+              <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>Content and colors below apply to all Kakehashi widgets.</Text>
             </View>
           </TouchableOpacity>
         ) : null}
@@ -261,7 +260,8 @@ export default function WidgetSettings() {
               { color: theme.textColor, borderBottomColor: theme.border },
             ]}
           >
-            {uiT("ui.widget_content_73862d5d")} </Text>
+            Widget Content
+          </Text>
 
           {supportsWidgets ? (
             WIDGET_CONTENT_OPTIONS.map((option, index) => {
@@ -319,11 +319,13 @@ export default function WidgetSettings() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  {uiT("ui.home_screen_widgets_5cb92ee6")} </Text>
+                  Home Screen Widgets
+                </Text>
                 <Text
                   style={[styles.settingSubtext, { color: theme.textSecondary }]}
                 >
-                  {uiT("ui.widget_support_is_available_on_ios_and_android_devices_b3852ef9")} </Text>
+                  Widget support is available on iOS and Android devices.
+                </Text>
               </View>
             </View>
           )}
@@ -345,10 +347,12 @@ export default function WidgetSettings() {
                 { color: theme.textColor, borderBottomColor: theme.border },
               ]}
             >
-              {uiT("ui.widget_theme_49e95abc")} </Text>
+              Widget Theme
+            </Text>
             <View style={styles.settingItemColumn}>
               <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>
-                {uiT("ui.choose_a_color_mode_first_or_pick_a_manual_gradient_preset_1a1c2485")} </Text>
+                Choose a color mode first, or pick a manual gradient preset.
+              </Text>
               <View style={styles.modeSelector}>
                 {WIDGET_COLOR_MODE_OPTIONS.map((option) => {
                   const isSelected = widgetStreakGradient === option.value;
@@ -397,7 +401,8 @@ export default function WidgetSettings() {
                   { color: theme.textSecondary, borderTopColor: theme.border },
                 ]}
               >
-                {uiT("ui.manual_gradient_presets_425a8534")} </Text>
+                Manual Gradient Presets
+              </Text>
               <View style={styles.gradientSelector}>
                 {WIDGET_STREAK_GRADIENT_OPTIONS.map((option) => {
                   const isSelected = widgetStreakGradient === option.value;
@@ -457,7 +462,8 @@ export default function WidgetSettings() {
                 { color: theme.textColor, borderBottomColor: theme.border },
               ]}
             >
-              {uiT("ui.background_updates_e4503bee")} </Text>
+              Background Updates
+            </Text>
 
             <View
               style={[styles.settingItem, { borderBottomColor: "transparent" }]}
@@ -470,18 +476,20 @@ export default function WidgetSettings() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  {uiT("ui.background_refresh_52f661a1")} </Text>
+                  Background Refresh
+                </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {uiT("ui.periodically_check_for_external_reviews_and_keep_widget_counts_up_44bf86dd")} </Text>
+                  Periodically check for external reviews and keep widget counts up to date when the app is closed
+                </Text>
               </View>
               <Switch
-                accessibilityLabel={uiT("ui.background_widget_refresh_f91d5ba7")}
-                accessibilityHint={uiT("ui.controls_whether_kakehashi_updates_home_widgets_while_the_app_is_3837657e")}
+                accessibilityLabel="Background widget refresh"
+                accessibilityHint="Controls whether Kakehashi updates home widgets while the app is closed"
                 value={widgetBackgroundRefreshEnabled}
                 onValueChange={handleWidgetBackgroundRefreshChange}
                 trackColor={{ false: "#767577", true: theme.primary }}
@@ -507,10 +515,13 @@ export default function WidgetSettings() {
                 { color: theme.textColor, borderBottomColor: theme.border },
               ]}
             >
-              {uiT("ui.widget_debug_35692bc6")} </Text>
+              Widget Debug
+            </Text>
             <View style={styles.settingItemColumn}>
               <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>
-                {uiT("ui.portego_only_tool_inspect_currently_scheduled_home_widget_timelin_de4d86dd")} </Text>
+                Portego-only tool: inspect currently scheduled home widget
+                timeline updates.
+              </Text>
               <TouchableOpacity
                 style={[
                   styles.debugRefreshButton,
@@ -529,8 +540,8 @@ export default function WidgetSettings() {
                   style={[styles.debugRefreshText, { color: theme.primary }]}
                 >
                   {isWidgetDebugLoading
-                    ? uiT("ui.refreshing_1c0def7b")
-                    : uiT("ui.refresh_scheduled_updates_88c0938a")}
+                    ? "Refreshing…"
+                    : "Refresh Scheduled Updates"}
                 </Text>
                 <Ionicons
                   name="refresh"
@@ -541,7 +552,7 @@ export default function WidgetSettings() {
 
               {widgetDebugLastRefreshedAt ? (
                 <Text style={[styles.debugMetaText, { color: theme.textSecondary }]}>
-                  {uiT("ui.last_refreshed_58095fd7")}{" "}
+                  Last refreshed{" "}
                   {widgetDebugLastRefreshedAt.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -557,8 +568,9 @@ export default function WidgetSettings() {
                   ]}
                 >
                   <Text style={[styles.debugMetaText, { color: theme.textSecondary }]}>
-                    {uiT("ui.source_c707ee4e")} {widgetDebugData.source} · {widgetDebugData.entryCount}{" "}
-                    {uiT("ui.entries_87d05cd0")} </Text>
+                    Source: {widgetDebugData.source} · {widgetDebugData.entryCount}{" "}
+                    entries
+                  </Text>
                   {widgetDebugData.error ? (
                     <Text style={[styles.debugErrorText, { color: theme.error }]}>
                       {widgetDebugData.error}
@@ -568,7 +580,8 @@ export default function WidgetSettings() {
                     <Text
                       style={[styles.debugEmptyText, { color: theme.textSecondary }]}
                     >
-                      {uiT("ui.no_future_widget_updates_are_currently_scheduled_59dac69f")} </Text>
+                      No future widget updates are currently scheduled.
+                    </Text>
                   ) : (
                     futureWidgetDebugEntries.map((entry, index) => {
                       const subtitle =

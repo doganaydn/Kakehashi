@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import Slider from "@react-native-community/slider";
@@ -68,7 +67,6 @@ function roundToTwoDecimals(value: number): number {
 }
 
 export default function AnimeTranscriptDevSettingsScreen() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -150,12 +148,12 @@ export default function AnimeTranscriptDevSettingsScreen() {
             style={styles.headerGlassButton}
             onPress={() => router.back()}
           />
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.viewer_settings_33191791")}</Text>
+          <Text style={[styles.headerTitle, { color: theme.textColor }]}>Viewer Settings</Text>
           <View style={styles.headerSpacer} />
         </View>
         <View style={styles.loadingWrap}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>{uiT("ui.loading_settings_157fd50d")}</Text>
+          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>Loading settings...</Text>
         </View>
       </View>
     );
@@ -181,7 +179,7 @@ export default function AnimeTranscriptDevSettingsScreen() {
           style={styles.headerGlassButton}
           onPress={() => router.back()}
         />
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.viewer_settings_33191791")}</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Viewer Settings</Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -202,11 +200,11 @@ export default function AnimeTranscriptDevSettingsScreen() {
             },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: theme.textColor }]}>{uiT("ui.playback_2db1db07")}</Text>
-          <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>{uiT("ui.control_playback_and_orientation_behavior_8004e0c3")}</Text>
+          <Text style={[styles.cardTitle, { color: theme.textColor }]}>Playback</Text>
+          <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>Control playback and orientation behavior.</Text>
 
           <View style={styles.toggleRow}>
-            <Text style={[styles.toggleLabel, { color: theme.textColor }]}>{uiT("ui.pause_on_tooltip_open_038b998d")}</Text>
+            <Text style={[styles.toggleLabel, { color: theme.textColor }]}>Pause on tooltip open</Text>
             <Switch
               value={settings.pausePlaybackOnTooltipOpen}
               onValueChange={(value) => {
@@ -219,7 +217,8 @@ export default function AnimeTranscriptDevSettingsScreen() {
 
           <View style={styles.toggleRow}>
             <Text style={[styles.toggleLabel, { color: theme.textColor }]}>
-              {uiT("ui.auto_rotate_fullscreen_with_device_sensor_b60d92e1")} </Text>
+              Auto-rotate fullscreen with device sensor
+            </Text>
             <Switch
               value={settings.autoRotateFullscreenWithDeviceMotion}
               onValueChange={(value) => {
@@ -234,7 +233,8 @@ export default function AnimeTranscriptDevSettingsScreen() {
 
           <View style={styles.toggleRow}>
             <Text style={[styles.toggleLabel, { color: theme.textColor }]}>
-              {uiT("ui.show_translate_caption_button_b4df1efc")} </Text>
+              Show translate caption button
+            </Text>
             <Switch
               value={settings.showPauseAndTranslateCurrentCaptionButton}
               onValueChange={(value) => {
@@ -249,7 +249,8 @@ export default function AnimeTranscriptDevSettingsScreen() {
 
           <View style={styles.toggleRow}>
             <Text style={[styles.toggleLabel, { color: theme.textColor }]}>
-              {uiT("ui.show_subtitle_search_button_4bfba364")} </Text>
+              Show subtitle search button
+            </Text>
             <Switch
               value={settings.showSubtitleSearchButton}
               onValueChange={(value) => {
@@ -272,11 +273,11 @@ export default function AnimeTranscriptDevSettingsScreen() {
             },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: theme.textColor }]}>{uiT("ui.fullscreen_captions_31005e1c")}</Text>
-          <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>{uiT("ui.adjust_subtitle_style_while_in_fullscreen_mode_b02a3c02")}</Text>
+          <Text style={[styles.cardTitle, { color: theme.textColor }]}>Fullscreen Captions</Text>
+          <Text style={[styles.cardSubtitle, { color: theme.textSecondary }]}>Adjust subtitle style while in fullscreen mode.</Text>
 
           <View style={styles.sectionBlock}>
-            <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>{uiT("ui.size_1af85190")}</Text>
+            <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>Size</Text>
             <View style={styles.pillRow}>
               {SUBTITLE_SIZE_PRESETS.map((preset) => {
                 const selected = settings.subtitleSizePreset === preset;
@@ -310,7 +311,7 @@ export default function AnimeTranscriptDevSettingsScreen() {
           </View>
 
           <View style={styles.sectionBlock}>
-            <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>{uiT("ui.text_color_4a69d016")}</Text>
+            <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>Text color</Text>
             <View style={styles.colorRow}>
               {SUBTITLE_TEXT_COLOR_OPTIONS.map((color) => {
                 const selected = settings.fullscreenSubtitleTextColor.toLowerCase() === color;
@@ -344,7 +345,7 @@ export default function AnimeTranscriptDevSettingsScreen() {
 
           <View style={styles.sectionBlock}>
             <View style={styles.sliderHeaderRow}>
-              <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>{uiT("ui.outline_thickness_416bfea0")}</Text>
+              <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>Outline thickness</Text>
               <Text style={[styles.sliderValue, { color: theme.textColor }]}>
                 {settings.fullscreenSubtitleOutlineThickness.toFixed(1)}
               </Text>
@@ -372,7 +373,7 @@ export default function AnimeTranscriptDevSettingsScreen() {
           </View>
 
           <View style={styles.sectionBlock}>
-            <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>{uiT("ui.outline_color_375b9bf7")}</Text>
+            <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>Outline color</Text>
             <View style={styles.colorRow}>
               {SUBTITLE_OUTLINE_COLOR_OPTIONS.map((color) => {
                 const selected = settings.fullscreenSubtitleOutlineColor.toLowerCase() === color;
@@ -406,7 +407,7 @@ export default function AnimeTranscriptDevSettingsScreen() {
 
           <View style={styles.sectionBlock}>
             <View style={styles.sliderHeaderRow}>
-              <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>{uiT("ui.background_opacity_284935fb")}</Text>
+              <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>Background opacity</Text>
               <Text style={[styles.sliderValue, { color: theme.textColor }]}>
                 {Math.round(settings.fullscreenSubtitleBackgroundOpacity * 100)}%
               </Text>

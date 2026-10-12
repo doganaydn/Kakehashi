@@ -1,7 +1,5 @@
 package com.portego00.kakehashi
 
-import expo.modules.kakehashiwidget.InterfaceLocale
-
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
@@ -55,7 +53,7 @@ class KeyboardManagerModule(
 
         promise.resolve(true)
       } catch (error: Exception) {
-        promise.reject("KEYBOARD_SWITCH_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_20), error)
+        promise.reject("KEYBOARD_SWITCH_FAILED", "Failed to update keyboard language hint", error)
       }
     } ?: promise.resolve(false)
   }

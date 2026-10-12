@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
@@ -17,7 +16,6 @@ const expandMotion = { duration: 240, easing: Easing.bezier(0.2, 0, 0, 1), reduc
 const collapseMotion = { ...expandMotion, duration: 180 };
 
 function Disclosure({ expanded, children, shadowGutter = false }: { expanded: boolean; children: React.ReactNode; shadowGutter?: boolean }) {
-  useInterfaceLanguage();
   const contentHeight = useSharedValue(0);
   const motion = expanded ? expandMotion : collapseMotion;
   const animatedStyle = useAnimatedStyle(() => ({
@@ -39,7 +37,6 @@ function Disclosure({ expanded, children, shadowGutter = false }: { expanded: bo
 }
 
 function DisclosureChevron({ expanded, color, size = 20 }: { expanded: boolean; color: string; size?: number }) {
-  useInterfaceLanguage();
   const motion = expanded ? expandMotion : collapseMotion;
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: withTiming(expanded ? "180deg" : "0deg", motion) }],
@@ -50,11 +47,10 @@ function DisclosureChevron({ expanded, color, size = 20 }: { expanded: boolean; 
 }
 
 function Goal({ done, goal, batch, extra = 0 }: { done: number; goal: number; batch: number; extra?: number }) {
-  useInterfaceLanguage();
   const segments = Math.min(Math.max(goal, 1), 20);
   return (
-    <View accessibilityRole="progressbar" accessibilityLabel={uiT("ui.daily_bunpro_lesson_goal_e27eda21")}
-      accessibilityValue={{ min: 0, max: Math.max(goal, 1), now: Math.min(done, goal), text: uiT("ui.value_of_value_learned_next_batch_value_bb272a31", {value1: (done), value2: (goal), value3: (batch)}) }} style={styles.goal}>
+    <View accessibilityRole="progressbar" accessibilityLabel="Daily Bunpro lesson goal"
+      accessibilityValue={{ min: 0, max: Math.max(goal, 1), now: Math.min(done, goal), text: `${done} of ${goal} learned; next batch ${batch}` }} style={styles.goal}>
       {Array.from({ length: segments }, (_, index) => {
         const position = index * Math.max(goal, 1) / segments;
         return <View key={index} testID={position < done && position >= done - extra ? "bunpro-extra-lesson-segment" : undefined} style={[styles.segment, position < done && styles.segmentDone, extra > 0 && position < done && position >= done - extra && { backgroundColor: "#ff9e00" }]} />;
@@ -64,13 +60,11 @@ function Goal({ done, goal, batch, extra = 0 }: { done: number; goal: number; ba
 }
 
 function CountBadge({ children }: { children: string }) {
-  useInterfaceLanguage();
   return <View style={styles.countBadge}><Text style={styles.count}>{children}</Text></View>;
 }
 
 /** Mounted only for eligible accounts, beside their normal study queues. */
 export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const { eligible, status, due, queue, error, refreshing, refresh } = useBunproDashboard({ scope: "home", refreshKey });
   const [expanded, setExpanded] = useState<"learn" | "review" | null>(null);
@@ -94,29 +88,29 @@ export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
     <View style={styles.container} testID="bunpro-home-study">
       <View style={styles.heading}>
         <Text style={[styles.title, { color: theme.textSecondary }]}>Bunpro</Text>
-        {refreshing ? <ActivityIndicator size="small" color={accent} accessibilityLabel={uiT("ui.refreshing_bunpro_ddca8fbd")} /> : null}
-        <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.bunpro_connection_and_settings_8b89b882")} onPress={() => router.push({ pathname: "/settings", params: { scrollTo: "bunproReviews" } })} style={styles.settings}>
+        {refreshing ? <ActivityIndicator size="small" color={accent} accessibilityLabel="Refreshing Bunpro" /> : null}
+        <Pressable accessibilityRole="button" accessibilityLabel="Bunpro connection and settings" onPress={() => router.push({ pathname: "/settings", params: { scrollTo: "bunproReviews" } })} style={styles.settings}>
           <Ionicons name="settings-outline" size={19} color={theme.textSecondary} />
         </Pressable>
       </View>
       {status === "unconfigured" ? (
         <Pressable accessibilityRole="button" onPress={() => router.push({ pathname: "/settings", params: { scrollTo: "bunproReviews" } })} style={[styles.connect, { borderColor: theme.border }]}>
-          <Text style={[styles.actionTitle, { color: theme.textColor }]}>{uiT("ui.connect_bunpro_ff50ee02")}</Text>
-          <Text style={{ color: theme.textSecondary }}>{uiT("ui.add_your_api_key_to_study_grammar_and_vocabulary_here_737c477a")}</Text>
+          <Text style={[styles.actionTitle, { color: theme.textColor }]}>Connect Bunpro</Text>
+          <Text style={{ color: theme.textSecondary }}>Add your API key to study grammar and vocabulary here.</Text>
         </Pressable>
       ) : (
         <>
           <View style={[styles.panel, { backgroundColor: cardColors.learn }]}>
             <View style={styles.topRow}>
-              <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.start_bunpro_lessons_c2a6e75f")} onPress={() => startLessons(nextDeck?.deckId)} style={[styles.mainAction, styles.learnAction]}>
+              <Pressable accessibilityRole="button" accessibilityLabel="Start Bunpro lessons" onPress={() => startLessons(nextDeck?.deckId)} style={[styles.mainAction, styles.learnAction]}>
                 <View style={styles.learnHeading}>
-                  <Text style={[styles.actionTitle, { color: learnText }]}>{uiT("ui.learn_ce78afd0")}</Text>
-                  <Text style={styles.goalCount}>{queue ? uiT("ui.value_value_9b2e3898", {value1: (progress.done), value2: (progress.goal)}) : "—"}</Text>
+                  <Text style={[styles.actionTitle, { color: learnText }]}>Learn</Text>
+                  <Text style={styles.goalCount}>{queue ? `${progress.done} / ${progress.goal}` : "—"}</Text>
                 </View>
                 <Goal {...progress} batch={nextBatch} />
-                {!queue || summary.noDecksInQueue ? <Text style={[styles.subtitle, { color: learnText }]}>{queue ? uiT("ui.no_decks_queued_31abe70d") : uiT("ui.loading_lesson_queue_9b92e86b")}</Text> : null}
+                {!queue || summary.noDecksInQueue ? <Text style={[styles.subtitle, { color: learnText }]}>{queue ? "No decks queued" : "Loading lesson queue…"}</Text> : null}
               </Pressable>
-              <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.choose_bunpro_lesson_deck_4c826bc0")} accessibilityState={{ expanded: expanded === "learn" }} onPress={() => setExpanded(current => current === "learn" ? null : "learn")} style={[styles.expand, expanded === "learn" && styles.expandOpen]}>
+              <Pressable accessibilityRole="button" accessibilityLabel="Choose Bunpro lesson deck" accessibilityState={{ expanded: expanded === "learn" }} onPress={() => setExpanded(current => current === "learn" ? null : "learn")} style={[styles.expand, expanded === "learn" && styles.expandOpen]}>
                 <DisclosureChevron expanded={expanded === "learn"} color={learnText} />
               </Pressable>
             </View>
@@ -131,9 +125,9 @@ export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
                     <Goal {...getBunproLessonProgress(deck)} batch={getBunproLessonBatchSize(deck)} />
                   </Pressable>
                 ))}
-                {queue && summary.noDecksInQueue ? <Text style={[styles.empty, { color: learnText }]}>{uiT("ui.no_decks_in_your_learn_queue_d22c8a97")}</Text> : null}
+                {queue && summary.noDecksInQueue ? <Text style={[styles.empty, { color: learnText }]}>No decks in your learn queue.</Text> : null}
                 <Pressable accessibilityRole="link" onPress={() => { void Linking.openURL("https://bunpro.jp/dashboard"); }} style={styles.queueSettings}>
-                  <Text style={[styles.subtitle, { color: learnText }]}>{uiT("ui.learn_queue_settings_on_bunpro_5948b629")}</Text>
+                  <Text style={[styles.subtitle, { color: learnText }]}>Learn queue settings on Bunpro</Text>
                   <Ionicons name="open-outline" size={16} color={learnText} />
                 </Pressable>
               </View>
@@ -141,14 +135,14 @@ export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
           </View>
           <View style={[styles.panel, { backgroundColor: accent }]}>
             <View style={styles.topRow}>
-              <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.dynamic_4d2e1b644ec8", {value1: (count(total))})} onPress={() => startReviews("all")} style={styles.mainAction}>
+              <Pressable accessibilityRole="button" accessibilityLabel={`Bunpro reviews: grammar and vocabulary, ${count(total)} due`} onPress={() => startReviews("all")} style={styles.mainAction}>
                 <View style={styles.copy}>
-                  <Text style={[styles.actionTitle, { color: reviewText }]}>{uiT("ui.review_aff0766a")}</Text>
-                  <Text style={[styles.subtitle, { color: reviewText }]}>{uiT("ui.all_reviews_83b38bd6")}</Text>
+                  <Text style={[styles.actionTitle, { color: reviewText }]}>Review</Text>
+                  <Text style={[styles.subtitle, { color: reviewText }]}>All Reviews</Text>
                 </View>
                 <CountBadge>{count(total)}</CountBadge>
               </Pressable>
-              <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.choose_bunpro_review_type_8ed18a1a")} accessibilityState={{ expanded: expanded === "review" }} onPress={() => setExpanded(current => current === "review" ? null : "review")} style={[styles.expand, expanded === "review" && styles.expandOpen]}>
+              <Pressable accessibilityRole="button" accessibilityLabel="Choose Bunpro review type" accessibilityState={{ expanded: expanded === "review" }} onPress={() => setExpanded(current => current === "review" ? null : "review")} style={[styles.expand, expanded === "review" && styles.expandOpen]}>
                 <DisclosureChevron expanded={expanded === "review"} color={reviewText} />
               </Pressable>
             </View>
@@ -164,9 +158,9 @@ export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
             </Disclosure>
           </View>
           <View>
-            <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.mix_with_wanikani_reviews_eee07914")} accessibilityState={{ expanded: mixedOpen }} onPress={() => setMixedOpen(current => !current)} style={styles.mixedToggle}>
+            <Pressable accessibilityRole="button" accessibilityLabel="Mix with WaniKani reviews" accessibilityState={{ expanded: mixedOpen }} onPress={() => setMixedOpen(current => !current)} style={styles.mixedToggle}>
               <Ionicons name="shuffle" size={20} color={theme.textColor} />
-              <Text style={[styles.mixedTitle, { color: theme.textColor }]}>{uiT("ui.mix_with_wanikani_reviews_eee07914")}</Text>
+              <Text style={[styles.mixedTitle, { color: theme.textColor }]}>Mix with WaniKani reviews</Text>
               <DisclosureChevron expanded={mixedOpen} size={18} color={theme.textSecondary} />
             </Pressable>
             <Disclosure expanded={mixedOpen} shadowGutter>
@@ -174,14 +168,14 @@ export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
                 {([["grammar", "Grammar", grammar], ["vocab", "Vocabulary", vocab], ["all", "Grammar + vocabulary", total]] as const).map(([mode, label, value]) => {
                   const combined = value === undefined || wanikaniCount === undefined ? undefined : value + wanikaniCount;
                   return (
-                    <Pressable key={mode} accessibilityRole="button" accessibilityLabel={uiT("ui.dynamic_e8a8c6642c24", {value1: (label)})} onPress={() => startReviews(mode, true)} style={[styles.panel, styles.mixedOption]}>
+                    <Pressable key={mode} accessibilityRole="button" accessibilityLabel={`Start mixed ${label} reviews`} onPress={() => startReviews(mode, true)} style={[styles.panel, styles.mixedOption]}>
                       <View style={styles.row}>
                         <Text style={styles.mixedCardTitle}>{label}</Text>
                         <CountBadge>{count(combined)}</CountBadge>
                       </View>
-                      <Text style={styles.mixedBreakdown}>WaniKani <Text style={styles.mixedNumber}>{count(wanikaniCount)}</Text> {uiT("ui.bunpro_09b577cd")} <Text style={styles.mixedNumber}>{count(value)}</Text></Text>
+                      <Text style={styles.mixedBreakdown}>WaniKani <Text style={styles.mixedNumber}>{count(wanikaniCount)}</Text> + Bunpro <Text style={styles.mixedNumber}>{count(value)}</Text></Text>
                       <View style={styles.row}>
-                        <Text style={styles.mixedStart}>{uiT("ui.start_mixed_reviews_77cb62b0")}</Text>
+                        <Text style={styles.mixedStart}>Start mixed reviews</Text>
                         <Ionicons name="arrow-forward" size={19} color={cardColors.text} />
                       </View>
                     </Pressable>
@@ -193,7 +187,7 @@ export default function BunproHomeStudy({ wanikaniCount, refreshKey }: Props) {
           {error ? (
             <View style={styles.errorRow} accessibilityLiveRegion="polite">
               <Text selectable style={[styles.errorText, { color: theme.textSecondary }]}>{error}</Text>
-              <Pressable accessibilityRole="button" onPress={() => { void refresh(); }} style={styles.retry}><Text style={{ color: theme.textColor, fontWeight: "600" }}>{uiT("ui.retry_942087cc")}</Text></Pressable>
+              <Pressable accessibilityRole="button" onPress={() => { void refresh(); }} style={styles.retry}><Text style={{ color: theme.textColor, fontWeight: "600" }}>Retry</Text></Pressable>
             </View>
           ) : null}
         </>

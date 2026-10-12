@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
@@ -54,7 +53,6 @@ export default function KanjiReadingExamples({
   initialExamplesPerReading = 3,
   initialUngroupedExamples = 6,
 }: KanjiReadingExamplesProps) {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const display = useLearningDisplay();
   const subjectColors = useSubjectColors();
@@ -160,11 +158,11 @@ export default function KanjiReadingExamples({
         accessibilityLabel={
           showAll
             ? "Show fewer vocabulary examples"
-            : uiT("ui.dynamic_1024ad356573", {value1: (hiddenExampleCount)})
+            : `Show ${hiddenExampleCount} more vocabulary examples`
         }
       >
         <Text style={[styles.showMoreText, { color: subjectColors.kanji }]}>
-          {showAll ? uiT("ui.show_fewer_examples_6b21a40f") : uiT("ui.show_value_more_398301a5", {value1: (hiddenExampleCount)})}
+          {showAll ? "Show fewer examples" : `Show ${hiddenExampleCount} more`}
         </Text>
         <Ionicons
           name={showAll ? "chevron-up" : "chevron-down"}
@@ -182,7 +180,8 @@ export default function KanjiReadingExamples({
           selectable
           style={[styles.emptyText, { color: theme.textSecondary }]}
         >
-          {uiT("ui.no_vocabulary_examples_available_389f479b")} </Text>
+          No vocabulary examples available.
+        </Text>
       );
     }
 
@@ -207,7 +206,8 @@ export default function KanjiReadingExamples({
   if (groups.length === 0) {
     return (
       <Text selectable style={[styles.emptyText, { color: theme.textSecondary }]}>
-        {uiT("ui.no_vocabulary_could_be_matched_confidently_to_a_specific_reading_b042409c")} </Text>
+        No vocabulary could be matched confidently to a specific reading.
+      </Text>
     );
   }
 
@@ -272,7 +272,8 @@ export default function KanjiReadingExamples({
                     },
                   ]}
                 >
-                  {uiT("ui.primary_efe10c80")} </Text>
+                  Primary
+                </Text>
               ) : null}
             </View>
 

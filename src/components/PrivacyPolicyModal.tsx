@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import {
@@ -21,7 +20,6 @@ const APP_NAME = 'Kakehashi';
 const CONTACT_EMAIL = 'kakehashi.app@gmail.com';
 
 export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyModalProps) {
-  useInterfaceLanguage();
   const insets = useSafeAreaInsets();
 
   return (
@@ -33,7 +31,7 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
     >
       <View style={[styles.container]}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>{uiT("ui.privacy_policy_506ff394")}</Text>
+          <Text style={styles.headerTitle}>Privacy Policy</Text>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Ionicons name="close" size={24} color="#333" />
           </TouchableOpacity>
@@ -44,26 +42,29 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
           contentContainerStyle={[styles.contentContainer, { paddingBottom: insets.bottom + 20 }]}
           showsVerticalScrollIndicator={true}
         >
-          <Text style={styles.lastUpdated}>{uiT("ui.last_updated_d621a996")} {LAST_UPDATED}</Text>
+          <Text style={styles.lastUpdated}>Last Updated: {LAST_UPDATED}</Text>
 
-          <Section title={uiT("ui.introduction_b605350b")}>
+          <Section title="Introduction">
             <Text style={styles.paragraph}>
-              {uiT("ui.welcome_to_0e6b8e5c")} {APP_NAME}{uiT("ui.this_privacy_policy_explains_how_we_collect_use_disclose_and_saf_9541587a")} {APP_NAME}{uiT("ui.you_agree_to_the_collection_and_use_of_information_in_accordance_8b8ba4da")} </Text>
+              Welcome to {APP_NAME}. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application. Please read this privacy policy carefully. By using {APP_NAME}, you agree to the collection and use of information in accordance with this policy.
+            </Text>
           </Section>
 
-          <Section title={uiT("ui.information_we_collect_a5548715")}>
-            <Text style={styles.subheading}>{uiT("ui.account_information_4e59b6c7")}</Text>
+          <Section title="Information We Collect">
+            <Text style={styles.subheading}>Account Information</Text>
             <Text style={styles.paragraph}>
-              {APP_NAME} {uiT("ui.uses_the_wanikani_service_for_japanese_language_learning_to_use_o_e8f9d8d1")} </Text>
+              {APP_NAME} uses the WaniKani service for Japanese language learning. To use our app, you must have a WaniKani account. We collect and store:
+            </Text>
             <BulletList items={[
               'Your WaniKani API token (stored securely in encrypted device storage and not retained by Kakehashi after account verification)',
               'Your WaniKani username and profile information',
               'Your learning progress, including lessons, reviews, and statistics',
             ]} />
 
-            <Text style={styles.subheading}>{uiT("ui.locally_stored_data_b827fede")}</Text>
+            <Text style={styles.subheading}>Locally Stored Data</Text>
             <Text style={styles.paragraph}>
-              {uiT("ui.to_provide_offline_functionality_and_improve_performance_we_cache_13659b55")} </Text>
+              To provide offline functionality and improve performance, we cache the following data locally on your device:
+            </Text>
             <BulletList items={[
               'Learning subjects (kanji, radicals, vocabulary)',
               'Assignment data and review schedules',
@@ -74,9 +75,10 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
               'App preferences and settings',
             ]} />
 
-            <Text style={styles.subheading}>{uiT("ui.device_permissions_445c075b")}</Text>
+            <Text style={styles.subheading}>Device Permissions</Text>
             <Text style={styles.paragraph}>
-              {APP_NAME} {uiT("ui.may_request_the_following_device_permissions_ec0f32d5")} </Text>
+              {APP_NAME} may request the following device permissions:
+            </Text>
             <BulletList items={[
               'Camera: To scan and recognize Japanese text using OCR',
               'Photo Library: To save images and access photos for text recognition',
@@ -85,12 +87,14 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
               'Notifications: To remind you about available reviews',
             ]} />
             <Text style={styles.paragraph}>
-              {uiT("ui.these_permissions_are_only_used_for_the_stated_purposes_and_are_n_5eb621c4")} </Text>
+              These permissions are only used for the stated purposes and are never used to collect data without your explicit action.
+            </Text>
           </Section>
 
-          <Section title={uiT("ui.how_we_use_your_information_9785e877")}>
+          <Section title="How We Use Your Information">
             <Text style={styles.paragraph}>
-              {uiT("ui.we_use_your_information_to_1b61085c")} </Text>
+              We use your information to:
+            </Text>
             <BulletList items={[
               'Authenticate you with the WaniKani service',
               'Display your learning progress and statistics',
@@ -102,30 +106,36 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
             ]} />
           </Section>
 
-          <Section title={uiT("ui.third_party_services_7a84690f")}>
+          <Section title="Third-Party Services">
             <Text style={styles.paragraph}>
-              {APP_NAME} {uiT("ui.integrates_with_the_following_third_party_services_d96a0eab")} </Text>
+              {APP_NAME} integrates with the following third-party services:
+            </Text>
 
-            <Text style={styles.subheading}>{uiT("ui.wanikani_tofugu_llc_d96dabf4")}</Text>
+            <Text style={styles.subheading}>WaniKani (Tofugu LLC)</Text>
             <Text style={styles.paragraph}>
-              {uiT("ui.we_access_the_wanikani_api_to_retrieve_and_sync_your_learning_dat_f2075225")} </Text>
+              We access the WaniKani API to retrieve and sync your learning data. Your use of WaniKani is subject to their own Privacy Policy and Terms of Service.
+            </Text>
 
-            <Text style={styles.subheading}>{uiT("ui.kakehashi_backend_b8c1aee9")}</Text>
+            <Text style={styles.subheading}>Kakehashi Backend</Text>
             <Text style={styles.paragraph}>
-              {uiT("ui.for_account_backed_features_such_as_combined_study_time_history_y_308856cf")} </Text>
+              For account-backed features such as combined study-time history, your WaniKani API token is sent over HTTPS to Kakehashi solely to verify your WaniKani identity. The token is not stored by Kakehashi. Daily study-time totals are stored by account and device so your devices can show one combined history.
+            </Text>
 
-            <Text style={styles.subheading}>{uiT("ui.google_ml_kit_96bfb41f")}</Text>
+            <Text style={styles.subheading}>Google ML Kit</Text>
             <Text style={styles.paragraph}>
-              {uiT("ui.we_use_google_ml_kit_for_on_device_text_recognition_ocr_images_yo_ba757a9a")} </Text>
+              We use Google ML Kit for on-device text recognition (OCR). Images you scan are processed locally on your device and are not sent to external servers.
+            </Text>
 
-            <Text style={styles.subheading}>{uiT("ui.jiten_638f9526")}</Text>
+            <Text style={styles.subheading}>Jiten</Text>
             <Text style={styles.paragraph}>
-              {uiT("ui.when_the_optional_vocabulary_frequency_setting_is_enabled_we_may_f3afa532")} </Text>
+              When the optional Vocabulary Frequency setting is enabled, we may send an individual Japanese vocabulary term to the Jiten API to retrieve its frequency rank. When you use a frequency filter, matching vocabulary terms may be sent individually to Jiten so the app can evaluate the filter. We do not send your WaniKani API token, username, notes, or review answers to Jiten. Jiten receives ordinary network information such as your IP address and is governed by its own Privacy Policy and Terms of Service. Results are cached locally on your device to reduce repeated requests.
+            </Text>
           </Section>
 
-          <Section title={uiT("ui.data_storage_and_security_a0b51a86")}>
+          <Section title="Data Storage and Security">
             <Text style={styles.paragraph}>
-              {uiT("ui.we_take_data_security_seriously_c4333c24")} </Text>
+              We take data security seriously:
+            </Text>
             <BulletList items={[
               'Your WaniKani API token is stored in encrypted device storage (iOS Keychain)',
               'Kakehashi does not retain your WaniKani API token after backend identity verification',
@@ -134,12 +144,14 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
               'We do not store your WaniKani password',
             ]} />
             <Text style={styles.paragraph}>
-              {uiT("ui.while_we_implement_security_measures_no_method_of_electronic_stor_a4a292ee")} </Text>
+              While we implement security measures, no method of electronic storage is 100% secure. We cannot guarantee absolute security of your data.
+            </Text>
           </Section>
 
-          <Section title={uiT("ui.data_retention_6c5a4be8")}>
+          <Section title="Data Retention">
             <Text style={styles.paragraph}>
-              {uiT("ui.your_data_is_retained_as_follows_8491f00f")} </Text>
+              Your data is retained as follows:
+            </Text>
             <BulletList items={[
               'Cached learning data is refreshed periodically and deleted upon logout',
               'Account-backed study-time totals may remain on Kakehashi after logout or uninstall until they are deleted under our retention practices or at your request',
@@ -148,35 +160,39 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
             ]} />
           </Section>
 
-          <Section title={uiT("ui.your_rights_and_choices_11d81311")}>
+          <Section title="Your Rights and Choices">
             <Text style={styles.paragraph}>
-              {uiT("ui.you_have_control_over_your_data_64900b10")} </Text>
+              You have control over your data:
+            </Text>
             <BulletList items={[
               'Log out at any time to remove your API token from the device',
               'Deny or revoke device permissions through your device settings',
               'Disable notifications through your device settings',
               'Delete the app to remove all locally stored data',
-              uiT("ui.dynamic_49f7013eeaeb", {value1: (CONTACT_EMAIL)}),
+              `Contact ${CONTACT_EMAIL} to request deletion of account-backed records stored by Kakehashi`,
               'Manage your WaniKani account directly on wanikani.com',
             ]} />
           </Section>
 
-          <Section title={uiT("ui.changes_to_this_policy_3c3d9482")}>
+          <Section title="Changes to This Policy">
             <Text style={styles.paragraph}>
-              {uiT("ui.we_may_update_this_privacy_policy_from_time_to_time_we_will_notif_e679530a")} </Text>
+              We may update this Privacy Policy from time to time. We will notify you of any changes by updating the &quot;Last Updated&quot; date at the top of this policy. You are advised to review this Privacy Policy periodically for any changes.
+            </Text>
           </Section>
 
-          <Section title={uiT("ui.contact_us_98b67063")}>
+          <Section title="Contact Us">
             <Text style={styles.paragraph}>
-              {uiT("ui.if_you_have_questions_or_concerns_about_this_privacy_policy_pleas_7ac5db70")} </Text>
+              If you have questions or concerns about this Privacy Policy, please contact us at:
+            </Text>
             <Text style={styles.contactInfo}>
-              {uiT("ui.email_17507dcf")} {CONTACT_EMAIL}
+              Email: {CONTACT_EMAIL}
             </Text>
           </Section>
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>
-              © {new Date().getFullYear()} {APP_NAME}{uiT("ui.all_rights_reserved_8faa0732")} </Text>
+              © {new Date().getFullYear()} {APP_NAME}. All rights reserved.
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -185,7 +201,6 @@ export default function PrivacyPolicyModal({ visible, onClose }: PrivacyPolicyMo
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  useInterfaceLanguage();
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
@@ -195,7 +210,6 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function BulletList({ items }: { items: string[] }) {
-  useInterfaceLanguage();
   return (
     <View style={styles.bulletList}>
       {items.map((item, index) => (

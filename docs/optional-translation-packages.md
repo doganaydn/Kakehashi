@@ -2,7 +2,7 @@
 
 ## Try the prototype
 
-In Settings → Appearance, enable **Optional translation package**, choose **Import translation file**, inspect the summary and select **Use this package**. Importing replaces the entire active package; packages are not merged. Disable the option to restore original English learning content. Android also offers a separate **App language** setting for English or Turkish; it does not change the imported learning content or answer grading.
+In Settings → Appearance, enable **Optional translation package**, choose **Import translation file**, inspect the summary and select **Use this package**. Importing replaces the entire active package; packages are not merged. Disable the option to restore original English learning content. The interface language remains English.
 
 The current file `translation-packages/wanikani-tr-v3.json` (package v1.5.0) contains 491 radical names, 2,101 kanji meanings, 6,757 vocabulary meanings, 60 kana vocabulary meanings and 5,522 sentences across levels 1–15. It includes explicit reviewed synonym suggestions, but no personal account data or credentials. Unfinished examples are not exposed as ready translations.
 

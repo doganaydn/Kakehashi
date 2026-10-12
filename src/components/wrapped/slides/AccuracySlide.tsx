@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -27,7 +26,6 @@ interface AccuracySlideProps {
 }
 
 function AccuracyRing({ percentage }: { percentage: number }) {
-  useInterfaceLanguage();
   const progress = useSharedValue(0);
 
   useEffect(() => {
@@ -84,7 +82,6 @@ function AccuracyBar({
   color: string;
   delay: number;
 }) {
-  useInterfaceLanguage();
   const width = useSharedValue(0);
   const opacity = useSharedValue(0);
 
@@ -127,7 +124,6 @@ export function AccuracySlide({
   meaningAccuracy,
   readingAccuracy,
 }: AccuracySlideProps) {
-  useInterfaceLanguage();
   const percentageScale = useSharedValue(0.5);
   const percentageOpacity = useSharedValue(0);
 
@@ -155,7 +151,7 @@ export function AccuracySlide({
       style={styles.container}
     >
       <View style={styles.content}>
-        <Text style={styles.headerText}>{uiT("ui.your_accuracy_775bb7a2")}</Text>
+        <Text style={styles.headerText}>Your accuracy</Text>
 
         <View style={styles.ringContainer}>
           <AccuracyRing percentage={overallAccuracy} />
@@ -166,13 +162,13 @@ export function AccuracySlide({
 
         <View style={styles.barsContainer}>
           <AccuracyBar
-            label={uiT("ui.meaning_1f5d64b9")}
+            label="Meaning"
             percentage={meaningAccuracy}
             color="#34d399"
             delay={1200}
           />
           <AccuracyBar
-            label={uiT("ui.reading_463816d0")}
+            label="Reading"
             percentage={readingAccuracy}
             color="#6ee7b7"
             delay={1500}
@@ -180,13 +176,13 @@ export function AccuracySlide({
         </View>
 
         {overallAccuracy >= 90 && (
-          <AnimatedBadge delay={2000} text={uiT("ui.outstanding_f3d9ff7e")} />
+          <AnimatedBadge delay={2000} text="Outstanding!" />
         )}
         {overallAccuracy >= 80 && overallAccuracy < 90 && (
-          <AnimatedBadge delay={2000} text={uiT("ui.great_work_4019d08d")} />
+          <AnimatedBadge delay={2000} text="Great work!" />
         )}
         {overallAccuracy < 80 && (
-          <AnimatedBadge delay={2000} text={uiT("ui.keep_going_dddfbaf1")} />
+          <AnimatedBadge delay={2000} text="Keep going!" />
         )}
       </View>
     </LinearGradient>
@@ -194,7 +190,6 @@ export function AccuracySlide({
 }
 
 function AnimatedBadge({ delay, text }: { delay: number; text: string }) {
-  useInterfaceLanguage();
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(12);
 

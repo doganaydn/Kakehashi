@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import { SettingsIcon as Ionicons } from "../../../ui/settings/settings-icon";
@@ -10,7 +9,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function DataStorageSection() {
-  useInterfaceLanguage();
   const {
     cacheHealthStatus,
     handleCheckCacheHealth,
@@ -44,7 +42,8 @@ export function DataStorageSection() {
               { color: theme.textColor, borderBottomColor: theme.border },
             ]}
           >
-            {uiT("ui.data_storage_31423c3c")} </Text>
+            Data & Storage
+          </Text>
 
           <TouchableOpacity
             style={[styles.settingItem, { borderBottomColor: theme.border }]}
@@ -61,15 +60,16 @@ export function DataStorageSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.check_cache_health_7d0f00fa")} </SettingsLabel>
+                Check Cache Health
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
                 {cacheHealthStatus
                   ? cacheHealthStatus.isHealthy
-                    ? uiT("ui.healthy_value_subjects_d780acff", {value1: (cacheHealthStatus.validSubjects)})
-                    : uiT("ui.issues_detected_value_problem_s_f6e37e78", {value1: (cacheHealthStatus.issues.length)})
-                  : uiT("ui.verify_search_and_offline_data_integrity_9091c1d2")}
+                    ? `Healthy - ${cacheHealthStatus.validSubjects} subjects`
+                    : `Issues detected - ${cacheHealthStatus.issues.length} problem(s)`
+                  : "Verify search and offline data integrity"}
               </Text>
             </View>
             {isCheckingCacheHealth ? (
@@ -98,11 +98,13 @@ export function DataStorageSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                {uiT("ui.repair_cache_ba243317")} </SettingsLabel>
+                Repair Cache
+              </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                {uiT("ui.fix_corrupted_data_for_search_and_offline_mode_8f08fba4")} </Text>
+                Fix corrupted data for search and offline mode
+              </Text>
             </View>
             {isRepairingCache ? (
               <ActivityIndicator size="small" color="#ff9500" />

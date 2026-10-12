@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import React from "react";
 import { Redirect, router, Stack, useLocalSearchParams } from "expo-router";
 import { View, Text } from "react-native";
@@ -13,7 +12,6 @@ import { useLevelGoals } from "../../src/features/level-goals/use-level-goals";
 import { LevelGoalEditor } from "../../src/features/level-goals/level-goal-editor";
 
 export default function LevelGoalRoute() {
-  useInterfaceLanguage();
   const username = useAuthStore((s) => s.userData?.username);
   return canAccessLevelGoals(username) ? (
     <GoalRoute />
@@ -22,7 +20,6 @@ export default function LevelGoalRoute() {
   );
 }
 function GoalRoute() {
-  useInterfaceLanguage();
   const { theme } = useTheme();
   const params = useLocalSearchParams<{ fresh?: string }>();
   const { dashboardData } = useDashboardData();
@@ -33,7 +30,7 @@ function GoalRoute() {
     <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
       <Stack.Screen
         options={{
-          title: uiT("ui.your_goal_617b0ae7"),
+          title: "Your goal",
           headerShown: true,
           headerTintColor: theme.textColor,
           headerStyle: { backgroundColor: theme.backgroundColor },
@@ -62,7 +59,8 @@ function GoalRoute() {
         />
       ) : (
         <Text style={{ color: theme.textColor, padding: 24 }}>
-          {uiT("ui.you_reached_level_60_your_current_goal_is_on_the_level_screen_23af842a")} </Text>
+          You reached level 60. Your current goal is on the Level screen.
+        </Text>
       )}
     </View>
   );

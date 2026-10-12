@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { loadSavedNews, setNewsSaved, useSavedNews } from "../../../src/hooks/useSavedNews";
 import { newsReadKey, setNewsRead } from "../../../src/hooks/useNewsReadHistory";
 import { Ionicons } from "@expo/vector-icons";
@@ -89,7 +88,7 @@ function buildGrammarTooltipItem(
   const meaningText = token.meaning?.trim() || "Grammar point";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
+    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
     : meaningText;
 
   return {
@@ -131,7 +130,7 @@ function buildJpdbFallbackTooltipItem(
   const meaningText = token.meaning?.trim() || "Detected by JPDB parser.";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
+    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
     : meaningText;
   const displayText =
     token.spelling || token.surface || token.reading || "Vocabulary";
@@ -193,7 +192,6 @@ function escapeHtml(value: string): string {
 }
 
 export default function NewsDetailScreen() {
-  useInterfaceLanguage();
   useActivityTracking("news", { mode: "focus" });
   const { id, source } = useLocalSearchParams<{
     id: string;
@@ -571,8 +569,8 @@ export default function NewsDetailScreen() {
     } catch (error) {
       console.error("Failed to open NHK article:", error);
       Alert.alert(
-        uiT("ui.unable_to_open_article_c18af9d0"),
-        uiT("ui.the_full_article_could_not_be_opened_on_nhk_right_now_83bd205d"),
+        "Unable to Open Article",
+        "The full article could not be opened on NHK right now.",
       );
     }
   }, [item?.link]);
@@ -1022,12 +1020,12 @@ export default function NewsDetailScreen() {
 
   const handleBlockedFullModeSelection = useCallback(() => {
     Alert.alert(
-      uiT("ui.jpdb_api_key_required_9c3a619c"),
-      uiT("ui.full_grammar_vocabulary_mode_is_blocked_until_you_save_a_jpdb_api_70366ad2"),
+      "JPDB API Key Required",
+      "Full grammar + vocabulary mode is blocked until you save a JPDB API key.",
       [
-        { text: uiT("ui.not_now_a0e63d7c"), style: "cancel" },
+        { text: "Not now", style: "cancel" },
         {
-          text: uiT("ui.open_settings_3f940108"),
+          text: "Open Settings",
           onPress: openJpdbApiKeySettings,
         },
       ],
@@ -1389,7 +1387,7 @@ export default function NewsDetailScreen() {
                 )}
                 {showJpdbBadge && (
                   <View style={[styles.levelBadgeChip, styles.jpdbBadgeChip]}>
-                    <Text style={styles.levelBadgeText}>{uiT("ui.jp_569ec613")}</Text>
+                    <Text style={styles.levelBadgeText}>JP</Text>
                   </View>
                 )}
               </View>
@@ -1750,7 +1748,7 @@ export default function NewsDetailScreen() {
               </Text>
               <View style={styles.tooltipLevelBadge}>
                 <Text style={styles.tooltipLevelBadgeText}>
-                  {isWaniKaniBacked ? uiT("ui.lv_value_7c1085b4", {value1: (selectedItem.level)}) : uiT("ui.jpdb_a35a1116")}
+                  {isWaniKaniBacked ? `Lv ${selectedItem.level}` : "JPDB"}
                 </Text>
               </View>
             </View>
@@ -1758,7 +1756,7 @@ export default function NewsDetailScreen() {
             <View style={styles.tooltipPopupContent}>
               {primaryReading &&
                 renderTooltipValueRow({
-                  label: uiT("ui.reading_2fef096a"),
+                  label: "Reading:",
                   value: primaryReading,
                   hidden: shouldHideTooltipReading,
                   revealLabel: "Tap to reveal",
@@ -1767,7 +1765,7 @@ export default function NewsDetailScreen() {
                 })}
 
               {renderTooltipValueRow({
-                label: uiT("ui.meaning_65a5e88a"),
+                label: "Meaning:",
                 value: selectedItem.meaning,
                 hidden: shouldHideTooltipMeaning,
                 revealLabel: "Tap to reveal",
@@ -1782,7 +1780,8 @@ export default function NewsDetailScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.kanji_90ac5dd2")} </Text>
+                    Kanji:
+                  </Text>
                   <View style={styles.tooltipKanjiCompositionWrap}>
                     {jpdbKanjiComposition.map((kanjiEntry) => (
                       <TouchableOpacity
@@ -1816,7 +1815,8 @@ export default function NewsDetailScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {uiT("ui.form_31988f23")} </Text>
+                    Form:
+                  </Text>
                   <Text
                     style={[
                       styles.tooltipPopupValue,
@@ -1838,7 +1838,8 @@ export default function NewsDetailScreen() {
                   activeOpacity={0.7}
                 >
                   <Text style={styles.tooltipPopupButtonText}>
-                    {uiT("ui.view_details_90789c12")} </Text>
+                    View Details
+                  </Text>
                   <Ionicons name="arrow-forward" size={14} color="white" />
                 </TouchableOpacity>
               ) : null}
@@ -1893,9 +1894,11 @@ export default function NewsDetailScreen() {
             color={theme.textLight}
           />
           <Text style={[styles.offlineTitle, { color: theme.textColor }]}>
-            {uiT("ui.article_not_available_782a2e1a")} </Text>
+            Article Not Available
+          </Text>
           <Text style={[styles.offlineText, { color: theme.textSecondary }]}>
-            {uiT("ui.connect_to_wifi_to_view_this_article_00f42e67")} </Text>
+            Connect to WiFi to view this article.
+          </Text>
         </View>
       </View>
     );
@@ -1999,7 +2002,7 @@ export default function NewsDetailScreen() {
           accessibilityLabel={isSaved ? "Remove saved article" : "Save article"}
           accessibilityState={{ selected: isSaved }}
           style={[styles.headerButtonBase, styles.actionButton, { alignItems: "center", justifyContent: "center" }]}
-          onPress={() => void setNewsSaved(item, !isSaved).catch(() => Alert.alert(uiT("ui.could_not_save_article_8b030467"), uiT("ui.storage_may_be_full_or_unavailable_please_try_again_a377ed57")))}>
+          onPress={() => void setNewsSaved(item, !isSaved).catch(() => Alert.alert("Could not save article", "Storage may be full or unavailable. Please try again."))}>
           <Ionicons name={isSaved ? "bookmark" : "bookmark-outline"} size={22} color={isSaved ? theme.primary : headerIconColor} />
         </Pressable>
         {isRegularItem ? (
@@ -2041,23 +2044,23 @@ export default function NewsDetailScreen() {
                 systemImage="globe"
                 onPress={toggleTranslation}
               />
-              <SwiftUI.Menu label={uiT("ui.study_mode_a590241b")} systemImage="graduationcap">
+              <SwiftUI.Menu label="Study Mode" systemImage="graduationcap">
                 <SwiftUI.Button
-                  label={uiT("ui.no_study_mode_f27cfb05")}
+                  label="No Study Mode"
                   systemImage={
                     studyMode === "none" ? "checkmark.circle.fill" : "circle"
                   }
                   onPress={() => selectStudyMode("none")}
                 />
                 <SwiftUI.Button
-                  label={uiT("ui.wk_study_mode_cards_0ed330d4")}
+                  label="WK Study Mode (cards)"
                   systemImage={
                     studyMode === "wk" ? "checkmark.circle.fill" : "circle"
                   }
                   onPress={() => selectStudyMode("wk")}
                 />
                 <SwiftUI.Button
-                  label={uiT("ui.full_grammar_vocabulary_underlines_0a0addb8")}
+                  label="Full grammar + vocabulary (underlines)"
                   systemImage={
                     !hasStoredJpdbApiKey
                       ? "lock"
@@ -2111,7 +2114,7 @@ export default function NewsDetailScreen() {
               source={{ uri: item.imageUrl }}
               style={styles.regularSummaryImage}
               resizeMode="cover"
-              accessibilityLabel={uiT("ui.nhk_article_image_6f8a6714")}
+              accessibilityLabel="NHK article image"
             />
           ) : null}
           <Text
@@ -2121,7 +2124,8 @@ export default function NewsDetailScreen() {
               { color: theme.textSecondary },
             ]}
           >
-            {uiT("ui.nhk_one_news_summary_175bad1b")} </Text>
+            NHK ONE News summary
+          </Text>
           <Text
             selectable
             style={[styles.regularSummaryTitle, { color: theme.textColor }]}
@@ -2137,11 +2141,11 @@ export default function NewsDetailScreen() {
             ]}
           >
             {regularSummaryText ||
-              uiT("ui.nhk_did_not_include_a_summary_for_this_article_e464afb1")}
+              "NHK did not include a summary for this article."}
           </Text>
           <Pressable
             accessibilityRole="link"
-            accessibilityLabel={uiT("ui.open_full_article_on_nhk_d4b95fa4")}
+            accessibilityLabel="Open full article on NHK"
             style={({ pressed }) => [
               styles.regularSummaryButton,
               {
@@ -2151,7 +2155,7 @@ export default function NewsDetailScreen() {
             ]}
             onPress={() => void openOriginalArticle()}
           >
-            <Text style={styles.regularSummaryButtonText}>{uiT("ui.open_on_nhk_17ca942d")}</Text>
+            <Text style={styles.regularSummaryButtonText}>Open on NHK</Text>
             <Ionicons name="open-outline" size={18} color="#fff" />
           </Pressable>
         </ScrollView>
@@ -2200,7 +2204,8 @@ export default function NewsDetailScreen() {
                                 { color: theme.textSecondary },
                               ]}
                             >
-                              {uiT("ui.translating_f21771ab")} </Text>
+                              Translating...
+                            </Text>
                           </View>
                         ) : (
                           <Text
@@ -2269,7 +2274,8 @@ export default function NewsDetailScreen() {
                       { color: theme.textColor },
                     ]}
                   >
-                    {uiT("ui.reading_options_947c5ae5")} </Text>
+                    Reading Options
+                  </Text>
 
                   {!isNativeMode && (
                     <TouchableOpacity
@@ -2289,7 +2295,8 @@ export default function NewsDetailScreen() {
                             { color: theme.textColor },
                           ]}
                         >
-                          {uiT("ui.show_furigana_14995f00")} </Text>
+                          Show Furigana
+                        </Text>
                       </View>
                       <Switch
                         value={showFurigana}
@@ -2317,7 +2324,8 @@ export default function NewsDetailScreen() {
                           { color: theme.textColor },
                         ]}
                       >
-                        {uiT("ui.show_translation_ef236322")} </Text>
+                        Show Translation
+                      </Text>
                     </View>
                     <Switch
                       value={showTranslation}
@@ -2339,7 +2347,8 @@ export default function NewsDetailScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.study_mode_choose_one_f0133b3c")} </Text>
+                      Study Mode (choose one)
+                    </Text>
 
                     <TouchableOpacity
                       style={styles.settingsModalOption}
@@ -2358,7 +2367,8 @@ export default function NewsDetailScreen() {
                             { color: theme.textColor },
                           ]}
                         >
-                          {uiT("ui.no_study_mode_f27cfb05")} </Text>
+                          No Study Mode
+                        </Text>
                       </View>
                       <Switch
                         value={studyMode === "none"}
@@ -2386,14 +2396,16 @@ export default function NewsDetailScreen() {
                               { color: theme.textColor },
                             ]}
                           >
-                            {uiT("ui.wk_study_mode_8c821737")} </Text>
+                            WK Study Mode
+                          </Text>
                           <Text
                             style={[
                               styles.settingsModalOptionSubtext,
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.card_highlights_5dd654d1")} </Text>
+                            Card highlights
+                          </Text>
                         </View>
                       </View>
                       <Switch
@@ -2422,14 +2434,16 @@ export default function NewsDetailScreen() {
                               { color: theme.textColor },
                             ]}
                           >
-                            {uiT("ui.full_grammar_vocabulary_mode_10bcbc0c")} </Text>
+                            Full grammar + vocabulary mode
+                          </Text>
                           <Text
                             style={[
                               styles.settingsModalOptionSubtext,
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {uiT("ui.jpdb_underlines_4e248ff1")} </Text>
+                            JPDB underlines
+                          </Text>
                         </View>
                       </View>
                       <Switch
@@ -2454,7 +2468,8 @@ export default function NewsDetailScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      {uiT("ui.close_7d9eb7ac")} </Text>
+                      Close
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </TouchableWithoutFeedback>

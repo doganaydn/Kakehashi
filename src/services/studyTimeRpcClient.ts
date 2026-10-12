@@ -1,4 +1,3 @@
-import { uiT } from "../features/interface-language/runtime";
 import * as SecureStore from "expo-secure-store";
 import {
   isValidStudyTimeDeviceId,
@@ -67,19 +66,19 @@ function studyTimeRpcResultMessage(
 ): string {
   switch (code) {
     case "invalid_token":
-      return uiT("ui.study_time_cloud_sync_requires_a_valid_wanikani_login_d0e822f6");
+      return "Study time cloud sync requires a valid WaniKani login";
     case "rate_limited":
-      return uiT("ui.study_time_cloud_sync_is_temporarily_rate_limited_b406f109");
+      return "Study time cloud sync is temporarily rate limited";
     case "upstream_unavailable":
-      return uiT("ui.wanikani_could_not_be_reached_to_start_study_time_sync_2db47357");
+      return "WaniKani could not be reached to start study time sync";
     case "storage_unavailable":
-      return uiT("ui.study_time_cloud_storage_is_temporarily_unavailable_a010027d");
+      return "Study time cloud storage is temporarily unavailable";
     case "session_expired":
-      return uiT("ui.study_time_cloud_session_expired_8a541b9f");
+      return "Study time cloud session expired";
     case "invalid_request":
-      return uiT("ui.study_time_cloud_request_was_rejected_value_fd188104", {value1: (operation)});
+      return `Study time cloud request was rejected (${operation})`;
     default:
-      return uiT("ui.study_time_cloud_request_failed_value_4267afd2", {value1: (operation)});
+      return `Study time cloud request failed (${operation})`;
   }
 }
 

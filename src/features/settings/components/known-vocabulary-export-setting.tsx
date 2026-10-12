@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert, Clipboard, Text, TouchableOpacity, View } from "react-native";
@@ -8,7 +7,6 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function KnownVocabularyExportSetting() {
-  useInterfaceLanguage();
   const { dashboardData, theme } = useSettingsControllerContext();
 
   const copyKnownVocabulary = () => {
@@ -17,8 +15,8 @@ export function KnownVocabularyExportSetting() {
       !dashboardData.dataLoadingState.subjects
     ) {
       Alert.alert(
-        uiT("ui.vocabulary_data_not_ready_ec11b34a"),
-        uiT("ui.refresh_your_dashboard_and_wait_for_your_wanikani_progress_to_fin_0f46629c"),
+        "Vocabulary data not ready",
+        "Refresh your dashboard and wait for your WaniKani progress to finish loading, then try again.",
       );
       return;
     }
@@ -31,22 +29,22 @@ export function KnownVocabularyExportSetting() {
 
       if (words.length === 0) {
         Alert.alert(
-          uiT("ui.no_vocabulary_to_copy_d1799a9f"),
-          uiT("ui.complete_a_wanikani_vocabulary_lesson_to_add_words_to_your_known_64993103"),
+          "No vocabulary to copy",
+          "Complete a WaniKani vocabulary lesson to add words to your known vocabulary list.",
         );
         return;
       }
 
       Clipboard.setString(words.join("\n"));
       Alert.alert(
-        uiT("ui.vocabulary_copied_30676b05"),
-        uiT("ui.value_value_copied_to_your_clipboard_one_per_line_you_can_paste_t_cad1a29a", {value1: (words.length.toLocaleString()), value2: (words.length === 1 ? "word" : "words")}),
+        "Vocabulary copied",
+        `${words.length.toLocaleString()} ${words.length === 1 ? "word" : "words"} copied to your clipboard, one per line. You can paste the list into Migaku or another app.`,
       );
     } catch (error) {
       console.error("Failed to copy known vocabulary:", error);
       Alert.alert(
-        uiT("ui.could_not_copy_vocabulary_e8b8e12d"),
-        uiT("ui.refresh_your_dashboard_and_try_again_29a15e03"),
+        "Could not copy vocabulary",
+        "Refresh your dashboard and try again.",
       );
     }
   };
@@ -56,8 +54,8 @@ export function KnownVocabularyExportSetting() {
       style={[styles.settingItem, { borderBottomColor: "transparent" }]}
       onPress={copyKnownVocabulary}
       accessibilityRole="button"
-      accessibilityLabel={uiT("ui.copy_known_vocabulary_4f14e1de")}
-      accessibilityHint={uiT("ui.copies_your_learned_wanikani_vocabulary_to_the_clipboard_one_japa_b8ccea61")}
+      accessibilityLabel="Copy Known Vocabulary"
+      accessibilityHint="Copies your learned WaniKani vocabulary to the clipboard, one Japanese word per line"
     >
       <Ionicons
         name="copy-outline"
@@ -67,9 +65,12 @@ export function KnownVocabularyExportSetting() {
       />
       <View style={styles.settingTextContainer}>
         <Text style={[styles.settingText, { color: theme.textColor }]}>
-          {uiT("ui.copy_known_vocabulary_4f14e1de")} </Text>
+          Copy Known Vocabulary
+        </Text>
         <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>
-          {uiT("ui.copy_wanikani_vocabulary_from_completed_lessons_including_kana_on_26b3ea0f")} </Text>
+          Copy WaniKani vocabulary from completed lessons, including kana-only
+          words. One Japanese word per line, from Apprentice through Burned.
+        </Text>
       </View>
     </TouchableOpacity>
   );

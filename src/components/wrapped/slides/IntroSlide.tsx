@@ -1,4 +1,3 @@
-import { uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import * as Haptics from "@/src/utils/haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
@@ -18,7 +17,6 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 // Confetti particle component
 function ConfettiParticle({ delay, color, startX }: { delay: number; color: string; startX: number }) {
-  useInterfaceLanguage();
   const translateY = useSharedValue(-20);
   const translateX = useSharedValue(startX);
   const rotate = useSharedValue(0);
@@ -94,7 +92,6 @@ const triggerKnockHaptic = () => {
 };
 
 export function IntroSlide({ completedLevel, newLevel }: IntroSlideProps) {
-  useInterfaceLanguage();
   // --- Old level (visible first, then knocked away) ---
   const oldOpacity = useSharedValue(0);
   const oldScale = useSharedValue(0.5);
@@ -274,27 +271,28 @@ export function IntroSlide({ completedLevel, newLevel }: IntroSlideProps) {
       {/* Content */}
       <View style={styles.content}>
         <Animated.Text style={[styles.headerText, headerStyle]}>
-          {uiT("ui.you_reached_f2a6cb2e")} </Animated.Text>
+          You reached
+        </Animated.Text>
 
         {/* Level number area */}
         <View style={styles.levelArea}>
           {/* Old level (gets knocked off) */}
           <Animated.View style={[styles.levelCenter, oldLevelStyle]}>
-            <Text style={styles.levelLabel}>{uiT("ui.level_d81674b2")}</Text>
+            <Text style={styles.levelLabel}>LEVEL</Text>
             <Text style={styles.oldLevelNumber}>{completedLevel}</Text>
           </Animated.View>
 
           {/* New level (slides in) */}
           <Animated.View style={[styles.levelCenter, styles.levelAbsolute, newLevelStyle]}>
-            <Text style={styles.levelLabel}>{uiT("ui.level_d81674b2")}</Text>
+            <Text style={styles.levelLabel}>LEVEL</Text>
             <Text style={styles.newLevelNumber}>{newLevel}</Text>
           </Animated.View>
         </View>
 
         <Animated.Text style={[styles.subtitleText, subtitleStyle]}>
-          {uiT("ui.but_first_let_s_see_how_level_282a9bc0")}
+          {"But first, let's see how Level "}
           {completedLevel}
-          {uiT("ui.went_c85c7357")}
+          {" went"}
         </Animated.Text>
       </View>
     </LinearGradient>
