@@ -1,3 +1,4 @@
+import { useInterfaceLanguage, uiT } from "../features/interface-language/runtime";
 import React, {
   useCallback,
   useEffect,
@@ -158,6 +159,7 @@ interface KanjiCardProps {
 }
 
 const KanjiCard: React.FC<KanjiCardProps> = React.memo(({ kanji, style }) => {
+  useInterfaceLanguage();
   const { theme } = useTheme();
 
   return (
@@ -269,6 +271,7 @@ const AnimatedKanjiLoader: React.FC<AnimatedKanjiLoaderProps> = ({
   cachingProgress = 0,
   statusMessage,
 }) => {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [isDismissing, setIsDismissing] = useState(false);
   const rowRefs = useRef<any[]>([]);
@@ -349,7 +352,7 @@ const AnimatedKanjiLoader: React.FC<AnimatedKanjiLoaderProps> = ({
   const subtitleText =
     statusMessage ??
     (cachingProgress > 0
-      ? `Downloading subjects... ${cachingProgress}%`
+      ? uiT("ui.dynamic_86dced51b735", {value1: (cachingProgress)})
       : "Loading subjects...");
 
   if (isDismissing && backgroundOpacity.value === 0) {

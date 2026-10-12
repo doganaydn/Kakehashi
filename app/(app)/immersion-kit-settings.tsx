@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { Image } from "expo-image";
@@ -80,6 +81,7 @@ interface AnimeItem {
 }
 
 export default function ImmersionKitSettings() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const insets = useSafeAreaInsets();
@@ -167,7 +169,7 @@ export default function ImmersionKitSettings() {
         setAnimes(items);
       } catch (error) {
         console.error("Failed to load Immersion Kit data", error);
-        Alert.alert("Error", "Failed to load available anime list.");
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_available_anime_list_10dbda23"));
       } finally {
         setIsLoading(false);
       }
@@ -304,7 +306,7 @@ export default function ImmersionKitSettings() {
   const handleSyncFromMAL = async () => {
     const username = malUsernameInput.trim();
     if (!username) {
-      Alert.alert("Error", "Please enter your MyAnimeList username.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_enter_your_myanimelist_username_6b06de81"));
       return;
     }
 
@@ -360,12 +362,12 @@ export default function ImmersionKitSettings() {
       setMalSyncStats({ watched: watchedCount, matched: matchedCount });
 
       Alert.alert(
-        "Synced",
-        `Found ${watchedCount} watched anime on ${username}'s MyAnimeList.\n${matchedCount} matched with Immersion Kit anime.`
+        uiT("ui.synced_5da22fe4"),
+        uiT("ui.found_value_watched_anime_on_value_s_myanimelist_value_matched_wi_1ca92de0", {value1: (watchedCount), value2: (username), value3: (matchedCount)})
       );
     } catch (error) {
       console.error("Failed to sync MAL", error);
-      Alert.alert("Error", "Failed to sync with MyAnimeList. Please check the username and try again.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_sync_with_myanimelist_please_check_the_username_and_try_e75834f6"));
     } finally {
       setIsSyncing(false);
     }
@@ -374,7 +376,7 @@ export default function ImmersionKitSettings() {
   const handleSyncFromAniList = async () => {
     const username = aniListUsernameInput.trim();
     if (!username) {
-      Alert.alert("Error", "Please enter your AniList username.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_enter_your_anilist_username_0ac92ea8"));
       return;
     }
 
@@ -430,12 +432,12 @@ export default function ImmersionKitSettings() {
       setAniListSyncStats({ watched: watchedCount, matched: matchedCount });
 
       Alert.alert(
-        "Synced",
-        `Found ${watchedCount} watched anime on ${username}'s AniList.\n${matchedCount} matched with Immersion Kit anime.`
+        uiT("ui.synced_5da22fe4"),
+        uiT("ui.found_value_watched_anime_on_value_s_anilist_value_matched_with_i_619ae27c", {value1: (watchedCount), value2: (username), value3: (matchedCount)})
       );
     } catch (error) {
       console.error("Failed to sync AniList", error);
-      Alert.alert("Error", "Failed to sync with AniList. Please check the username and try again.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_sync_with_anilist_please_check_the_username_and_try_aga_e8285147"));
     } finally {
       setIsSyncing(false);
     }
@@ -567,8 +569,7 @@ export default function ImmersionKitSettings() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          Immersion Kit Anime
-        </Text>
+          {uiT("ui.immersion_kit_anime_c4b2f149")} </Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -598,7 +599,7 @@ export default function ImmersionKitSettings() {
               />
               <TextInput
                 style={[styles.searchInput, { color: theme.textColor }]}
-                placeholder="Search anime..."
+                placeholder={uiT("ui.search_anime_376a0b6a")}
                 placeholderTextColor={theme.textSecondary}
                 value={searchQuery}
                 onChangeText={setSearchQuery}
@@ -674,7 +675,7 @@ export default function ImmersionKitSettings() {
                 <TextInput
                   value={malUsernameInput}
                   onChangeText={setMalUsernameInput}
-                  placeholder="MAL username"
+                  placeholder={uiT("ui.mal_username_00190191")}
                   placeholderTextColor={theme.textSecondary}
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -715,7 +716,7 @@ export default function ImmersionKitSettings() {
                 <TextInput
                   value={aniListUsernameInput}
                   onChangeText={setAniListUsernameInput}
-                  placeholder="AniList username"
+                  placeholder={uiT("ui.anilist_username_fbd36a74")}
                   placeholderTextColor={theme.textSecondary}
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -749,12 +750,11 @@ export default function ImmersionKitSettings() {
               <View style={styles.infoRow}>
                 {searchQuery && (
                   <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-                    {filteredAnimes.length} results
-                  </Text>
+                    {filteredAnimes.length} {uiT("ui.results_c099142b")} </Text>
                 )}
                 {infoFetchProgress && (
                   <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-                    Loading {infoFetchProgress.fetched}/{infoFetchProgress.total}
+                    {uiT("ui.loading_dc380888")} {infoFetchProgress.fetched}/{infoFetchProgress.total}
                   </Text>
                 )}
               </View>
@@ -779,7 +779,7 @@ export default function ImmersionKitSettings() {
                   <View style={styles.emptyContainer}>
                     <Ionicons name="search-outline" size={48} color={theme.textSecondary} style={{ opacity: 0.5 }} />
                     <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                      No anime found matching &quot;{searchQuery}&quot;
+                      {uiT("ui.no_anime_found_matching_09186aad")}{searchQuery}&quot;
                     </Text>
                   </View>
                 </TouchableWithoutFeedback>

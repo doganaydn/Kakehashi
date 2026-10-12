@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { useItemMeaning } from "../../src/features/turkish-content/item-display";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
@@ -53,7 +54,7 @@ const formatDate = (dateString: string) => {
   }
 
   // Return formatted date (e.g., "Jan 1, 2023")
-  return date.toLocaleDateString("en-US", {
+  return date.toLocaleDateString(interfaceLocale(), {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -67,6 +68,7 @@ const SUBJECT_IDS_BATCH_SIZE = 1000;
 
 // Character display component with SVG fallback for radicals
 const BurnedItemCharacter = ({ item }: { item: BurnedItem }) => {
+  useInterfaceLanguage();
   const isRadical = item.type === "radical";
 
   // For radicals, try SVG fallback if no characters
@@ -112,6 +114,7 @@ const BurnedItemCharacter = ({ item }: { item: BurnedItem }) => {
 };
 
 export default function BurnedItemsScreen() {
+  useInterfaceLanguage();
   const { apiToken } = useAuthStore();
   const navigation = useNavigation();
   const router = useRouter();
@@ -350,7 +353,7 @@ export default function BurnedItemsScreen() {
         setAllBurnedItems(items);
       } catch (error) {
         console.error("Error fetching burned items:", error);
-        setError("Failed to load burned items. Please try again.");
+        setError(uiT("ui.message_c0f8f0dafd79"));
       } finally {
         setIsLoading(false);
       }
@@ -403,22 +406,22 @@ export default function BurnedItemsScreen() {
   const filterSections: FilterSection[] = [
     {
       id: "subjectType",
-      title: "Subject Type",
+      title: uiT("ui.subject_type_797e2154"),
       options: [
-        { id: "all", label: "All" },
-        { id: "radical", label: "Radicals" },
-        { id: "kanji", label: "Kanji" },
-        { id: "vocabulary", label: "Vocabulary" },
-        { id: "kana_vocabulary", label: "Kana Vocab" },
+        { id: "all", label: uiT("ui.all_a52ace42") },
+        { id: "radical", label: uiT("ui.radicals_80608601") },
+        { id: "kanji", label: uiT("ui.kanji_45f62a35") },
+        { id: "vocabulary", label: uiT("ui.vocabulary_eebd90a0") },
+        { id: "kana_vocabulary", label: uiT("ui.kana_vocab_597d8c17") },
       ],
     },
     {
       id: "timeRange",
-      title: "Time Range",
+      title: uiT("ui.time_range_b8fde680"),
       options: [
-        { id: 30, label: "30 days" },
-        { id: 90, label: "90 days" },
-        { id: 365, label: "Year" },
+        { id: 30, label: uiT("ui.30_days_ffd72805") },
+        { id: 90, label: uiT("ui.90_days_38825b0f") },
+        { id: 365, label: uiT("ui.year_89f68325") },
       ],
     },
   ];
@@ -516,8 +519,7 @@ export default function BurnedItemsScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.headerText} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            Burned Items
-          </Text>
+            {uiT("ui.burned_items_31cc6883")} </Text>
         </View>
         <GlassButton
           iconName="filter"
@@ -539,15 +541,14 @@ export default function BurnedItemsScreen() {
         showVocabularyTypes
         subjects={vocabularySubjects}
         sections={filterSections}
-        title="Filter Burned Items"
+        title={uiT("ui.filter_burned_items_0adad608")}
       />
 
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            Loading burned items...
-          </Text>
+            {uiT("ui.loading_burned_items_32ed4585")} </Text>
         </View>
       ) : error ? (
         <View style={styles.errorContainer}>
@@ -560,19 +561,18 @@ export default function BurnedItemsScreen() {
             onPress={handleRetry}
             activeOpacity={0.7}
           >
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
         </View>
       ) : flatListData.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Ionicons name="flame-outline" size={48} color={theme.textLight} />
           <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-            No burned items found
-          </Text>
+            {uiT("ui.no_burned_items_found_6d55b70d")} </Text>
           <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
             {appliedFilter !== "all" || vocabularyTypes.length > 0
-              ? "No items match your current filters."
-              : `No items have been burned in the last ${timeRange} days.`}
+              ? uiT("ui.no_items_match_your_current_filters_46b13bed")
+              : uiT("ui.no_items_have_been_burned_in_the_last_value_days_60ecf9de", {value1: (timeRange)})}
           </Text>
         </View>
       ) : (

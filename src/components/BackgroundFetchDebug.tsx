@@ -1,9 +1,11 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import WaniKaniBackgroundFetch from '../modules/WaniKaniBackgroundFetch';
 import { useTheme } from '../utils/theme';
 
 export function BackgroundFetchDebug() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [status, setStatus] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -23,17 +25,17 @@ export function BackgroundFetchDebug() {
 
   const triggerManualFetch = async () => {
     if (!WaniKaniBackgroundFetch) {
-      Alert.alert('Error', 'Background fetch not available');
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.background_fetch_not_available_54f9b5c6"));
       return;
     }
 
     setLoading(true);
     try {
       const result = await WaniKaniBackgroundFetch.triggerBackgroundFetchManually();
-      Alert.alert('Background Fetch Result', `Result: ${result.result}\nReview Count: ${result.reviewCount}\nTimestamp: ${new Date(result.timestamp).toLocaleString()}`);
+      Alert.alert(uiT("ui.background_fetch_result_1950fbf9"), uiT("ui.result_value_review_count_value_timestamp_value_15a1f337", {value1: (result.result), value2: (result.reviewCount), value3: (new Date(result.timestamp).toLocaleString())}));
       loadStatus();
     } catch {
-      Alert.alert('Error', 'Failed to trigger background fetch');
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_trigger_background_fetch_16ded5a2"));
     } finally {
       setLoading(false);
     }
@@ -45,14 +47,14 @@ export function BackgroundFetchDebug() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.cardBackground }]}>
-      <Text style={[styles.title, { color: theme.textColor }]}>Background Fetch Debug</Text>
+      <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.background_fetch_debug_dbf6d2e8")}</Text>
       
       {status && (
         <View style={styles.statusContainer}>
-          <StatusRow label="Last Fetch" value={status.timeSinceLastFetch} color={theme.textColor} />
-          <StatusRow label="Review Count" value={status.currentReviewCount.toString()} color={theme.textColor} />
-          <StatusRow label="API Token" value={status.hasApiToken ? '✅ Set' : '❌ Not Set'} color={theme.textColor} />
-          <StatusRow label="Badge Enabled" value={status.badgeEnabled ? '✅ Yes' : '❌ No'} color={theme.textColor} />
+          <StatusRow label={uiT("ui.last_fetch_571d873d")} value={status.timeSinceLastFetch} color={theme.textColor} />
+          <StatusRow label={uiT("ui.review_count_35f417e3")} value={status.currentReviewCount.toString()} color={theme.textColor} />
+          <StatusRow label={uiT("ui.api_token_c85b0e36")} value={status.hasApiToken ? '✅ Set' : '❌ Not Set'} color={theme.textColor} />
+          <StatusRow label={uiT("ui.badge_enabled_941e6479")} value={status.badgeEnabled ? '✅ Yes' : '❌ No'} color={theme.textColor} />
         </View>
       )}
 
@@ -61,17 +63,17 @@ export function BackgroundFetchDebug() {
         onPress={triggerManualFetch}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>{loading ? 'Triggering...' : 'Trigger Manual Fetch'}</Text>
+        <Text style={styles.buttonText}>{loading ? uiT("ui.triggering_b7f2a98c") : uiT("ui.trigger_manual_fetch_0cc9c7b3")}</Text>
       </TouchableOpacity>
 
       <Text style={[styles.note, { color: theme.textColor }]}>
-        Note: Check Xcode console for detailed logs
-      </Text>
+        {uiT("ui.note_check_xcode_console_for_detailed_logs_661d6e92")} </Text>
     </View>
   );
 }
 
 function StatusRow({ label, value, color }: { label: string; value: string; color: string }) {
+  useInterfaceLanguage();
   return (
     <View style={styles.statusRow}>
       <Text style={[styles.statusLabel, { color }]}>{label}:</Text>

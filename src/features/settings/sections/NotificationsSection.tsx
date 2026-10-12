@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -14,6 +15,7 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function NotificationsSection() {
+  useInterfaceLanguage();
   const {
     dailyLessonReminderEnabled,
     dailyLessonReminderMinimum,
@@ -62,8 +64,7 @@ export function NotificationsSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          Notifications
-        </Text>
+          {uiT("ui.notifications_78801183")} </Text>
 
         {Platform.OS !== "android" && (
           <View
@@ -75,13 +76,11 @@ export function NotificationsSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                App Badge Notifications
-              </SettingsLabel>
+                {uiT("ui.app_badge_notifications_a1903329")} </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                Show review count in app icon badge
-              </Text>
+                {uiT("ui.show_review_count_in_app_icon_badge_89e148e1")} </Text>
             </View>
             <Switch
               value={showBadgeNotifications}
@@ -109,13 +108,11 @@ export function NotificationsSection() {
             <SettingsLabel
               style={[styles.settingText, { color: theme.textColor }]}
             >
-              Review Notifications
-            </SettingsLabel>
+              {uiT("ui.review_notifications_9e7c277b")} </SettingsLabel>
             <Text
               style={[styles.settingSubtext, { color: theme.textSecondary }]}
             >
-              Get notified when new reviews become available
-            </Text>
+              {uiT("ui.get_notified_when_new_reviews_become_available_7ca7f769")} </Text>
           </View>
           <Switch
             value={enableReviewNotifications}
@@ -136,17 +133,14 @@ export function NotificationsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Daily Review Reminder
-                </SettingsLabel>
+                  {uiT("ui.daily_review_reminder_da6aa108")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Send one reminder at your chosen local time if reviews are
-                  still pending
-                </Text>
+                  {uiT("ui.send_one_reminder_at_your_chosen_local_time_if_reviews_are_still_56171ab7")} </Text>
               </View>
               <Switch
                 value={dailyReviewReminderEnabled}
@@ -165,17 +159,14 @@ export function NotificationsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Daily Lesson Reminder
-                </SettingsLabel>
+                  {uiT("ui.daily_lesson_reminder_48a35c8a")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Send one reminder when your minimum daily lessons are not met
-                  and lessons are still available
-                </Text>
+                  {uiT("ui.send_one_reminder_when_your_minimum_daily_lessons_are_not_met_and_09eea02b")} </Text>
               </View>
               <Switch
                 value={dailyLessonReminderEnabled}
@@ -202,15 +193,14 @@ export function NotificationsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Minimum Daily Lessons
-                  </SettingsLabel>
+                    {uiT("ui.minimum_daily_lessons_c7339169")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {`Set your daily lesson goal (${dailyLessonReminderMinimumMin}-${dailyLessonReminderMinimumMax}, step ${dailyLessonReminderMinimumStep})`}
+                    {uiT("ui.set_your_daily_lesson_goal_value_value_step_value_bb330e57", {value1: (dailyLessonReminderMinimumMin), value2: (dailyLessonReminderMinimumMax), value3: (dailyLessonReminderMinimumStep)})}
                   </Text>
                 </View>
                 <View style={styles.batchSizeSelector}>
@@ -306,16 +296,14 @@ export function NotificationsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Reminder Time
-                </SettingsLabel>
+                  {uiT("ui.reminder_time_80381e78")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Shared by daily review and lesson reminders
-                </Text>
+                  {uiT("ui.shared_by_daily_review_and_lesson_reminders_d0464f3c")} </Text>
               </View>
               <Text
                 style={[styles.settingValueText, { color: theme.textColor }]}
@@ -350,16 +338,14 @@ export function NotificationsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    View Scheduled Notifications
-                  </SettingsLabel>
+                    {uiT("ui.view_scheduled_notifications_9c44bf74")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Debug: See all pending notifications and badges
-                  </Text>
+                    {uiT("ui.debug_see_all_pending_notifications_and_badges_adfc60d0")} </Text>
                 </View>
                 <Ionicons
                   name="chevron-forward"

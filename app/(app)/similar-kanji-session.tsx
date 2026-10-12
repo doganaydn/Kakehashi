@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams } from "expo-router";
@@ -277,6 +278,7 @@ function countRoundItems(rounds: SimilarKanjiRound<ApiSubject>[]): number {
 }
 
 export default function SimilarKanjiSessionScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
   const { isLoading: isAuthLoading } = useSession();
@@ -402,13 +404,13 @@ export default function SimilarKanjiSessionScreen() {
         }
         if (!params.sessionId) {
           Alert.alert(
-            "Session Not Available",
+            uiT("ui.session_not_available_3b81ebff"),
             isCustomMatch
               ? "Couldn't restore that kanji match session."
               : "Couldn't restore that similar kanji session.",
             [
               {
-                text: "OK",
+                text: uiT("ui.ok_565339bc"),
                 onPress: () =>
                   router.replace(
                     isCustomMatch
@@ -480,31 +482,11 @@ export default function SimilarKanjiSessionScreen() {
       );
     } catch (error) {
       console.error("Failed to load similar kanji config:", error);
-      Alert.alert("Error", "Failed to load match configuration.", [
-        { text: "OK", onPress: () => router.back() },
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_match_configuration_1c020a9f"), [
+        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
       ]);
     }
-  }, [
-    isCustomMatch,
-    params.kanjiPerQuestion,
-    params.matchMode,
-    params.maxLevel,
-    params.minLevel,
-    params.numberOfQuestions,
-    params.onlyLearnedSimilarKanji,
-    params.resume,
-    params.selectedListIds,
-    params.sessionId,
-    params.similarKanjiSource,
-    params.srsApprentice,
-    params.srsBurned,
-    params.srsEnlightened,
-    params.srsGuru,
-    params.srsMaster,
-    params.subjectIds,
-    params.useCustomLevelRange,
-    restoreSavedSimilarKanjiSession,
-  ]);
+  }, [isCustomMatch, params.kanjiPerQuestion, params.matchMode, params.maxLevel, params.minLevel, params.numberOfQuestions, params.onlyLearnedSimilarKanji, params.resume, params.selectedListIds, params.sessionId, params.similarKanjiSource, params.srsApprentice, params.srsBurned, params.srsEnlightened, params.srsGuru, params.srsMaster, params.subjectIds, params.useCustomLevelRange, restoreSavedSimilarKanjiSession, ]);
 
   useEffect(() => {
     void loadConfig();
@@ -551,9 +533,9 @@ export default function SimilarKanjiSessionScreen() {
         config.selectedListIds.length === 0
       ) {
         Alert.alert(
-          "No Learned Kanji",
-          "You haven't learned any kanji yet. Complete some kanji lessons first!",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.no_learned_kanji_14b3e0fd"),
+          uiT("ui.you_haven_t_learned_any_kanji_yet_complete_some_kanji_lessons_fir_79357d22"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -652,11 +634,11 @@ export default function SimilarKanjiSessionScreen() {
 
       if (generatedRounds.length === 0) {
         Alert.alert(
-          "No Matching Rounds",
+          uiT("ui.no_matching_rounds_2e6580be"),
           config.matchMode === "custom"
             ? "Select at least two kanji with distinct meanings."
             : "No visually similar kanji groups match your selected criteria.",
-          [{ text: "OK", onPress: () => router.back() }],
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -677,21 +659,16 @@ export default function SimilarKanjiSessionScreen() {
     } catch (error) {
       console.error("Failed to load similar kanji rounds:", error);
       Alert.alert(
-        "Error",
+        uiT("ui.error_54a0e8c1"),
         config.matchMode === "custom"
           ? "Failed to load the selected kanji. Please refresh your data and try again."
           : "Failed to load your learned kanji. Please refresh your data and try again.",
-        [{ text: "OK", onPress: () => router.back() }],
+        [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
       );
     } finally {
       setIsLoading(false);
     }
-  }, [
-    apiToken,
-    clearSavedSimilarKanjiSession,
-    config,
-    isAuthLoading,
-  ]);
+  }, [apiToken, clearSavedSimilarKanjiSession, config, isAuthLoading, ]);
 
   useEffect(() => {
     if (config && !hasRestoredSession) {
@@ -852,21 +829,21 @@ export default function SimilarKanjiSessionScreen() {
   };
 
   const handleExit = () => {
-    Alert.alert("Exit Match", "Want to continue this session later?", [
-      { text: "Cancel", style: "cancel" },
+    Alert.alert(uiT("ui.exit_match_ab5945fc"), uiT("ui.want_to_continue_this_session_later_a3a632d6"), [
+      { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
       {
-        text: "Continue Later",
+        text: uiT("ui.continue_later_ba247ab0"),
         onPress: async () => {
           const wasSaved = await saveSimilarKanjiSessionForLater();
           if (!wasSaved) {
-            Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
+            Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
             return;
           }
           router.back();
         },
       },
       {
-        text: "Exit",
+        text: uiT("ui.exit_d17d84a6"),
         style: "destructive",
         onPress: async () => {
           await clearSavedSimilarKanjiSession();
@@ -899,8 +876,8 @@ export default function SimilarKanjiSessionScreen() {
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
             {isCustomMatch
-              ? "Preparing kanji match..."
-              : "Preparing similar kanji boards..."}
+              ? uiT("ui.preparing_kanji_match_10442651")
+              : uiT("ui.preparing_similar_kanji_boards_cb215b80")}
           </Text>
         </View>
       </SafeAreaView>
@@ -940,14 +917,14 @@ export default function SimilarKanjiSessionScreen() {
         <View style={styles.errorContainer}>
           <Text style={[styles.errorText, { color: theme.error }]}>
             {isCustomMatch
-              ? "No kanji match boards available"
-              : "No similar kanji boards available"}
+              ? uiT("ui.no_kanji_match_boards_available_35916345")
+              : uiT("ui.no_similar_kanji_boards_available_c4598027")}
           </Text>
           <TouchableOpacity
             style={[styles.errorButton, { backgroundColor: theme.secondary }]}
             onPress={() => router.back()}
           >
-            <Text style={styles.errorButtonText}>Go Back</Text>
+            <Text style={styles.errorButtonText}>{uiT("ui.go_back_b8d99df1")}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -1006,10 +983,10 @@ export default function SimilarKanjiSessionScreen() {
         </TouchableOpacity>
         <View style={styles.headerCenter}>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            {isCustomMatch ? "Kanji Match" : "Similar Kanji"}
+            {isCustomMatch ? uiT("ui.kanji_match_65538f9d") : uiT("ui.similar_kanji_6df70171")}
           </Text>
           <Text style={[styles.headerSubtitle, { color: theme.textSecondary }]}>
-            {currentIndex + 1}/{rounds.length} · Score {scoreSummary}
+            {currentIndex + 1}/{rounds.length} {uiT("ui.score_57572e24")} {scoreSummary}
           </Text>
         </View>
         <TouchableOpacity
@@ -1053,8 +1030,7 @@ export default function SimilarKanjiSessionScreen() {
         <View style={styles.boardHeader}>
           <View>
             <Text style={[styles.boardTitle, { color: theme.textColor }]}>
-              Connect matches
-            </Text>
+              {uiT("ui.connect_matches_a23e75ad")} </Text>
             <Text style={[styles.boardMeta, { color: theme.textSecondary }]}>
               {connectedCount}/{currentRound.items.length}
             </Text>
@@ -1086,14 +1062,12 @@ export default function SimilarKanjiSessionScreen() {
               { width: KANJI_COLUMN_WIDTH, color: theme.textSecondary },
             ]}
           >
-            Kanji
-          </Text>
+            {uiT("ui.kanji_45f62a35")} </Text>
           <View style={{ width: WIRE_COLUMN_WIDTH }} />
           <Text
             style={[styles.columnLabel, { flex: 1, color: theme.textSecondary }]}
           >
-            Meanings
-          </Text>
+            {uiT("ui.meanings_6379cd5b")} </Text>
         </View>
 
         <View style={[styles.matchBoard, { minHeight: boardHeight }]}>
@@ -1296,7 +1270,7 @@ export default function SimilarKanjiSessionScreen() {
                         ]}
                         numberOfLines={1}
                       >
-                        You chose {selectedChoice.meaning}
+                        {uiT("ui.you_chose_f1b15686")} {selectedChoice.meaning}
                       </Text>
                     ) : null}
                   </View>
@@ -1339,7 +1313,7 @@ export default function SimilarKanjiSessionScreen() {
             activeOpacity={0.8}
           >
             <Text style={styles.nextButtonText}>
-              {currentIndex < rounds.length - 1 ? "Next Round" : "Finish"}
+              {currentIndex < rounds.length - 1 ? uiT("ui.next_round_9aa06823") : uiT("ui.finish_a6c7a84b")}
             </Text>
             <Ionicons
               name={
@@ -1362,7 +1336,7 @@ export default function SimilarKanjiSessionScreen() {
             disabled={!canSubmitRound}
             activeOpacity={0.8}
           >
-            <Text style={styles.nextButtonText}>Submit</Text>
+            <Text style={styles.nextButtonText}>{uiT("ui.submit_155f816c")}</Text>
             <Ionicons name="checkmark" size={22} color="white" />
           </TouchableOpacity>
         )}

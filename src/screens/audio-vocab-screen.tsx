@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -40,11 +41,11 @@ const SUBJECT_TYPES = ["vocabulary", "kana_vocabulary"] as (
   "vocabulary" | "kana_vocabulary"
 )[];
 const AUDIO_SOURCES = [
-  { value: "word", label: "Words", description: "Original WaniKani audio" },
+  { value: "word", get label() { return uiT("ui.words_0a8be89a"); }, get description() { return uiT("ui.original_wanikani_audio_fd87a18e"); } },
   {
     value: "sentence",
-    label: "Context sentences",
-    description: "Japanese text-to-speech",
+    get label() { return uiT("ui.context_sentences_3eb98a80"); },
+    get description() { return uiT("ui.japanese_text_to_speech_3e97a919"); },
   },
 ] as const;
 type Config = {
@@ -60,6 +61,7 @@ type Config = {
 type SavedSession = { testQuestions: unknown[]; currentQuestionIndex: number };
 
 function AudioVocabScreenContent({ userId }: { userId: string }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const maxLevel = useAuthStore((state) => state.userData?.level ?? 60);
@@ -185,7 +187,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
         params: { mode: "audio-vocab", sessionId },
       });
     } catch {
-      setError("The session couldn’t start. Please try again.");
+      setError(uiT("ui.message_a5b8cc7caa65"));
     } finally {
       busyRef.current = false;
       setBusy(false);
@@ -201,7 +203,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
       >
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel="Go back"
+          accessibilityLabel={uiT("ui.go_back_6aadac2f")}
           onPress={() => router.back()}
           style={styles.backButton}
           activeOpacity={0.7}
@@ -209,8 +211,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Audio Vocab
-        </Text>
+          {uiT("ui.audio_vocab_31f3aa3d")} </Text>
       </View>
 
       <ScrollView
@@ -236,18 +237,14 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
             <Text
               style={[styles.sectionHeaderText, { color: theme.textSecondary }]}
             >
-              Listening Quiz
-            </Text>
+              {uiT("ui.listening_quiz_3dd985aa")} </Text>
           </View>
           <Text style={[styles.overviewTitle, { color: theme.textColor }]}>
-            Listen, answer in English
-          </Text>
+            {uiT("ui.listen_answer_in_english_3a7bb964")} </Text>
           <Text
             style={[styles.overviewDescription, { color: theme.textSecondary }]}
           >
-            Practice vocabulary by listening. Uses your review settings,
-            including Anki mode when enabled.
-          </Text>
+            {uiT("ui.practice_vocabulary_by_listening_uses_your_review_settings_includ_412fa276")} </Text>
         </View>
 
         {!hydrated ? (
@@ -279,8 +276,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                   <Text
                     style={[styles.optionTitle, { color: theme.textColor }]}
                   >
-                    Resume saved session
-                  </Text>
+                    {uiT("ui.resume_saved_session_5919f039")} </Text>
                   <Text
                     style={[
                       styles.optionDescription,
@@ -288,8 +284,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                     ]}
                   >
                     {saved.testQuestions.length - saved.currentQuestionIndex}{" "}
-                    questions remaining
-                  </Text>
+                    {uiT("ui.questions_remaining_ea2f7745")} </Text>
                 </View>
                 <Ionicons
                   name="chevron-forward"
@@ -306,8 +301,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
               ]}
             >
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Audio Source
-              </Text>
+                {uiT("ui.audio_source_2b442d49")} </Text>
               <Text
                 style={[
                   styles.sectionDescription,
@@ -315,8 +309,8 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                 ]}
               >
                 {config.audioSource === "sentence"
-                  ? "Listen to the word, then its sentence. Answer the word’s meaning."
-                  : "Choose what you want to listen to."}
+                  ? uiT("ui.listen_to_the_word_then_its_sentence_answer_the_word_s_meaning_48a8a27f")
+                  : uiT("ui.choose_what_you_want_to_listen_to_be290b51")}
               </Text>
               <View accessibilityRole="radiogroup" style={styles.options}>
                 {AUDIO_SOURCES.map((source) => {
@@ -375,15 +369,14 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
               ]}
             >
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Number of Questions
-              </Text>
+                {uiT("ui.number_of_questions_e69db859")} </Text>
               <View style={styles.sliderContainer}>
                 <Text style={[styles.sliderCount, { color: theme.textColor }]}>
                   {config.count}
                 </Text>
                 <Slider
                   style={styles.countSlider}
-                  accessibilityLabel="Number of questions"
+                  accessibilityLabel={uiT("ui.number_of_questions_4bbde39f")}
                   minimumValue={5}
                   maximumValue={100}
                   step={5}
@@ -405,16 +398,14 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
               ]}
             >
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Include SRS Stages
-              </Text>
+                {uiT("ui.include_srs_stages_eb382d10")} </Text>
               <Text
                 style={[
                   styles.sectionDescription,
                   { color: theme.textSecondary },
                 ]}
               >
-                Choose which progression stages to include
-              </Text>
+                {uiT("ui.choose_which_progression_stages_to_include_983f6d5c")} </Text>
               <View style={styles.chipsContainer}>
                 {SRS_GROUPS.map((group) => {
                   const selected = config.groups.includes(group);
@@ -470,18 +461,14 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
               ]}
             >
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Levels
-              </Text>
+                {uiT("ui.levels_b1482131")} </Text>
               <Text
                 style={[
                   styles.sectionDescription,
                   { color: theme.textSecondary },
                 ]}
               >
-                Without a subject list, includes levels 1 to your level (
-                {maxLevel}). Selected lists can include any level. Enable a
-                custom range to restrict.
-              </Text>
+                {uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")} {maxLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")} </Text>
               <View
                 style={[
                   styles.toggleRow,
@@ -496,10 +483,9 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                 ]}
               >
                 <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                  Use custom level range
-                </Text>
+                  {uiT("ui.use_custom_level_range_fdb84cae")} </Text>
                 <Switch
-                  accessibilityLabel="Custom level range"
+                  accessibilityLabel={uiT("ui.custom_level_range_625a58cb")}
                   value={config.useCustomLevelRange}
                   onValueChange={(value) =>
                     updateConfig("useCustomLevelRange", value)
@@ -517,8 +503,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Min Level
-                    </Text>
+                      {uiT("ui.min_level_4986a2df")} </Text>
                     <Text
                       style={[styles.levelValue, { color: theme.textColor }]}
                     >
@@ -526,7 +511,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                     </Text>
                   </View>
                   <Slider
-                    accessibilityLabel="Minimum level"
+                    accessibilityLabel={uiT("ui.minimum_level_b7bfe49a")}
                     minimumValue={1}
                     maximumValue={maxLevel}
                     step={1}
@@ -548,8 +533,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Max Level
-                    </Text>
+                      {uiT("ui.max_level_2833a212")} </Text>
                     <Text
                       style={[styles.levelValue, { color: theme.textColor }]}
                     >
@@ -557,7 +541,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                     </Text>
                   </View>
                   <Slider
-                    accessibilityLabel="Maximum level"
+                    accessibilityLabel={uiT("ui.maximum_level_777774aa")}
                     minimumValue={1}
                     maximumValue={maxLevel}
                     step={1}
@@ -584,8 +568,8 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                     style={[styles.levelLabel, { color: theme.textSecondary }]}
                   >
                     {config.selectedListIds.length > 0
-                      ? "All levels in selected lists"
-                      : `Levels 1 - ${maxLevel}`}
+                      ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
+                      : uiT("ui.levels_1_value_97fc00a2", {value1: (maxLevel)})}
                   </Text>
                 </View>
               )}
@@ -595,7 +579,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
               selectedListIds={config.selectedListIds}
               onChange={updateSelectedListIds}
               subjectTypes={SUBJECT_TYPES}
-              description="Optional: only include subjects from these saved lists."
+              description={uiT("ui.optional_only_include_subjects_from_these_saved_lists_1d5ef2d9")}
             />
 
             <View
@@ -605,16 +589,14 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
               ]}
             >
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Playback
-              </Text>
+                {uiT("ui.playback_2db1db07")} </Text>
               <Text
                 style={[
                   styles.sectionDescription,
                   { color: theme.textSecondary },
                 ]}
               >
-                You can replay the audio at any time during a question.
-              </Text>
+                {uiT("ui.you_can_replay_the_audio_at_any_time_during_a_question_f31e750a")} </Text>
               <View
                 style={[
                   styles.toggleRow,
@@ -630,10 +612,9 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
                 ]}
               >
                 <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                  Auto-play audio
-                </Text>
+                  {uiT("ui.auto_play_audio_12320266")} </Text>
                 <Switch
-                  accessibilityLabel="Auto-play audio"
+                  accessibilityLabel={uiT("ui.auto_play_audio_12320266")}
                   value={config.autoPlay}
                   onValueChange={(value) => updateConfig("autoPlay", value)}
                   trackColor={{ false: "#767577", true: theme.secondary }}
@@ -682,7 +663,7 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
           ) : (
             <>
               <Ionicons name="play" size={24} color="white" />
-              <Text style={styles.startButtonText}>Start Audio Quiz</Text>
+              <Text style={styles.startButtonText}>{uiT("ui.start_audio_quiz_0e41476c")}</Text>
             </>
           )}
         </TouchableOpacity>
@@ -692,13 +673,14 @@ function AudioVocabScreenContent({ userId }: { userId: string }) {
 }
 
 export default function AudioVocabScreen() {
+  useInterfaceLanguage();
   const userId = useAuthStore((state) => state.userData?.id);
   if (!userId)
     return (
       <View style={{ padding: 24, gap: 16 }}>
-        <Text>Sign in to WaniKani to practice vocabulary.</Text>
+        <Text>{uiT("ui.sign_in_to_wanikani_to_practice_vocabulary_7c784720")}</Text>
         <Pressable accessibilityRole="button" onPress={() => router.back()}>
-          <Text>Go back</Text>
+          <Text>{uiT("ui.go_back_6aadac2f")}</Text>
         </Pressable>
       </View>
     );

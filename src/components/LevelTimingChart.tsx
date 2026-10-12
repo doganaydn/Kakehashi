@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -138,6 +139,7 @@ export default function LevelTimingChart({
   resets = [],
   currentLevel,
 }: LevelTimingChartProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const authUserId = useAuthStore((state) => state.userData?.id ?? null);
   const widgetLevelTimingFastColor = useSettingsStore(
@@ -489,12 +491,10 @@ export default function LevelTimingChart({
       >
         <View style={styles.header}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            Level Timing
-          </Text>
+            {uiT("ui.level_timing_9276ad6d")} </Text>
         </View>
         <Text style={[styles.noDataText, { color: theme.textSecondary }]}>
-          No level data found. Start your first level to see timing data!
-        </Text>
+          {uiT("ui.no_level_data_found_start_your_first_level_to_see_timing_data_4cc75ef6")} </Text>
       </Animated.View>
     );
   }
@@ -517,13 +517,12 @@ export default function LevelTimingChart({
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          Level Timing
-        </Text>
+          {uiT("ui.level_timing_9276ad6d")} </Text>
         <View style={styles.statsContainer}>
           <Ionicons name="time" size={16} color={theme.textSecondary} />
           <Text style={[styles.statsText, { color: theme.textSecondary }]}>
-            Avg:{" "}
-            {hasIncludedCompletedLevels ? `${statistics.average.toFixed(1)}d` : "—"}
+            {uiT("ui.avg_f02b8ea0")}{" "}
+            {hasIncludedCompletedLevels ? uiT("ui.valued_42f90c93", {value1: (statistics.average.toFixed(1))}) : "—"}
           </Text>
         </View>
       </View>
@@ -532,27 +531,24 @@ export default function LevelTimingChart({
       <View style={styles.statisticsRow}>
         <View style={styles.statItem}>
           <Text style={[styles.statValue, { color: timingColors.fast }]}>
-            {hasIncludedCompletedLevels ? `${statistics.fastest.toFixed(1)}d` : "—"}
+            {hasIncludedCompletedLevels ? uiT("ui.valued_42f90c93", {value1: (statistics.fastest.toFixed(1))}) : "—"}
           </Text>
           <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-            Fastest
-          </Text>
+            {uiT("ui.fastest_7ef7a92e")} </Text>
         </View>
         <View style={styles.statItem}>
           <Text style={[styles.statValue, { color: theme.primary }]}>
-            {hasIncludedCompletedLevels ? `${statistics.median.toFixed(1)}d` : "—"}
+            {hasIncludedCompletedLevels ? uiT("ui.valued_42f90c93", {value1: (statistics.median.toFixed(1))}) : "—"}
           </Text>
           <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-            Median
-          </Text>
+            {uiT("ui.median_daab7c43")} </Text>
         </View>
         <View style={styles.statItem}>
           <Text style={[styles.statValue, { color: timingColors.slow }]}>
-            {hasIncludedCompletedLevels ? `${statistics.slowest.toFixed(1)}d` : "—"}
+            {hasIncludedCompletedLevels ? uiT("ui.valued_42f90c93", {value1: (statistics.slowest.toFixed(1))}) : "—"}
           </Text>
           <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-            Slowest
-          </Text>
+            {uiT("ui.slowest_730a7c50")} </Text>
         </View>
       </View>
 
@@ -590,7 +586,7 @@ export default function LevelTimingChart({
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Avg {statistics.average.toFixed(1)}d
+                  {uiT("ui.avg_41835ff1")} {statistics.average.toFixed(1)}d
                 </Text>
               </View>
             </View>
@@ -668,7 +664,7 @@ export default function LevelTimingChart({
                   }
                   accessibilityLabel={
                     isToggleable
-                      ? `Level ${levelData.level}, ${isExcluded ? "excluded" : "included"} in averages`
+                      ? uiT("ui.dynamic_12fdfa73ffe2", {value1: (levelData.level), value2: (isExcluded ? uiT("ui.dynamic_cfa5ad96f5be") : uiT("ui.dynamic_7f0f70e643bc"))})
                       : `Level ${levelData.level}`
                   }
                 >
@@ -734,22 +730,19 @@ export default function LevelTimingChart({
         <View style={styles.legendItem}>
           <View style={[styles.legendColor, { backgroundColor: timingColors.fast }]} />
           <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-            Fast
-          </Text>
+            {uiT("ui.fast_6c582b62")} </Text>
         </View>
         <View style={styles.legendItem}>
           <View
             style={[styles.legendColor, { backgroundColor: timingColors.average }]}
           />
           <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-            Average
-          </Text>
+            {uiT("ui.average_b38ae2c5")} </Text>
         </View>
         <View style={styles.legendItem}>
           <View style={[styles.legendColor, { backgroundColor: timingColors.slow }]} />
           <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-            Slow
-          </Text>
+            {uiT("ui.slow_4b2bebbf")} </Text>
         </View>
         <View style={styles.legendItem}>
           <View
@@ -759,8 +752,7 @@ export default function LevelTimingChart({
             ]}
           />
           <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-            Current
-          </Text>
+            {uiT("ui.current_e0d1b682")} </Text>
         </View>
         {resetMarkers.length > 0 && (
           <View style={styles.legendItem}>
@@ -771,8 +763,7 @@ export default function LevelTimingChart({
               ]}
             />
             <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-              Reset
-            </Text>
+              {uiT("ui.reset_daee7606")} </Text>
           </View>
         )}
       </View>

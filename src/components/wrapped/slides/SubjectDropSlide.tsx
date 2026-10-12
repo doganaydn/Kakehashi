@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import * as Haptics from "@/src/utils/haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useMemo, useRef } from "react";
@@ -40,6 +41,7 @@ function RadicalSvgContent({
   characterImages?: WrappedLevelSubject["characterImages"];
   iconSize: number;
 }) {
+  useInterfaceLanguage();
   const bestImg = pickBestImage(characterImages);
   const svgUrl = bestImg?.type === "svg" ? bestImg.url : null;
   const pngUrl = bestImg?.type === "png" ? bestImg.url : null;
@@ -85,6 +87,7 @@ function DroppingItem({
   rotation: number;
   itemSize: number;
 }) {
+  useInterfaceLanguage();
   const initialTargetY = useRef(targetY).current;
   // The layout owns the landing cell; animation is only an offset from it.
   const translateY = useSharedValue(-initialTargetY - 80);
@@ -198,6 +201,7 @@ export function SubjectDropSlide({
   levelUpSubjects,
   level,
 }: SubjectDropSlideProps) {
+  useInterfaceLanguage();
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
   // Determine if iPad (larger screen) and if in landscape
@@ -305,8 +309,7 @@ export function SubjectDropSlide({
       {/* Header */}
       <View style={[styles.header, { top: headerTop }]}>
         <Text style={[styles.headerText, isTablet && styles.headerTextTablet]}>
-          Level {level} foundations
-        </Text>
+          {uiT("ui.level_1709305c")} {level} {uiT("ui.foundations_3fe0057f")} </Text>
       </View>
 
       {/* Drop area (full screen) */}
@@ -329,9 +332,8 @@ export function SubjectDropSlide({
       {/* Footer */}
       <Animated.View style={[styles.footer, { bottom: footerBottom }, footerStyle]}>
         <Text style={[styles.footerText, isTablet && styles.footerTextTablet]}>
-          {radCount} radical{radCount !== 1 ? "s" : ""} and{" "}
-          {kanCount} kanji mastered
-        </Text>
+          {radCount} {uiT("ui.radical_909c2720")}{uiPluralSuffix(radCount !== 1 ? "s" : "")} {uiT("ui.and_6201111b")}{" "}
+          {kanCount} {uiT("ui.kanji_mastered_2cd3698c")} </Text>
       </Animated.View>
     </LinearGradient>
   );

@@ -4,4 +4,24 @@
   <string name="expo_runtime_version">1.5.0</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="native_ui_1">AnkiDroid permission request already in progress</string>
+  <string name="native_ui_2">No active activity to request AnkiDroid permission</string>
+  <string name="native_ui_3">Invalid AnkiDroid note type</string>
+  <string name="native_ui_4">The selected AnkiDroid note type is unavailable</string>
+  <string name="native_ui_5">Invalid AnkiDroid export configuration</string>
+  <string name="native_ui_6">The fields in the selected AnkiDroid note type have changed. Configure export again.</string>
+  <string name="native_ui_7">AnkiDroid did not add the note</string>
+  <string name="native_ui_8">AnkiDroid is not installed</string>
+  <string name="native_ui_9">AnkiDroid access was not granted</string>
+  <string name="native_ui_10">Could not load AnkiDroid decks</string>
+  <string name="native_ui_11">Could not load AnkiDroid note types</string>
+  <string name="native_ui_12">Could not load AnkiDroid fields</string>
+  <string name="native_ui_13">Could not add the note to AnkiDroid</string>
+  <string name="native_ui_14">Missing notification settings</string>
+  <string name="native_ui_15">Notification permission request already in progress</string>
+  <string name="native_ui_16">No active activity to request permissions</string>
+  <string name="native_ui_17">Notification permissions not granted</string>
+  <string name="native_ui_18">WaniKani Test Notification</string>
+  <string name="native_ui_19">This is a test! You have 42 new reviews available.</string>
+  <string name="native_ui_20">Failed to update keyboard language hint</string>
 </resources>

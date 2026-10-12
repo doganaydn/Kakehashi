@@ -1,3 +1,4 @@
+import { uiT } from "../interface-language/runtime";
 import type { CustomVocabularyWord } from "./types";
 
 export type CustomQuestionType = "meaning" | "reading";
@@ -154,16 +155,16 @@ export function customSrsStageName(stage: number) {
 }
 
 export function customNextReviewLabel(availableAt: string | null, stage: number, now = Date.now()) {
-  if (stage === 9) return "No more reviews";
-  if (!availableAt) return "Review scheduled";
+  if (stage === 9) return uiT("ui.no_more_reviews_95c85137");
+  if (!availableAt) return uiT("ui.review_scheduled_c986fde4");
   const minutes = Math.max(0, Math.round((Date.parse(availableAt) - now) / 60_000));
-  if (!Number.isFinite(minutes)) return "Review scheduled";
-  if (minutes < 1) return "Next review now";
-  if (minutes < 60) return `Next review in ${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+  if (!Number.isFinite(minutes)) return uiT("ui.review_scheduled_c986fde4");
+  if (minutes < 1) return uiT("ui.next_review_now_38b47990");
+  if (minutes < 60) return uiT("ui.next_review_in_value_value_3b6bdb8c", {value1: (minutes), value2: (minutes === 1 ? "minute" : "minutes")});
   const hours = Math.round(minutes / 60);
-  if (hours < 24) return `Next review in ${hours} ${hours === 1 ? "hour" : "hours"}`;
+  if (hours < 24) return uiT("ui.next_review_in_value_value_3b6bdb8c", {value1: (hours), value2: (hours === 1 ? "hour" : "hours")});
   const days = Math.round(hours / 24);
-  return `Next review in ${days} ${days === 1 ? "day" : "days"}`;
+  return uiT("ui.next_review_in_value_value_3b6bdb8c", {value1: (days), value2: (days === 1 ? "day" : "days")});
 }
 
 /** Matches the standard mobile review card's interval text. */

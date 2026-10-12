@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -81,6 +82,7 @@ export default function NoteSubjectPreview({
   onClose,
   subjectId,
 }: NoteSubjectPreviewProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const apiToken = useAuthStore((state) => state.apiToken);
   const subjectColors = useSubjectColors();
@@ -156,19 +158,19 @@ export default function NoteSubjectPreview({
       subject.object === "kanji"
         ? [
             {
-              label: "On’yomi",
+              label: uiT("ui.on_yomi_0140b21d"),
               value: getUniqueReadings(
                 orderedReadings.filter((reading) => reading.type === "onyomi"),
               ),
             },
             {
-              label: "Kun’yomi",
+              label: uiT("ui.kun_yomi_29f1e4b7"),
               value: getUniqueReadings(
                 orderedReadings.filter((reading) => reading.type === "kunyomi"),
               ),
             },
             {
-              label: "Nanori",
+              label: uiT("ui.nanori_cf453dce"),
               value: getUniqueReadings(
                 orderedReadings.filter((reading) => reading.type === "nanori"),
               ),
@@ -176,7 +178,7 @@ export default function NoteSubjectPreview({
           ].filter((row) => row.value.length > 0)
         : [
             {
-              label: "Reading",
+              label: uiT("ui.reading_463816d0"),
               value: getUniqueReadings(orderedReadings),
             },
           ].filter((row) => row.value.length > 0);
@@ -193,7 +195,7 @@ export default function NoteSubjectPreview({
       partsOfSpeech: formatPartsOfSpeech(subject.data.parts_of_speech),
       type: formatSubjectType(subject.object),
     };
-  }, [subject]);
+  }, [subject, interfaceLocale()]);
 
   const subjectColor = subject
     ? subjectColors.getColorForType(getSubjectType(subject.object))
@@ -247,13 +249,13 @@ export default function NoteSubjectPreview({
               </Text>
               {subject ? (
                 <Text style={[styles.headerMeta, { color: headerTextColor }]}>
-                  {previewData?.type} · Level {subject.data.level}
+                  {previewData?.type} {uiT("ui.level_c93d7b88")} {subject.data.level}
                 </Text>
               ) : null}
             </View>
 
             <Pressable
-              accessibilityLabel="Close word preview"
+              accessibilityLabel={uiT("ui.close_word_preview_60e901c4")}
               accessibilityRole="button"
               hitSlop={8}
               onPress={onClose}
@@ -276,8 +278,7 @@ export default function NoteSubjectPreview({
                 <Text
                   style={[styles.stateText, { color: theme.textSecondary }]}
                 >
-                  Loading subject…
-                </Text>
+                  {uiT("ui.loading_subject_19bae2ce")} </Text>
               </View>
             ) : error || !previewData ? (
               <View style={styles.state}>
@@ -285,9 +286,7 @@ export default function NoteSubjectPreview({
                   selectable
                   style={[styles.stateText, { color: theme.textSecondary }]}
                 >
-                  This linked subject could not be loaded. It may no longer be
-                  available.
-                </Text>
+                  {uiT("ui.this_linked_subject_could_not_be_loaded_it_may_no_longer_be_avail_6c08616d")} </Text>
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => setLoadAttempt((attempt) => attempt + 1)}
@@ -297,8 +296,7 @@ export default function NoteSubjectPreview({
                   ]}
                 >
                   <Text style={[styles.retryText, { color: theme.primary }]}>
-                    Try again
-                  </Text>
+                    {uiT("ui.try_again_d8b8392e")} </Text>
                 </Pressable>
               </View>
             ) : (
@@ -325,8 +323,7 @@ export default function NoteSubjectPreview({
 
                 <View style={styles.row}>
                   <Text style={[styles.label, { color: theme.textSecondary }]}>
-                    Meaning
-                  </Text>
+                    {uiT("ui.meaning_1f5d64b9")} </Text>
                   <Text
                     selectable
                     style={[styles.value, { color: theme.textColor }]}
@@ -340,8 +337,7 @@ export default function NoteSubjectPreview({
                     <Text
                       style={[styles.label, { color: theme.textSecondary }]}
                     >
-                      Grammar
-                    </Text>
+                      {uiT("ui.grammar_1325f21d")} </Text>
                     <Text
                       selectable
                       style={[styles.value, { color: theme.textColor }]}
@@ -354,8 +350,8 @@ export default function NoteSubjectPreview({
             )}
 
             <Pressable
-              accessibilityHint="Opens the complete subject page"
-              accessibilityLabel="View full details"
+              accessibilityHint={uiT("ui.opens_the_complete_subject_page_fa25f3b7")}
+              accessibilityLabel={uiT("ui.view_full_details_d4d3a809")}
               accessibilityRole="button"
               onPress={handleViewFullDetails}
               style={({ pressed }) => [
@@ -369,8 +365,7 @@ export default function NoteSubjectPreview({
               <Text
                 style={[styles.detailsButtonText, { color: headerTextColor }]}
               >
-                View full details
-              </Text>
+                {uiT("ui.view_full_details_d4d3a809")} </Text>
               <Ionicons
                 name="arrow-forward"
                 size={16}

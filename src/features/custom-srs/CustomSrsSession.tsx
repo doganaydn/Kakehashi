@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { randomUUID } from "expo-crypto";
 import { router } from "expo-router";
@@ -34,6 +35,7 @@ interface PendingSave {
 
 /** Custom progress is committed only through our own cloud service, never WK queues. */
 export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "reviews"; packId?: string }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const colors = useSubjectColors();
   const insets = useSafeAreaInsets();
@@ -119,7 +121,7 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
         : syncingEventsRef.current.size
           ? "Your answers are saved on this device and will continue syncing. Unfinished words will remain available for your next session."
           : "Completed words are already synced. Unfinished words will remain available for your next session.",
-      [{ text: "Keep studying", style: "cancel" }, { text: "Exit", style: "destructive", onPress: goBack }],
+      [{ text: uiT("ui.keep_studying_bfa55558"), style: "cancel" }, { text: uiT("ui.exit_d17d84a6"), style: "destructive", onPress: goBack }],
     );
   }, [mode, goBack, phase]);
 
@@ -299,7 +301,7 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
       updateRemaining(state);
       startBatch(words, lessons.length, batchNumber, state);
     } catch (error) {
-      if (mountedRef.current) setSaveError(`Could not load the latest progress. ${error instanceof Error ? error.message : "Check your connection and try again."}`);
+      if (mountedRef.current) setSaveError(uiT("ui.dynamic_69b5e93a0cd9", {value1: (error instanceof Error ? error.message : uiT("ui.dynamic_481859b689b0"))}));
     } finally {
       savingRef.current = false;
       if (mountedRef.current) setSaving(false);
@@ -403,16 +405,16 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
         <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={[styles.centerContent, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }]}>
           {loadError ? <>
             <Ionicons name="cloud-offline-outline" size={32} color={theme.textSecondary} />
-            <Text selectable style={[styles.title, { color: theme.textColor }]}>Could not sync your progress</Text>
+            <Text selectable style={[styles.title, { color: theme.textColor }]}>{uiT("ui.could_not_sync_your_progress_68672efa")}</Text>
             <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{loadError}</Text>
             <Pressable accessibilityRole="button" onPress={() => { void initializeSession(); }} style={[styles.primaryButton, { backgroundColor: colors.vocabulary }]}>
-              <Text style={styles.primaryButtonText}>Try again</Text>
+              <Text style={styles.primaryButtonText}>{uiT("ui.try_again_d8b8392e")}</Text>
             </Pressable>
           </> : <>
             <ActivityIndicator size="large" color={colors.vocabulary} />
-            <Text style={[styles.description, { color: theme.textSecondary }]}>Loading your {mode}…</Text>
+            <Text style={[styles.description, { color: theme.textSecondary }]}>{uiT("ui.loading_your_4029aa8e")} {mode}…</Text>
           </>}
-          <Pressable accessibilityRole="button" onPress={goBack} style={styles.textButton}><Text style={[styles.textButtonText, { color: theme.textSecondary }]}>Back</Text></Pressable>
+          <Pressable accessibilityRole="button" onPress={goBack} style={styles.textButton}><Text style={[styles.textButtonText, { color: theme.textSecondary }]}>{uiT("ui.back_76900f1b")}</Text></Pressable>
         </ScrollView>
       ) : null}
 
@@ -468,17 +470,17 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
 
       {phase === "results" ? (
         <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={[styles.resultsContent, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 32 }]}>
-          <Pressable accessibilityRole="button" accessibilityLabel="Go back" onPress={goBack} style={styles.closeButton}>
+          <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.go_back_6aadac2f")} onPress={goBack} style={styles.closeButton}>
             <Ionicons name="close" size={26} color={theme.textColor} />
           </Pressable>
           <View style={styles.resultHeading}>
             <Ionicons name={isEmpty ? "checkmark-circle-outline" : "checkmark-circle"} size={42} color={colors.vocabulary} />
-            <Text selectable style={[styles.title, { color: theme.textColor }]}>{isEmpty ? mode === "lessons" ? "No lessons available" : "All caught up" : mode === "lessons" ? lessonTitle : "Reviews complete"}</Text>
-            <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{isEmpty ? mode === "lessons" ? "Explore a pack to add more vocabulary to your lessons." : "Your next reviews will appear here when they’re due." : mode === "lessons" ? `${stats.completed} ${stats.completed === 1 ? "word is" : "words are"} now ready for spaced repetition.` : syncingCount ? "Your answers are saved on this device and syncing across mobile and web." : saveError ? "Some answers still need to sync. Retry saving to confirm your progress." : "Your review progress is synced across mobile and web."}</Text>
+            <Text selectable style={[styles.title, { color: theme.textColor }]}>{isEmpty ? mode === "lessons" ? uiT("ui.no_lessons_available_89b13e13") : uiT("ui.all_caught_up_7773db01") : mode === "lessons" ? lessonTitle : uiT("ui.reviews_complete_9d38683d")}</Text>
+            <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{isEmpty ? mode === "lessons" ? uiT("ui.explore_a_pack_to_add_more_vocabulary_to_your_lessons_05440702") : uiT("ui.your_next_reviews_will_appear_here_when_they_re_due_153bb7a7") : mode === "lessons" ? uiT("ui.value_value_now_ready_for_spaced_repetition_5cea7674", {value1: (stats.completed), value2: (stats.completed === 1 ? uiT("ui.word_is_82809168") : uiT("ui.words_are_3a03fbc8"))}) : syncingCount ? uiT("ui.your_answers_are_saved_on_this_device_and_syncing_across_mobile_a_6cae47ff") : saveError ? uiT("ui.some_answers_still_need_to_sync_retry_saving_to_confirm_your_prog_808640bb") : uiT("ui.your_review_progress_is_synced_across_mobile_and_web_865a9eb9")}</Text>
           </View>
           {!isEmpty ? <>
             <View style={[styles.stats, { borderColor: theme.border }]}>
-              {[{ label: mode === "lessons" ? "Learned" : "Reviewed", value: String(stats.completed) }, { label: "Accuracy", value: `${stats.accuracy}%` }, { label: "Mistakes", value: String(stats.incorrect) }, { label: "Minutes", value: String(elapsedMinutes) }].map((stat) => (
+              {[{ label: mode === "lessons" ? "Learned" : "Reviewed", value: String(stats.completed) }, { label: uiT("ui.accuracy_ac991dd3"), value: `${stats.accuracy}%` }, { label: uiT("ui.mistakes_0079708a"), value: String(stats.incorrect) }, { label: uiT("ui.minutes_4f846a84"), value: String(elapsedMinutes) }].map((stat) => (
                 <View key={stat.label} style={styles.stat}>
                   <Text selectable style={[styles.statValue, { color: theme.textColor }]}>{stat.value}</Text>
                   <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{stat.label}</Text>
@@ -489,21 +491,21 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
               {quiz?.items.filter((item) => item.saved).map((item) => <Pressable key={item.word.id} accessibilityRole="button" accessibilityLabel={`View ${item.word.characters}`} onPress={() => openWord(item.word.id)} style={[styles.word, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
                 <Text style={[styles.wordCharacters, fontStyles.japaneseBold, { color: colors.vocabulary }]}>{item.word.characters}</Text>
                 <Text numberOfLines={2} style={[styles.wordMeaning, { color: theme.textSecondary }]}>{item.word.meanings[0]}</Text>
-                {item.meaningIncorrect + item.readingIncorrect > 0 ? <Text style={[styles.mistakes, { color: theme.textSecondary }]}>{item.meaningIncorrect + item.readingIncorrect} {item.meaningIncorrect + item.readingIncorrect === 1 ? "miss" : "misses"}</Text> : null}
+                {item.meaningIncorrect + item.readingIncorrect > 0 ? <Text style={[styles.mistakes, { color: theme.textSecondary }]}>{item.meaningIncorrect + item.readingIncorrect} {item.meaningIncorrect + item.readingIncorrect === 1 ? uiT("ui.miss_80688fc3") : uiT("ui.misses_b36708c7")}</Text> : null}
               </Pressable>)}
             </View>
           </> : null}
           <View style={styles.actions}>
             {nextBatchError ? <Text selectable accessibilityRole="alert" style={[styles.description, { color: theme.error }]}>{nextBatchError}</Text> : null}
             {mode === "lessons" && remainingLessons > 0 ? <>
-              <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{remainingLessons} {remainingLessons === 1 ? "lesson" : "lessons"} remaining{packId ? " in this pack" : ""}</Text>
+              <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{remainingLessons} {remainingLessons === 1 ? uiT("ui.lesson_b78e5875") : uiT("ui.lessons_314a6b49")} {uiT("ui.remaining_43e3ece7")}{packId ? uiT("ui.in_this_pack_7c1141cc") : ""}</Text>
               <Pressable testID="custom-srs-next-batch" accessibilityRole="button" disabled={loadingNext} onPress={() => { void nextBatch(); }} style={[styles.primaryButton, { backgroundColor: colors.vocabulary, opacity: loadingNext ? 0.6 : 1 }]}>
-                {loadingNext ? <ActivityIndicator color="white" /> : <Text style={styles.primaryButtonText}>Next {Math.min(batchSize, remainingLessons)} {Math.min(batchSize, remainingLessons) === 1 ? "lesson" : "lessons"}</Text>}
+                {loadingNext ? <ActivityIndicator color="white" /> : <Text style={styles.primaryButtonText}>{uiT("ui.next_1ff57a29")} {Math.min(batchSize, remainingLessons)} {Math.min(batchSize, remainingLessons) === 1 ? uiT("ui.lesson_b78e5875") : uiT("ui.lessons_314a6b49")}</Text>}
               </Pressable>
             </> : null}
-            {mode === "lessons" && remainingReviews > 0 ? <Pressable accessibilityRole="button" onPress={() => router.replace({ pathname: "/custom-vocabulary/reviews", params: packId ? { packId } : {} })} style={[styles.secondaryButton, { borderColor: theme.border }]}><Text style={[styles.textButtonText, { color: theme.textColor }]}>Review {remainingReviews} due {remainingReviews === 1 ? "word" : "words"}</Text></Pressable> : null}
+            {mode === "lessons" && remainingReviews > 0 ? <Pressable accessibilityRole="button" onPress={() => router.replace({ pathname: "/custom-vocabulary/reviews", params: packId ? { packId } : {} })} style={[styles.secondaryButton, { borderColor: theme.border }]}><Text style={[styles.textButtonText, { color: theme.textColor }]}>{uiT("ui.review_aff0766a")} {remainingReviews} {uiT("ui.due_458a4770")} {remainingReviews === 1 ? uiT("ui.word_98c1eb4e") : uiT("ui.words_dba36bff")}</Text></Pressable> : null}
             <Pressable accessibilityRole="button" onPress={goBack} style={remainingLessons > 0 && mode === "lessons" ? styles.textButton : [styles.primaryButton, { backgroundColor: colors.vocabulary }]}>
-              <Text style={remainingLessons > 0 && mode === "lessons" ? [styles.textButtonText, { color: theme.textSecondary }] : styles.primaryButtonText}>Back</Text>
+              <Text style={remainingLessons > 0 && mode === "lessons" ? [styles.textButtonText, { color: theme.textSecondary }] : styles.primaryButtonText}>{uiT("ui.back_76900f1b")}</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -512,7 +514,7 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
       {saving ? <View style={styles.savingBlocker} pointerEvents="auto">
         {showSavingIndicator ? <View accessibilityLiveRegion="polite" style={[styles.savingIndicator, { top: insets.top + 72, backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <ActivityIndicator color={colors.vocabulary} />
-          <Text style={{ color: theme.textColor }}>Saving progress…</Text>
+          <Text style={{ color: theme.textColor }}>{uiT("ui.saving_progress_8802555f")}</Text>
         </View> : null}
       </View> : null}
 
@@ -520,12 +522,12 @@ export default function CustomSrsSession({ mode, packId }: { mode: "lessons" | "
         <View style={styles.modalBackdrop}>
           <View accessibilityViewIsModal style={[styles.saveDialog, { backgroundColor: theme.cardBackground }]}>
             <Ionicons name="cloud-offline-outline" size={32} color={theme.error} />
-            <Text selectable style={[styles.dialogTitle, { color: theme.textColor }]}>{saveConflict ? "Progress changed on another device" : "Progress not confirmed saved"}</Text>
-            <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{saveError || "Check your connection, then try again. Your answer is kept here."}</Text>
+            <Text selectable style={[styles.dialogTitle, { color: theme.textColor }]}>{saveConflict ? uiT("ui.progress_changed_on_another_device_1135d1cd") : uiT("ui.progress_not_confirmed_saved_9be3bbfb")}</Text>
+            <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{saveError || uiT("ui.check_your_connection_then_try_again_your_answer_is_kept_here_5878614b")}</Text>
             {!saving && pendingSave ? <>
-              {saveConflict ? <Pressable testID="custom-srs-reload-progress" accessibilityRole="button" onPress={() => { void reloadAfterConflict(); }} style={[styles.primaryButton, { backgroundColor: colors.vocabulary }]}><Text style={styles.primaryButtonText}>Reload remaining {mode}</Text></Pressable>
-                : <Pressable testID="custom-srs-retry-save" accessibilityRole="button" onPress={() => { void saveCompletedWord(pendingSave); }} style={[styles.primaryButton, { backgroundColor: colors.vocabulary }]}><Text style={styles.primaryButtonText}>Retry save</Text></Pressable>}
-              <Pressable accessibilityRole="button" onPress={exitSession} style={styles.textButton}><Text style={[styles.textButtonText, { color: theme.textSecondary }]}>Exit session</Text></Pressable>
+              {saveConflict ? <Pressable testID="custom-srs-reload-progress" accessibilityRole="button" onPress={() => { void reloadAfterConflict(); }} style={[styles.primaryButton, { backgroundColor: colors.vocabulary }]}><Text style={styles.primaryButtonText}>{uiT("ui.reload_remaining_9e30c49c")} {mode}</Text></Pressable>
+                : <Pressable testID="custom-srs-retry-save" accessibilityRole="button" onPress={() => { void saveCompletedWord(pendingSave); }} style={[styles.primaryButton, { backgroundColor: colors.vocabulary }]}><Text style={styles.primaryButtonText}>{uiT("ui.retry_save_71fdfa79")}</Text></Pressable>}
+              <Pressable accessibilityRole="button" onPress={exitSession} style={styles.textButton}><Text style={[styles.textButtonText, { color: theme.textSecondary }]}>{uiT("ui.exit_session_b72a401e")}</Text></Pressable>
             </> : null}
           </View>
         </View>

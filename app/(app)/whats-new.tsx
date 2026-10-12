@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { router } from "expo-router";
@@ -38,17 +39,17 @@ const formatRelativeTime = (dateString: string): string => {
 
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Yesterday";
-  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 7) return uiT("ui.dynamic_b6e2c57a9aa0", {value1: (diffDays)});
   if (diffDays < 14) return "1 week ago";
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  if (diffDays < 30) return uiT("ui.dynamic_a924a52684be", {value1: (Math.floor(diffDays / 7))});
   if (diffDays < 60) return "1 month ago";
-  return `${Math.floor(diffDays / 30)} months ago`;
+  return uiT("ui.dynamic_37491adeb886", {value1: (Math.floor(diffDays / 30))});
 };
 
 // Format date for display (e.g., "Jan 28, 2025")
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
+  return date.toLocaleDateString(interfaceLocale(), {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -78,6 +79,7 @@ const getOTAVersionLabel = (): string => {
 
 // Change type badge component
 const ChangeTypeBadge = ({ type }: { type: PatchNoteChange["type"] }) => {
+  useInterfaceLanguage();
   const config = CHANGE_TYPE_CONFIG[type];
 
   return (
@@ -100,6 +102,7 @@ const ChangeItem = ({
   theme: any;
   isLast?: boolean;
 }) => {
+  useInterfaceLanguage();
   const handleLinkPress = () => {
     if (change.link) {
       const route = change.link.route as any;
@@ -165,6 +168,7 @@ const UpdateSection = ({
   onToggle: () => void;
   onLayout?: (y: number) => void;
 }) => {
+  useInterfaceLanguage();
   return (
     <View
       onLayout={(event) => onLayout?.(event.nativeEvent.layout.y)}
@@ -187,7 +191,7 @@ const UpdateSection = ({
           </Text>
           {isLatest && (
             <View style={[styles.latestBadge, { backgroundColor: theme.primary }]}>
-              <Text style={styles.latestBadgeText}>Latest</Text>
+              <Text style={styles.latestBadgeText}>{uiT("ui.latest_8730d3c2")}</Text>
             </View>
           )}
           <View style={styles.updateHeaderSpacer} />
@@ -221,6 +225,7 @@ const UpdateSection = ({
 };
 
 export default function WhatsNewScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { setLastSeenPatchNotesVersion } = useSettingsStore();
   const appVersionLabel = getAppVersionLabel();
@@ -310,7 +315,7 @@ export default function WhatsNewScreen() {
               ]}
             >
               <Text style={[styles.versionBadgeText, { color: theme.textColor }]}>
-                App v{appVersionLabel}
+                {uiT("ui.app_v_02f5dbdb")}{appVersionLabel}
               </Text>
             </View>
             <View
@@ -325,7 +330,7 @@ export default function WhatsNewScreen() {
               <Text
                 style={[styles.versionBadgeText, { color: theme.textSecondary }]}
               >
-                OTA {otaVersionLabel}
+                {uiT("ui.ota_3626a3c3")} {otaVersionLabel}
               </Text>
             </View>
           </View>
@@ -339,11 +344,9 @@ export default function WhatsNewScreen() {
             <Ionicons name="sparkles" size={32} color={theme.primary} />
           </View>
           <Text style={[styles.heroTitle, { color: theme.textColor }]}>
-            App Updates
-          </Text>
+            {uiT("ui.app_updates_e880bb91")} </Text>
           <Text style={[styles.heroSubtitle, { color: theme.textSecondary }]}>
-            See what&apos;s new in Kakehashi
-          </Text>
+            {uiT("ui.see_what_s_new_in_kakehashi_3bc923a0")} </Text>
         </View>
 
         {/* Patch notes list */}
@@ -364,8 +367,7 @@ export default function WhatsNewScreen() {
         {/* Footer */}
         <View style={styles.footer}>
           <Text style={[styles.footerText, { color: theme.textSecondary }]}>
-            Updates are delivered automatically via over-the-air updates.
-          </Text>
+            {uiT("ui.updates_are_delivered_automatically_via_over_the_air_updates_05c6b7cb")} </Text>
         </View>
       </ScrollView>
     </View>

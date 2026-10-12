@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import * as SecureStore from "expo-secure-store";
 import { bunproAnalyticsResources, type BunproAnalyticsData, type BunproAnalyticsResource } from "./bunproAnalytics";
 import {
@@ -121,7 +122,7 @@ async function parseBunproErrorPayload(
     };
   } catch {
     return {
-      message: `Bunpro request failed (${response.status}).`,
+      message: uiT("ui.bunpro_request_failed_value_8850da9c", {value1: (response.status)}),
       code: null,
     };
   }

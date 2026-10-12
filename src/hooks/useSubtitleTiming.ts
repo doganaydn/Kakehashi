@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useRef, useState } from "react";
 import { normalizeSubtitleOffset } from "../../shared/subtitleTiming";
@@ -15,7 +16,7 @@ export function useSubtitleTiming(videoKey: string | null) {
     }).catch(() => {
       if (active) {
         setSaved({ key, offset: 0, ready: true });
-        setError("Saved subtitle timing could not be loaded.");
+        setError(uiT("ui.message_7a7aabadff18"));
       }
     });
     return () => { active = false; };
@@ -28,7 +29,7 @@ export function useSubtitleTiming(videoKey: string | null) {
     setSaved({ key, offset, ready: true });
     setError(null);
     if (key) writes.current = writes.current.then(() => AsyncStorage.setItem(key, String(offset))).catch(() => {
-      setError("Timing changed, but could not be saved on this device.");
+      setError(uiT("ui.message_b4332ef27ab9"));
     });
   }
   return { offsetMs, setOffsetMs, ready, error };

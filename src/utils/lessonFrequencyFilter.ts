@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 export type LessonFrequencyFilter =
   | "all"
   | "top-1000"
@@ -10,11 +11,11 @@ export const LESSON_FREQUENCY_FILTER_OPTIONS: readonly {
   id: LessonFrequencyFilter;
   label: string;
 }[] = [
-  { id: "all", label: "Any" },
-  { id: "top-1000", label: "Top 1,000" },
-  { id: "top-2500", label: "Top 2,500" },
-  { id: "top-5000", label: "Top 5,000" },
-  { id: "top-10000", label: "Top 10,000" },
+  { id: "all", get label() { return uiT("ui.any_2b505597"); } },
+  { id: "top-1000", get label() { return uiT("ui.top_1_000_dc21fe69"); } },
+  { id: "top-2500", get label() { return uiT("ui.top_2_500_4995c7a2"); } },
+  { id: "top-5000", get label() { return uiT("ui.top_5_000_af7703b1"); } },
+  { id: "top-10000", get label() { return uiT("ui.top_10_000_af619351"); } },
   { id: "over-10000", label: "10,001+" },
 ];
 

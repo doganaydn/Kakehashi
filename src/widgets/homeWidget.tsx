@@ -1,3 +1,5 @@
+import { useInterfaceLanguageStore } from "../features/interface-language/runtime";
+import { uiT, interfaceLocale } from "../features/interface-language/runtime";
 import kakehashiHomeWidget from "./homeWidgetController";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Asset } from "expo-asset";
@@ -477,18 +479,18 @@ async function ensureSharedReviewAccessoryIconUri(): Promise<string> {
   return pendingReviewAccessoryIconUriPromise;
 }
 
-const UPDATED_AT_TIME_FORMATTER = new Intl.DateTimeFormat(undefined, {
+const UPDATED_AT_TIME_FORMATTER = () => new Intl.DateTimeFormat(interfaceLocale(), {
   hour: "numeric",
   minute: "2-digit",
 });
-const WIDGET_DEBUG_DATE_TIME_FORMATTER = new Intl.DateTimeFormat(undefined, {
+const WIDGET_DEBUG_DATE_TIME_FORMATTER = () => new Intl.DateTimeFormat(interfaceLocale(), {
   month: "short",
   day: "numeric",
   hour: "numeric",
   minute: "2-digit",
 });
 const STREAK_DAY_KEY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-const STREAK_DAY_LABEL_FORMATTER = new Intl.DateTimeFormat("en-US", {
+const STREAK_DAY_LABEL_FORMATTER = () => new Intl.DateTimeFormat(interfaceLocale(), {
   weekday: "narrow",
   timeZone: "UTC",
 });
@@ -514,18 +516,18 @@ function toLocalDayKey(date: Date): string {
 
 function getDayKeyFormatter(timezone: string): Intl.DateTimeFormat {
   const normalizedTimezone = timezone.trim();
-  const cachedFormatter = DAY_KEY_FORMATTER_CACHE.get(normalizedTimezone);
+  const cachedFormatter = DAY_KEY_FORMATTER_CACHE.get(`${interfaceLocale()}:${normalizedTimezone}`);
   if (cachedFormatter) {
     return cachedFormatter;
   }
 
-  const formatter = new Intl.DateTimeFormat("en-US", {
+  const formatter = new Intl.DateTimeFormat(interfaceLocale(), {
     timeZone: normalizedTimezone,
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   });
-  DAY_KEY_FORMATTER_CACHE.set(normalizedTimezone, formatter);
+  DAY_KEY_FORMATTER_CACHE.set(`${interfaceLocale()}:${normalizedTimezone}`, formatter);
   return formatter;
 }
 
@@ -619,7 +621,7 @@ function buildProjectedStreakRecentDays(
       label:
         sourceDay?.label && sourceDay.label.trim().length > 0
           ? sourceDay.label
-          : STREAK_DAY_LABEL_FORMATTER.format(dayKeyToUtcDate(dayKey)),
+          : STREAK_DAY_LABEL_FORMATTER().format(dayKeyToUtcDate(dayKey)),
       active: Boolean(sourceDay?.active),
       isToday: offset === 0,
     });
@@ -633,12 +635,12 @@ function formatUpcomingReviewBucketLabel(
   nextReviewCount: number | null,
 ): string {
   if (!nextReviewDate) {
-    return "No upcoming reviews";
+    return uiT("ui.no_upcoming_reviews_c98a2e29");
   }
 
   const nextReviewMs = Date.parse(nextReviewDate);
   if (Number.isNaN(nextReviewMs)) {
-    return "No upcoming reviews";
+    return uiT("ui.no_upcoming_reviews_c98a2e29");
   }
 
   const date = new Date(nextReviewMs);
@@ -647,7 +649,7 @@ function formatUpcomingReviewBucketLabel(
     nextReviewCount !== null && nextReviewCount > 0
       ? nextReviewCount
       : 1;
-  return `+${bucketCount} at ${hourLabel}`;
+  return uiT("ui.value_at_value_5f952d31", {value1: (bucketCount), value2: (hourLabel)});
 }
 
 type NormalizedReviewUpcomingBucket = {
@@ -825,7 +827,7 @@ function buildCriticalSecondaryLabel(input: HomeWidgetSnapshotInput): string {
     criticalItem.characters?.trim() ||
     criticalItem.meaning?.trim() ||
     "Lowest accuracy item";
-  return `${identifier} · ${Math.round(criticalItem.percentage)}% correct`;
+  return uiT("ui.value_value_correct_c894a07b", {value1: (identifier), value2: (Math.round(criticalItem.percentage))});
 }
 
 function resolveReviewIllustrationKey(
@@ -939,7 +941,7 @@ function buildWidgetProps(
 
   return {
     contentMode: input.contentMode,
-    updatedAtLabel: UPDATED_AT_TIME_FORMATTER.format(options.referenceDate),
+    updatedAtLabel: UPDATED_AT_TIME_FORMATTER().format(options.referenceDate),
     reviewsCountValue: reviewCount,
     reviewsPrimaryLabel: `${reviewCount} available`,
     reviewsSecondaryLabel: formatUpcomingReviewBucketLabel(
@@ -1270,7 +1272,7 @@ function mapTimelineEntriesToDebugEntries(
       return {
         timestamp,
         isoDate: entry.date.toISOString(),
-        localDateLabel: WIDGET_DEBUG_DATE_TIME_FORMATTER.format(entry.date),
+        localDateLabel: WIDGET_DEBUG_DATE_TIME_FORMATTER().format(entry.date),
         isFuture: timestamp > nowTimestamp,
         mode: entry.props.contentMode,
         reviewsCountValue: toNonNegativeInteger(entry.props.reviewsCountValue),
@@ -1444,3 +1446,12 @@ export async function syncHomeWidgetFromBackgroundReviewData(
   await updateHomeWidgetSnapshot(updatedInput, { recordAppActivity: false });
   reloadHomeWidget();
 }
+
+// Rebuild only cached widget presentation when the UI language changes.
+useInterfaceLanguageStore.subscribe((state, previous) => {
+  if (state.language !== previous.language) {
+    void getLastWidgetSnapshotInput().then(input => {
+      if (input) return updateHomeWidgetSnapshot(input, { recordAppActivity: false });
+    }).catch(() => undefined);
+  }
+});

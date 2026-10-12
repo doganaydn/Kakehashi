@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
@@ -29,45 +30,46 @@ import { clearNativeJlptSession, loadNativeJlptSession } from "./storage";
 
 const LEVEL_COPY: Record<JlptLevel, { label: string; summary: string }> = {
   N5: {
-    label: "Foundation",
+    get label() { return uiT("ui.foundation_df42a4d5"); },
     summary:
       "Basic words, sentence patterns, notices, and short everyday exchanges.",
   },
   N4: {
-    label: "Elementary",
+    get label() { return uiT("ui.elementary_362c3c09"); },
     summary:
       "Familiar daily situations, broader vocabulary, and connected reading.",
   },
   N3: {
-    label: "Bridge",
+    get label() { return uiT("ui.bridge_3892e103"); },
     summary:
       "Natural everyday Japanese, longer texts, and more nuanced grammar.",
   },
   N2: {
-    label: "Upper intermediate",
+    get label() { return uiT("ui.upper_intermediate_6851499e"); },
     summary:
       "Articles, argument structure, and varied natural-speed listening.",
   },
   N1: {
-    label: "Advanced",
+    get label() { return uiT("ui.advanced_9f088dbe"); },
     summary: "Abstract reasoning, precise usage, and dense spoken information.",
   },
 };
 
 function sessionLabel(session: JlptSession) {
-  if (session.mode === "mock") return "mock exam";
-  if (session.mode === "weak") return "weak-area practice";
-  return "quick quiz";
+  if (session.mode === "mock") return uiT("ui.mock_exam_5809519f");
+  if (session.mode === "weak") return uiT("ui.weak_area_practice_eaa7dbfd");
+  return uiT("ui.quick_quiz_51f61b1f");
 }
 
 function statusLabel(session: JlptSession) {
-  if (session.status === "complete") return "Results ready";
-  if (session.status === "section-complete") return "Section complete";
-  if (session.status === "paused") return "Paused";
-  return "In progress";
+  if (session.status === "complete") return uiT("ui.results_ready_8602e1b7");
+  if (session.status === "section-complete") return uiT("ui.section_complete_77941541");
+  if (session.status === "paused") return uiT("ui.paused_e159b061");
+  return uiT("ui.in_progress_c1f88e9d");
 }
 
 export function JlptHubScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { width } = useWindowDimensions();
   const userData = useAuthStore((state) => state.userData);
@@ -118,12 +120,12 @@ export function JlptHubScreen() {
   const start = (mode: Exclude<JlptQuizMode, "weak">) => {
     if (savedSession && savedSession.status !== "complete") {
       Alert.alert(
-        "Replace saved JLPT session?",
-        "Starting a new session will replace the attempt currently saved on this device.",
+        uiT("ui.replace_saved_jlpt_session_ba888129"),
+        uiT("ui.starting_a_new_session_will_replace_the_attempt_currently_saved_o_4026c2a6"),
         [
-          { text: "Cancel", style: "cancel" },
+          { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
           {
-            text: "Start New",
+            text: uiT("ui.start_new_2fd15a17"),
             style: "destructive",
             onPress: () => openSession({ mode }),
           },
@@ -136,12 +138,12 @@ export function JlptHubScreen() {
 
   const discard = () => {
     Alert.alert(
-      "Discard saved JLPT session?",
-      "The answers in this attempt will be removed.",
+      uiT("ui.discard_saved_jlpt_session_405d48eb"),
+      uiT("ui.the_answers_in_this_attempt_will_be_removed_518f55ba"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => {
             void clearNativeJlptSession(scope).then(() =>
@@ -167,7 +169,7 @@ export function JlptHubScreen() {
       >
         <View style={styles.navigationRow}>
           <Pressable
-            accessibilityLabel="Back"
+            accessibilityLabel={uiT("ui.back_76900f1b")}
             accessibilityRole="button"
             hitSlop={10}
             onPress={() => router.back()}
@@ -193,27 +195,22 @@ export function JlptHubScreen() {
               color={theme.primary}
             />
             <Text style={[styles.researchText, { color: theme.textSecondary }]}>
-              Format researched
-            </Text>
+              {uiT("ui.format_researched_f3867601")} </Text>
           </View>
         </View>
 
         <View style={styles.hero}>
           <Text style={[styles.eyebrow, { color: theme.primary }]}>
-            JAPANESE PROFICIENCY
-          </Text>
+            {uiT("ui.japanese_proficiency_b49e8079")} </Text>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            JLPT Quiz
-          </Text>
+            {uiT("ui.jlpt_quiz_5280ece2")} </Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Original questions shaped around each level’s published item types,
-            sections, and timing.
-          </Text>
+            {uiT("ui.original_questions_shaped_around_each_level_s_published_item_type_7738364d")} </Text>
         </View>
 
         {savedSession ? (
           <View
-            accessibilityLabel="Saved JLPT session"
+            accessibilityLabel={uiT("ui.saved_jlpt_session_de5ea5d8")}
             style={[
               styles.resumeCard,
               {
@@ -235,9 +232,8 @@ export function JlptHubScreen() {
                 {savedSession.level} {sessionLabel(savedSession)}
               </Text>
               <Text style={[styles.resumeMeta, { color: theme.textSecondary }]}>
-                {statusLabel(savedSession)} · {savedSession.answers.length} of{" "}
-                {savedSession.sectionQuestionIds.flat().length} answered
-              </Text>
+                {statusLabel(savedSession)} · {savedSession.answers.length} {uiT("ui.of_28391d3b")}{" "}
+                {savedSession.sectionQuestionIds.flat().length} {uiT("ui.answered_68c780cd")} </Text>
             </View>
             <View style={styles.resumeActions}>
               <Pressable
@@ -252,7 +248,7 @@ export function JlptHubScreen() {
                 ]}
               >
                 <Text style={styles.smallPrimaryText}>
-                  {savedSession.status === "complete" ? "Results" : "Resume"}
+                  {savedSession.status === "complete" ? uiT("ui.results_219c4a6c") : uiT("ui.resume_d640c742")}
                 </Text>
               </Pressable>
               <Pressable
@@ -263,8 +259,7 @@ export function JlptHubScreen() {
                 <Text
                   style={[styles.discardText, { color: theme.textSecondary }]}
                 >
-                  Discard
-                </Text>
+                  {uiT("ui.discard_eb1a70e3")} </Text>
               </Pressable>
             </View>
           </View>
@@ -273,8 +268,7 @@ export function JlptHubScreen() {
         <View style={styles.sectionHeading}>
           <Text style={[styles.step, { color: theme.primary }]}>01</Text>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Choose a level
-          </Text>
+            {uiT("ui.choose_a_level_441530f4")} </Text>
         </View>
         <View style={[styles.levelPicker, { borderColor: theme.border }]}>
           {JLPT_LEVELS.map((level, index) => {
@@ -337,8 +331,7 @@ export function JlptHubScreen() {
         <View style={[styles.sectionHeading, styles.sessionHeading]}>
           <Text style={[styles.step, { color: theme.primary }]}>02</Text>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Choose a session
-          </Text>
+            {uiT("ui.choose_a_session_b40f3be5")} </Text>
         </View>
 
         <View
@@ -353,31 +346,25 @@ export function JlptHubScreen() {
           <View style={styles.modeTopline}>
             <Ionicons name="sparkles-outline" size={18} color={theme.primary} />
             <Text style={[styles.modeKicker, { color: theme.primary }]}>
-              5–10 MINUTES
-            </Text>
+              {uiT("ui.5_10_minutes_72e342f3")} </Text>
           </View>
           <Text style={[styles.modeTitle, { color: theme.textColor }]}>
-            Quick Quiz
-          </Text>
+            {uiT("ui.quick_quiz_ef77f1d2")} </Text>
           <Text
             style={[styles.modeDescription, { color: theme.textSecondary }]}
           >
-            Ten randomized, unseen-first questions across kanji, vocabulary,
-            grammar, reading, and listening.
-          </Text>
+            {uiT("ui.ten_randomized_unseen_first_questions_across_kanji_vocabulary_gra_f9204f24")} </Text>
           <View style={[styles.settingRow, { borderColor: theme.border }]}>
             <View style={styles.settingCopy}>
               <Text style={[styles.settingTitle, { color: theme.textColor }]}>
-                Immediate feedback
-              </Text>
+                {uiT("ui.immediate_feedback_1bc72b4f")} </Text>
               <Text
                 style={[styles.settingSubtitle, { color: theme.textSecondary }]}
               >
-                Show the answer and explanation after each response.
-              </Text>
+                {uiT("ui.show_the_answer_and_explanation_after_each_response_957cad83")} </Text>
             </View>
             <Switch
-              accessibilityLabel="Immediate feedback"
+              accessibilityLabel={uiT("ui.immediate_feedback_1bc72b4f")}
               value={immediateFeedback}
               onValueChange={setImmediateFeedback}
               trackColor={{
@@ -396,7 +383,7 @@ export function JlptHubScreen() {
               { backgroundColor: theme.primary, opacity: pressed ? 0.76 : 1 },
             ]}
           >
-            <Text style={styles.primaryButtonText}>Start quick quiz</Text>
+            <Text style={styles.primaryButtonText}>{uiT("ui.start_quick_quiz_50789c8c")}</Text>
             <Ionicons name="arrow-forward" size={18} color="#fff" />
           </Pressable>
         </View>
@@ -414,19 +401,14 @@ export function JlptHubScreen() {
           <View style={styles.modeTopline}>
             <Ionicons name="timer-outline" size={18} color={theme.secondary} />
             <Text style={[styles.modeKicker, { color: theme.secondary }]}>
-              TIMED · {totalMinutes} MINUTES
-            </Text>
+              {uiT("ui.timed_dc7d4d9f")} {totalMinutes} {uiT("ui.minutes_9073b10d")} </Text>
           </View>
           <Text style={[styles.modeTitle, { color: theme.textColor }]}>
-            Representative Mock Exam
-          </Text>
+            {uiT("ui.representative_mock_exam_f750843c")} </Text>
           <Text
             style={[styles.modeDescription, { color: theme.textSecondary }]}
           >
-            About {approximateMockQuestionCount(selectedLevel)} questions in the
-            published {selectedLevel} section order. Answers remain locked until
-            the end.
-          </Text>
+            {uiT("ui.about_4efca0d1")} {approximateMockQuestionCount(selectedLevel)} {uiT("ui.questions_in_the_published_381c35b7")} {selectedLevel} {uiT("ui.section_order_answers_remain_locked_until_the_end_11333495")} </Text>
           <View style={styles.timeline}>
             {structure.sections.map((section, index) => (
               <View key={section.id} style={styles.timelineRow}>
@@ -454,8 +436,7 @@ export function JlptHubScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {section.durationMinutes} minutes
-                  </Text>
+                    {section.durationMinutes} {uiT("ui.minutes_90e63d85")} </Text>
                 </View>
               </View>
             ))}
@@ -467,9 +448,7 @@ export function JlptHubScreen() {
               color={theme.textSecondary}
             />
             <Text style={[styles.mockNoteText, { color: theme.textSecondary }]}>
-              Listening plays once in mock mode. Pause/resume is a Kakehashi
-              accommodation.
-            </Text>
+              {uiT("ui.listening_plays_once_in_mock_mode_pause_resume_is_a_kakehashi_acc_fda638a2")} </Text>
           </View>
           <Pressable
             accessibilityRole="button"
@@ -480,7 +459,7 @@ export function JlptHubScreen() {
               { backgroundColor: theme.secondary, opacity: pressed ? 0.76 : 1 },
             ]}
           >
-            <Text style={styles.primaryButtonText}>Start timed mock</Text>
+            <Text style={styles.primaryButtonText}>{uiT("ui.start_timed_mock_58eeb885")}</Text>
             <Ionicons name="arrow-forward" size={18} color="#fff" />
           </Pressable>
         </View>
@@ -492,9 +471,7 @@ export function JlptHubScreen() {
             color={theme.textSecondary}
           />
           <Text style={[styles.bankNoteText, { color: theme.textSecondary }]}>
-            Each available item type has 200 controlled renderings. New semantic
-            items are prioritized before variants repeat for this account.
-          </Text>
+            {uiT("ui.each_available_item_type_has_200_controlled_renderings_new_semant_dddc8c2d")} </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

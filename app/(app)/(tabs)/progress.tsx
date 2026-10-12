@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { router } from "expo-router";
@@ -56,6 +57,7 @@ type TabSegment = 'level' | 'items' | 'analytics';
 type ProgressCategory = 'jlpt' | 'joyo' | 'frequency';
 
 export default function ProgressTab() {
+  useInterfaceLanguage();
   const { userData } = useAuthStore();
   const { customTabOrder } = useSettingsStore();
   const homeSrsBreakdownDisplayMode = useSettingsStore(
@@ -79,13 +81,13 @@ export default function ProgressTab() {
   // Build available segments based on what's NOT a separate tab
   const availableSegments: { key: TabSegment; label: string }[] = useMemo(() => {
     const segments: { key: TabSegment; label: string }[] = [
-      { key: 'level', label: 'Level' },
-      ...(!itemsHasOwnTab ? [{ key: 'items' as TabSegment, label: 'Items' }] : []),
-      ...(!analyticsHasOwnTab ? [{ key: 'analytics' as TabSegment, label: 'Analytics' }] : []),
+      { key: 'level', label: uiT("ui.level_1709305c") },
+      ...(!itemsHasOwnTab ? [{ key: 'items' as TabSegment, label: uiT("ui.items_fb8e7a1a") }] : []),
+      ...(!analyticsHasOwnTab ? [{ key: 'analytics' as TabSegment, label: uiT("ui.analytics_94c116ee") }] : []),
     ];
 
     return segments;
-  }, [analyticsHasOwnTab, itemsHasOwnTab]);
+  }, [analyticsHasOwnTab, itemsHasOwnTab, interfaceLocale()]);
 
   const [activeSegment, setActiveSegment] = useState<TabSegment>('level');
   const [analyticsSource, setAnalyticsSource] = useState<AnalyticsSource>("wanikani");
@@ -374,7 +376,7 @@ export default function ProgressTab() {
     return (
       <View style={[styles.loadingContainer, { backgroundColor: theme.backgroundColor }]}>
         <ActivityIndicator size="large" color={theme.secondary} />
-        <Text style={[styles.loadingText, { color: theme.textColor }]}>Loading data...</Text>
+        <Text style={[styles.loadingText, { color: theme.textColor }]}>{uiT("ui.loading_data_85c22ff1")}</Text>
       </View>
     );
   }
@@ -715,12 +717,11 @@ export default function ProgressTab() {
                   ]}
                 >
                   <Text style={[styles.learnedItemsTitle, { color: theme.textColor }]}>
-                    Learned Items
-                  </Text>
+                    {uiT("ui.learned_items_dc5dd492")} </Text>
 
                   <View style={styles.learnedItemsStatsRow}>
                     <ProgressRing
-                      label="Radicals"
+                      label={uiT("ui.radicals_80608601")}
                       learned={learnedItemsProgress.radicals.learned}
                       percent={learnedItemsProgress.radicals.percent}
                       color={subjectColors.radical}
@@ -729,7 +730,7 @@ export default function ProgressTab() {
                       trackColor={withAlpha(subjectColors.radical, theme.isDark ? 0.32 : 0.2)}
                     />
                     <ProgressRing
-                      label="Kanji"
+                      label={uiT("ui.kanji_45f62a35")}
                       learned={learnedItemsProgress.kanji.learned}
                       percent={learnedItemsProgress.kanji.percent}
                       color={subjectColors.kanji}
@@ -738,7 +739,7 @@ export default function ProgressTab() {
                       trackColor={withAlpha(subjectColors.kanji, theme.isDark ? 0.32 : 0.2)}
                     />
                     <ProgressRing
-                      label="Vocabulary"
+                      label={uiT("ui.vocabulary_eebd90a0")}
                       learned={learnedItemsProgress.vocabulary.learned}
                       percent={learnedItemsProgress.vocabulary.percent}
                       color={subjectColors.vocabulary}
@@ -772,8 +773,7 @@ export default function ProgressTab() {
                     <Ionicons name="grid-outline" size={28} color="#ffffff" />
                   </View>
                   <Text style={[styles.kanjiGridActionText, { color: theme.textColor }]}>
-                    Open Kanji Grid Heatmap
-                  </Text>
+                    {uiT("ui.open_kanji_grid_heatmap_c98963b0")} </Text>
                   <Ionicons name="chevron-forward" size={20} color={theme.textSecondary} />
                 </TouchableOpacity>
               </View>
@@ -798,6 +798,7 @@ interface AnimatedProgressBarProps {
 }
 
 function AnimatedProgressBar({ label, learned, total, percent, theme, isLast = false, category, level, learnedThreshold }: AnimatedProgressBarProps) {
+  useInterfaceLanguage();
   const progressWidth = useSharedValue(0);
 
   useEffect(() => {
@@ -846,7 +847,7 @@ function AnimatedProgressBar({ label, learned, total, percent, theme, isLast = f
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
               <Ionicons name="list" size={14} color={theme.textSecondary} />
-              <Text style={[styles.viewDetailsText, { color: theme.textSecondary }]}>View</Text>
+              <Text style={[styles.viewDetailsText, { color: theme.textSecondary }]}>{uiT("ui.view_dcc839a4")}</Text>
             </TouchableOpacity>
             <Ionicons name="chevron-forward" size={16} color={theme.textSecondary} />
           </View>
@@ -893,6 +894,7 @@ function ProgressRing({
   secondaryTextColor,
   trackColor,
 }: ProgressRingProps) {
+  useInterfaceLanguage();
   const size = 84;
   const strokeWidth = 8;
   const radius = (size - strokeWidth) / 2;
@@ -927,7 +929,7 @@ function ProgressRing({
         </Svg>
         <View style={styles.learnedRingCenter}>
           <Text style={[styles.learnedRingCenterValue, { color: textColor }]}>
-            {learned.toLocaleString("en-US")}
+            {learned.toLocaleString(interfaceLocale())}
           </Text>
         </View>
       </View>

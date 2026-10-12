@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
@@ -115,6 +116,7 @@ const KanjiBlock = ({
   onPress: () => void;
   sizing: SubjectIconSizing;
 }) => {
+  useInterfaceLanguage();
   // Gray if never started (srsStage === 0)
   // Full color if started (srsStage > 0)
   // Types have their own colors: radicals are blue, kanji are pink
@@ -280,6 +282,7 @@ export default function LevelProgress({
   items,
   onItemPress,
 }: LevelProgressProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const { width: screenWidth } = useWindowDimensions();
@@ -367,8 +370,7 @@ export default function LevelProgress({
       >
         <View style={styles.headerRow}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            Level {level} Progress
-          </Text>
+            {uiT("ui.level_1709305c")} {level} {uiT("ui.progress_4664827f")} </Text>
           <View style={styles.progressInfo}>
             <Ionicons
               name="time-outline"
@@ -378,8 +380,7 @@ export default function LevelProgress({
             <Text
               style={[styles.progressPercent, { color: theme.textSecondary }]}
             >
-              Loading...
-            </Text>
+              {uiT("ui.loading_47d2a515")} </Text>
           </View>
         </View>
 
@@ -393,8 +394,7 @@ export default function LevelProgress({
         </View>
 
         <Text style={[styles.progressDetail, { color: theme.textSecondary }]}>
-          Loading level data...
-        </Text>
+          {uiT("ui.loading_level_data_b8ab58b2")} </Text>
       </View>
     );
   }
@@ -412,8 +412,7 @@ export default function LevelProgress({
     >
       <View style={styles.headerRow}>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          Level {level} Progress
-        </Text>
+          {uiT("ui.level_1709305c")} {level} {uiT("ui.progress_4664827f")} </Text>
         <View style={styles.progressInfo}>
           <Ionicons name="checkmark-circle" size={18} color="#43aa8b" />
           <Text style={styles.progressPercent}>{progressPercent}%</Text>
@@ -430,18 +429,15 @@ export default function LevelProgress({
       </View>
 
       <Text style={[styles.progressDetail, { color: theme.textSecondary }]}>
-        {srsStagesCompleted} of {srsStagesTotal} SRS stages completed
-      </Text>
+        {srsStagesCompleted} {uiT("ui.of_28391d3b")} {srsStagesTotal} {uiT("ui.srs_stages_completed_ef60a26c")} </Text>
 
       {guruKanjiRequiredForLevelUp > 0 && (
         <View style={styles.kanjiLevelUpContainer}>
           <Text style={[styles.kanjiLevelUpText, { color: theme.textSecondary }]}>
             Guru{" "}
             <Text style={[styles.kanjiLevelUpHighlight, { color: theme.textColor }]}>
-              {kanjiRemainingToGuru} more kanji
-            </Text>{" "}
-            to level up.
-          </Text>
+              {kanjiRemainingToGuru} {uiT("ui.more_kanji_d6779ac6")} </Text>{" "}
+            {uiT("ui.to_level_up_4a5c620f")} </Text>
 
           <View style={styles.kanjiRequirementBar}>
             {Array.from({ length: guruKanjiRequiredForLevelUp }).map(
@@ -514,7 +510,7 @@ export default function LevelProgress({
                     },
                   ]}
                 >
-                  <Text style={styles.estimateBadgeText}>Estimated</Text>
+                  <Text style={styles.estimateBadgeText}>{uiT("ui.estimated_b774599a")}</Text>
                 </View>
               )}
             </View>
@@ -531,8 +527,7 @@ export default function LevelProgress({
           style={[styles.sectionHeader, { borderBottomColor: theme.border }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Radicals
-          </Text>
+            {uiT("ui.radicals_80608601")} </Text>
         </View>
 
         <View onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>
@@ -563,8 +558,7 @@ export default function LevelProgress({
           style={[styles.sectionHeader, { borderBottomColor: theme.border }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Kanji
-          </Text>
+            {uiT("ui.kanji_45f62a35")} </Text>
         </View>
 
         <View onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>

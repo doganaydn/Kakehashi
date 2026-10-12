@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -15,6 +16,7 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function SubjectListsSection() {
+  useInterfaceLanguage();
   const { router, theme, updateSectionOffset } = useSettingsControllerContext();
 
   return (
@@ -38,8 +40,7 @@ export function SubjectListsSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          Subject Lists
-        </Text>
+          {uiT("ui.subject_lists_20c1f7d1")} </Text>
 
         <AdvancedSettingsGroup>
           <TouchableOpacity
@@ -52,13 +53,11 @@ export function SubjectListsSection() {
               <SettingsLabel
                 style={[styles.settingText, { color: theme.textColor }]}
               >
-                Manage Subject Lists
-              </SettingsLabel>
+                {uiT("ui.manage_subject_lists_f2184aa9")} </SettingsLabel>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                Create and manage saved subject collections for custom study
-              </Text>
+                {uiT("ui.create_and_manage_saved_subject_collections_for_custom_study_e5cb9ab0")} </Text>
             </View>
             <Ionicons
               name="chevron-forward"

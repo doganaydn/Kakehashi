@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useCallback } from "react";
 import { ActivityIndicator, StatusBar, StyleSheet, Text, View } from "react-native";
@@ -13,6 +14,7 @@ import { VolumeSlide } from "../../../src/components/wrapped/slides/VolumeSlide"
 import { useWrappedData } from "../../../src/hooks/useWrappedData";
 
 export default function LevelWrappedScreen() {
+  useInterfaceLanguage();
   const params = useLocalSearchParams();
   const level = parseInt(params.level as string);
   const data = useWrappedData(level);
@@ -28,7 +30,7 @@ export default function LevelWrappedScreen() {
   if (!level || isNaN(level)) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Invalid level</Text>
+        <Text style={styles.errorText}>{uiT("ui.invalid_level_1bbd54c3")}</Text>
       </View>
     );
   }
@@ -37,7 +39,7 @@ export default function LevelWrappedScreen() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#7c3aed" />
-        <Text style={styles.loadingText}>Loading your wrapped...</Text>
+        <Text style={styles.loadingText}>{uiT("ui.loading_your_wrapped_77768152")}</Text>
       </View>
     );
   }

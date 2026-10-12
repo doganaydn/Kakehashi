@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import * as SwiftUI from "@expo/ui/swift-ui";
@@ -216,6 +217,7 @@ const StreamingLineText = memo(
     color: string;
     characterIntervalMs?: number;
   }): ReactElement {
+  useInterfaceLanguage();
     const [visibleCharacterCount, setVisibleCharacterCount] =
       useState<number>(0);
     const previousTextRef = useRef<string>("");
@@ -297,7 +299,7 @@ function buildGrammarTooltipItem(
   const meaningText = token.meaning?.trim() || "Grammar point";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
 
   return {
@@ -315,6 +317,7 @@ function buildGrammarTooltipItem(
 }
 
 export default function SongLyricsScreen() {
+  useInterfaceLanguage();
   useActivityTracking("songs", { mode: "focus" });
   const { theme } = useTheme();
   const router = useRouter();
@@ -1073,7 +1076,7 @@ export default function SongLyricsScreen() {
     if (!songTitle || !artist) {
       console.log("⚠️ No song metadata available");
       setError(
-        "Song information incomplete. Cannot fetch lyrics without song title and artist.",
+        uiT("ui.message_731da570cf2b"),
       );
       setTimedLyricsStatus("unavailable");
       setIsLoading(false);
@@ -1161,7 +1164,7 @@ export default function SongLyricsScreen() {
           console.warn("⚠️ Lyrics not found:", error);
           if (error instanceof Error && error.message === "LYRICS_NOT_FOUND") {
             setError(
-              "Lyrics not found for this song. Try using the override settings to search manually.",
+              uiT("ui.message_7702d5fed6d3"),
             );
           } else {
             setError(LYRICS_UNAVAILABLE_MESSAGE);
@@ -1196,7 +1199,7 @@ export default function SongLyricsScreen() {
       if (isAppleMusicFlow) {
         if (!effectiveAppleSongId) {
           setError(
-            "Could not find this track in Apple Music. Switch playback to YouTube or pick a different song.",
+            uiT("ui.message_9c34f671c6d7"),
           );
           setTimedLyricsStatus("unavailable");
           return;
@@ -1230,7 +1233,7 @@ export default function SongLyricsScreen() {
       } else if (isSpotifyPlaybackFlow) {
         if (!effectiveSpotifySongId) {
           setError(
-            "Could not find this track in Spotify. Switch playback to YouTube or pick a different song.",
+            uiT("ui.message_5ebdb413d023"),
           );
           setTimedLyricsStatus("unavailable");
           return;
@@ -2005,12 +2008,12 @@ export default function SongLyricsScreen() {
     (mode: SongLyricsStudyModePreference) => {
       if (mode === "full" && !hasStoredJpdbApiKey) {
         Alert.alert(
-          "JPDB API Key Required",
-          "Full grammar study mode is blocked until you save a JPDB API key.",
+          uiT("ui.jpdb_api_key_required_9c3a619c"),
+          uiT("ui.full_grammar_study_mode_is_blocked_until_you_save_a_jpdb_api_key_c9a663ee"),
           [
-            { text: "Not now", style: "cancel" },
+            { text: uiT("ui.not_now_a0e63d7c"), style: "cancel" },
             {
-              text: "Open Settings",
+              text: uiT("ui.open_settings_3f940108"),
               onPress: openJpdbApiKeySettings,
             },
           ],
@@ -2024,8 +2027,8 @@ export default function SongLyricsScreen() {
         timedLyrics.length === 0
       ) {
         Alert.alert(
-          "Synced Lyrics Required",
-          "Fill-the-blank mode needs time-synced lyrics. Try the manual lyrics search to find a synced version of this song.",
+          uiT("ui.synced_lyrics_required_8e55dc68"),
+          uiT("ui.fill_the_blank_mode_needs_time_synced_lyrics_try_the_manual_lyric_7ce6e0a0"),
         );
         return;
       }
@@ -2044,18 +2047,7 @@ export default function SongLyricsScreen() {
 
       setSongsLyricsDefaultStudyMode(mode);
     },
-    [
-      activeStudyMode,
-      hasStoredJpdbApiKey,
-      lyricsQuizPausedLineIndex,
-      lyricsQuizSessionKey,
-      openJpdbApiKeySettings,
-      rearmLyricsQuizQuestions,
-      setIsPlaying,
-      setSongsLyricsDefaultStudyMode,
-      timedLyrics.length,
-      timedLyricsStatus,
-    ],
+    [activeStudyMode, hasStoredJpdbApiKey, lyricsQuizPausedLineIndex, lyricsQuizSessionKey, openJpdbApiKeySettings, rearmLyricsQuizQuestions, setIsPlaying, setSongsLyricsDefaultStudyMode, timedLyrics.length, timedLyricsStatus, ],
   );
 
   const toggleLineTranslationsFromMenu = useCallback(() => {
@@ -2228,7 +2220,7 @@ export default function SongLyricsScreen() {
         }
       } catch (error) {
         console.error("Error loading selected lyrics:", error);
-        setError("Failed to load selected lyrics");
+        setError(uiT("ui.message_26468b88b557"));
         setTimedLyricsStatus("unavailable");
       } finally {
         setIsLoading(false);
@@ -2619,7 +2611,7 @@ export default function SongLyricsScreen() {
                 )}
                 {showJpdbBadge && (
                   <View style={[styles.levelBadgeChip, styles.jpdbBadgeChip]}>
-                    <Text style={styles.levelBadgeText}>JP</Text>
+                    <Text style={styles.levelBadgeText}>{uiT("ui.jp_569ec613")}</Text>
                   </View>
                 )}
               </View>
@@ -2847,7 +2839,7 @@ export default function SongLyricsScreen() {
                 )}
                 {showJpdbBadge && (
                   <View style={[styles.levelBadgeChip, styles.jpdbBadgeChip]}>
-                    <Text style={styles.levelBadgeText}>JP</Text>
+                    <Text style={styles.levelBadgeText}>{uiT("ui.jp_569ec613")}</Text>
                   </View>
                 )}
               </View>
@@ -2959,9 +2951,9 @@ export default function SongLyricsScreen() {
                   </SwiftUI.RNHostView>
                 }
               >
-                <SwiftUI.Menu label="Study Mode" systemImage="graduationcap">
+                <SwiftUI.Menu label={uiT("ui.study_mode_a590241b")} systemImage="graduationcap">
                   <SwiftUI.Button
-                    label="No study mode"
+                    label={uiT("ui.no_study_mode_c43400ad")}
                     systemImage={
                       activeStudyMode === "none"
                         ? "checkmark.circle.fill"
@@ -2970,7 +2962,7 @@ export default function SongLyricsScreen() {
                     onPress={() => selectStudyMode("none")}
                   />
                   <SwiftUI.Button
-                    label="WK study mode"
+                    label={uiT("ui.wk_study_mode_3fd6fdff")}
                     systemImage={
                       activeStudyMode === "wk"
                         ? "checkmark.circle.fill"
@@ -2979,7 +2971,7 @@ export default function SongLyricsScreen() {
                     onPress={() => selectStudyMode("wk")}
                   />
                   <SwiftUI.Button
-                    label="Fill the blank"
+                    label={uiT("ui.fill_the_blank_caa0bbd9")}
                     systemImage={
                       activeStudyMode === "quiz"
                         ? "checkmark.circle.fill"
@@ -2988,7 +2980,7 @@ export default function SongLyricsScreen() {
                     onPress={() => selectStudyMode("quiz")}
                   />
                   <SwiftUI.Button
-                    label="Full grammar study mode"
+                    label={uiT("ui.full_grammar_study_mode_9de9a594")}
                     systemImage={
                       !hasStoredJpdbApiKey
                         ? "lock"
@@ -3044,7 +3036,7 @@ export default function SongLyricsScreen() {
             onPress={loadLyrics}
             activeOpacity={0.7}
           >
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -3069,8 +3061,7 @@ export default function SongLyricsScreen() {
           >
             <View style={styles.lyricsTitleRow}>
               <Text style={[styles.lyricsTitle, { color: theme.textColor }]}>
-                Lyrics
-              </Text>
+                {uiT("ui.lyrics_e73a4aa7")} </Text>
               {timedLyrics.length > 0 && (
                 <View style={styles.lyricsTitleActions}>
                   {isTimedMode && (
@@ -3112,7 +3103,7 @@ export default function SongLyricsScreen() {
                         {isLyricsTimingAdjustmentEnabled &&
                         lyricsTimingOffsetMs !== 0
                           ? lyricsTimingOffsetDisplay
-                          : "Delay"}
+                          : uiT("ui.delay_fd9b6df3")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -3129,8 +3120,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Sync
-                    </Text>
+                      {uiT("ui.sync_8d261a37")} </Text>
                     <Switch
                       value={isTimedMode}
                       onValueChange={(value) => {
@@ -3152,8 +3142,8 @@ export default function SongLyricsScreen() {
                   {lyricsQuizModeEnabled && lyricsQuizQuestions.length > 0 ? (
                     <Pressable
                       accessibilityRole="button"
-                      accessibilityLabel={`${completedLyricsQuizQuestionCount} of ${lyricsQuizQuestions.length} lyric quiz answers correct`}
-                      accessibilityHint="Opens the song quiz results"
+                      accessibilityLabel={uiT("ui.dynamic_43e05282d99d", {value1: (completedLyricsQuizQuestionCount), value2: (lyricsQuizQuestions.length)})}
+                      accessibilityHint={uiT("ui.opens_the_song_quiz_results_cc155fd5")}
                       onPress={() => setIsLyricsQuizResultsVisible(true)}
                       style={({ pressed }) => [
                         styles.lyricsQuizCounterButton,
@@ -3197,8 +3187,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textColor },
                       ]}
                     >
-                      Lyrics timing
-                    </Text>
+                      {uiT("ui.lyrics_timing_951d1055")} </Text>
                   </View>
                   <View style={styles.lyricsTimingHeaderActions}>
                     <Text
@@ -3260,8 +3249,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textColor },
                       ]}
                     >
-                      -0.5s
-                    </Text>
+                      {uiT("ui.0_5s_864767cc")} </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -3285,8 +3273,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textColor },
                       ]}
                     >
-                      Reset
-                    </Text>
+                      {uiT("ui.reset_daee7606")} </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -3309,8 +3296,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textColor },
                       ]}
                     >
-                      +0.5s
-                    </Text>
+                      {uiT("ui.0_5s_771fdbf5")} </Text>
                     <Ionicons
                       name="play-forward-outline"
                       size={15}
@@ -3344,8 +3330,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Time-synced lyrics not available for this song
-                    </Text>
+                      {uiT("ui.time_synced_lyrics_not_available_for_this_song_459224cc")} </Text>
                   </View>
                   <TouchableOpacity
                     style={[
@@ -3368,8 +3353,7 @@ export default function SongLyricsScreen() {
                         { color: theme.primary },
                       ]}
                     >
-                      Search Manually
-                    </Text>
+                      {uiT("ui.search_manually_e48558d5")} </Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -3388,7 +3372,7 @@ export default function SongLyricsScreen() {
                     ]}
                   >
                     {isTranslatingLyrics
-                      ? "Translating lyric lines..."
+                      ? uiT("ui.translating_lyric_lines_af034fa3")
                       : lyricsTranslationStatusMessage}
                   </Text>
                 </View>
@@ -3413,9 +3397,7 @@ export default function SongLyricsScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    This song does not contain enough recognized vocabulary to
-                    build four-choice lyric questions.
-                  </Text>
+                    {uiT("ui.this_song_does_not_contain_enough_recognized_vocabulary_to_build_8ce09d4c")} </Text>
                 </View>
               </View>
             ) : null}
@@ -3505,8 +3487,7 @@ export default function SongLyricsScreen() {
               <Text
                 style={[styles.overrideModalTitle, { color: theme.textColor }]}
               >
-                Settings
-              </Text>
+                {uiT("ui.settings_74a883a0")} </Text>
               <TouchableOpacity onPress={() => setShowOverrideModal(false)}>
                 <Ionicons name="close" size={24} color={theme.textColor} />
               </TouchableOpacity>
@@ -3541,17 +3522,14 @@ export default function SongLyricsScreen() {
                             { color: theme.textColor },
                           ]}
                         >
-                          Study mode
-                        </Text>
+                          {uiT("ui.study_mode_6e98b235")} </Text>
                         <Text
                           style={[
                             styles.analysisModeSubtitle,
                             { color: theme.textSecondary },
                           ]}
                         >
-                          Choose plain lyrics, vocabulary help, JPDB analysis,
-                          or a timed fill-the-blank challenge.
-                        </Text>
+                          {uiT("ui.choose_plain_lyrics_vocabulary_help_jpdb_analysis_or_a_timed_fill_d88873ee")} </Text>
                       </View>
                     </View>
 
@@ -3590,8 +3568,7 @@ export default function SongLyricsScreen() {
                             },
                           ]}
                         >
-                          Normal
-                        </Text>
+                          {uiT("ui.normal_a7248eeb")} </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
@@ -3621,8 +3598,7 @@ export default function SongLyricsScreen() {
                             },
                           ]}
                         >
-                          Quiz
-                        </Text>
+                          {uiT("ui.quiz_03aa7dc1")} </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
@@ -3652,8 +3628,7 @@ export default function SongLyricsScreen() {
                             },
                           ]}
                         >
-                          Vocab
-                        </Text>
+                          {uiT("ui.vocab_eb535ff6")} </Text>
                       </TouchableOpacity>
 
                       <TouchableOpacity
@@ -3685,8 +3660,7 @@ export default function SongLyricsScreen() {
                             },
                           ]}
                         >
-                          Full
-                        </Text>
+                          {uiT("ui.full_008dacb6")} </Text>
                       </TouchableOpacity>
                     </View>
 
@@ -3704,8 +3678,7 @@ export default function SongLyricsScreen() {
                             { color: theme.textColor },
                           ]}
                         >
-                          English line translations
-                        </Text>
+                          {uiT("ui.english_line_translations_07957d34")} </Text>
                         <Text
                           style={[
                             styles.analysisModeSubtitle,
@@ -3713,8 +3686,8 @@ export default function SongLyricsScreen() {
                           ]}
                         >
                           {hasStoredJpdbApiKey
-                            ? "Use JPDB machine translation and show English under each lyric line."
-                            : "Requires a saved JPDB API key in Settings"}
+                            ? uiT("ui.use_jpdb_machine_translation_and_show_english_under_each_lyric_li_5f946aa8")
+                            : uiT("ui.requires_a_saved_jpdb_api_key_in_settings_e472473e")}
                         </Text>
                       </View>
                       <Switch
@@ -3772,8 +3745,7 @@ export default function SongLyricsScreen() {
                           },
                         ]}
                       >
-                        Video Source
-                      </Text>
+                        {uiT("ui.video_source_67010cba")} </Text>
                     </TouchableOpacity>
                   )}
                   <TouchableOpacity
@@ -3807,8 +3779,7 @@ export default function SongLyricsScreen() {
                         },
                       ]}
                     >
-                      Lyrics
-                    </Text>
+                      {uiT("ui.lyrics_e73a4aa7")} </Text>
                   </TouchableOpacity>
                 </View>
 
@@ -3829,8 +3800,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Search and select different synced lyrics from LRCLIB
-                    </Text>
+                      {uiT("ui.search_and_select_different_synced_lyrics_from_lrclib_4bb17bf5")} </Text>
 
                     {/* Song Search Input */}
                     <View
@@ -3849,7 +3819,7 @@ export default function SongLyricsScreen() {
                       />
                       <TextInput
                         style={[styles.searchInput, { color: theme.textColor }]}
-                        placeholder="Song name (optional)"
+                        placeholder={uiT("ui.song_name_optional_6294c8de")}
                         placeholderTextColor={theme.textSecondary}
                         value={lyricsSearchSong}
                         onChangeText={setLyricsSearchSong}
@@ -3891,7 +3861,7 @@ export default function SongLyricsScreen() {
                       />
                       <TextInput
                         style={[styles.searchInput, { color: theme.textColor }]}
-                        placeholder="Artist name (optional)"
+                        placeholder={uiT("ui.artist_name_optional_57ff375c")}
                         placeholderTextColor={theme.textSecondary}
                         value={lyricsSearchArtist}
                         onChangeText={setLyricsSearchArtist}
@@ -3932,8 +3902,7 @@ export default function SongLyricsScreen() {
                         <>
                           <Ionicons name="search" size={18} color="white" />
                           <Text style={styles.searchButtonText}>
-                            Search Lyrics
-                          </Text>
+                            {uiT("ui.search_lyrics_2a300b87")} </Text>
                         </>
                       )}
                     </TouchableOpacity>
@@ -3957,8 +3926,7 @@ export default function SongLyricsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Search and select a different YouTube video
-                    </Text>
+                      {uiT("ui.search_and_select_a_different_youtube_video_013d44e8")} </Text>
 
                     {/* Search Input */}
                     <View
@@ -3977,7 +3945,7 @@ export default function SongLyricsScreen() {
                       />
                       <TextInput
                         style={[styles.searchInput, { color: theme.textColor }]}
-                        placeholder={`Search for "${songTitle}" videos...`}
+                        placeholder={uiT("ui.dynamic_9bc0ba0ed1ba", {value1: (songTitle)})}
                         placeholderTextColor={theme.textSecondary}
                         value={videoSearchQuery}
                         onChangeText={setVideoSearchQuery}
@@ -4018,8 +3986,7 @@ export default function SongLyricsScreen() {
                         <>
                           <Ionicons name="search" size={18} color="white" />
                           <Text style={styles.searchButtonText}>
-                            Search Videos
-                          </Text>
+                            {uiT("ui.search_videos_06e24c5f")} </Text>
                         </>
                       )}
                     </TouchableOpacity>
@@ -4112,7 +4079,7 @@ export default function SongLyricsScreen() {
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                Duration: {Math.floor(result.duration / 60)}:
+                                {uiT("ui.duration_298d6c75")} {Math.floor(result.duration / 60)}:
                                 {String(
                                   Math.floor(result.duration) % 60,
                                 ).padStart(2, "0")}
@@ -4126,7 +4093,7 @@ export default function SongLyricsScreen() {
                             ]}
                           >
                             <Ionicons name="timer" size={14} color="white" />
-                            <Text style={styles.syncBadgeText}>Synced</Text>
+                            <Text style={styles.syncBadgeText}>{uiT("ui.synced_5da22fe4")}</Text>
                           </View>
                         </TouchableOpacity>
                       ))}
@@ -4183,7 +4150,7 @@ export default function SongLyricsScreen() {
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                Duration: {Math.floor(video.duration / 60)}:
+                                {uiT("ui.duration_298d6c75")} {Math.floor(video.duration / 60)}:
                                 {String(video.duration % 60).padStart(2, "0")}
                               </Text>
                             )}

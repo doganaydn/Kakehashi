@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsChoiceCards } from "../../src/ui/settings/settings-choice-cards";
 import { SettingsFoldout } from "../../src/ui/settings/settings-foldout";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
@@ -21,12 +22,13 @@ import { useTheme } from "../../src/utils/theme";
 type AnkiScope = "both" | "meaning" | "reading";
 
 const ANKI_SCOPE_OPTIONS: { value: AnkiScope; label: string }[] = [
-  { value: "both", label: "Both" },
-  { value: "meaning", label: "Meaning" },
-  { value: "reading", label: "Reading" },
+  { value: "both", get label() { return uiT("ui.both_b6c1d862"); } },
+  { value: "meaning", get label() { return uiT("ui.meaning_1f5d64b9"); } },
+  { value: "reading", get label() { return uiT("ui.reading_463816d0"); } },
 ];
 
 export default function AnkiSettingsScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const {
     ankiDroidExportEnabled,
@@ -84,11 +86,9 @@ export default function AnkiSettingsScreen() {
         </TouchableOpacity>
         <View style={styles.headerTextContainer}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            Anki Settings
-          </Text>
+            {uiT("ui.anki_settings_a19896ad")} </Text>
           <Text style={[styles.subtitle, { color: theme.textColor }]}>
-            Fine-tune reveal and answer behavior
-          </Text>
+            {uiT("ui.fine_tune_reveal_and_answer_behavior_4267a177")} </Text>
         </View>
       </View>
 
@@ -106,17 +106,16 @@ export default function AnkiSettingsScreen() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Card Behavior
-          </Text>
+            {uiT("ui.card_behavior_733c828e")} </Text>
           <SettingsChoiceCards
-            label="Anki applies to"
+            label={uiT("ui.anki_applies_to_7cc2f981")}
             compact
             value={ankiCardModeScope}
             theme={theme}
             options={[
-              { value: "both", label: "Both", art: "both" },
-              { value: "meaning", label: "Meanings", art: "meaning" },
-              { value: "reading", label: "Readings", art: "reading" },
+              { value: "both", label: uiT("ui.both_b6c1d862"), art: "both" },
+              { value: "meaning", label: uiT("ui.meanings_6379cd5b"), art: "meaning" },
+              { value: "reading", label: uiT("ui.readings_f3a97d44"), art: "reading" },
             ]}
             onChange={handleScopeChange}
           />
@@ -131,19 +130,16 @@ export default function AnkiSettingsScreen() {
             />
             <View style={styles.settingTextContainer}>
               <Text style={[styles.settingText, { color: theme.textColor }]}>
-                Group Questions
-              </Text>
+                {uiT("ui.group_questions_136e1916")} </Text>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                Show meaning and reading together in one card.
-              </Text>
+                {uiT("ui.show_meaning_and_reading_together_in_one_card_bc727a8b")} </Text>
               {ankiCardModeScope !== "both" && (
                 <Text
                   style={[styles.inlineHint, { color: theme.textSecondary }]}
                 >
-                  Only available when &quot;Both&quot; is selected.
-                </Text>
+                  {uiT("ui.only_available_when_both_is_selected_7622ede0")} </Text>
               )}
             </View>
             <Switch
@@ -158,13 +154,12 @@ export default function AnkiSettingsScreen() {
             <View style={[styles.settingRow, { borderBottomColor: theme.border }]}>
               <Ionicons name="help-circle-outline" size={20} color={theme.primary} style={styles.settingIcon} />
               <View style={styles.settingTextContainer}>
-                <Text style={[styles.settingText, { color: theme.textColor }]}>Ask which part was wrong</Text>
+                <Text style={[styles.settingText, { color: theme.textColor }]}>{uiT("ui.ask_which_part_was_wrong_5b798c4e")}</Text>
                 <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>
-                  Choose meaning, reading, or both in grouped reviews. Off marks both wrong.
-                </Text>
+                  {uiT("ui.choose_meaning_reading_or_both_in_grouped_reviews_off_marks_both_6fa161b6")} </Text>
               </View>
               <Switch
-                accessibilityLabel="Ask which part was wrong"
+                accessibilityLabel={uiT("ui.ask_which_part_was_wrong_5b798c4e")}
                 value={ankiAskIncorrectPart}
                 onValueChange={setAnkiAskIncorrectPart}
                 trackColor={{ false: "#767577", true: theme.primary }}
@@ -183,14 +178,11 @@ export default function AnkiSettingsScreen() {
             />
             <View style={styles.settingTextContainer}>
               <Text style={[styles.settingText, { color: theme.textColor }]}>
-                Hide Answer Completely
-              </Text>
+                {uiT("ui.hide_answer_completely_d3066785")} </Text>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                Off: show the answer blurred before reveal. On: hide the answer
-                completely until reveal (no length hints).
-              </Text>
+                {uiT("ui.off_show_the_answer_blurred_before_reveal_on_hide_the_answer_comp_1d69b411")} </Text>
             </View>
             <Switch
               value={ankiHideAnswerCompletely}
@@ -210,14 +202,11 @@ export default function AnkiSettingsScreen() {
             />
             <View style={styles.settingTextContainer}>
               <Text style={[styles.settingText, { color: theme.textColor }]}>
-                Buttonless Anki Mode
-              </Text>
+                {uiT("ui.buttonless_anki_mode_4915d5f1")} </Text>
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                After reveal: tap left for incorrect, tap right for correct,
-                swipe up for details, and swipe down to skip.
-              </Text>
+                {uiT("ui.after_reveal_tap_left_for_incorrect_tap_right_for_correct_swipe_u_72a3b49e")} </Text>
             </View>
             <Switch
               value={ankiButtonlessMode}
@@ -228,8 +217,8 @@ export default function AnkiSettingsScreen() {
           </View>
           <SettingsFoldout
             theme={theme}
-            title="After revealing the card"
-            description="Audio, alternate answers, composition and pitch"
+            title={uiT("ui.after_revealing_the_card_89bf5d80")}
+            description={uiT("ui.audio_alternate_answers_composition_and_pitch_120320e8")}
             icon="cards"
           >
             <View
@@ -243,17 +232,14 @@ export default function AnkiSettingsScreen() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Show Replay Button
-                </Text>
+                  {uiT("ui.show_replay_button_33209341")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  After revealing an Anki card, show a Replay button to play
-                  vocabulary audio again when available.
-                </Text>
+                  {uiT("ui.after_revealing_an_anki_card_show_a_replay_button_to_play_vocabul_3bd84d19")} </Text>
               </View>
               <Switch
                 value={ankiShowReplayAudioButton}
@@ -273,17 +259,14 @@ export default function AnkiSettingsScreen() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Show Other Accepted Answers
-                </Text>
+                  {uiT("ui.show_other_accepted_answers_3d19a349")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  In Anki cards, also show non-primary accepted answers and your
-                  user synonyms after reveal.
-                </Text>
+                  {uiT("ui.in_anki_cards_also_show_non_primary_accepted_answers_and_your_use_b2324230")} </Text>
               </View>
               <Switch
                 value={ankiShowOtherAcceptedAnswersAndUserSynonyms}
@@ -303,20 +286,17 @@ export default function AnkiSettingsScreen() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Show Kanji Composition
-                </Text>
+                  {uiT("ui.show_kanji_composition_957eeca9")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  After revealing a vocabulary card, show its kanji and their
-                  meanings.
-                </Text>
+                  {uiT("ui.after_revealing_a_vocabulary_card_show_its_kanji_and_their_meanin_04d1dc76")} </Text>
               </View>
               <Switch
-                accessibilityLabel="Show Kanji Composition"
+                accessibilityLabel={uiT("ui.show_kanji_composition_957eeca9")}
                 value={ankiShowKanjiComposition}
                 onValueChange={setAnkiShowKanjiComposition}
                 trackColor={{ false: "#767577", true: theme.primary }}
@@ -334,17 +314,14 @@ export default function AnkiSettingsScreen() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Show Pitch Accent Number
-                </Text>
+                  {uiT("ui.show_pitch_accent_number_72448bd7")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  In Anki cards, show compact pitch accent notation after reveal
-                  when WaniKani pitch data is available.
-                </Text>
+                  {uiT("ui.in_anki_cards_show_compact_pitch_accent_notation_after_reveal_whe_2fa13b36")} </Text>
               </View>
               <Switch
                 value={ankiShowPitchAccentNumbers}
@@ -364,17 +341,14 @@ export default function AnkiSettingsScreen() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Show Pitch Accent Graph
-                </Text>
+                  {uiT("ui.show_pitch_accent_graph_5fdb68e3")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  In Anki cards, also show a compact pitch accent graph after
-                  reveal when WaniKani pitch data is available.
-                </Text>
+                  {uiT("ui.in_anki_cards_also_show_a_compact_pitch_accent_graph_after_reveal_349da247")} </Text>
               </View>
               <Switch
                 value={ankiShowPitchAccentGraph}
@@ -392,18 +366,14 @@ export default function AnkiSettingsScreen() {
               />
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Show Part of Speech
-                </Text>
+                  {uiT("ui.show_part_of_speech_bbd4153f")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  In Anki cards, show WaniKani part-of-speech info (including
-                  transitive/intransitive, godan/ichidan/irregular, and na/no
-                  adjectives) when available.
-                </Text>
+                  {uiT("ui.in_anki_cards_show_wanikani_part_of_speech_info_including_transit_073c848e")} </Text>
               </View>
               <Switch
                 value={ankiShowWaniKaniGrammarTags}
@@ -427,32 +397,27 @@ export default function AnkiSettingsScreen() {
             ]}
           >
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              External Export
-            </Text>
+              {uiT("ui.external_export_20d18397")} </Text>
             <Text
               style={[styles.exportDescription, { color: theme.textSecondary }]}
             >
-              Send vocabulary context sentences directly to your AnkiDroid
-              collection.
-            </Text>
+              {uiT("ui.send_vocabulary_context_sentences_directly_to_your_ankidroid_coll_8ded57c7")} </Text>
             <View
               style={[styles.settingRow, { borderBottomColor: theme.border }]}
             >
               <View style={styles.settingTextContainer}>
                 <Text style={[styles.settingText, { color: theme.textColor }]}>
-                  Enable Anki export
-                </Text>
+                  {uiT("ui.enable_anki_export_db282dc5")} </Text>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Show Anki export buttons beside context sentences.
-                </Text>
+                  {uiT("ui.show_anki_export_buttons_beside_context_sentences_5c57dc80")} </Text>
               </View>
               <Switch
-                accessibilityLabel="Enable Anki export"
+                accessibilityLabel={uiT("ui.enable_anki_export_db282dc5")}
                 value={ankiDroidExportEnabled}
                 onValueChange={setAnkiDroidExportEnabled}
                 trackColor={{ true: theme.primary }}

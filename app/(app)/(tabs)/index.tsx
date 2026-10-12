@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -98,7 +99,7 @@ function getStreakDayKeyFormatter(timezone: string): Intl.DateTimeFormat {
     return cachedFormatter;
   }
 
-  const formatter = new Intl.DateTimeFormat("en-US", {
+  const formatter = new Intl.DateTimeFormat(interfaceLocale(), {
     timeZone: normalizedTimezone,
     year: "numeric",
     month: "2-digit",
@@ -130,6 +131,7 @@ function toDayKeyInTimezone(date: Date, timezone?: string): string {
 }
 
 export default function StudyTab() {
+  useInterfaceLanguage();
   const {
     apiToken,
     userData,
@@ -885,8 +887,7 @@ export default function StudyTab() {
       >
         <ActivityIndicator size="large" color={theme.secondary} />
         <Text style={[styles.loadingText, { color: theme.textColor }]}>
-          Loading study data...
-        </Text>
+          {uiT("ui.loading_study_data_e964616b")} </Text>
       </View>
     );
   }
@@ -1186,7 +1187,7 @@ export default function StudyTab() {
           </TouchableOpacity>
           <View style={styles.profileInfo}>
             <Text style={[styles.username, { color: theme.headerText }]}>
-              {userData?.username || "User"}
+              {userData?.username || uiT("ui.user_b512d97e")}
             </Text>
             <View style={styles.statsRow}>
               <View style={styles.statItem}>
@@ -1196,7 +1197,7 @@ export default function StudyTab() {
                   color={theme.headerText}
                 />
                 <Text style={[styles.statText, { color: theme.headerText }]}>
-                  Lvl{" "}
+                  {uiT("ui.lvl_64ea4d84")}{" "}
                   {dashboardData.dataLoadingState.userData
                     ? dashboardData.currentLevel
                     : userData?.level || 1}
@@ -1208,8 +1209,7 @@ export default function StudyTab() {
                   {dashboardData.dataLoadingState.subjects
                     ? dashboardData.learnedKanjiCount
                     : (learnedKanjiCount ?? "...")}{" "}
-                  Kanji
-                </Text>
+                  {uiT("ui.kanji_45f62a35")} </Text>
               </View>
             </View>
           </View>
@@ -1259,7 +1259,7 @@ export default function StudyTab() {
             color="white"
           />
           <Text style={styles.updateBannerText}>
-            {isDownloadingUpdate ? "Applying update..." : "Tap to update app"}
+            {isDownloadingUpdate ? uiT("ui.applying_update_52034893") : uiT("ui.tap_to_update_app_18ec4c7d")}
           </Text>
           {!isDownloadingUpdate && (
             <Ionicons name="chevron-forward" size={20} color="white" />
@@ -1351,8 +1351,7 @@ export default function StudyTab() {
                         fontWeight: "700",
                       }}
                     >
-                      Level {dashboardData.currentLevel - 1} Recap
-                    </Text>
+                      {uiT("ui.level_1709305c")} {dashboardData.currentLevel - 1} {uiT("ui.recap_31056c37")} </Text>
                     <Text
                       style={{
                         color: "rgba(255,255,255,0.7)",
@@ -1360,8 +1359,7 @@ export default function StudyTab() {
                         marginTop: 2,
                       }}
                     >
-                      See your level-up summary
-                    </Text>
+                      {uiT("ui.see_your_level_up_summary_911c7a21")} </Text>
                   </View>
                   <Ionicons
                     name="chevron-forward"

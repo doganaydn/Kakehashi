@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
@@ -45,6 +46,7 @@ const formatSongCount = (count: number): string =>
   `${count} song${count === 1 ? "" : "s"}`;
 
 export default function PlaylistDetailScreen() {
+  useInterfaceLanguage();
   useActivityTracking("songs", { mode: "focus" });
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
@@ -181,7 +183,7 @@ export default function PlaylistDetailScreen() {
 
     const loadPlaylistTracks = async () => {
       if (!playlistId) {
-        setError("Playlist ID is missing.");
+        setError(uiT("ui.message_2a8b868c3c7e"));
         setIsLoading(false);
         return;
       }
@@ -207,7 +209,7 @@ export default function PlaylistDetailScreen() {
       } catch (playlistError) {
         console.error("Error loading playlist tracks:", playlistError);
         if (!didCancel) {
-          setError(`Failed to load ${playlistName}. Please try again.`);
+          setError(uiT("ui.dynamic_d9bdba919e78", {value1: (playlistName)}));
           setTracks([]);
         }
       } finally {
@@ -246,7 +248,7 @@ export default function PlaylistDetailScreen() {
 
   const handleRetry = useCallback(() => {
     if (!playlistId) {
-      Alert.alert("Playlist unavailable", "This playlist cannot be loaded.");
+      Alert.alert(uiT("ui.playlist_unavailable_b63e920b"), uiT("ui.this_playlist_cannot_be_loaded_4058925b"));
       return;
     }
 
@@ -324,7 +326,7 @@ export default function PlaylistDetailScreen() {
           )}
 
           <View style={styles.heroText}>
-            <Text style={styles.sourceLabel}>{sourceLabel} playlist</Text>
+            <Text style={styles.sourceLabel}>{sourceLabel} {uiT("ui.playlist_76cd21db")}</Text>
             <Text style={styles.playlistTitle} numberOfLines={2}>
               {playlistName}
             </Text>
@@ -340,8 +342,8 @@ export default function PlaylistDetailScreen() {
         <View style={styles.actionRow}>
           <Text style={[styles.loadedCount, { color: theme.textSecondary }]}>
             {isLoading
-              ? "Loading songs..."
-              : `${formatSongCount(tracks.length)} loaded`}
+              ? uiT("ui.loading_songs_2cbeb619")
+              : uiT("ui.value_loaded_4cfbd48e", {value1: (formatSongCount(tracks.length))})}
           </Text>
           <TouchableOpacity
             style={[
@@ -364,20 +366,7 @@ export default function PlaylistDetailScreen() {
         </View>
       </View>
     ),
-    [
-      detailsLine,
-      isLoading,
-      playlistDescription,
-      playlistImageUrl,
-      playlistName,
-      sourceLabel,
-      theme.backgroundColor,
-      theme.isDark,
-      theme.primary,
-      theme.textSecondary,
-      handleSongPress,
-      tracks,
-    ],
+    [detailsLine, isLoading, playlistDescription, playlistImageUrl, playlistName, sourceLabel, theme.backgroundColor, theme.isDark, theme.primary, theme.textSecondary, handleSongPress, tracks, ],
   );
 
   return (
@@ -392,8 +381,7 @@ export default function PlaylistDetailScreen() {
           <View style={styles.centerContent}>
             <ActivityIndicator size="large" color={theme.primary} />
             <Text style={[styles.centerText, { color: theme.textSecondary }]}>
-              Loading playlist...
-            </Text>
+              {uiT("ui.loading_playlist_05767ae7")} </Text>
           </View>
         </View>
       ) : error ? (
@@ -406,8 +394,7 @@ export default function PlaylistDetailScreen() {
               color={theme.error}
             />
             <Text style={[styles.errorTitle, { color: theme.error }]}>
-              Playlist Error
-            </Text>
+              {uiT("ui.playlist_error_fd96bf38")} </Text>
             <Text style={[styles.errorText, { color: theme.textSecondary }]}>
               {error}
             </Text>
@@ -416,7 +403,7 @@ export default function PlaylistDetailScreen() {
               onPress={handleRetry}
               activeOpacity={0.75}
             >
-              <Text style={styles.retryText}>Retry</Text>
+              <Text style={styles.retryText}>{uiT("ui.retry_942087cc")}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -435,11 +422,9 @@ export default function PlaylistDetailScreen() {
                 color={theme.textLight}
               />
               <Text style={[styles.errorTitle, { color: theme.textColor }]}>
-                No Songs
-              </Text>
+                {uiT("ui.no_songs_fe12e932")} </Text>
               <Text style={[styles.errorText, { color: theme.textSecondary }]}>
-                This playlist does not have playable songs.
-              </Text>
+                {uiT("ui.this_playlist_does_not_have_playable_songs_9464f146")} </Text>
             </View>
           }
           contentContainerStyle={styles.listContent}

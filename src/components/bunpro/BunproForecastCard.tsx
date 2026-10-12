@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -50,6 +51,7 @@ export default function BunproForecastCard({
   onToggleForecastVocab,
   forecastPoints,
 }: BunproForecastCardProps) {
+  useInterfaceLanguage();
   const grammarActiveTextColor = getBestContrastTextColor(accentMuted, "#17171c", "#ffffff");
   const vocabActiveTextColor = getBestContrastTextColor(accentSoft, "#17171c", "#ffffff");
 
@@ -98,8 +100,7 @@ export default function BunproForecastCard({
             { color: themeTextColor },
           ]}
         >
-          Forecast
-        </Text>
+          {uiT("ui.forecast_75205de8")} </Text>
         <BunproTogglePill
           leftLabel="Hourly"
           rightLabel="Daily"
@@ -114,7 +115,7 @@ export default function BunproForecastCard({
       <View style={styles.seriesToggleRow}>
         <View style={styles.seriesToggleMeta}>
           <Ionicons name="settings-outline" size={14} color={softText} />
-          <Text style={[styles.sectionMeta, { color: softText }]}>Series</Text>
+          <Text style={[styles.sectionMeta, { color: softText }]}>{uiT("ui.series_a8295e08")}</Text>
         </View>
         <View style={styles.seriesToggleButtons}>
           <TouchableOpacity
@@ -133,8 +134,7 @@ export default function BunproForecastCard({
                 { color: showForecastGrammar ? grammarActiveTextColor : accentMuted },
               ]}
             >
-              Grammar
-            </Text>
+              {uiT("ui.grammar_1325f21d")} </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -152,15 +152,13 @@ export default function BunproForecastCard({
                 { color: showForecastVocab ? vocabActiveTextColor : accentSoft },
               ]}
             >
-              Vocab
-            </Text>
+              {uiT("ui.vocab_eb535ff6")} </Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <Text style={[styles.sectionMeta, { color: softText }]}>
-        Cumulative reviews due by time bucket
-      </Text>
+        {uiT("ui.cumulative_reviews_due_by_time_bucket_ad3b5ae5")} </Text>
 
       {showForecastGrammar || showForecastVocab ? (
         <>
@@ -227,8 +225,7 @@ export default function BunproForecastCard({
               })
             ) : (
               <Text style={[styles.emptyLabel, { color: softText }]}>
-                No forecast data available.
-              </Text>
+                {uiT("ui.no_forecast_data_available_d6e22b20")} </Text>
             )}
           </ScrollView>
 
@@ -236,21 +233,20 @@ export default function BunproForecastCard({
             {showForecastGrammar ? (
               <View style={styles.legendItem}>
                 <View style={[styles.legendSwatch, { backgroundColor: accentMuted }]} />
-                <Text style={[styles.legendLabel, { color: softText }]}>Grammar</Text>
+                <Text style={[styles.legendLabel, { color: softText }]}>{uiT("ui.grammar_1325f21d")}</Text>
               </View>
             ) : null}
             {showForecastVocab ? (
               <View style={styles.legendItem}>
                 <View style={[styles.legendSwatch, { backgroundColor: accentSoft }]} />
-                <Text style={[styles.legendLabel, { color: softText }]}>Vocab</Text>
+                <Text style={[styles.legendLabel, { color: softText }]}>{uiT("ui.vocab_eb535ff6")}</Text>
               </View>
             ) : null}
           </View>
         </>
       ) : (
         <Text style={[styles.emptyLabel, { color: softText }]}>
-          Enable at least one series to view forecast.
-        </Text>
+          {uiT("ui.enable_at_least_one_series_to_view_forecast_0e8cb588")} </Text>
       )}
     </View>
   );

@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../../../src/features/interface-language/runtime";
 import { setNewsSaved, useSavedNews } from "../../../../src/hooks/useSavedNews";
 import {
   newsReadKey,
@@ -62,12 +63,13 @@ const SOURCE_OPTIONS: readonly {
   label: string;
   value: NewsSourcePreference;
 }[] = [
-  { label: "Easy", value: "easy" },
-  { label: "Standard", value: "regular" },
-  { label: "Both", value: "both" },
+  { get label() { return uiT("ui.easy_d6915875"); }, value: "easy" },
+  { get label() { return uiT("ui.standard_ef669154"); }, value: "regular" },
+  { get label() { return uiT("ui.both_b6c1d862"); }, value: "both" },
 ];
 
 export default function NewsScreen() {
+  useInterfaceLanguage();
   useActivityTracking("news", { mode: "focus" });
   const readIds = useNewsReadHistory();
   const savedArticles = useSavedNews();
@@ -75,13 +77,13 @@ export default function NewsScreen() {
   const [savedOnly, setSavedOnly] = useState(false);
   const toggleSaved = (item: NewsItem) => {
     void setNewsSaved(item, !savedIds.has(newsReadKey(item))).catch(() =>
-      Alert.alert("Could not save article", "Storage may be full or unavailable. Please try again."),
+      Alert.alert(uiT("ui.could_not_save_article_8b030467"), uiT("ui.storage_may_be_full_or_unavailable_please_try_again_a377ed57")),
     );
   };
   const [unreadOnly, setUnreadOnly] = useState(false);
   const toggleRead = (item: NewsItem) => {
     void setNewsRead(item, !readIds.has(newsReadKey(item))).catch(() =>
-      Alert.alert("Could not save read status", "Please try again."),
+      Alert.alert(uiT("ui.could_not_save_read_status_7bd6a58a"), uiT("ui.please_try_again_eea4fb33")),
     );
   };
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -327,32 +329,32 @@ export default function NewsScreen() {
     [savedArticles, unreadOnly, readIds],
   );
   const sections = [
-    { key: "other", title: "Other News", data: sortedRecommendationNews },
-    { key: "saved", title: "Saved articles", data: visibleSavedNews },
+    { key: "other", title: uiT("ui.other_news_ae6556ba"), data: sortedRecommendationNews },
+    { key: "saved", title: uiT("ui.saved_articles_4e119922"), data: visibleSavedNews },
   ].filter((section) => section.data.length > 0);
 
   const sortButtonText =
     otherNewsSortMode === "date" ? "Date" : "Known Kanji %";
 
   const openSortFallbackMenu = () => {
-    Alert.alert("Sort Other News", "Choose how to sort articles.", [
+    Alert.alert(uiT("ui.sort_other_news_a0b8fc4d"), uiT("ui.choose_how_to_sort_articles_07105302"), [
       {
-        text: "Date (Newest first)",
+        text: uiT("ui.date_newest_first_d4efd2dc"),
         onPress: () => setOtherNewsSortMode("date"),
       },
       {
-        text: "Known Kanji % (Highest first)",
+        text: uiT("ui.known_kanji_highest_first_8b783863"),
         onPress: () => setOtherNewsSortMode("knownKanji"),
       },
       {
-        text: "Cancel",
+        text: uiT("ui.cancel_19766ed6"),
         style: "cancel",
       },
     ]);
   };
 
   const openSourceFallbackMenu = () => {
-    Alert.alert("News Filters", "Choose which news to show.", [
+    Alert.alert(uiT("ui.news_filters_a395d88a"), uiT("ui.choose_which_news_to_show_f18da4d6"), [
       {
         text: unreadOnly ? "Show all stories" : "Unread only",
         onPress: () => setUnreadOnly((value) => !value),
@@ -362,11 +364,11 @@ export default function NewsScreen() {
         onPress: () => setSavedOnly((value) => !value),
       },
       ...(savedOnly ? [] : SOURCE_OPTIONS).map((option) => ({
-        text: `${newsSourcePreference === option.value ? "✓ " : ""}${option.label}`,
+        text: uiT("ui.valuevalue_ae6ed6c2", {value1: (newsSourcePreference === option.value ? "✓ " : ""), value2: (option.label)}),
         onPress: () => setNewsSourcePreference(option.value),
       })),
       {
-        text: "Cancel",
+        text: uiT("ui.cancel_19766ed6"),
         style: "cancel" as const,
       },
     ]);
@@ -411,10 +413,10 @@ export default function NewsScreen() {
             style={styles.sortMenuButton} variant={theme.isDark ? "colored" : "light"} />
         </SwiftUI.RNHostView>
       }>
-        <SwiftUI.Button label="Date (Newest first)"
+        <SwiftUI.Button label={uiT("ui.date_newest_first_d4efd2dc")}
           systemImage={otherNewsSortMode === "date" ? "checkmark.circle.fill" : "circle"}
           onPress={() => setOtherNewsSortMode("date")} />
-        <SwiftUI.Button label="Known Kanji % (Highest first)"
+        <SwiftUI.Button label={uiT("ui.known_kanji_highest_first_8b783863")}
           systemImage={otherNewsSortMode === "knownKanji" ? "checkmark.circle.fill" : "circle"}
           onPress={() => setOtherNewsSortMode("knownKanji")} />
       </SwiftUI.Menu>
@@ -446,7 +448,7 @@ export default function NewsScreen() {
             { color: theme.textColor, fontSize: 30 },
           ]}
         >
-          {savedOnly ? "Saved articles" : unreadOnly ? "Unread News" : "Recent News"}
+          {savedOnly ? uiT("ui.saved_articles_4e119922") : unreadOnly ? uiT("ui.unread_news_06a0277e") : uiT("ui.recent_news_b87ee705")}
         </Text>
         {Platform.OS === "ios" && SwiftUI ? (
           <SwiftUI.Host matchContents style={styles.sortMenuHost}>
@@ -464,12 +466,12 @@ export default function NewsScreen() {
               }
             >
               <SwiftUI.Button
-                label="Unread only"
+                label={uiT("ui.unread_only_8ab25e81")}
                 systemImage={unreadOnly ? "checkmark.circle.fill" : "circle"}
                 onPress={() => setUnreadOnly((value) => !value)}
               />
               <SwiftUI.Button
-                label="Saved only"
+                label={uiT("ui.saved_only_76aedff2")}
                 systemImage={savedOnly ? "checkmark.circle.fill" : "bookmark"}
                 onPress={() => setSavedOnly((value) => !value)}
               />
@@ -488,7 +490,7 @@ export default function NewsScreen() {
             </SwiftUI.Menu>
           </SwiftUI.Host>
         ) : (
-          <Pressable accessibilityRole="button" accessibilityLabel="Filter news"
+          <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.filter_news_a7740492")}
             accessibilityState={{ selected: unreadOnly || savedOnly }} onPress={openSourceFallbackMenu}>
             <GlassButton
               iconName="filter-outline"
@@ -523,8 +525,7 @@ export default function NewsScreen() {
             onPress={handleRefresh}
           >
             <Text style={[styles.retryButtonText, { color: theme.textColor }]}>
-              Retry
-            </Text>
+              {uiT("ui.retry_942087cc")} </Text>
           </Pressable>
         </View>
       ) : null}
@@ -607,10 +608,10 @@ export default function NewsScreen() {
           />
           <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
             {savedOnly
-              ? unreadOnly && savedArticles.length > 0 ? "No unread saved articles. Turn off Unread only to see all saved stories." : "Tap the bookmark on a story to keep it here for later. Saved articles stay on this device."
+              ? unreadOnly && savedArticles.length > 0 ? uiT("ui.no_unread_saved_articles_turn_off_unread_only_to_see_all_saved_st_f2304cbc") : uiT("ui.tap_the_bookmark_on_a_story_to_keep_it_here_for_later_saved_artic_ed190961")
               : unreadOnly && news.length > 0
-              ? "You’re all caught up. Turn off Unread only in the filter menu to see all stories."
-              : "No articles are available for this source right now."}
+              ? uiT("ui.you_re_all_caught_up_turn_off_unread_only_in_the_filter_menu_to_s_f3ce95cc")
+              : uiT("ui.no_articles_are_available_for_this_source_right_now_6137e477")}
           </Text>
         </View>
       )}
@@ -675,8 +676,7 @@ export default function NewsScreen() {
           >
             <ActivityIndicator size="small" color={theme.primary} />
             <Text style={[styles.loadingText, { color: theme.textColor }]}>
-              Loading news…
-            </Text>
+              {uiT("ui.loading_news_955430a7")} </Text>
           </View>
         </View>
       ) : null}

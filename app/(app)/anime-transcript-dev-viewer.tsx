@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { useSubtitleTiming } from "../../src/hooks/useSubtitleTiming";
 import { SubtitleTimingControls } from "../../src/components/SubtitleTimingControls";
 import { subtitlePlaybackTime } from "../../shared/subtitleTiming";
@@ -148,6 +149,7 @@ if (Platform.OS === "ios") {
 }
 
 export default function AnimeTranscriptDevViewerScreen() {
+  useInterfaceLanguage();
   useActivityTracking("video", { mode: "focus" });
   const { theme } = useTheme();
   const router = useRouter();
@@ -794,7 +796,7 @@ export default function AnimeTranscriptDevViewerScreen() {
   );
 
   const handleVlcError = useCallback(() => {
-    setVlcPlaybackError("Could not load the selected MKV. Try another file.");
+    setVlcPlaybackError(uiT("ui.message_62244120dc31"));
   }, []);
 
   useEffect(() => {
@@ -1428,7 +1430,7 @@ export default function AnimeTranscriptDevViewerScreen() {
                 style={theme.isDark ? styles.playbackIconOutlineInline : undefined}
               />
               <Text style={[styles.vlcPlayPauseButtonText, { color: inlinePlayPauseColor }]}>
-                {isPlaybackPaused ? "Play" : "Pause"}
+                {isPlaybackPaused ? uiT("ui.play_436e6101") : uiT("ui.pause_858e4ba7")}
               </Text>
             </TouchableOpacity>
             <Text
@@ -1470,32 +1472,7 @@ export default function AnimeTranscriptDevViewerScreen() {
         </View>
       );
     },
-    [
-      commitPlaybackSeek,
-      currentProgressRatio,
-      isPlaybackPaused,
-      normalizedDurationForDisplay,
-      theme.border,
-      theme.cardBackground,
-      theme.isDark,
-      theme.textColor,
-      togglePlayback,
-      usesVlcPlayer,
-      visibleCurrentTimeSeconds,
-      visibleSeekRatio,
-      closeCustomFullscreenFromControls,
-      handlePauseAndTranslateCurrentCue,
-      insets.bottom,
-      insets.left,
-      insets.right,
-      insets.top,
-      isTranslatingCurrentCue,
-      primaryActiveCue,
-      shouldUseFakeLandscapeFullscreen,
-      shouldUseVlcFakeLandscapeFullscreen,
-      skipPlaybackBySeconds,
-      viewerSettings.showPauseAndTranslateCurrentCaptionButton,
-    ]
+    [commitPlaybackSeek, currentProgressRatio, isPlaybackPaused, normalizedDurationForDisplay, theme.border, theme.cardBackground, theme.isDark, theme.textColor, togglePlayback, usesVlcPlayer, visibleCurrentTimeSeconds, visibleSeekRatio, closeCustomFullscreenFromControls, handlePauseAndTranslateCurrentCue, insets.bottom, insets.left, insets.right, insets.top, isTranslatingCurrentCue, primaryActiveCue, shouldUseFakeLandscapeFullscreen, shouldUseVlcFakeLandscapeFullscreen, skipPlaybackBySeconds, viewerSettings.showPauseAndTranslateCurrentCaptionButton, ]
   );
 
   const renderVideoSurface = useCallback(
@@ -1505,8 +1482,7 @@ export default function AnimeTranscriptDevViewerScreen() {
           return (
             <View style={[style, styles.vlcUnavailableSurface]}>
               <Text style={styles.vlcUnavailableText}>
-                VLC playback is unavailable on this platform build.
-              </Text>
+                {uiT("ui.vlc_playback_is_unavailable_on_this_platform_build_e66a9136")} </Text>
             </View>
           );
         }
@@ -1540,19 +1516,7 @@ export default function AnimeTranscriptDevViewerScreen() {
         />
       );
     },
-    [
-      handleVlcError,
-      handleVlcLoad,
-      handleVlcProgress,
-      isVlcPaused,
-      player,
-      usesVlcPlayer,
-      vlcEmptySubtitleUri,
-      vlcTextTrackId,
-      videoUri,
-      isCustomFullscreen,
-      isVlcFullscreen,
-    ]
+    [handleVlcError, handleVlcLoad, handleVlcProgress, isVlcPaused, player, usesVlcPlayer, vlcEmptySubtitleUri, vlcTextTrackId, videoUri, isCustomFullscreen, isVlcFullscreen, ]
   );
 
   const getTooltipPositionFromAnchor = useCallback(
@@ -2507,17 +2471,15 @@ export default function AnimeTranscriptDevViewerScreen() {
         </TouchableOpacity>
         <View style={styles.emptyState}>
           <Text style={[styles.emptyStateTitle, { color: theme.textColor }]}>
-            No processed session found
-          </Text>
+            {uiT("ui.no_processed_session_found_f7df550a")} </Text>
           <Text style={[styles.emptyStateSubtitle, { color: theme.textSecondary }]}>
-            Go back, upload files, and process subtitles first.
-          </Text>
+            {uiT("ui.go_back_upload_files_and_process_subtitles_first_6e42d632")} </Text>
           <TouchableOpacity
             style={[styles.goBackButton, { backgroundColor: theme.primary }]}
             onPress={() => router.back()}
             activeOpacity={0.82}
           >
-            <Text style={styles.goBackButtonText}>Back to Upload</Text>
+            <Text style={styles.goBackButtonText}>{uiT("ui.back_to_upload_fa2261c6")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -2628,7 +2590,7 @@ export default function AnimeTranscriptDevViewerScreen() {
             activeOpacity={0.85}
           >
             <Ionicons name="expand" size={16} color="#ffffff" />
-            <Text style={styles.fullscreenToggleButtonText}>Fullscreen</Text>
+            <Text style={styles.fullscreenToggleButtonText}>{uiT("ui.fullscreen_c461dbb2")}</Text>
           </TouchableOpacity>
         ) : null}
 
@@ -2721,8 +2683,7 @@ export default function AnimeTranscriptDevViewerScreen() {
         >
           <View style={styles.subtitlePanelHeader}>
             <Text style={[styles.subtitlePanelTitle, { color: theme.textSecondary }]}>
-              Live subtitles
-            </Text>
+              {uiT("ui.live_subtitles_1cec1110")} </Text>
             <View style={styles.subtitlePanelHeaderActions}>
               {viewerSettings.showPauseAndTranslateCurrentCaptionButton ? (
                 <TouchableOpacity
@@ -2789,8 +2750,7 @@ export default function AnimeTranscriptDevViewerScreen() {
               >
                 <Ionicons name="settings-outline" size={15} color={theme.textSecondary} />
                 <Text style={[styles.subtitlePanelSettingsButtonText, { color: theme.textSecondary }]}>
-                  Settings
-                </Text>
+                  {uiT("ui.settings_74a883a0")} </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -2809,7 +2769,7 @@ export default function AnimeTranscriptDevViewerScreen() {
               <TextInput
                 value={subtitleSearchQuery}
                 onChangeText={setSubtitleSearchQuery}
-                placeholder="Search transcript..."
+                placeholder={uiT("ui.search_transcript_dba26dd2")}
                 placeholderTextColor={withAlpha(theme.textSecondary, 0.75)}
                 style={[styles.subtitleSearchInput, { color: theme.textColor }]}
                 returnKeyType="search"
@@ -2835,7 +2795,7 @@ export default function AnimeTranscriptDevViewerScreen() {
           normalizedSubtitleSearchQuery ? (
             <View style={styles.searchResultsBlock}>
               <Text style={[styles.searchResultsLabel, { color: theme.textSecondary }]}>
-                Matches: {subtitleSearchResults.length}
+                {uiT("ui.matches_6dc54c07")} {subtitleSearchResults.length}
               </Text>
               {subtitleSearchResults.length > 0 ? (
                 <ScrollView
@@ -2872,8 +2832,7 @@ export default function AnimeTranscriptDevViewerScreen() {
                 </ScrollView>
               ) : (
                 <Text style={[styles.searchNoResultsText, { color: theme.textSecondary }]}>
-                  No matches found.
-                </Text>
+                  {uiT("ui.no_matches_found_eb82569d")} </Text>
               )}
             </View>
           ) : null}

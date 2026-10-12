@@ -1,0 +1,15 @@
+<resources>
+    <string name="widget_small_name">Kakehashi · Küçük</string>
+    <string name="widget_medium_name">Kakehashi · Orta</string>
+    <string name="widget_description">Tekrar, kritik konu ve seri istatistikleri. İçeriği ve renkleri Ayarlar → Ana ekran widget’ı bölümünden seçin.</string>
+    <string name="widget_reviews">Tekrarlar</string>
+    <string name="widget_open_app">Eşitlemek için Kakehashi’yi açın</string>
+    <string name="widget_critical">Kritik konular</string>
+    <string name="widget_empty_critical">Kritik konu yok</string>
+    <string name="widget_refresh_items">Konuları görmek için yenileyin.</string>
+    <string name="widget_no_low_accuracy" formatted="false">Doğruluğu %90’ın altında konu yok.</string>
+    <string name="widget_launch">Kakehashi’yi açın</string>
+    <string name="widget_accuracy">%%%1$d doğru</string>
+    <string name="widget_active">etkin</string>
+    <string name="widget_inactive">etkin değil</string>
+</resources>

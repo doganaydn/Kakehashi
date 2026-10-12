@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -78,7 +79,7 @@ function buildGrammarTooltipItem(token: JpdbParsedTokenAnnotation): VocabularyMa
   const meaningText = token.meaning?.trim() || "Grammar point";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
 
   return {
@@ -96,6 +97,7 @@ function buildGrammarTooltipItem(token: JpdbParsedTokenAnnotation): VocabularyMa
 }
 
 export default function TranslatorScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const { userData } = useAuthStore();
@@ -493,7 +495,7 @@ export default function TranslatorScreen() {
     if (!permissionsGranted) {
       const granted = await requestPermissions();
       if (!granted) {
-        setError("Microphone permission is required for speech recognition");
+        setError(uiT("ui.message_f2421de99ff2"));
         return;
       }
     }
@@ -510,7 +512,7 @@ export default function TranslatorScreen() {
       });
     } catch (err) {
       console.error("Error starting speech recognition:", err);
-      setError("Failed to start speech recognition");
+      setError(uiT("ui.message_11af4cda30b6"));
     }
   };
 
@@ -615,7 +617,7 @@ export default function TranslatorScreen() {
       });
     } catch (err) {
       console.error("Translation error:", err);
-      setError("Translation failed. Please try again.");
+      setError(uiT("ui.message_b9725da1e57f"));
     } finally {
       setIsTranslating(false);
     }
@@ -965,7 +967,7 @@ export default function TranslatorScreen() {
                 )}
                 {showJpdbBadge && (
                   <View style={[styles.levelBadgeChip, styles.jpdbBadgeChip]}>
-                    <Text style={styles.levelBadgeText}>JP</Text>
+                    <Text style={styles.levelBadgeText}>{uiT("ui.jp_569ec613")}</Text>
                   </View>
                 )}
               </View>
@@ -1212,8 +1214,7 @@ export default function TranslatorScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Translate
-          </Text>
+            {uiT("ui.translate_8fe14769")} </Text>
           <TouchableOpacity
             onPress={handleShowHistory}
             style={styles.headerButton}
@@ -1230,7 +1231,7 @@ export default function TranslatorScreen() {
             activeOpacity={0.7}
           >
             <Text style={[styles.languageText, { color: theme.textColor }]}>
-              {direction === "en-ja" ? "ENGLISH" : "JAPANESE"}
+              {direction === "en-ja" ? uiT("ui.english_ee56c51f") : uiT("ui.japanese_67695698")}
             </Text>
           </TouchableOpacity>
 
@@ -1247,7 +1248,7 @@ export default function TranslatorScreen() {
             activeOpacity={0.7}
           >
             <Text style={[styles.languageText, { color: "white" }]}>
-              {direction === "en-ja" ? "JAPANESE" : "ENGLISH"}
+              {direction === "en-ja" ? uiT("ui.japanese_67695698") : uiT("ui.english_ee56c51f")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -1269,8 +1270,7 @@ export default function TranslatorScreen() {
                   { color: studyMode === "none" ? "white" : theme.textColor },
                 ]}
               >
-                No Study
-              </Text>
+                {uiT("ui.no_study_45cfdfbd")} </Text>
             </TouchableOpacity>
 
             <View ref={highlightButtonRef}>
@@ -1289,8 +1289,7 @@ export default function TranslatorScreen() {
                     { color: studyMode === "wk" ? "white" : theme.textColor },
                   ]}
                 >
-                  WK Study
-                </Text>
+                  {uiT("ui.wk_study_dbe278c4")} </Text>
               </TouchableOpacity>
             </View>
 
@@ -1318,8 +1317,7 @@ export default function TranslatorScreen() {
                   },
                 ]}
               >
-                Full JPDB
-              </Text>
+                {uiT("ui.full_jpdb_acc5e53e")} </Text>
             </TouchableOpacity>
           </View>
         ) : null}
@@ -1363,8 +1361,7 @@ export default function TranslatorScreen() {
                     <View style={styles.loadingContainer}>
                       <ActivityIndicator size="small" color={theme.primary} />
                       <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-                        Finding matches...
-                      </Text>
+                        {uiT("ui.finding_matches_1f2c32f6")} </Text>
                     </View>
                   ) : (
                     fullModeEnabled
@@ -1506,7 +1503,7 @@ export default function TranslatorScreen() {
               {isTranslating ? (
                 <View style={styles.translatingContainer}>
                   <ActivityIndicator size="small" color="white" />
-                  <Text style={styles.translatingText}>Translating...</Text>
+                  <Text style={styles.translatingText}>{uiT("ui.translating_f21771ab")}</Text>
                 </View>
               ) : targetText ? (
                 <View style={styles.highlightedContent}>
@@ -1523,8 +1520,7 @@ export default function TranslatorScreen() {
                 </View>
               ) : (
                 <Text style={[styles.placeholderText, { color: "rgba(255,255,255,0.6)" }]}>
-                  Translation will appear here
-                </Text>
+                  {uiT("ui.translation_will_appear_here_77fac275")} </Text>
               )}
             </ScrollView>
             <View style={[styles.cardFooter, { borderTopColor: "rgba(255,255,255,0.2)" }]}>
@@ -1578,7 +1574,7 @@ export default function TranslatorScreen() {
             ) : (
               <>
                 <Ionicons name="language" size={22} color="white" />
-                <Text style={styles.translateButtonText}>Translate</Text>
+                <Text style={styles.translateButtonText}>{uiT("ui.translate_8fe14769")}</Text>
               </>
             )}
           </TouchableOpacity>

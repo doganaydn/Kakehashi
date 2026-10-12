@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { formatDistanceToNow } from "date-fns";
 import React, { useEffect } from "react";
@@ -39,6 +40,7 @@ interface IssueListProps {
 const EMPTY_SUPPORTER_USERNAMES = new Set<string>();
 
 const SkeletonIssueItem = () => {
+  useInterfaceLanguage();
   const { theme, isDark } = useTheme();
   const opacity = useSharedValue(0.3);
 
@@ -151,6 +153,7 @@ export default function IssueList({
   onPressIssue,
   onToggleLike,
 }: IssueListProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const supporterUsernames =
     patreonSupporterUsernames ?? EMPTY_SUPPORTER_USERNAMES;
@@ -222,7 +225,7 @@ export default function IssueList({
                       { backgroundColor: theme.primary },
                     ]}
                   >
-                    <Text style={styles.devBadgeText}>DEV</Text>
+                    <Text style={styles.devBadgeText}>{uiT("ui.dev_4030fe15")}</Text>
                   </View>
                 )}
               {isPatreonSupporter && (
@@ -232,8 +235,7 @@ export default function IssueList({
               )}
               <Text style={[styles.metaText, { color: theme.textSecondary }]}>
                 {" "}
-                • {formatDistanceToNow(new Date(item.created_at))} ago
-              </Text>
+                • {formatDistanceToNow(new Date(item.created_at))} {uiT("ui.ago_1d8e08fd")} </Text>
             </View>
             <View style={styles.statsRow}>
               {item.reply_count > 0 && (
@@ -317,7 +319,7 @@ export default function IssueList({
       ListEmptyComponent={
         !isLoading ? (
           <View style={styles.centerEmpty}>
-            <Text style={{ color: theme.textSecondary }}>No issues found.</Text>
+            <Text style={{ color: theme.textSecondary }}>{uiT("ui.no_issues_found_050dc004")}</Text>
           </View>
         ) : null
       }

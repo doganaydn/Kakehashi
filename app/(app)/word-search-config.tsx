@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -42,15 +43,15 @@ const SESSION_KEY = EXTRA_STUDY_SESSION_STORAGE_KEYS.WORD_SEARCH;
 const DIRECTIONS = [
   {
     id: "kanji-to-kana" as const,
-    title: "Find kana",
+    get title() { return uiT("ui.find_kana_357856c9"); },
     example: "日本  →  にほん",
-    description: "Read a kanji clue, then find its reading.",
+    get description() { return uiT("ui.read_a_kanji_clue_then_find_its_reading_68b9b7fc"); },
   },
   {
     id: "kana-to-kanji" as const,
-    title: "Find kanji",
+    get title() { return uiT("ui.find_kanji_de853257"); },
     example: "にほん  →  日本",
-    description: "Read a kana clue, then find the written word.",
+    get description() { return uiT("ui.read_a_kana_clue_then_find_the_written_word_0ecd91f4"); },
   },
 ];
 
@@ -61,6 +62,7 @@ const WORD_COUNT_LABELS = {
 } as const;
 
 function WordSearchConfigContent() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const userLevel = useAuthStore((state) => state.userData?.level ?? 60);
@@ -137,15 +139,15 @@ function WordSearchConfigContent() {
       if (!mounted || !hasSavedSession) {
         return;
       }
-      Alert.alert("Resume Word Search?", "You have a puzzle in progress.", [
-        { text: "Not Now", style: "cancel" },
+      Alert.alert(uiT("ui.resume_word_search_86f7d790"), uiT("ui.you_have_a_puzzle_in_progress_10b33b97"), [
+        { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => void clearExtraStudySessionState(SESSION_KEY),
         },
         {
-          text: "Resume",
+          text: uiT("ui.resume_d640c742"),
           onPress: () =>
             router.push({
               pathname: "/word-search-session" as any,
@@ -162,8 +164,8 @@ function WordSearchConfigContent() {
   const startPuzzle = async () => {
     if (!canStart) {
       Alert.alert(
-        "Pick an SRS stage",
-        "Choose at least one stage to build a puzzle from.",
+        uiT("ui.pick_an_srs_stage_32a26093"),
+        uiT("ui.choose_at_least_one_stage_to_build_a_puzzle_from_13e43473"),
       );
       return;
     }
@@ -180,7 +182,7 @@ function WordSearchConfigContent() {
       });
     } catch (error) {
       console.error("Failed to save Word Search config", error);
-      Alert.alert("Couldn't Start", "Please try building the puzzle again.");
+      Alert.alert(uiT("ui.couldn_t_start_f03580cf"), uiT("ui.please_try_building_the_puzzle_again_99dc04ae"));
     }
   };
 
@@ -207,7 +209,7 @@ function WordSearchConfigContent() {
       >
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel="Back"
+          accessibilityLabel={uiT("ui.back_76900f1b")}
           onPress={() => router.back()}
           style={styles.backButton}
           activeOpacity={0.7}
@@ -215,8 +217,7 @@ function WordSearchConfigContent() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Word Search
-        </Text>
+          {uiT("ui.word_search_2a17a96d")} </Text>
       </View>
 
       <ScrollView
@@ -236,13 +237,11 @@ function WordSearchConfigContent() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Study Direction
-          </Text>
+            {uiT("ui.study_direction_d47fe838")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Choose which Japanese form appears as the clue.
-          </Text>
+            {uiT("ui.choose_which_japanese_form_appears_as_the_clue_325bb4d2")} </Text>
           <View style={styles.directionList}>
             {DIRECTIONS.map((direction) => {
               const selected = config.direction === direction.id;
@@ -313,13 +312,11 @@ function WordSearchConfigContent() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Puzzle Length
-          </Text>
+            {uiT("ui.puzzle_length_e302a839")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Pick how many words to hide in the grid.
-          </Text>
+            {uiT("ui.pick_how_many_words_to_hide_in_the_grid_f7c3d243")} </Text>
           <View style={styles.countOptions}>
             {WORD_SEARCH_WORD_COUNTS.map((count) => {
               const selected = config.wordCount === count;
@@ -353,8 +350,7 @@ function WordSearchConfigContent() {
                   <Text
                     style={[styles.countValue, { color: theme.textSecondary }]}
                   >
-                    {count} words
-                  </Text>
+                    {count} {uiT("ui.words_dba36bff")} </Text>
                 </TouchableOpacity>
               );
             })}
@@ -373,13 +369,11 @@ function WordSearchConfigContent() {
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Include SRS Stages
-          </Text>
+            {uiT("ui.include_srs_stages_eb382d10")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Pick which progression stages feed the puzzle pool.
-          </Text>
+            {uiT("ui.pick_which_progression_stages_feed_the_puzzle_pool_f99a5bb2")} </Text>
           <View style={styles.chips}>
             {srsOptions.map(({ key, label }) => {
               const selected = config.srsGroups[key];
@@ -440,8 +434,7 @@ function WordSearchConfigContent() {
         >
           <View style={styles.levelHeaderRow}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Level Range
-            </Text>
+              {uiT("ui.level_range_66c41110")} </Text>
             <Switch
               value={config.useCustomLevelRange}
               onValueChange={(value) =>
@@ -455,10 +448,10 @@ function WordSearchConfigContent() {
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
             {config.useCustomLevelRange
-              ? `Using levels ${config.minLevel} to ${config.maxLevel}`
+              ? uiT("ui.using_levels_value_to_value_f7518a7a", {value1: (config.minLevel), value2: (config.maxLevel)})
               : config.selectedListIds.length > 0
-                ? "Using all levels in selected lists"
-                : `Using levels 1 to your level (${userLevel})`}
+                ? uiT("ui.using_all_levels_in_selected_lists_6461a489")
+                : uiT("ui.using_levels_1_to_your_level_value_6a9dc246", {value1: (userLevel)})}
           </Text>
 
           <Animated.View
@@ -473,8 +466,7 @@ function WordSearchConfigContent() {
           >
             <View style={styles.sliderLabelRow}>
               <Text style={[styles.sliderLabel, { color: theme.textColor }]}>
-                Min
-              </Text>
+                {uiT("ui.min_dea79332")} </Text>
               <Text style={[styles.sliderValue, { color: theme.textColor }]}>
                 {config.minLevel}
               </Text>
@@ -498,8 +490,7 @@ function WordSearchConfigContent() {
 
             <View style={styles.sliderLabelRow}>
               <Text style={[styles.sliderLabel, { color: theme.textColor }]}>
-                Max
-              </Text>
+                {uiT("ui.max_a1a5936d")} </Text>
               <Text style={[styles.sliderValue, { color: theme.textColor }]}>
                 {config.maxLevel}
               </Text>
@@ -527,7 +518,7 @@ function WordSearchConfigContent() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={["vocabulary"]}
-          description="Optional: only include words from these saved lists."
+          description={uiT("ui.optional_only_include_words_from_these_saved_lists_ca47f161")}
         />
 
         <View style={styles.footerSpacer} />
@@ -548,7 +539,7 @@ function WordSearchConfigContent() {
       >
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel="Start Word Search"
+          accessibilityLabel={uiT("ui.start_word_search_3dc72c0e")}
           disabled={!canStart}
           onPress={() => void startPuzzle()}
           activeOpacity={0.8}
@@ -561,7 +552,7 @@ function WordSearchConfigContent() {
           ]}
         >
           <Ionicons name="search" size={22} color="#FFFFFF" />
-          <Text style={styles.startButtonText}>Start Word Search</Text>
+          <Text style={styles.startButtonText}>{uiT("ui.start_word_search_3dc72c0e")}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -569,6 +560,7 @@ function WordSearchConfigContent() {
 }
 
 export default function WordSearchConfigScreen() {
+  useInterfaceLanguage();
   return <WordSearchConfigContent />;
 }
 

@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
@@ -34,6 +35,7 @@ interface DetectedTextRegion {
 }
 
 export default function CameraOCRScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const camera = useRef<Camera>(null);
@@ -171,7 +173,7 @@ export default function CameraOCRScreen() {
       performOCR(`file://${photo.path}`);
     } catch (err) {
       console.error("Error taking photo:", err);
-      setError("Failed to capture photo. Please try again.");
+      setError(uiT("ui.message_f59b2548307b"));
     } finally {
       setIsCapturing(false);
     }
@@ -196,7 +198,7 @@ export default function CameraOCRScreen() {
       }
     } catch (err) {
       console.error("Error picking image:", err);
-      setError("Failed to select image. Please try again.");
+      setError(uiT("ui.message_4df7c693d675"));
     }
   }, []);
 
@@ -215,7 +217,7 @@ export default function CameraOCRScreen() {
 
       if (result.originalText.trim().length === 0) {
         setError(
-          "No text detected in the image. Try with an image containing Japanese text."
+          uiT("ui.message_0fce3026978b")
         );
         return;
       }
@@ -225,7 +227,7 @@ export default function CameraOCRScreen() {
 
       if (japaneseText.length === 0) {
         setError(
-          "No Japanese text detected. Try with an image containing Japanese characters."
+          uiT("ui.message_a75965066090")
         );
         return;
       }
@@ -248,7 +250,7 @@ export default function CameraOCRScreen() {
       });
     } catch (err) {
       console.error("OCR error:", err);
-      setError("Failed to process image. Please try again.");
+      setError(uiT("ui.message_10f3c00d0553"));
     } finally {
       setIsProcessing(false);
       stopAIProcessingAnimation();
@@ -321,14 +323,11 @@ export default function CameraOCRScreen() {
               color={theme.textSecondary}
             />
             <Text style={[styles.permissionTitle, { color: theme.textColor }]}>
-              Camera Permission Required
-            </Text>
+              {uiT("ui.camera_permission_required_9407beac")} </Text>
             <Text
               style={[styles.permissionText, { color: theme.textSecondary }]}
             >
-              We need access to your camera to capture images for Japanese text
-              recognition.
-            </Text>
+              {uiT("ui.we_need_access_to_your_camera_to_capture_images_for_japanese_text_41f98fc6")} </Text>
             <TouchableOpacity
               style={[
                 styles.permissionButton,
@@ -339,8 +338,8 @@ export default function CameraOCRScreen() {
             >
               <Text style={styles.permissionButtonText}>
                 {permissionStatus === "denied"
-                  ? "Open Settings"
-                  : "Continue"}
+                  ? uiT("ui.open_settings_3f940108")
+                  : uiT("ui.continue_31fbef16")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -357,8 +356,7 @@ export default function CameraOCRScreen() {
         <View style={styles.errorContainer}>
           <Ionicons name="camera-outline" size={64} color={theme.error} />
           <Text style={[styles.errorText, { color: theme.error }]}>
-            Camera not available
-          </Text>
+            {uiT("ui.camera_not_available_4c055cc5")} </Text>
         </View>
       </View>
     );
@@ -373,7 +371,7 @@ export default function CameraOCRScreen() {
           onPress={handleClose}
           iconColor="white"
         />
-        <Text style={styles.headerTitle}>Image Search</Text>
+        <Text style={styles.headerTitle}>{uiT("ui.image_search_b2d469b6")}</Text>
         <GlassButton
           iconName="images"
           onPress={handleGalleryPress}
@@ -481,16 +479,14 @@ export default function CameraOCRScreen() {
                         { color: theme.textColor },
                       ]}
                     >
-                      AI Processing
-                    </Text>
+                      {uiT("ui.ai_processing_f8c0f341")} </Text>
                     <Text
                       style={[
                         styles.aiProcessingSubtext,
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Analyzing Japanese text...
-                    </Text>
+                      {uiT("ui.analyzing_japanese_text_de2dd531")} </Text>
                   </View>
                 </View>
               </View>
@@ -520,14 +516,14 @@ export default function CameraOCRScreen() {
       {/* Instructions */}
       <View style={styles.instructionsContainer}>
         <Text style={[styles.instructionsTitle, { color: theme.textColor }]}>
-          {capturedImage ? "Processing Image" : "Point camera at Japanese text"}
+          {capturedImage ? uiT("ui.processing_image_61fbbccc") : uiT("ui.point_camera_at_japanese_text_9e85327c")}
         </Text>
         <Text
           style={[styles.instructionsSubtitle, { color: theme.textSecondary }]}
         >
           {capturedImage
-            ? "Detecting Japanese characters and vocabulary..."
-            : "Books, signs, menus, or any printed text"}
+            ? uiT("ui.detecting_japanese_characters_and_vocabulary_c65c0916")
+            : uiT("ui.books_signs_menus_or_any_printed_text_3771a216")}
         </Text>
       </View>
 
@@ -555,7 +551,7 @@ export default function CameraOCRScreen() {
             activeOpacity={0.7}
           >
             <Ionicons name="refresh" size={24} color="white" />
-            <Text style={styles.retryButtonText}>Try Again</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.try_again_df0fe9e0")}</Text>
           </TouchableOpacity>
         ) : (
           <View style={styles.captureContainer}>

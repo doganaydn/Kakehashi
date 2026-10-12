@@ -1,5 +1,7 @@
 package com.portego00.kakehashi
 
+import expo.modules.kakehashiwidget.InterfaceLocale
+
 import android.content.pm.PackageManager
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
@@ -41,13 +43,13 @@ class AnkiDroidModule(
     }
 
     if (pendingPermissionPromise != null) {
-      promise.reject("PERMISSION_PENDING", "AnkiDroid permission request already in progress")
+      promise.reject("PERMISSION_PENDING", InterfaceLocale.context(reactContext).getString(R.string.native_ui_1))
       return
     }
 
     val activity = reactContext.currentActivity as? PermissionAwareActivity
     if (activity == null) {
-      promise.reject("NO_ACTIVITY", "No active activity to request AnkiDroid permission")
+      promise.reject("NO_ACTIVITY", InterfaceLocale.context(reactContext).getString(R.string.native_ui_2))
       return
     }
 
@@ -93,7 +95,7 @@ class AnkiDroidModule(
         }
       promise.resolve(result)
     } catch (error: Throwable) {
-      rejectApiError(promise, "DECKS_FAILED", "Could not load AnkiDroid decks", error)
+      rejectApiError(promise, "DECKS_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_10), error)
     }
   }
 
@@ -114,7 +116,7 @@ class AnkiDroidModule(
         }
       promise.resolve(result)
     } catch (error: Throwable) {
-      rejectApiError(promise, "NOTE_TYPES_FAILED", "Could not load AnkiDroid note types", error)
+      rejectApiError(promise, "NOTE_TYPES_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_11), error)
     }
   }
 
@@ -125,19 +127,19 @@ class AnkiDroidModule(
     try {
       val id = noteTypeId.toLongOrNull()
       if (id == null) {
-        promise.reject("INVALID_NOTE_TYPE", "Invalid AnkiDroid note type")
+        promise.reject("INVALID_NOTE_TYPE", InterfaceLocale.context(reactContext).getString(R.string.native_ui_3))
         return
       }
 
       val fields = AddContentApi(reactContext).getFieldList(id)
       if (fields == null || fields.size < 2) {
-        promise.reject("FIELDS_FAILED", "The selected AnkiDroid note type is unavailable")
+        promise.reject("FIELDS_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_4))
         return
       }
 
       promise.resolve(Arguments.fromList(fields.toList()))
     } catch (error: Throwable) {
-      rejectApiError(promise, "FIELDS_FAILED", "Could not load AnkiDroid fields", error)
+      rejectApiError(promise, "FIELDS_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_12), error)
     }
   }
 
@@ -155,7 +157,7 @@ class AnkiDroidModule(
       val parsedDeckId = deckId.toLongOrNull()
       val parsedNoteTypeId = noteTypeId.toLongOrNull()
       if (parsedDeckId == null || parsedNoteTypeId == null) {
-        promise.reject("INVALID_CONFIGURATION", "Invalid AnkiDroid export configuration")
+        promise.reject("INVALID_CONFIGURATION", InterfaceLocale.context(reactContext).getString(R.string.native_ui_5))
         return
       }
 
@@ -164,7 +166,7 @@ class AnkiDroidModule(
       if (expectedFields == null || expectedFields.size != fieldValues.size) {
         promise.reject(
           "FIELDS_CHANGED",
-          "The fields in the selected AnkiDroid note type have changed. Configure export again."
+          InterfaceLocale.context(reactContext).getString(R.string.native_ui_6)
         )
         return
       }
@@ -181,13 +183,13 @@ class AnkiDroidModule(
         tagValues
       )
       if (noteId == null) {
-        promise.reject("ADD_FAILED", "AnkiDroid did not add the note")
+        promise.reject("ADD_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_7))
         return
       }
 
       promise.resolve(noteId.toString())
     } catch (error: Throwable) {
-      rejectApiError(promise, "ADD_FAILED", "Could not add the note to AnkiDroid", error)
+      rejectApiError(promise, "ADD_FAILED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_13), error)
     }
   }
 
@@ -198,11 +200,11 @@ class AnkiDroidModule(
 
   private fun requireReady(promise: Promise): Boolean {
     if (AddContentApi.getAnkiDroidPackageName(reactContext) == null) {
-      promise.reject("ANKIDROID_NOT_INSTALLED", "AnkiDroid is not installed")
+      promise.reject("ANKIDROID_NOT_INSTALLED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_8))
       return false
     }
     if (!hasReadWritePermission()) {
-      promise.reject("PERMISSION_DENIED", "AnkiDroid access was not granted")
+      promise.reject("PERMISSION_DENIED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_9))
       return false
     }
     return true
@@ -215,7 +217,7 @@ class AnkiDroidModule(
     error: Throwable
   ) {
     if (error is SecurityException) {
-      promise.reject("PERMISSION_DENIED", "AnkiDroid access was not granted", error)
+      promise.reject("PERMISSION_DENIED", InterfaceLocale.context(reactContext).getString(R.string.native_ui_9), error)
     } else {
       promise.reject(code, error.message ?: message, error)
     }

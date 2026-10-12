@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import React, { useState, useRef } from "react";
 import {
   View,
@@ -17,6 +18,7 @@ import { StatusBar } from "expo-status-bar";
 import { useTheme } from "../../src/utils/theme";
 
 export default function FeatureRequestScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [message, setMessage] = useState("");
@@ -68,7 +70,7 @@ export default function FeatureRequestScreen() {
 
   const handleSubmit = async () => {
     if (selectedCategories.length === 0 && message.trim() === "") {
-      Alert.alert("Error", "Please select at least one category or add a description.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_select_at_least_one_category_or_add_a_description_2f253863"));
       return;
     }
 
@@ -95,11 +97,11 @@ export default function FeatureRequestScreen() {
       
       if (response.ok) {
         Alert.alert(
-          "Feature Request Sent",
-          "Thank you for your suggestion! We'll consider it for future updates.",
+          uiT("ui.feature_request_sent_96cd0d45"),
+          uiT("ui.thank_you_for_your_suggestion_we_ll_consider_it_for_future_update_4aa8956e"),
           [
             {
-              text: "OK",
+              text: uiT("ui.ok_565339bc"),
               onPress: handleClose
             }
           ]
@@ -108,7 +110,7 @@ export default function FeatureRequestScreen() {
         throw new Error("Failed to submit");
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to send feature request. Please check your internet connection and try again.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_send_feature_request_please_check_your_internet_connect_6f614825"));
     } finally {
       setIsSubmitting(false);
     }
@@ -126,15 +128,14 @@ export default function FeatureRequestScreen() {
           <Ionicons name="close" size={28} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          Request Feature
-        </Text>
+          {uiT("ui.request_feature_02a50112")} </Text>
         <TouchableOpacity 
           onPress={handleSubmit}
           disabled={isSubmitting}
           style={[styles.submitHeaderButton, { opacity: isSubmitting ? 0.6 : 1 }]}
         >
           <Text style={[styles.submitHeaderText, { color: theme.primary }]}>
-            {isSubmitting ? "Sending..." : "Send"}
+            {isSubmitting ? uiT("ui.sending_286a3af7") : uiT("ui.send_f6f4688f")}
           </Text>
         </TouchableOpacity>
       </View>
@@ -148,8 +149,7 @@ export default function FeatureRequestScreen() {
       >
         <View style={[styles.section, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            What area would this improve?
-          </Text>
+            {uiT("ui.what_area_would_this_improve_dbbe83e6")} </Text>
           
           <View style={styles.categoriesContainer}>
             {categories.map((category) => (
@@ -193,8 +193,7 @@ export default function FeatureRequestScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Describe your feature idea
-          </Text>
+            {uiT("ui.describe_your_feature_idea_0844762f")} </Text>
           
           <TextInput
             ref={textInputRef}
@@ -208,7 +207,7 @@ export default function FeatureRequestScreen() {
             ]}
             multiline
             numberOfLines={8}
-            placeholder="What feature would you like to see? How would it work?"
+            placeholder={uiT("ui.what_feature_would_you_like_to_see_how_would_it_work_8b2599c0")}
             placeholderTextColor={theme.textSecondary}
             value={message}
             onChangeText={setMessage}
@@ -229,7 +228,7 @@ export default function FeatureRequestScreen() {
           disabled={isSubmitting}
         >
           <Text style={styles.submitButtonText}>
-            {isSubmitting ? "Sending Request..." : "Send Request"}
+            {isSubmitting ? uiT("ui.sending_request_cdd02aa9") : uiT("ui.send_request_19e428e1")}
           </Text>
         </TouchableOpacity>
       </ScrollView>

@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -108,7 +109,7 @@ function buildGrammarTooltipItem(token: JpdbParsedTokenAnnotation): VocabularyMa
   const meaningText = token.meaning?.trim() || "Grammar point";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
 
   return {
@@ -132,7 +133,7 @@ function buildJpdbFallbackTooltipItem(
   const meaningText = token.meaning?.trim() || "Detected by JPDB parser.";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
   const displayText = token.spelling || token.surface || token.reading || "Vocabulary";
   const hasKanji = /[\u3400-\u9FFF々]/.test(displayText);
@@ -235,6 +236,7 @@ function ZoomableReaderPageTile({
   onRegionPress,
   onRetry,
 }: ZoomableReaderPageTileProps) {
+  useInterfaceLanguage();
   const scale = useSharedValue(1);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -387,7 +389,7 @@ function ZoomableReaderPageTile({
                 color={withAlpha(textSecondary, 0.72)}
               />
               <Text style={[styles.pagePlaceholderText, { color: textSecondary }]}>
-                {isPageLoading ? "Rendering page..." : placeholderText}
+                {isPageLoading ? uiT("ui.rendering_page_605cec3c") : placeholderText}
               </Text>
             </View>
           )}
@@ -439,7 +441,7 @@ function ZoomableReaderPageTile({
         <View style={styles.pageErrorBadge}>
           <Text style={styles.pageErrorText}>{pageError}</Text>
           <TouchableOpacity onPress={() => onRetry(page)}>
-            <Text style={styles.pageRetryText}>Retry</Text>
+            <Text style={styles.pageRetryText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
         </View>
       ) : null}
@@ -447,7 +449,7 @@ function ZoomableReaderPageTile({
       {isZoomed ? (
         <TouchableOpacity style={styles.zoomResetButton} onPress={resetZoom}>
           <Ionicons name="contract-outline" size={14} color="#8bd4ff" />
-          <Text style={styles.zoomResetButtonText}>Reset Zoom</Text>
+          <Text style={styles.zoomResetButtonText}>{uiT("ui.reset_zoom_3a43acdc")}</Text>
         </TouchableOpacity>
       ) : null}
     </Pressable>
@@ -455,6 +457,7 @@ function ZoomableReaderPageTile({
 }
 
 export default function MangaReaderScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const insets = useSafeAreaInsets();
@@ -1000,14 +1003,14 @@ export default function MangaReaderScreen() {
 
   const reloadManga = useCallback(async () => {
     if (!canAccessManga) {
-      setLoadError("This feature is only available to user Portego.");
+      setLoadError(uiT("ui.this_feature_is_only_available_to_user_portego_3adec1d5"));
       setManga(null);
       setIsLoading(false);
       return;
     }
 
     if (!mangaId) {
-      setLoadError("No manga was selected.");
+      setLoadError(uiT("ui.message_036d3fcd1306"));
       setIsLoading(false);
       return;
     }
@@ -1022,7 +1025,7 @@ export default function MangaReaderScreen() {
     try {
       const storedManga = await mangaLibraryService.getManga(mangaId);
       if (!storedManga) {
-        setLoadError("This manga is no longer available in your library.");
+        setLoadError(uiT("ui.message_c7ca6881d309"));
         setManga(null);
         return;
       }
@@ -1033,7 +1036,7 @@ export default function MangaReaderScreen() {
       revealChrome(2600);
     } catch (error) {
       console.error("Failed to open manga:", error);
-      setLoadError("Could not open this manga right now.");
+      setLoadError(uiT("ui.message_8503daa277c0"));
       setManga(null);
     } finally {
       setIsLoading(false);
@@ -1622,15 +1625,14 @@ export default function MangaReaderScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <Stack.Screen options={{ headerShown: false }} />
         <Ionicons name="lock-closed-outline" size={62} color={theme.error} />
-        <Text style={[styles.errorTitle, { color: theme.textColor }]}>Restricted</Text>
+        <Text style={[styles.errorTitle, { color: theme.textColor }]}>{uiT("ui.restricted_a00571bc")}</Text>
         <Text style={[styles.errorSubtitle, { color: theme.textSecondary }]}>
-          This feature is only available to user Portego.
-        </Text>
+          {uiT("ui.this_feature_is_only_available_to_user_portego_3adec1d5")} </Text>
         <TouchableOpacity
           style={[styles.backButton, { backgroundColor: theme.primary }]}
           onPress={() => router.replace("/")}
         >
-          <Text style={styles.backButtonText}>Go Home</Text>
+          <Text style={styles.backButtonText}>{uiT("ui.go_home_82bc39f6")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -1642,7 +1644,7 @@ export default function MangaReaderScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <Stack.Screen options={{ headerShown: false }} />
         <ActivityIndicator size="large" color={theme.primary} />
-        <Text style={[styles.centerText, { color: theme.textSecondary }]}>Opening manga...</Text>
+        <Text style={[styles.centerText, { color: theme.textSecondary }]}>{uiT("ui.opening_manga_cd93b180")}</Text>
       </View>
     );
   }
@@ -1653,13 +1655,13 @@ export default function MangaReaderScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <Stack.Screen options={{ headerShown: false }} />
         <Ionicons name="alert-circle-outline" size={62} color={theme.error} />
-        <Text style={[styles.errorTitle, { color: theme.textColor }]}>Could not open manga</Text>
-        <Text style={[styles.errorSubtitle, { color: theme.textSecondary }]}>{loadError || "Unknown reader error."}</Text>
+        <Text style={[styles.errorTitle, { color: theme.textColor }]}>{uiT("ui.could_not_open_manga_e89a964c")}</Text>
+        <Text style={[styles.errorSubtitle, { color: theme.textSecondary }]}>{loadError || uiT("ui.unknown_reader_error_ee02271f")}</Text>
         <TouchableOpacity
           style={[styles.backButton, { backgroundColor: theme.primary }]}
           onPress={() => router.back()}
         >
-          <Text style={styles.backButtonText}>Back to Library</Text>
+          <Text style={styles.backButtonText}>{uiT("ui.back_to_library_0bd663c0")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -1726,7 +1728,7 @@ export default function MangaReaderScreen() {
             <View style={styles.topTitleWrap}>
               <Text style={styles.topTitle} numberOfLines={1}>{manga.metadata.title}</Text>
               <Text style={styles.topSubtitle}>
-                Page {currentPage} of {totalPages} · {useWideSpreadLayout ? "Spread" : "Single"} · OCR {ocrCompletedPageSet.size}/{totalPages}
+                {uiT("ui.page_0a30a815")} {currentPage} {uiT("ui.of_28391d3b")} {totalPages} · {useWideSpreadLayout ? uiT("ui.spread_b11fb1f5") : uiT("ui.single_8888a029")} {uiT("ui.ocr_ee954235")} {ocrCompletedPageSet.size}/{totalPages}
               </Text>
             </View>
 
@@ -1783,7 +1785,7 @@ export default function MangaReaderScreen() {
               disabled={currentPage >= totalPages}
             >
               <Ionicons name="chevron-back" size={18} color="#ffffff" />
-              <Text style={styles.navButtonText}>Next</Text>
+              <Text style={styles.navButtonText}>{uiT("ui.next_1ff57a29")}</Text>
             </TouchableOpacity>
 
             <View style={styles.pageChip}>
@@ -1795,7 +1797,7 @@ export default function MangaReaderScreen() {
               onPress={() => goToPage(currentPage - 1)}
               disabled={currentPage <= 1}
             >
-              <Text style={styles.navButtonText}>Prev</Text>
+              <Text style={styles.navButtonText}>{uiT("ui.prev_73912999")}</Text>
               <Ionicons name="chevron-forward" size={18} color="#ffffff" />
             </TouchableOpacity>
           </View>
@@ -1823,17 +1825,17 @@ export default function MangaReaderScreen() {
         >
           <View style={styles.lookupHandle} />
 
-          <Text style={[styles.lookupTitle, { color: theme.textColor }]}>Sentence OCR</Text>
+          <Text style={[styles.lookupTitle, { color: theme.textColor }]}>{uiT("ui.sentence_ocr_1dd0b5db")}</Text>
           <Text style={[styles.lookupMeta, { color: theme.textSecondary }]}> 
-            Page {selectedRegion?.page ?? currentPage}
+            {uiT("ui.page_0a30a815")} {selectedRegion?.page ?? currentPage}
           </Text>
 
           <Text style={[styles.lookupModeHint, { color: theme.textSecondary }]}>
             {hasResolvedJpdbKeyState
               ? hasStoredJpdbApiKey
-                ? "JPDB mode active: tap underlined grammar/vocabulary/verb tokens."
-                : "WaniKani-only mode active. Save a JPDB API key in Settings for grammar parsing."
-              : "Checking JPDB API key status..."}
+                ? uiT("ui.jpdb_mode_active_tap_underlined_grammar_vocabulary_verb_tokens_d5e799f9")
+                : uiT("ui.wanikani_only_mode_active_save_a_jpdb_api_key_in_settings_for_gra_ac5bff94")
+              : uiT("ui.checking_jpdb_api_key_status_6ca672af")}
           </Text>
           {!hasStoredJpdbApiKey ? (
             <TouchableOpacity
@@ -1846,8 +1848,7 @@ export default function MangaReaderScreen() {
               }
             >
               <Text style={[styles.lookupSettingsLinkText, { color: theme.primary }]}>
-                Open Settings
-              </Text>
+                {uiT("ui.open_settings_3f940108")} </Text>
             </TouchableOpacity>
           ) : null}
 
@@ -1858,14 +1859,13 @@ export default function MangaReaderScreen() {
           {sentenceAnalysis?.isLoading ? (
             <View style={styles.lookupLoadingWrap}>
               <ActivityIndicator size="small" color={theme.primary} />
-              <Text style={[styles.lookupLoadingText, { color: theme.textSecondary }]}>Analyzing words...</Text>
+              <Text style={[styles.lookupLoadingText, { color: theme.textSecondary }]}>{uiT("ui.analyzing_words_04653795")}</Text>
             </View>
           ) : sentenceAnalysis?.errorMessage ? (
             <Text style={[styles.lookupErrorText, { color: theme.error }]}>{sentenceAnalysis.errorMessage}</Text>
           ) : !currentAnalysisHasMatches ? (
             <Text style={[styles.noMatchesText, { color: theme.textSecondary }]}>
-              No dictionary matches were found for this sentence.
-            </Text>
+              {uiT("ui.no_dictionary_matches_were_found_for_this_sentence_bfb30924")} </Text>
           ) : null}
 
           <View style={styles.lookupTranslationSection}>
@@ -1884,7 +1884,7 @@ export default function MangaReaderScreen() {
               ) : (
                 <Ionicons name="language-outline" size={17} color="#8bd4ff" />
               )}
-              <Text style={styles.lookupTranslateButtonText}>Translate with JPDB</Text>
+              <Text style={styles.lookupTranslateButtonText}>{uiT("ui.translate_with_jpdb_4ed44b64")}</Text>
             </TouchableOpacity>
 
             {translationErrorMessage ? (
@@ -1900,16 +1900,13 @@ export default function MangaReaderScreen() {
                   { borderColor: withAlpha(theme.border, 0.5) },
                 ]}
               >
-                <Text style={[styles.lookupTranslationLabel, { color: theme.textSecondary }]}>
-                  English
-                </Text>
+                <Text style={[styles.lookupTranslationLabel, { color: theme.textSecondary }]}>{uiT("common.english")}</Text>
                 <Text style={[styles.lookupTranslationText, { color: theme.textColor }]}>
                   {selectedRegionTranslation.text}
                 </Text>
                 {selectedRegionTranslation.isTruncated ? (
                   <Text style={[styles.lookupTranslationMeta, { color: theme.textSecondary }]}>
-                    JPDB truncated this translation due length limits.
-                  </Text>
+                    {uiT("ui.jpdb_truncated_this_translation_due_length_limits_8a4de947")} </Text>
                 ) : null}
               </View>
             ) : null}
@@ -1919,7 +1916,7 @@ export default function MangaReaderScreen() {
             style={[styles.closeLookupButton, { backgroundColor: withAlpha(theme.primary, 0.16) }]}
             onPress={closeLookupModal}
           >
-            <Text style={[styles.closeLookupButtonText, { color: theme.primary }]}>Close</Text>
+            <Text style={[styles.closeLookupButtonText, { color: theme.primary }]}>{uiT("ui.close_7d9eb7ac")}</Text>
           </TouchableOpacity>
         </View>
 

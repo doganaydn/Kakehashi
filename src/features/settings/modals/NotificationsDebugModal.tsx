@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
@@ -5,6 +6,7 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function NotificationsDebugModal() {
+  useInterfaceLanguage();
   const {
     expoPendingNotifications,
     formatExpoTriggerLabel,
@@ -48,18 +50,15 @@ export function NotificationsDebugModal() {
                 <Text
                   style={[styles.modalCancelText, { color: theme.primary }]}
                 >
-                  Close
-                </Text>
+                  {uiT("ui.close_7d9eb7ac")} </Text>
               </TouchableOpacity>
               <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-                Scheduled Notifications
-              </Text>
+                {uiT("ui.scheduled_notifications_f8b32780")} </Text>
               <TouchableOpacity onPress={handleShowPendingNotifications}>
                 <Text
                   style={[styles.modalCancelText, { color: theme.primary }]}
                 >
-                  Refresh
-                </Text>
+                  {uiT("ui.refresh_0e916101")} </Text>
               </TouchableOpacity>
             </View>
 
@@ -82,14 +81,12 @@ export function NotificationsDebugModal() {
                         { color: theme.textColor },
                       ]}
                     >
-                      Summary
-                    </Text>
+                      {uiT("ui.summary_8e76a94a")} </Text>
                     <View style={styles.cacheRow}>
                       <Text
                         style={[styles.cacheLabel, { color: theme.textColor }]}
                       >
-                        Total Notifications:
-                      </Text>
+                        {uiT("ui.total_notifications_f7ba4f7d")} </Text>
                       <Text
                         style={[
                           styles.cacheValue,
@@ -104,8 +101,7 @@ export function NotificationsDebugModal() {
                       <Text
                         style={[styles.cacheLabel, { color: theme.textColor }]}
                       >
-                        Native Scheduled:
-                      </Text>
+                        {uiT("ui.native_scheduled_eb11033d")} </Text>
                       <Text
                         style={[
                           styles.cacheValue,
@@ -119,8 +115,7 @@ export function NotificationsDebugModal() {
                       <Text
                         style={[styles.cacheLabel, { color: theme.textColor }]}
                       >
-                        Expo Scheduled:
-                      </Text>
+                        {uiT("ui.expo_scheduled_fe798297")} </Text>
                       <Text
                         style={[
                           styles.cacheValue,
@@ -149,8 +144,7 @@ export function NotificationsDebugModal() {
                           { color: theme.textColor },
                         ]}
                       >
-                        Native Scheduled Notifications
-                      </Text>
+                        {uiT("ui.native_scheduled_notifications_f5bbe05a")} </Text>
                       {pendingNotifications.notifications.map(
                         (notification, index) => (
                           <View
@@ -184,7 +178,7 @@ export function NotificationsDebugModal() {
                                   { color: theme.textSecondary },
                                 ]}
                               >
-                                Badge: {notification.badge} •{" "}
+                                {uiT("ui.badge_2b8a0ca2")} {notification.badge} •{" "}
                                 {formatNativeTriggerLabel(notification.trigger)}
                               </Text>
                               <Text
@@ -219,8 +213,7 @@ export function NotificationsDebugModal() {
                           { color: theme.textColor },
                         ]}
                       >
-                        Expo Scheduled Notifications
-                      </Text>
+                        {uiT("ui.expo_scheduled_notifications_f3e63811")} </Text>
                       {expoPendingNotifications.map((notification, index) => (
                         <View
                           key={notification.identifier}
@@ -254,7 +247,7 @@ export function NotificationsDebugModal() {
                                 { color: theme.textSecondary },
                               ]}
                             >
-                              Trigger:{" "}
+                              {uiT("ui.trigger_ad478f8e")}{" "}
                               {formatExpoTriggerLabel(notification.trigger)}
                             </Text>
                             <Text
@@ -263,7 +256,7 @@ export function NotificationsDebugModal() {
                                 { color: theme.textSecondary },
                               ]}
                             >
-                              {notification.content.body || "No body"}
+                              {notification.content.body || uiT("ui.no_body_e5c6c602")}
                             </Text>
                           </View>
                         </View>
@@ -289,18 +282,14 @@ export function NotificationsDebugModal() {
                             { color: theme.textColor },
                           ]}
                         >
-                          No Scheduled Notifications
-                        </Text>
+                          {uiT("ui.no_scheduled_notifications_76459ba5")} </Text>
                         <Text
                           style={[
                             styles.cacheLabel,
                             { color: theme.textSecondary },
                           ]}
                         >
-                          No notifications are currently scheduled. Enable
-                          notification settings to schedule review
-                          notifications.
-                        </Text>
+                          {uiT("ui.no_notifications_are_currently_scheduled_enable_notification_sett_082ed0e4")} </Text>
                       </View>
                     )}
                 </>

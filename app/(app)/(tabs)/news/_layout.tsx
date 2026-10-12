@@ -1,8 +1,10 @@
+import { uiT, useInterfaceLanguage } from "../../../../src/features/interface-language/runtime";
 import { Stack } from "expo-router";
 import React from "react";
 import { useTheme } from "../../../../src/utils/theme";
 
 export default function NewsLayout() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
 
   return (
@@ -22,7 +24,7 @@ export default function NewsLayout() {
       <Stack.Screen
         name="index"
         options={{
-          title: "News",
+          title: uiT("ui.news_69752f23"),
         }}
       />
     </Stack>

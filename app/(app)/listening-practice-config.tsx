@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -157,6 +158,7 @@ const sanitizeConfig = (
 };
 
 export default function ListeningPracticeConfigScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const {
@@ -234,12 +236,12 @@ export default function ListeningPracticeConfigScreen() {
       }
 
       Alert.alert(
-        "Resume Listening Practice?",
-        "You have a listening practice session in progress.",
+        uiT("ui.resume_listening_practice_e7c58298"),
+        uiT("ui.you_have_a_listening_practice_session_in_progress_d096be04"),
         [
-          { text: "Not Now", style: "cancel" },
+          { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
           {
-            text: "Discard",
+            text: uiT("ui.discard_eb1a70e3"),
             style: "destructive",
             onPress: () => {
               void clearExtraStudySessionState(
@@ -248,7 +250,7 @@ export default function ListeningPracticeConfigScreen() {
             },
           },
           {
-            text: "Resume",
+            text: uiT("ui.resume_d640c742"),
             onPress: () => {
               router.push({
                 pathname: "/listening-practice-session",
@@ -334,8 +336,8 @@ export default function ListeningPracticeConfigScreen() {
     if (!canStart()) {
       if (config.solutionMode === "writing" && !autoSwitchKeyboard) {
         Alert.alert(
-          "Japanese Keyboard Required",
-          "Enable \"Switch to Japanese Keyboard\" to start listening writing mode."
+          uiT("ui.japanese_keyboard_required_ecd8a724"),
+          uiT("ui.enable_switch_to_japanese_keyboard_to_start_listening_writing_mod_b20845fb")
         );
       }
       return;
@@ -388,7 +390,7 @@ export default function ListeningPracticeConfigScreen() {
       const hasJapaneseKeyboard = await KeyboardManager.hasJapaneseKeyboard();
       if (!hasJapaneseKeyboard) {
         Alert.alert(
-          "No Japanese Keyboard",
+          uiT("ui.no_japanese_keyboard_ffbd52b8"),
           JAPANESE_KEYBOARD_SETUP_INSTRUCTIONS
         );
         return;
@@ -452,8 +454,7 @@ export default function ListeningPracticeConfigScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Listening Practice
-        </Text>
+          {uiT("ui.listening_practice_a4e07133")} </Text>
       </View>
 
       <ScrollView
@@ -476,12 +477,10 @@ export default function ListeningPracticeConfigScreen() {
             <Text
               style={[styles.sectionHeaderText, { color: theme.textSecondary }]}
             >
-              Audio Comprehension Test
-            </Text>
+              {uiT("ui.audio_comprehension_test_e727cbbe")} </Text>
           </View>
           <Text style={[styles.overviewTitle, { color: theme.textColor }]}>
-            Choose subject types
-          </Text>
+            {uiT("ui.choose_subject_types_6d56c1e3")} </Text>
           <View style={styles.overviewChipsRow}>
             <TouchableOpacity
               style={[
@@ -517,8 +516,7 @@ export default function ListeningPracticeConfigScreen() {
                   },
                 ]}
               >
-                Vocabulary
-              </Text>
+                {uiT("ui.vocabulary_eebd90a0")} </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -559,8 +557,7 @@ export default function ListeningPracticeConfigScreen() {
                   },
                 ]}
               >
-                Kana Vocab
-              </Text>
+                {uiT("ui.kana_vocab_597d8c17")} </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -570,8 +567,7 @@ export default function ListeningPracticeConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Number of Questions
-          </Text>
+            {uiT("ui.number_of_questions_e69db859")} </Text>
           <View style={[styles.sliderContainer]}>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.numberOfQuestions}
@@ -597,13 +593,11 @@ export default function ListeningPracticeConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Answer Mode
-          </Text>
+            {uiT("ui.answer_mode_c7728f17")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Choose whether vocabulary answers are multiple choice or typed.
-          </Text>
+            {uiT("ui.choose_whether_vocabulary_answers_are_multiple_choice_or_typed_e7ab6b0f")} </Text>
           <View style={styles.modeSelectorRow}>
             <TouchableOpacity
               style={[
@@ -642,8 +636,7 @@ export default function ListeningPracticeConfigScreen() {
                   },
                 ]}
               >
-                Multiple Choice
-              </Text>
+                {uiT("ui.multiple_choice_987caef5")} </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -682,8 +675,7 @@ export default function ListeningPracticeConfigScreen() {
                   },
                 ]}
               >
-                Writing
-              </Text>
+                {uiT("ui.writing_a8bfae3e")} </Text>
             </TouchableOpacity>
           </View>
 
@@ -703,8 +695,7 @@ export default function ListeningPracticeConfigScreen() {
                   ]}
                 >
                   <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                    Switch to Japanese Keyboard
-                  </Text>
+                    {uiT("ui.switch_to_japanese_keyboard_3d31738e")} </Text>
                   <View style={{ flex: 1 }} />
                   <Switch
                     value={autoSwitchKeyboard}
@@ -717,15 +708,12 @@ export default function ListeningPracticeConfigScreen() {
               <Text
                 style={[styles.sectionDescription, { color: theme.textSecondary }]}
               >
-                Writing mode requires typing the exact vocabulary (including kanji
-                when applicable).
-              </Text>
+                {uiT("ui.writing_mode_requires_typing_the_exact_vocabulary_including_kanji_5152e967")} </Text>
               {!autoSwitchKeyboard && (
                 <View style={styles.warningContainer}>
                   <Ionicons name="warning" size={16} color="#ff9500" />
                   <Text style={styles.warningText}>
-                    Enable Japanese keyboard switching to use writing mode.
-                  </Text>
+                    {uiT("ui.enable_japanese_keyboard_switching_to_use_writing_mode_d74cf8c6")} </Text>
                 </View>
               )}
             </>
@@ -737,13 +725,11 @@ export default function ListeningPracticeConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Include SRS Stages
-          </Text>
+            {uiT("ui.include_srs_stages_eb382d10")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Choose which progression stages to include
-          </Text>
+            {uiT("ui.choose_which_progression_stages_to_include_983f6d5c")} </Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = (config.srsGroups as any)[key];
@@ -800,14 +786,11 @@ export default function ListeningPracticeConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Levels
-          </Text>
+            {uiT("ui.levels_b1482131")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Without a subject list, includes levels 1 to your level ({userLevel}).
-            Selected lists can include any level. Enable a custom range to restrict.
-          </Text>
+            {uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")} </Text>
           <View
             style={[
               styles.toggleRow,
@@ -822,8 +805,7 @@ export default function ListeningPracticeConfigScreen() {
             ]}
           >
             <Text style={[styles.toggleText, { color: theme.textColor }]}>
-              Use custom level range
-            </Text>
+              {uiT("ui.use_custom_level_range_fdb84cae")} </Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -848,8 +830,7 @@ export default function ListeningPracticeConfigScreen() {
                 <Text
                   style={[styles.levelLabel, { color: theme.textSecondary }]}
                 >
-                  Min Level
-                </Text>
+                  {uiT("ui.min_level_4986a2df")} </Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>
                   {config.minLevel}
                 </Text>
@@ -871,8 +852,7 @@ export default function ListeningPracticeConfigScreen() {
                 <Text
                   style={[styles.levelLabel, { color: theme.textSecondary }]}
                 >
-                  Max Level
-                </Text>
+                  {uiT("ui.max_level_2833a212")} </Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>
                   {config.maxLevel}
                 </Text>
@@ -906,8 +886,8 @@ export default function ListeningPracticeConfigScreen() {
                 ]}
               >
                 {config.selectedListIds.length > 0
-                  ? "All levels in selected lists"
-                  : `Levels 1 - ${userLevel}`}
+                  ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
+                  : uiT("ui.levels_1_value_97fc00a2", {value1: (userLevel)})}
               </Text>
             </View>
           )}
@@ -918,19 +898,16 @@ export default function ListeningPracticeConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Anime Sources
-          </Text>
+            {uiT("ui.anime_sources_36a50c51")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Examples will come from specific anime selected below.
-          </Text>
+            {uiT("ui.examples_will_come_from_specific_anime_selected_below_1cce5084")} </Text>
           <View style={styles.animeActionRow}>
             <View style={styles.animeCountContainer}>
               <Ionicons name="film" size={16} color={theme.textSecondary} />
               <Text style={[styles.animeCount, { color: theme.textColor }]}>
-                {selectedAnimes.length} anime selected
-              </Text>
+                {selectedAnimes.length} {uiT("ui.anime_selected_56484a44")} </Text>
             </View>
             <TouchableOpacity
               onPress={handleCustomizeAnimes}
@@ -945,16 +922,14 @@ export default function ListeningPracticeConfigScreen() {
               <Text
                 style={[styles.customizeButtonText, { color: theme.primary }]}
               >
-                Edit Selection
-              </Text>
+                {uiT("ui.edit_selection_992eab34")} </Text>
             </TouchableOpacity>
           </View>
           {selectedAnimes.length === 0 && (
             <View style={styles.warningContainer}>
               <Ionicons name="warning" size={16} color="#ff9500" />
               <Text style={styles.warningText}>
-                No anime selected. Please select at least one anime source.
-              </Text>
+                {uiT("ui.no_anime_selected_please_select_at_least_one_anime_source_75af349b")} </Text>
             </View>
           )}
         </View>
@@ -964,13 +939,11 @@ export default function ListeningPracticeConfigScreen() {
           style={[styles.section, { backgroundColor: theme.cardBackground }]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Playback
-          </Text>
+            {uiT("ui.playback_2db1db07")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Control how audio behaves during practice
-          </Text>
+            {uiT("ui.control_how_audio_behaves_during_practice_b1c97335")} </Text>
           <View
             style={[
               styles.toggleRow,
@@ -990,8 +963,7 @@ export default function ListeningPracticeConfigScreen() {
               color={listeningAutoPlayAudio ? theme.primary : theme.textSecondary}
             />
             <Text style={[styles.toggleText, { color: theme.textColor }]}>
-              Auto-play audio
-            </Text>
+              {uiT("ui.auto_play_audio_12320266")} </Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={listeningAutoPlayAudio}
@@ -1007,8 +979,8 @@ export default function ListeningPracticeConfigScreen() {
             ]}
           >
             {listeningAutoPlayAudio
-              ? "Audio will play automatically when moving to the next question"
-              : "You'll need to press play manually to hear the audio"}
+              ? uiT("ui.audio_will_play_automatically_when_moving_to_the_next_question_891d59d9")
+              : uiT("ui.you_ll_need_to_press_play_manually_to_hear_the_audio_64635e05")}
           </Text>
         </View>
 
@@ -1016,7 +988,7 @@ export default function ListeningPracticeConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={listCountTypes}
-          description="Optional: only include subjects from these saved lists."
+          description={uiT("ui.optional_only_include_subjects_from_these_saved_lists_1d5ef2d9")}
         />
 
         <View style={{ height: 80 }} />
@@ -1047,7 +1019,7 @@ export default function ListeningPracticeConfigScreen() {
             color="white"
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.startButtonText}>Start Listening Practice</Text>
+          <Text style={styles.startButtonText}>{uiT("ui.start_listening_practice_1a81a12d")}</Text>
         </TouchableOpacity>
       </View>
     </View>

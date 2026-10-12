@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../utils/theme';
@@ -7,6 +8,7 @@ import { answerDetails, canonical, formatValue, type HistoryChange } from '../..
 import { diffTokens } from '../../../shared/subject-history/diff';
 
 export function HistoryDiff({ change, labels, subjectType, archived = false }: { change: HistoryChange; labels: Record<string, string>; subjectType: string; archived?: boolean }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const colors = useSubjectColors();
   const mnemonic = /mnemonic|hint/.test(change.field);
@@ -21,8 +23,8 @@ export function HistoryDiff({ change, labels, subjectType, archived = false }: {
     const others = Array.isArray(other) ? other : [];
     const changedStyle = { backgroundColor: theme.isDark ? (side === 'before' ? '#492928' : '#1e3c30') : (side === 'before' ? '#fce8e6' : '#e2f2e8'), color: theme.isDark ? (side === 'before' ? '#ffc0b8' : '#b6ebc9') : (side === 'before' ? '#8d2523' : '#205c38') };
     return <View key={side} style={[styles.version, side === 'after' && { borderTopWidth: StyleSheet.hairlineWidth, borderColor: theme.border }]}>
-      <Text style={[styles.label, { color: theme.textLight }]}>{archived ? (side === 'before' ? 'Pre-2019 archive' : 'Saved version') : (side === 'before' ? 'Before · − removed' : 'After · + added')}</Text>
-      {change.archivedOnly ? <Text style={{ color: theme.textLight, marginBottom: 12 }}>Archived text only. This field has no equivalent in the current API.</Text> : null}
+      <Text style={[styles.label, { color: theme.textLight }]}>{archived ? (side === "before" ? uiT("ui.pre_2019_archive_6f6a7515") : uiT("ui.saved_version_8369acd8")) : (side === "before" ? uiT("ui.before_removed_2a43409b") : uiT("ui.after_added_3ec4d14a"))}</Text>
+      {change.archivedOnly ? <Text style={{ color: theme.textLight, marginBottom: 12 }}>{uiT("ui.archived_text_only_this_field_has_no_equivalent_in_the_current_ap_632816bb")}</Text> : null}
       {composition && items.length ? <View style={styles.tiles}>{items.map((id, index) => {
         const name = labels[String(id)] ?? `Subject #${id}`;
         const [character, meaning] = name.includes(' — ') ? name.split(' — ') : ['', name];
@@ -30,12 +32,12 @@ export function HistoryDiff({ change, labels, subjectType, archived = false }: {
         const color = change.field === 'component_subject_ids' && subjectType === 'kanji' ? colors.radical : colors.kanji;
         return <View key={`${id}:${index}`} style={[styles.tile, changed && { backgroundColor: changedStyle.backgroundColor }]}>
           <Text style={[styles.glyph, { backgroundColor: color, color: getReadableTextColor(color) }]}>{character || '◇'}</Text>
-          <Text style={[styles.tileLabel, { color: changed ? changedStyle.color : theme.textColor }]}>{changed ? (side === 'before' ? '− ' : '+ ') : ''}{meaning}</Text>
+          <Text style={[styles.tileLabel, { color: changed ? changedStyle.color : theme.textColor }]}>{changed ? (side === "before" ? '− ' : '+ ') : ''}{meaning}</Text>
         </View>;
       })}</View> : answers && items.length ? <View style={styles.answers}>{items.map((item, index) => {
         const row = item && typeof item === 'object' ? item as Record<string, unknown> : {};
         const changed = !others.some(other => canonical(other) === canonical(item));
-        return <View key={index} style={[styles.answer, changed && { backgroundColor: changedStyle.backgroundColor }]}><Text style={[styles.role, { color: theme.textLight }]}>{row.primary ? 'Primary' : 'primary' in row ? 'Alternative' : 'Answer'}</Text><Text style={[styles.answerText, { color: changed ? changedStyle.color : theme.textColor }]}>{changed ? (side === 'before' ? '− ' : '+ ') : ''}{String(row.meaning ?? row.reading ?? item)}</Text>{answerDetails(row) ? <Text style={{ color: changed ? changedStyle.color : theme.textLight, fontSize: 12 }}>{answerDetails(row)}</Text> : null}</View>;
+        return <View key={index} style={[styles.answer, changed && { backgroundColor: changedStyle.backgroundColor }]}><Text style={[styles.role, { color: theme.textLight }]}>{row.primary ? uiT("ui.primary_efe10c80") : "primary" in row ? uiT("ui.alternative_b59b72be") : uiT("ui.answer_b2a3aa60")}</Text><Text style={[styles.answerText, { color: changed ? changedStyle.color : theme.textColor }]}>{changed ? (side === "before" ? '− ' : '+ ') : ''}{String(row.meaning ?? row.reading ?? item)}</Text>{answerDetails(row) ? <Text style={{ color: changed ? changedStyle.color : theme.textLight, fontSize: 12 }}>{answerDetails(row)}</Text> : null}</View>;
       })}</View> : <Text selectable style={[styles.prose, { color: theme.textColor }]}>{diff[side].map((part, index) => {
         const color = part.type === 'radical' ? colors.radical : part.type === 'kanji' ? colors.kanji : part.type === 'vocabulary' ? colors.vocabulary : part.type === 'reading' ? theme.textColor : null;
         return <Text key={index} style={[color ? { backgroundColor: color, color: part.type === 'reading' ? theme.backgroundColor : getReadableTextColor(color), fontWeight: '700' } : null, part.type === 'em' && { fontStyle: 'italic' }, part.changed && { ...changedStyle, textDecorationLine: side === 'before' ? 'line-through' : 'underline' }]}>{part.text}</Text>;

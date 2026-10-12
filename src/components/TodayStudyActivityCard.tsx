@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo } from "react";
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
@@ -20,6 +21,7 @@ export default function TodayStudyActivityCard({
   reviewStats = [],
   style,
 }: TodayStudyActivityCardProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
 
   const { lessonsCompletedToday, reviewsCompletedToday } = useMemo(
@@ -27,7 +29,7 @@ export default function TodayStudyActivityCard({
     [assignments, reviewStats],
   );
 
-  const todayLabel = new Intl.DateTimeFormat(undefined, {
+  const todayLabel = new Intl.DateTimeFormat(interfaceLocale(), {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -57,8 +59,7 @@ export default function TodayStudyActivityCard({
 
           <View>
             <Text style={[styles.title, { color: theme.textColor }]}>
-              Today&apos;s Study
-            </Text>
+              {uiT("ui.today_s_study_b94528a7")} </Text>
             <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
               {todayLabel}
             </Text>
@@ -81,8 +82,7 @@ export default function TodayStudyActivityCard({
           <View style={styles.metricTopRow}>
             <Ionicons name="book-outline" size={16} color={theme.primary} />
             <Text style={[styles.metricLabel, { color: theme.textSecondary }]}>
-              Lessons
-            </Text>
+              {uiT("ui.lessons_cb4ad503")} </Text>
           </View>
           <Text style={[styles.metricValue, { color: theme.textColor }]}>
             {lessonsCompletedToday}
@@ -103,8 +103,7 @@ export default function TodayStudyActivityCard({
           <View style={styles.metricTopRow}>
             <Ionicons name="checkmark-done-outline" size={16} color={theme.secondary} />
             <Text style={[styles.metricLabel, { color: theme.textSecondary }]}>
-              Reviews
-            </Text>
+              {uiT("ui.reviews_84cb7871")} </Text>
           </View>
           <Text style={[styles.metricValue, { color: theme.textColor }]}>
             {reviewsCompletedToday}

@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { useRouter } from "expo-router";
@@ -76,7 +77,7 @@ function buildGrammarTooltipItem(
   const meaningText = token.meaning?.trim() || "Grammar point";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
 
   return {
@@ -144,6 +145,7 @@ export default function MiniPlayer({
   timedLyrics = [],
   lyricsTimingOffsetMs = 0,
 }: MiniPlayerProps) {
+  useInterfaceLanguage();
   const fadeAnim = useSharedValue(0);
   const translateY = useSharedValue(100);
   const expandAnim = useSharedValue(0);
@@ -1369,7 +1371,7 @@ export default function MiniPlayer({
                 )}
                 {showJpdbBadge && (
                   <View style={[styles.levelBadgeChip, styles.jpdbBadgeChip]}>
-                    <Text style={styles.levelBadgeText}>JP</Text>
+                    <Text style={styles.levelBadgeText}>{uiT("ui.jp_569ec613")}</Text>
                   </View>
                 )}
               </View>
@@ -1718,7 +1720,7 @@ export default function MiniPlayer({
                     >
                       <Ionicons name={externalMusicIcon} size={14} color="white" />
                       <Text style={styles.openAppleButtonText}>
-                        Open in {externalMusicLabel}
+                        {uiT("ui.open_in_2c8f3f64")} {externalMusicLabel}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -1750,15 +1752,15 @@ export default function MiniPlayer({
                         <Ionicons name="ear-outline" size={16} color="white" />
                         <Text style={styles.lyricsQuizHeaderText}>
                           {lyricsQuizQuestions.length > 0
-                            ? `Quiz · ${completedLyricsQuizQuestionCount} of ${lyricsQuizQuestions.length}`
-                            : "Not enough recognized vocabulary for a quiz"}
+                            ? uiT("ui.quiz_value_of_value_b8463652", {value1: (completedLyricsQuizQuestionCount), value2: (lyricsQuizQuestions.length)})
+                            : uiT("ui.not_enough_recognized_vocabulary_for_a_quiz_e74f092a")}
                         </Text>
                       </TouchableOpacity>
                       {lyricsQuizQuestions.length > 0 ? (
                         <TouchableOpacity
                           style={styles.lyricsQuizResetButton}
                           accessibilityRole="button"
-                          accessibilityLabel="Reset lyric quiz progress"
+                          accessibilityLabel={uiT("ui.reset_lyric_quiz_progress_fc4417f6")}
                           onPress={() => resetLyricsQuiz(lyricsQuizSessionKey)}
                           activeOpacity={0.7}
                         >

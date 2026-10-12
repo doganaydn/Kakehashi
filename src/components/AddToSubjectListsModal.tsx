@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -43,6 +44,7 @@ export default function AddToSubjectListsModal({
   onClose,
   onSaved,
 }: AddToSubjectListsModalProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [lists, setLists] = useState<SubjectList[]>([]);
   const [selectedListIds, setSelectedListIds] = useState<Set<string>>(new Set());
@@ -122,7 +124,7 @@ export default function AddToSubjectListsModal({
       })();
     } catch (err) {
       console.error("Failed to load subject list modal data:", err);
-      setError("Failed to load your lists.");
+      setError(uiT("ui.message_db742932781c"));
     } finally {
       setIsLoading(false);
     }
@@ -168,7 +170,7 @@ export default function AddToSubjectListsModal({
       });
     } catch (err) {
       console.error("Failed to create subject list:", err);
-      setError("Failed to create the list.");
+      setError(uiT("ui.message_002e8e66dad6"));
     } finally {
       setIsCreatingList(false);
     }
@@ -177,11 +179,11 @@ export default function AddToSubjectListsModal({
   const handleSave = async () => {
     const selectedListIdArray = Array.from(selectedListIds.values());
     if (targetSubjectIds.length === 0) {
-      setError("No subjects selected.");
+      setError(uiT("ui.message_0158249263ca"));
       return;
     }
     if (isAddOnlyMode && selectedListIdArray.length === 0) {
-      setError("Select at least one list.");
+      setError(uiT("ui.message_ebc9f865923a"));
       return;
     }
 
@@ -192,7 +194,7 @@ export default function AddToSubjectListsModal({
         await addSubjectsToLists(selectedListIdArray, targetSubjectIds);
       } else {
         if (!singleSubjectId) {
-          setError("No subject selected.");
+          setError(uiT("ui.message_9052fead9e52"));
           return;
         }
         await setSubjectMembershipForLists(singleSubjectId, selectedListIdArray);
@@ -203,7 +205,7 @@ export default function AddToSubjectListsModal({
       onClose();
     } catch (err) {
       console.error("Failed to save list membership:", err);
-      setError("Failed to save list changes.");
+      setError(uiT("ui.failed_to_save_list_changes_0c41682d"));
     } finally {
       setIsSaving(false);
     }
@@ -218,7 +220,7 @@ export default function AddToSubjectListsModal({
     >
       <View style={styles.overlay}>
         <Pressable
-          accessibilityLabel="Close add to lists modal"
+          accessibilityLabel={uiT("ui.close_add_to_lists_modal_86adc848")}
           accessibilityRole="button"
           style={styles.backdropPressable}
           onPress={onClose}
@@ -232,8 +234,7 @@ export default function AddToSubjectListsModal({
           <View style={styles.header}>
             <View style={styles.headerTextContainer}>
               <Text style={[styles.title, { color: theme.textColor }]}>
-                Add to Lists
-              </Text>
+                {uiT("ui.add_to_lists_f2df51fa")} </Text>
               <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
                 {subtitle}
               </Text>
@@ -253,7 +254,7 @@ export default function AddToSubjectListsModal({
                   backgroundColor: theme.backgroundColor,
                 },
               ]}
-              placeholder="Create new list"
+              placeholder={uiT("ui.create_new_list_3fb9aa9b")}
               placeholderTextColor={theme.textLight}
               value={newListName}
               onChangeText={setNewListName}
@@ -289,8 +290,7 @@ export default function AddToSubjectListsModal({
               {lists.length === 0 ? (
                 <View style={styles.stateContainer}>
                   <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                    No lists yet. Create your first one above.
-                  </Text>
+                    {uiT("ui.no_lists_yet_create_your_first_one_above_e1dd24b8")} </Text>
                 </View>
               ) : (
                 lists.map((list) => {
@@ -319,8 +319,7 @@ export default function AddToSubjectListsModal({
                         <Text
                           style={[styles.listCount, { color: theme.textSecondary }]}
                         >
-                          {list.subjectIds.length} item
-                          {list.subjectIds.length === 1 ? "" : "s"}
+                          {list.subjectIds.length} {uiT("ui.item_4a33eacd")} {uiPluralSuffix(list.subjectIds.length === 1 ? "" : "s")}
                         </Text>
                       </View>
                       <Ionicons
@@ -346,8 +345,7 @@ export default function AddToSubjectListsModal({
               disabled={isSaving}
             >
               <Text style={[styles.footerButtonText, { color: theme.textColor }]}>
-                Cancel
-              </Text>
+                {uiT("ui.cancel_19766ed6")} </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -364,9 +362,9 @@ export default function AddToSubjectListsModal({
                 <Text style={styles.footerSaveButtonText}>
                   {isAddOnlyMode
                     ? hasMultipleSubjects
-                      ? "Add All"
-                      : "Add"
-                    : "Save"}
+                      ? uiT("ui.add_all_05401f46")
+                      : uiT("ui.add_9fd728c6")
+                    : uiT("ui.save_1509f561")}
                 </Text>
               )}
             </TouchableOpacity>

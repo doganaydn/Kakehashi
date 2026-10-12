@@ -1,4 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useInterfaceLanguage } from "../interface-language/runtime";
 import NotebookEditor from "./NotebookEditor.dom";
 import type { NotebookEditorProps } from "./editor-contract";
 import { sanitizeNotebookBlocks, type NotebookBlock, type NotebookPage } from "./model";
@@ -13,6 +14,8 @@ type Props = Omit<NotebookEditorProps, "pageId" | "title" | "icon" | "value" | "
 
 /** Keep the large DOM payload stable while native save status changes. */
 export function NotebookEditorSession({ page, hasDraft, updatePageDraft, ...props }: Props) {
+  useInterfaceLanguage();
+  const interfaceLanguage = useInterfaceLanguage();
   const [document, setDocument] = useState(() => ({ content: page.content, title: page.title, generation: 0 }));
   const lastLocal = useRef({ content: JSON.stringify(sanitizeNotebookBlocks(page.content)), title: page.title });
   const incomingContent = JSON.stringify(sanitizeNotebookBlocks(page.content));
@@ -44,6 +47,7 @@ export function NotebookEditorSession({ page, hasDraft, updatePageDraft, ...prop
 
   return <StableEditor
     {...props}
+    interfaceLanguage={interfaceLanguage}
     key={document.generation}
     pageId={page.id}
     title={document.title}

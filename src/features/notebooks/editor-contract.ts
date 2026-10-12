@@ -27,6 +27,7 @@ export type NotebookSentenceInput = Pick<NotebookSentence, "japanese" | "kana" |
 };
 
 export interface NotebookEditorProps extends NativeInlineHandwritingProps {
+  interfaceLanguage?: "en" | "tr";
   pageId: string;
   title?: string;
   icon?: string;

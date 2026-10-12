@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -111,7 +112,7 @@ function formatShortDate(dateString: string): string {
     return dateString;
   }
 
-  return parsedDate.toLocaleDateString(undefined, {
+  return parsedDate.toLocaleDateString(interfaceLocale(), {
     month: "short",
     day: "numeric",
   });
@@ -123,7 +124,7 @@ function formatWeekDayLabel(dateString: string): string {
     return dateString;
   }
 
-  return parsedDate.toLocaleDateString(undefined, {
+  return parsedDate.toLocaleDateString(interfaceLocale(), {
     weekday: "short",
   });
 }
@@ -134,7 +135,7 @@ function formatHourLabel(isoHour: string): string {
     return isoHour;
   }
 
-  return parsedDate.toLocaleTimeString(undefined, {
+  return parsedDate.toLocaleTimeString(interfaceLocale(), {
     hour: "numeric",
   });
 }
@@ -220,6 +221,7 @@ function findNumericField(
 }
 
 export default function BunproTab() {
+  useInterfaceLanguage();
   const { theme, isDark } = useTheme();
   const { width } = useWindowDimensions();
   const { userData } = useAuthStore();
@@ -545,14 +547,14 @@ export default function BunproTab() {
     return [
       {
         key: "tomorrow",
-        label: "Tomorrow",
+        label: uiT("ui.tomorrow_456a73bb"),
         grammar: grammarTomorrow,
         vocab: vocabTomorrow,
         total: grammarTomorrow + vocabTomorrow,
       },
       ...nextForecastDays,
     ];
-  }, [dashboardData, forecastMode, hourlyForecastPoints, nextForecastDays]);
+  }, [dashboardData, forecastMode, hourlyForecastPoints, nextForecastDays, interfaceLocale()]);
 
   const forecastPoints = useMemo(() => {
     if (forecastBasePoints.length === 0 && dueNow === 0) {
@@ -565,7 +567,7 @@ export default function BunproTab() {
     const cumulativePoints: ForecastPoint[] = [
       {
         key: `${forecastMode}-now`,
-        label: "Now",
+        label: uiT("ui.now_fe18013d"),
         grammar: runningGrammar,
         vocab: runningVocab,
         total: runningGrammar + runningVocab,
@@ -597,7 +599,7 @@ export default function BunproTab() {
     forecastMode,
     showForecastGrammar,
     showForecastVocab,
-  ]);
+  , interfaceLocale()]);
 
   const weeklyStreakEntries = useMemo(() => {
     return baseStats?.weekly_streak ?? [];
@@ -692,8 +694,8 @@ export default function BunproTab() {
       <View style={[styles.gatedContainer, { backgroundColor: theme.backgroundColor }]}> 
         <StatusBar style={theme.statusBarStyle} />
         <Ionicons name="lock-closed-outline" size={24} color={theme.textSecondary} />
-        <Text style={[styles.gatedTitle, { color: theme.textColor }]}>Bunpro Beta Is Portego-Only</Text>
-        <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>This tab is currently enabled only for the Portego account.</Text>
+        <Text style={[styles.gatedTitle, { color: theme.textColor }]}>{uiT("ui.bunpro_beta_is_portego_only_014ac945")}</Text>
+        <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>{uiT("ui.this_tab_is_currently_enabled_only_for_the_portego_account_b59452d5")}</Text>
       </View>
     );
   }
@@ -730,7 +732,7 @@ export default function BunproTab() {
               <View style={styles.statItem}>
                 <Ionicons name="stats-chart" size={14} color={theme.headerText} />
                 <Text style={[styles.statText, { color: theme.headerText }]}>
-                  Lvl {bunproUser?.level ?? "--"}
+                  {uiT("ui.lvl_64ea4d84")} {bunproUser?.level ?? "--"}
                 </Text>
               </View>
             </View>
@@ -800,7 +802,7 @@ export default function BunproTab() {
             ]}
           >
             <ActivityIndicator size="large" color={accent} />
-            <Text style={[styles.loadingText, { color: softText }]}>Loading Bunpro dashboard...</Text>
+            <Text style={[styles.loadingText, { color: softText }]}>{uiT("ui.loading_bunpro_dashboard_5bbadccd")}</Text>
           </View>
         ) : null}
 
@@ -851,7 +853,7 @@ export default function BunproTab() {
                 )}
                 <View style={styles.profileHeaderTextContainer}>
                   <Text style={[styles.profileName, { color: theme.textColor }]}>{bunproUser.username}</Text>
-                  <Text style={[styles.profileLevel, { color: softText }]}>Level {bunproUser.level}</Text>
+                  <Text style={[styles.profileLevel, { color: softText }]}>{uiT("ui.level_1709305c")} {bunproUser.level}</Text>
                 </View>
                 <TouchableOpacity
                   style={[styles.refreshMiniButton, { borderColor: panelBorder }]}
@@ -875,10 +877,10 @@ export default function BunproTab() {
                   ]}
                 />
               </View>
-              <Text style={[styles.xpMeta, { color: softText }]}>XP {bunproUser.xp.toLocaleString()} ({bunproUser.prev_level_xp.toLocaleString()} → {bunproUser.next_level_xp.toLocaleString()})</Text>
+              <Text style={[styles.xpMeta, { color: softText }]}>{uiT("ui.xp_168aad3e")} {bunproUser.xp.toLocaleString()} ({bunproUser.prev_level_xp.toLocaleString()} → {bunproUser.next_level_xp.toLocaleString()})</Text>
 
               <View style={[styles.streakPanel, { backgroundColor: isDark ? "#2a2f37" : "#f5f7fa" }]}> 
-                <Text style={[styles.streakTitle, { color: theme.textColor }]}>Current Streak - {baseStats.streak}</Text>
+                <Text style={[styles.streakTitle, { color: theme.textColor }]}>{uiT("ui.current_streak_edd13358")} {baseStats.streak}</Text>
                 <View style={styles.streakDotsRow}>
                   {weeklyStreakEntries.map((entry) => (
                     <View key={entry.day} style={styles.streakDotCell}>
@@ -929,8 +931,7 @@ export default function BunproTab() {
                       },
                     ]}
                   >
-                    Days
-                  </Text>
+                    {uiT("ui.days_e08c0aa8")} </Text>
                 </View>
                 <View style={styles.quickStatItem}>
                   <Ionicons name="pulse-outline" size={18} color={accentMutedTextColor} />
@@ -948,8 +949,7 @@ export default function BunproTab() {
                       },
                     ]}
                   >
-                    Last Session
-                  </Text>
+                    {uiT("ui.last_session_7fbc27e7")} </Text>
                 </View>
                 <View style={styles.quickStatItem}>
                   <Ionicons name="ribbon-outline" size={18} color={accentMutedTextColor} />
@@ -967,8 +967,7 @@ export default function BunproTab() {
                       },
                     ]}
                   >
-                    Badges
-                  </Text>
+                    {uiT("ui.badges_185d8ef0")} </Text>
                 </View>
               </View>
             </View>
@@ -1048,7 +1047,7 @@ export default function BunproTab() {
 
             {lastUpdatedAt ? (
               <Text style={[styles.updatedAtText, { color: softText }]}> 
-                Updated {new Date(lastUpdatedAt).toLocaleString()}
+                {uiT("ui.updated_3a5ecca1")} {new Date(lastUpdatedAt).toLocaleString()}
               </Text>
             ) : null}
           </>
@@ -1062,20 +1061,19 @@ export default function BunproTab() {
         >
           <View style={styles.connectionHeaderRow}>
             <View style={{ flex: 1 }}>
-              <Text style={[styles.connectionTitle, { color: theme.textColor }]}>Bunpro Connection</Text>
+              <Text style={[styles.connectionTitle, { color: theme.textColor }]}>{uiT("ui.bunpro_connection_4388bc77")}</Text>
               <Text style={[styles.connectionSubtitle, { color: softText }]}> 
-                {hasStoredToken ? "Your Bunpro API key is saved." : "Add your API key in Settings to connect Bunpro."}
+                {hasStoredToken ? uiT("ui.your_bunpro_api_key_is_saved_e4735b92") : uiT("ui.add_your_api_key_in_settings_to_connect_bunpro_8fc6eee7")}
               </Text>
             </View>
             <TouchableOpacity
               style={[styles.connectionActionButton, { borderColor: panelBorder }]}
               accessibilityRole="button"
-              accessibilityLabel="Open Bunpro review settings"
+              accessibilityLabel={uiT("ui.open_bunpro_review_settings_e90e43ab")}
               onPress={() => router.push({ pathname: "/settings", params: { scrollTo: "bunproReviews" } })}
             >
               <Text style={[styles.connectionActionLabel, { color: softText }]}> 
-                Open settings
-              </Text>
+                {uiT("ui.open_settings_ca381c1e")} </Text>
             </TouchableOpacity>
           </View>
         </View>

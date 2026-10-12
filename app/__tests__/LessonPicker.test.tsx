@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import React from "react";
 import { getAvailableLessons, getSubjects } from "../../src/utils/api";
 import LessonPickerScreen from "../(app)/lesson-picker";
+import { useInterfaceLanguageStore } from "../../src/features/interface-language/runtime";
 
 jest.mock("expo-router", () => ({
   router: { replace: jest.fn(), back: jest.fn() },
@@ -69,7 +70,8 @@ jest.mock("../../src/utils/theme", () => ({
   }),
 }));
 
-it("starts the chosen assignments using stable IDs after excluded lessons are filtered out", async () => {
+it.each(["en", "tr"] as const)("starts chosen assignments with stable IDs in %s", async (language) => {
+  useInterfaceLanguageStore.getState().setLanguage(language);
   jest.mocked(getAvailableLessons).mockResolvedValue({
     data: [
       { id: 5001, data: { subject_id: 101 } },
@@ -107,7 +109,7 @@ it("starts the chosen assignments using stable IDs after excluded lessons are fi
   fireEvent.press(await screen.findByText("一"));
   fireEvent.press(screen.getByText("三"));
   expect(screen.queryByText("これ")).toBeNull();
-  fireEvent.press(screen.getByText("Start 2 Lessons"));
+  fireEvent.press(screen.getByText(language === "tr" ? "2 ders başlat" : "Start 2 Lessons"));
 
   expect(router.replace).toHaveBeenCalledWith({
     pathname: "/lessons",

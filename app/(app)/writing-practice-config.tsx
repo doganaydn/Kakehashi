@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -118,6 +119,7 @@ const sanitizeConfig = (
 };
 
 export default function WritingPracticeConfigScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const params = useLocalSearchParams<{
@@ -240,10 +242,10 @@ export default function WritingPracticeConfigScreen() {
           ? "/writing-practice-freehand-session"
           : "/writing-practice-session";
 
-      Alert.alert("Resume Kanji Writing Practice?", "You have a session in progress.", [
-        { text: "Not Now", style: "cancel" },
+      Alert.alert(uiT("ui.resume_kanji_writing_practice_327bc48f"), uiT("ui.you_have_a_session_in_progress_34fcc829"), [
+        { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => {
             void clearExtraStudySessionState(
@@ -252,7 +254,7 @@ export default function WritingPracticeConfigScreen() {
           },
         },
         {
-          text: "Resume",
+          text: uiT("ui.resume_d640c742"),
           onPress: () => {
             router.push({
               pathname: targetPath,
@@ -296,8 +298,7 @@ export default function WritingPracticeConfigScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Kanji Writing Practice
-        </Text>
+          {uiT("ui.kanji_writing_practice_590d1ada")} </Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
@@ -320,28 +321,23 @@ export default function WritingPracticeConfigScreen() {
                 { color: theme.isDark ? "#81c784" : "#2e7d32" },
               ]}
             >
-              Practice stroke order
-            </Text>
+              {uiT("ui.practice_stroke_order_728bd336")} </Text>
             <Text
               style={[
                 styles.descriptionText,
                 { color: theme.isDark ? "#a5d6a7" : "#4caf50" },
               ]}
             >
-              Draw kanji stroke by stroke. Get feedback on correct stroke order
-              and direction.
-            </Text>
+              {uiT("ui.draw_kanji_stroke_by_stroke_get_feedback_on_correct_stroke_order_723201ba")} </Text>
           </View>
         </View>
 
         {/* Practice Mode */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Practice Mode
-          </Text>
+            {uiT("ui.practice_mode_8036be09")} </Text>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>
-            Guided checks each stroke. Unguided checks only on submit.
-          </Text>
+            {uiT("ui.guided_checks_each_stroke_unguided_checks_only_on_submit_6ebcca71")} </Text>
           <View
             style={[
               styles.toggleRow,
@@ -359,12 +355,11 @@ export default function WritingPracticeConfigScreen() {
           >
             <View style={styles.toggleTextContainer}>
               <Text style={[styles.toggleText, { color: theme.textColor }]}>
-                Unguided test
-              </Text>
+                {uiT("ui.unguided_test_ff8861c8")} </Text>
               <Text style={[styles.toggleSubtext, { color: theme.textSecondary }]}>
                 {isIOS
-                  ? "No per-stroke correction. You submit once for final grading."
-                  : "iOS only. Guided mode will be used on this device."}
+                  ? uiT("ui.no_per_stroke_correction_you_submit_once_for_final_grading_30e2752e")
+                  : uiT("ui.ios_only_guided_mode_will_be_used_on_this_device_30157b56")}
               </Text>
             </View>
             <Switch
@@ -385,8 +380,7 @@ export default function WritingPracticeConfigScreen() {
         {/* Number of Kanji */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Number of Kanji
-          </Text>
+            {uiT("ui.number_of_kanji_de82e8d3")} </Text>
           <View style={styles.sliderContainer}>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.numberOfKanji}
@@ -408,11 +402,9 @@ export default function WritingPracticeConfigScreen() {
         {/* SRS Stages */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Include SRS Stages
-          </Text>
+            {uiT("ui.include_srs_stages_eb382d10")} </Text>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>
-            Choose which progression stages to include
-          </Text>
+            {uiT("ui.choose_which_progression_stages_to_include_983f6d5c")} </Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = config.srsStages[key];
@@ -463,12 +455,9 @@ export default function WritingPracticeConfigScreen() {
         {/* Levels */}
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Levels
-          </Text>
+            {uiT("ui.levels_b1482131")} </Text>
           <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>
-            Without a subject list, includes levels 1 to your level ({userLevel}).
-            Selected lists can include any level. Enable a custom range to restrict.
-          </Text>
+            {uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")} </Text>
           <View
             style={[
               styles.toggleRow,
@@ -483,8 +472,7 @@ export default function WritingPracticeConfigScreen() {
             ]}
           >
             <Text style={[styles.toggleText, { color: theme.textColor }]}>
-              Use custom level range
-            </Text>
+              {uiT("ui.use_custom_level_range_fdb84cae")} </Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -509,8 +497,7 @@ export default function WritingPracticeConfigScreen() {
             <View>
               <View style={styles.levelSliderRow}>
                 <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>
-                  Min Level
-                </Text>
+                  {uiT("ui.min_level_4986a2df")} </Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>
                   {config.minLevel}
                 </Text>
@@ -530,8 +517,7 @@ export default function WritingPracticeConfigScreen() {
               />
               <View style={[styles.levelSliderRow, { marginTop: 12 }]}>
                 <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>
-                  Max Level
-                </Text>
+                  {uiT("ui.max_level_2833a212")} </Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>
                   {config.maxLevel}
                 </Text>
@@ -557,7 +543,7 @@ export default function WritingPracticeConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={["kanji"]}
-          description="Optional: only include kanji from these saved lists."
+          description={uiT("ui.optional_only_include_kanji_from_these_saved_lists_e4b121d1")}
         />
 
         <View style={{ height: 100 }} />
@@ -571,7 +557,7 @@ export default function WritingPracticeConfigScreen() {
           activeOpacity={0.8}
         >
           <Ionicons name="brush" size={24} color="white" style={{ marginRight: 8 }} />
-          <Text style={styles.startButtonText}>Start Practice</Text>
+          <Text style={styles.startButtonText}>{uiT("ui.start_practice_d25bea8b")}</Text>
         </TouchableOpacity>
       </View>
     </View>

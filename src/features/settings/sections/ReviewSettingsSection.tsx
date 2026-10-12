@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -18,6 +19,7 @@ import { styles } from "../styles";
 import { ReviewPresetsSetting } from "../components/review-presets-setting";
 
 export function ReviewSettingsSection() {
+  useInterfaceLanguage();
   const jitaiCycleAllFonts = useSettingsStore(
     (state) => state.jitaiCycleAllFonts,
   );
@@ -125,8 +127,7 @@ export function ReviewSettingsSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          Review Settings
-        </Text>
+          {uiT("ui.review_settings_eefd091e")} </Text>
         <AdvancedSettingsGroup grouped>
           <ReviewAnswerModeSetting />
           <View>
@@ -139,16 +140,14 @@ export function ReviewSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Pause on Wrong Answer
-                </SettingsLabel>
+                  {uiT("ui.pause_on_wrong_answer_0133de00")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Show correct answer and options before progressing
-                </Text>
+                  {uiT("ui.show_correct_answer_and_options_before_progressing_7841fc6e")} </Text>
               </View>
               <Switch
                 value={disableAutoProgressOnWrong}
@@ -174,8 +173,8 @@ export function ReviewSettingsSection() {
                       style={[styles.settingText, { color: theme.textColor }]}
                     >
                       {Platform.OS === "android"
-                        ? "Anki Settings & Export"
-                        : "Anki Advanced Settings"}
+                        ? uiT("ui.anki_settings_export_65d38aae")
+                        : uiT("ui.anki_advanced_settings_5c5537a2")}
                     </SettingsLabel>
                     <Text
                       style={[
@@ -184,8 +183,8 @@ export function ReviewSettingsSection() {
                       ]}
                     >
                       {ankiCardMode
-                        ? `Applies to ${ankiCardModeScope}. ${ankiGroupQuestions ? "Grouped cards enabled." : "Grouped cards disabled."}`
-                        : "Configure AnkiDroid context sentence export."}
+                        ? uiT("ui.applies_to_value_value_7c6c61bd", {value1: (ankiCardModeScope), value2: (ankiGroupQuestions ? uiT("ui.grouped_cards_enabled_17163d1c") : uiT("ui.grouped_cards_disabled_e52ac3d8"))})
+                        : uiT("ui.configure_ankidroid_context_sentence_export_4081ff64")}
                     </Text>
                   </View>
                   <Ionicons
@@ -198,8 +197,8 @@ export function ReviewSettingsSection() {
             )}
           </View>
           <SettingsDisclosure
-            title="Order & session size"
-            description="Priority, question pairing and workload"
+            title={uiT("ui.order_session_size_3c7072eb")}
+            description={uiT("ui.priority_question_pairing_and_workload_954e1e22")}
             icon="order"
           >
             <TouchableOpacity
@@ -212,19 +211,16 @@ export function ReviewSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Review Order
-                </SettingsLabel>
+                  {uiT("ui.review_order_1f1edc73")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  {`Reviews: ${
-                    reviewTypeOrderEnabled
-                      ? `${getReviewOrderLabel(reviewOrder)} + type groups`
-                      : getReviewOrderLabel(reviewOrder)
-                  } · Custom: ${getReviewOrderLabel(customReviewOrder)}`}
+                  {uiT("ui.reviews_value_custom_value_dee317df", {value1: (reviewTypeOrderEnabled
+                      ? uiT("ui.value_type_groups_d9fbb76c", {value1: (getReviewOrderLabel(reviewOrder))})
+                      : getReviewOrderLabel(reviewOrder)), value2: (getReviewOrderLabel(customReviewOrder))})}
                 </Text>
               </View>
               <Ionicons
@@ -246,16 +242,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Prioritize Critical Items
-                  </SettingsLabel>
+                    {uiT("ui.prioritize_critical_items_293fc0cc")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show current-level apprentice radicals/kanji first
-                  </Text>
+                    {uiT("ui.show_current_level_apprentice_radicals_kanji_first_2ac244bd")} </Text>
                 </View>
                 <Switch
                   value={prioritizeCriticalItems}
@@ -278,17 +272,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Back-to-Back Questions
-                  </SettingsLabel>
+                    {uiT("ui.back_to_back_questions_559ccdbc")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show meaning and reading questions consecutively for each
-                    item
-                  </Text>
+                    {uiT("ui.show_meaning_and_reading_questions_consecutively_for_each_item_4d23d7cd")} </Text>
                 </View>
                 <Switch
                   value={backToBackQuestions}
@@ -322,16 +313,14 @@ export function ReviewSettingsSection() {
                     <SettingsLabel
                       style={[styles.settingText, { color: theme.textColor }]}
                     >
-                      Immediate Retry on Wrong
-                    </SettingsLabel>
+                      {uiT("ui.immediate_retry_on_wrong_c93d8cea")} </SettingsLabel>
                     <Text
                       style={[
                         styles.settingSubtext,
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Re-ask failed questions right away in back-to-back mode
-                    </Text>
+                      {uiT("ui.re_ask_failed_questions_right_away_in_back_to_back_mode_8db0d464")} </Text>
                   </View>
                   <Switch
                     value={backToBackImmediateRetryIncorrect}
@@ -355,17 +344,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Wrap Up Target
-                  </SettingsLabel>
+                    {uiT("ui.wrap_up_target_9fb61040")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Subjects left after tapping Wrap Up (5-20). Paired questions
-                    stay within {effectiveReviewWrapUpQuestionGap} questions.
-                  </Text>
+                    {uiT("ui.subjects_left_after_tapping_wrap_up_5_20_paired_questions_stay_wi_5fad280b")} {effectiveReviewWrapUpQuestionGap} {uiT("ui.questions_61d8b6e2")} </Text>
                 </View>
                 <View style={styles.batchSizeSelector}>
                   <TouchableOpacity
@@ -447,16 +433,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Review Batch Size
-                  </SettingsLabel>
+                    {uiT("ui.review_batch_size_4040bacd")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Cap the number of reviews loaded into the queue
-                  </Text>
+                    {uiT("ui.cap_the_number_of_reviews_loaded_into_the_queue_1568f267")} </Text>
                 </View>
                 <Switch
                   value={reviewBatchSizeEnabled}
@@ -480,16 +464,14 @@ export function ReviewSettingsSection() {
                     <SettingsLabel
                       style={[styles.settingText, { color: theme.textColor }]}
                     >
-                      Batch Size
-                    </SettingsLabel>
+                      {uiT("ui.batch_size_c4857cd1")} </SettingsLabel>
                     <Text
                       style={[
                         styles.settingSubtext,
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Number of items per review session (5-100)
-                    </Text>
+                      {uiT("ui.number_of_items_per_review_session_5_100_34be1497")} </Text>
                   </View>
                   <View style={styles.batchSizeSelector}>
                     <TouchableOpacity
@@ -554,8 +536,8 @@ export function ReviewSettingsSection() {
             </AdvancedSetting>
           </SettingsDisclosure>
           <SettingsDisclosure
-            title="Answer feedback"
-            description="Pauses, accepted answers and corrections"
+            title={uiT("ui.answer_feedback_53c17d78")}
+            description={uiT("ui.pauses_accepted_answers_and_corrections_f84f7c75")}
             icon="answer"
           >
             <AdvancedSetting>
@@ -571,17 +553,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Pause on Close Answer
-                  </SettingsLabel>
+                    {uiT("ui.pause_on_close_answer_737b2b66")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    For fuzzy meaning matches, confirm whether to mark correct
-                    or incorrect
-                  </Text>
+                    {uiT("ui.for_fuzzy_meaning_matches_confirm_whether_to_mark_correct_or_inco_5b2949e0")} </Text>
                 </View>
                 <Switch
                   value={disableAutoProgressOnCloseAnswer}
@@ -604,17 +583,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Allow Skipping Reviews
-                  </SettingsLabel>
+                    {uiT("ui.allow_skipping_reviews_e1f9a50b")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Submit an empty answer to move the item to the end and reset
-                    it
-                  </Text>
+                    {uiT("ui.submit_an_empty_answer_to_move_the_item_to_the_end_and_reset_it_3c4086f2")} </Text>
                 </View>
                 <Switch
                   value={allowSkippingReviews}
@@ -637,16 +613,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Pause on Correct Answer
-                  </SettingsLabel>
+                    {uiT("ui.pause_on_correct_answer_1e40fb3e")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show accepted answers before progressing
-                  </Text>
+                    {uiT("ui.show_accepted_answers_before_progressing_0bf30c50")} </Text>
                 </View>
                 <Switch
                   value={disableAutoProgressOnCorrect}
@@ -669,17 +643,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Show Details on Answer Pause
-                  </SettingsLabel>
+                    {uiT("ui.show_details_on_answer_pause_d0749ed8")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Slide subject details below the answer field when reviews
-                    pause
-                  </Text>
+                    {uiT("ui.slide_subject_details_below_the_answer_field_when_reviews_pause_96da8553")} </Text>
                 </View>
                 <View style={styles.settingTrailingControls}>
                   <TouchableOpacity
@@ -694,7 +665,7 @@ export function ReviewSettingsSection() {
                     activeOpacity={0.75}
                     hitSlop={8}
                     accessibilityRole="button"
-                    accessibilityLabel="Preview answer pause details setting"
+                    accessibilityLabel={uiT("ui.preview_answer_pause_details_setting_8da37442")}
                   >
                     <Ionicons
                       name="help"
@@ -724,16 +695,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Accept User Synonyms
-                  </SettingsLabel>
+                    {uiT("ui.accept_user_synonyms_22fc0401")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Accept your custom synonyms as correct meaning answers
-                  </Text>
+                    {uiT("ui.accept_your_custom_synonyms_as_correct_meaning_answers_5d42888a")} </Text>
                 </View>
                 <Switch
                   value={acceptUserSynonymsAsAnswers}
@@ -756,17 +725,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Show + Synonym Button
-                  </SettingsLabel>
+                    {uiT("ui.show_synonym_button_76fc9434")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show the synonym action when a meaning answer is paused as
-                    wrong
-                  </Text>
+                    {uiT("ui.show_the_synonym_action_when_a_meaning_answer_is_paused_as_wrong_847b6a9e")} </Text>
                 </View>
                 <Switch
                   value={showAddSynonymButton}
@@ -789,17 +755,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Accept Any On&apos;yomi (Kanji)
-                  </SettingsLabel>
+                    {uiT("ui.accept_any_on_yomi_kanji_b87362cc")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Treat all on&apos;yomi readings as correct in kanji reading
-                    reviews
-                  </Text>
+                    {uiT("ui.treat_all_on_yomi_readings_as_correct_in_kanji_reading_reviews_33f61a01")} </Text>
                 </View>
                 <Switch
                   value={acceptAnyKanjiOnyomiReading}
@@ -811,8 +774,8 @@ export function ReviewSettingsSection() {
             </AdvancedSetting>
           </SettingsDisclosure>
           <SettingsDisclosure
-            title="Prompt & display"
-            description="Text size, hints and review information"
+            title={uiT("ui.prompt_display_8f341726")}
+            description={uiT("ui.text_size_hints_and_review_information_465972d4")}
             icon="text"
           >
             <View
@@ -824,17 +787,14 @@ export function ReviewSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Review Character Size
-                </SettingsLabel>
+                  {uiT("ui.review_character_size_ab236bdb")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Make review characters smaller or larger without changing
-                  other text
-                </Text>
+                  {uiT("ui.make_review_characters_smaller_or_larger_without_changing_other_t_46ef0c96")} </Text>
               </View>
               <View style={styles.batchSizeSelector}>
                 <TouchableOpacity
@@ -853,7 +813,7 @@ export function ReviewSettingsSection() {
                   }
                   disabled={!canDecreaseReviewCharacterFontScale}
                   accessibilityRole="button"
-                  accessibilityLabel="Decrease review character size"
+                  accessibilityLabel={uiT("ui.decrease_review_character_size_e97325c8")}
                 >
                   <Ionicons
                     name="remove"
@@ -890,7 +850,7 @@ export function ReviewSettingsSection() {
                   }
                   disabled={!canIncreaseReviewCharacterFontScale}
                   accessibilityRole="button"
-                  accessibilityLabel="Increase review character size"
+                  accessibilityLabel={uiT("ui.increase_review_character_size_502f4ed4")}
                 >
                   <Ionicons
                     name="add"
@@ -917,16 +877,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Review Input Size
-                  </SettingsLabel>
+                    {uiT("ui.review_input_size_f727103b")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Scale the answer text size in reviews
-                  </Text>
+                    {uiT("ui.scale_the_answer_text_size_in_reviews_461da01e")} </Text>
                 </View>
                 <View style={styles.batchSizeSelector}>
                   <TouchableOpacity
@@ -944,7 +902,7 @@ export function ReviewSettingsSection() {
                     }
                     disabled={!canDecreaseReviewInputFontScale}
                     accessibilityRole="button"
-                    accessibilityLabel="Decrease review input size"
+                    accessibilityLabel={uiT("ui.decrease_review_input_size_f749aa47")}
                   >
                     <Ionicons
                       name="remove"
@@ -980,7 +938,7 @@ export function ReviewSettingsSection() {
                     }
                     disabled={!canIncreaseReviewInputFontScale}
                     accessibilityRole="button"
-                    accessibilityLabel="Increase review input size"
+                    accessibilityLabel={uiT("ui.increase_review_input_size_11cd3dbe")}
                   >
                     <Ionicons
                       name="add"
@@ -1008,16 +966,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Review Search Button
-                  </SettingsLabel>
+                    {uiT("ui.review_search_button_95ff3c0c")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show a search shortcut below Wrap Up during reviews
-                  </Text>
+                    {uiT("ui.show_a_search_shortcut_below_wrap_up_during_reviews_70b5a0db")} </Text>
                 </View>
                 <Switch
                   value={reviewSearchButtonEnabled}
@@ -1041,16 +997,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    SRS Progression
-                  </SettingsLabel>
+                    {uiT("ui.srs_progression_96060b33")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show the new SRS stage of the submitted answer
-                  </Text>
+                    {uiT("ui.show_the_new_srs_stage_of_the_submitted_answer_7487b93b")} </Text>
                 </View>
                 <TouchableOpacity
                   style={[
@@ -1093,17 +1047,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Show Item Level & SRS Stage
-                  </SettingsLabel>
+                    {uiT("ui.show_item_level_srs_stage_342011cd")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Display the subject level and current SRS stage during
-                    reviews
-                  </Text>
+                    {uiT("ui.display_the_subject_level_and_current_srs_stage_during_reviews_256135b9")} </Text>
                 </View>
                 <Switch
                   value={showReviewItemLevelAndSrsStage}
@@ -1126,18 +1077,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Vocabulary Context Sentence Hints
-                  </SettingsLabel>
+                    {uiT("ui.vocabulary_context_sentence_hints_9ea91fd4")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show context sentence hints during vocabulary review
-                    questions. Translations stay hidden until you reveal them
-                    from the hint
-                  </Text>
+                    {uiT("ui.show_context_sentence_hints_during_vocabulary_review_questions_tr_5e28f748")} </Text>
                 </View>
                 <Switch
                   value={showVocabContextSentencesInReviews}
@@ -1160,16 +1107,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Animate Previous Question
-                  </SettingsLabel>
+                    {uiT("ui.animate_previous_question_4dd7c365")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Move the previous answer card from center to top-left
-                  </Text>
+                    {uiT("ui.move_the_previous_answer_card_from_center_to_top_left_6c4b4921")} </Text>
                 </View>
                 <Switch
                   value={reviewAnimatePreviousQuestion}
@@ -1181,8 +1126,8 @@ export function ReviewSettingsSection() {
             </AdvancedSetting>
           </SettingsDisclosure>
           <SettingsDisclosure
-            title="Font practice"
-            description="A font pool for varied Japanese handwriting"
+            title={uiT("ui.font_practice_37a0560b")}
+            description={uiT("ui.a_font_pool_for_varied_japanese_handwriting_8ed11ba7")}
             icon="font"
           >
             <View
@@ -1194,17 +1139,14 @@ export function ReviewSettingsSection() {
                 <SettingsLabel
                   style={[styles.settingText, { color: theme.textColor }]}
                 >
-                  Jitai (Font Randomizer)
-                </SettingsLabel>
+                  {uiT("ui.jitai_font_randomizer_871cacaa")} </SettingsLabel>
                 <Text
                   style={[
                     styles.settingSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Randomize Japanese fonts during reviews and lesson quizzes to
-                  improve reading ability
-                </Text>
+                  {uiT("ui.randomize_japanese_fonts_during_reviews_and_lesson_quizzes_to_imp_6feb765b")} </Text>
               </View>
               <Switch
                 value={jitaiEnabled}
@@ -1227,15 +1169,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Jitai Font Pool
-                  </SettingsLabel>
+                    {uiT("ui.jitai_font_pool_353e7a6d")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    {`${jitaiSelectedFontIds.length} selected. Manage fonts and downloads.`}
+                    {uiT("ui.value_selected_manage_fonts_and_downloads_e13a413b", {value1: (jitaiSelectedFontIds.length)})}
                   </Text>
                 </View>
                 <Ionicons
@@ -1259,21 +1200,17 @@ export function ReviewSettingsSection() {
                     <SettingsLabel
                       style={[styles.settingText, { color: theme.textColor }]}
                     >
-                      Cycle through all Jitai fonts
-                    </SettingsLabel>
+                      {uiT("ui.cycle_through_all_jitai_fonts_871f6cb7")} </SettingsLabel>
                     <Text
                       style={[
                         styles.settingSubtext,
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Cycle all selected styles, with Source Han Sans second
-                      unless shown first. When off, switch between the initial
-                      font and Source Han Sans.
-                    </Text>
+                      {uiT("ui.cycle_all_selected_styles_with_source_han_sans_second_unless_show_7788d91e")} </Text>
                   </View>
                   <Switch
-                    accessibilityLabel="Cycle through all Jitai fonts"
+                    accessibilityLabel={uiT("ui.cycle_through_all_jitai_fonts_871f6cb7")}
                     value={jitaiCycleAllFonts}
                     onValueChange={setJitaiCycleAllFonts}
                     trackColor={{ false: "#767577", true: theme.primary }}
@@ -1284,10 +1221,10 @@ export function ReviewSettingsSection() {
             )}
           </SettingsDisclosure>
           <SettingsDisclosure
-            title="Keyboard & input"
-            description="Shortcuts, Japanese input and voice answers"
+            title={uiT("ui.keyboard_input_91a84d83")}
+            description={uiT("ui.shortcuts_japanese_input_and_voice_answers_c46ccc64")}
             icon="keyboard"
-            accessibilityLabel="Advanced settings"
+            accessibilityLabel={uiT("ui.advanced_settings_7b0bd218")}
           >
             <AdvancedSetting>
               <TouchableOpacity
@@ -1303,16 +1240,14 @@ export function ReviewSettingsSection() {
                   <SettingsLabel
                     style={[styles.settingText, { color: theme.textColor }]}
                   >
-                    Review Key Shortcuts
-                  </SettingsLabel>
+                    {uiT("ui.review_key_shortcuts_e5e97748")} </SettingsLabel>
                   <Text
                     style={[
                       styles.settingSubtext,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    External keyboards only
-                  </Text>
+                    {uiT("ui.external_keyboards_only_1c3499dc")} </Text>
                 </View>
                 <Ionicons
                   name="chevron-forward"
@@ -1336,17 +1271,14 @@ export function ReviewSettingsSection() {
                       <SettingsLabel
                         style={[styles.settingText, { color: theme.textColor }]}
                       >
-                        Japanese Input Keyboard
-                      </SettingsLabel>
+                        {uiT("ui.japanese_input_keyboard_9bcb6103")} </SettingsLabel>
                       <Text
                         style={[
                           styles.settingSubtext,
                           { color: theme.textSecondary },
                         ]}
                       >
-                        Automatically switch to a Japanese keyboard for Japanese
-                        answer entry throughout the app
-                      </Text>
+                        {uiT("ui.automatically_switch_to_a_japanese_keyboard_for_japanese_answer_e_a5d63683")} </Text>
                     </View>
                     <Switch
                       value={autoSwitchKeyboard}
@@ -1356,7 +1288,7 @@ export function ReviewSettingsSection() {
                             await KeyboardManager.hasJapaneseKeyboard();
                           if (!hasJa) {
                             Alert.alert(
-                              "No Japanese Keyboard",
+                              uiT("ui.no_japanese_keyboard_ffbd52b8"),
                               JAPANESE_KEYBOARD_SETUP_INSTRUCTIONS,
                             );
                             return;
@@ -1385,10 +1317,9 @@ export function ReviewSettingsSection() {
                       <SettingsLabel
                         style={[styles.settingText, { color: theme.textColor }]}
                       >
-                        Voice Review Answers
-                      </SettingsLabel>
+                        {uiT("ui.voice_review_answers_598c83f0")} </SettingsLabel>
                       <View style={styles.betaBadge}>
-                        <Text style={styles.betaBadgeText}>BETA</Text>
+                        <Text style={styles.betaBadgeText}>{uiT("ui.beta_639181fd")}</Text>
                       </View>
                     </View>
                     <Text
@@ -1397,9 +1328,7 @@ export function ReviewSettingsSection() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Tap the mic once to answer consecutive questions. Tap
-                      again to stop.
-                    </Text>
+                      {uiT("ui.tap_the_mic_once_to_answer_consecutive_questions_tap_again_to_sto_5b4f6d76")} </Text>
                   </View>
                   <Switch
                     value={voiceReviewAnswersEnabled}

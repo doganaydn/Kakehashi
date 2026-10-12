@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router, type Href } from "expo-router";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -6,6 +7,7 @@ import { useTabNavigation } from "../../../../src/hooks/useTabNavigation";
 import { useTheme } from "../../../../src/utils/theme";
 
 export default function MoreScreen() {
+  useInterfaceLanguage();
   const { overflow } = useTabNavigation();
   const { theme } = useTheme();
   return <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
@@ -19,7 +21,7 @@ export default function MoreScreen() {
       <Ionicons name="chevron-forward" size={18} color={theme.textSecondary} />
     </TouchableOpacity>)}
     <TouchableOpacity accessibilityRole="button" onPress={() => router.push("/tab-settings")} style={{ paddingVertical: 20 }}>
-      <Text style={{ color: theme.primary, fontSize: 16 }}>Customize tabs</Text>
+      <Text style={{ color: theme.primary, fontSize: 16 }}>{uiT("ui.customize_tabs_c4f73a60")}</Text>
     </TouchableOpacity>
     </ScrollView>
   </SafeAreaView>;

@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
@@ -109,6 +110,7 @@ const REVIEW_PERMISSION_WARNING_MESSAGE =
   "Your API token does not have review write permission (reviews:create). Open WaniKani Personal Access Tokens, enable review write access, then log in again with the updated token.";
 
 export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = {}) {
+  useInterfaceLanguage();
   const { reviewPresetId } = useLocalSearchParams<{ reviewPresetId?: string }>();
   const retainedMixedQuestionRef = useRef<React.ReactElement<{ reviewActive?: boolean }> | null>(null);
   const mixedRef = useRef(mixed);
@@ -894,7 +896,7 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
     }
 
     if (!apiToken) {
-      if (mixedRef.current) setMixedLoadError("Sign in to WaniKani to start mixed reviews.");
+      if (mixedRef.current) setMixedLoadError(uiT("ui.message_ac49d2f47f09"));
       setIsLoading(false);
       return;
     }
@@ -1052,9 +1054,9 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
           return;
         }
         Alert.alert(
-          "No Reviews Available",
-          "You don't have any reviews available right now.",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.no_reviews_available_4fd12a5e"),
+          uiT("ui.you_don_t_have_any_reviews_available_right_now_2c1bc940"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -1254,8 +1256,8 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
                 },
               });
               Alert.alert(
-                "User Synonyms Unavailable",
-                "Your reviews will continue, but user synonyms could not be loaded and will not be accepted in this session. Reopen reviews to try loading them again.",
+                uiT("ui.user_synonyms_unavailable_4fcac0b2"),
+                uiT("ui.your_reviews_will_continue_but_user_synonyms_could_not_be_loaded_b9d4816a"),
               );
             }
             // Notes/details can gracefully degrade when they are the only consumer.
@@ -1326,7 +1328,7 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
 
       if (items.length === 0) {
         if (mixedRef.current) {
-          setMixedLoadError("WaniKani review subjects could not be loaded. Please try again.");
+          setMixedLoadError(uiT("ui.message_89f821aeca95"));
           return;
         }
         const prepError = new Error(
@@ -1343,8 +1345,8 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
             userLevel,
           },
         });
-        Alert.alert("Error", "Failed to prepare review items.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_prepare_review_items_ab1094d4"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
         return;
       }
@@ -1450,36 +1452,19 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
         setMixedLoadError(isRateLimit ? "WaniKani is receiving too many requests. Wait a moment, then retry." : "WaniKani reviews could not be loaded. Please try again.");
       } else if (isRateLimit) {
         Alert.alert(
-          "Too Many Requests",
-          "You've made too many requests to WaniKani. The rate limit resets every minute. Please wait a moment and try again.",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.too_many_requests_3850dfdb"),
+          uiT("ui.you_ve_made_too_many_requests_to_wanikani_the_rate_limit_resets_e_fe1671a3"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
       } else {
-        Alert.alert("Error", "Failed to load reviews. Please try again.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_reviews_please_try_again_16846090"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
       }
     } finally {
       setIsLoading(false);
     }
-  }, [
-    apiToken,
-    isAuthLoading,
-    reviewOrder,
-    reviewTypeOrderEnabled,
-    reviewTypeOrder,
-    prioritizeCriticalItems,
-    acceptUserSynonymsAsAnswers,
-    showAnswerStopSubjectDetails,
-    backToBackQuestions,
-    reviewQuestionOrderEnabled,
-    preferredQuestionType,
-    effectiveAnkiGrouping,
-    reviewBatchSizeEnabled,
-    reviewBatchSize,
-    REVIEW_MAX_QUESTION_GAP,
-    reconcileLiveReviewAssignments,
-  ]);
+  }, [apiToken, isAuthLoading, reviewOrder, reviewTypeOrderEnabled, reviewTypeOrder, prioritizeCriticalItems, acceptUserSynonymsAsAnswers, showAnswerStopSubjectDetails, backToBackQuestions, reviewQuestionOrderEnabled, preferredQuestionType, effectiveAnkiGrouping, reviewBatchSizeEnabled, reviewBatchSize, REVIEW_MAX_QUESTION_GAP, reconcileLiveReviewAssignments, ]);
 
   // Wrap up mode: toggle between the trimmed wrap-up queue and the full pool.
   const handleWrapUp = useCallback(() => {
@@ -2393,11 +2378,11 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
           );
 
           Alert.alert(
-            "Couldn't Save Review",
-            "Your answer is still on this question, but it could not be saved on this device. Try again before continuing.",
+            uiT("ui.couldn_t_save_review_9f3b6bd4"),
+            uiT("ui.your_answer_is_still_on_this_question_but_it_could_not_be_saved_o_4215f0d1"),
             [
               {
-                text: "Try Again",
+                text: uiT("ui.try_again_df0fe9e0"),
                 onPress: () => {
                   if (answerInFlightKeysRef.current.has(answerKey)) {
                     return;
@@ -2782,8 +2767,7 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={theme.secondary} />
             <Text style={[styles.loadingText, { color: theme.textColor }]}>
-              Loading next question...
-            </Text>
+              {uiT("ui.loading_next_question_03c66811")} </Text>
           </View>
         );
       }
@@ -2855,12 +2839,12 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
           }
 
           Alert.alert(
-            "Exit Reviews",
-            "Are you sure you want to exit? Your progress will not be saved.",
+            uiT("ui.exit_reviews_92cce90a"),
+            uiT("ui.are_you_sure_you_want_to_exit_your_progress_will_not_be_saved_6634d3e2"),
             [
-              { text: "Cancel", style: "cancel" },
+              { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
               {
-                text: "Exit",
+                text: uiT("ui.exit_d17d84a6"),
                 onPress: exitReviews,
               },
             ],
@@ -2910,7 +2894,7 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
             <Text
               style={[styles.pendingSyncBadgeText, { color: theme.textColor }]}
             >
-              {pendingReviewCount} review{pendingReviewCount === 1 ? "" : "s"}
+              {pendingReviewCount} {uiT("ui.review_c97ace4c")}{uiPluralSuffix(pendingReviewCount === 1 ? "" : "s")}
             </Text>
           </View>
         </View>
@@ -2925,10 +2909,10 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
     return <View style={[styles.loadingContainer, { backgroundColor: theme.backgroundColor }]}>
       <Text accessibilityRole="alert" style={[styles.loadingText, { color: theme.textColor, textAlign: "center", paddingHorizontal: 24 }]}>{mixedLoadError}</Text>
       <TouchableOpacity accessibilityRole="button" onPress={() => void loadReviews()} style={{ padding: 20 }}>
-        <Text style={{ color: theme.primary, fontSize: 16 }}>Retry WaniKani reviews</Text>
+        <Text style={{ color: theme.primary, fontSize: 16 }}>{uiT("ui.retry_wanikani_reviews_ff036005")}</Text>
       </TouchableOpacity>
       <TouchableOpacity accessibilityRole="button" onPress={mixed.onExit} style={{ padding: 16 }}>
-        <Text style={{ color: theme.textSecondary }}>Back</Text>
+        <Text style={{ color: theme.textSecondary }}>{uiT("ui.back_76900f1b")}</Text>
       </TouchableOpacity>
     </View>;
   }
@@ -2942,8 +2926,7 @@ export default function ReviewScreen({ mixed }: { mixed?: MixedReviewBridge } = 
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            Loading reviews...
-          </Text>
+            {uiT("ui.loading_reviews_0f221480")} </Text>
         </View>
         {renderPendingReviewSyncBadge()}
       </View>

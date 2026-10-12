@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { useItemMeaning } from "../../src/features/turkish-content/item-display";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
@@ -43,6 +44,7 @@ const DEFAULT_THRESHOLD = 75;
 const SUBJECT_IDS_BATCH_SIZE = 1000;
 
 export default function CriticalItemsScreen() {
+  useInterfaceLanguage();
   const { apiToken } = useAuthStore();
   const navigation = useNavigation();
   const router = useRouter();
@@ -240,7 +242,7 @@ export default function CriticalItemsScreen() {
           },
         });
 
-        setError("Failed to load critical items. Please try again.");
+        setError(uiT("ui.message_983df149312c"));
       } finally {
         setIsLoading(false);
       }
@@ -278,8 +280,8 @@ export default function CriticalItemsScreen() {
 
       if (subjectIds.length === 0) {
         Alert.alert(
-          "No items to study",
-          "There are no critical items in the current filter."
+          uiT("ui.no_items_to_study_b2913a71"),
+          uiT("ui.there_are_no_critical_items_in_the_current_filter_e1997215")
         );
         return;
       }
@@ -301,10 +303,10 @@ export default function CriticalItemsScreen() {
   }, [startCustomSessionForFilteredItems]);
 
   const openStudyMenuFallback = useCallback(() => {
-    Alert.alert("Critical Items", "Choose an action", [
-      { text: "Re-do lessons", onPress: handleRedoLessons },
-      { text: "Review Items", onPress: handleReviewItems },
-      { text: "Cancel", style: "cancel" },
+    Alert.alert(uiT("ui.critical_items_759959bc"), uiT("ui.choose_an_action_769239f1"), [
+      { text: uiT("ui.re_do_lessons_932724c4"), onPress: handleRedoLessons },
+      { text: uiT("ui.review_items_1b0cf2db"), onPress: handleReviewItems },
+      { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
     ]);
   }, [handleRedoLessons, handleReviewItems]);
 
@@ -317,18 +319,18 @@ export default function CriticalItemsScreen() {
   const filterSections: FilterSection[] = [
     {
       id: "subjectType",
-      title: "Subject Type",
+      title: uiT("ui.subject_type_797e2154"),
       options: [
-        { id: "all", label: "All" },
-        { id: "radical", label: "Radicals" },
-        { id: "kanji", label: "Kanji" },
-        { id: "vocabulary", label: "Vocabulary" },
-        { id: "kana_vocabulary", label: "Kana Vocab" },
+        { id: "all", label: uiT("ui.all_a52ace42") },
+        { id: "radical", label: uiT("ui.radicals_80608601") },
+        { id: "kanji", label: uiT("ui.kanji_45f62a35") },
+        { id: "vocabulary", label: uiT("ui.vocabulary_eebd90a0") },
+        { id: "kana_vocabulary", label: uiT("ui.kana_vocab_597d8c17") },
       ],
     },
     {
       id: "threshold",
-      title: "Accuracy Below",
+      title: uiT("ui.accuracy_below_44f312fe"),
       options: [
         { id: 90, label: "90%" },
         { id: 75, label: "75%" },
@@ -339,6 +341,7 @@ export default function CriticalItemsScreen() {
 
   // Character display component with SVG fallback
   const CriticalItemCharacter = ({ item }: { item: CriticalItem }) => {
+  useInterfaceLanguage();
     const isRadical = item.type === "radical";
 
     // For radicals, try SVG fallback if no characters
@@ -452,12 +455,12 @@ export default function CriticalItemsScreen() {
           </Text>
           <View style={styles.statsContainer}>
             <Text style={[styles.statsText, { color: theme.textLight }]}>
-              Meaning: {item.meaningCorrect ?? 0}/
+              {uiT("ui.meaning_65a5e88a")} {item.meaningCorrect ?? 0}/
               {(item.meaningCorrect ?? 0) + (item.meaningIncorrect ?? 0)}
             </Text>
             {item.type !== "radical" && (
               <Text style={[styles.statsText, { color: theme.textLight }]}>
-                Reading: {item.readingCorrect ?? 0}/
+                {uiT("ui.reading_2fef096a")} {item.readingCorrect ?? 0}/
                 {(item.readingCorrect ?? 0) + (item.readingIncorrect ?? 0)}
               </Text>
             )}
@@ -484,8 +487,7 @@ export default function CriticalItemsScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.headerText} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            Critical Items
-          </Text>
+            {uiT("ui.critical_items_759959bc")} </Text>
         </View>
         <View style={styles.headerActions}>
           {Platform.OS === "ios" && SwiftUI ? (
@@ -502,12 +504,12 @@ export default function CriticalItemsScreen() {
                 }
               >
                 <SwiftUI.Button
-                  label="Re-do lessons"
+                  label={uiT("ui.re_do_lessons_932724c4")}
                   systemImage="arrow.counterclockwise"
                   onPress={handleRedoLessons}
                 />
                 <SwiftUI.Button
-                  label="Review Items"
+                  label={uiT("ui.review_items_1b0cf2db")}
                   systemImage="checkmark.circle"
                   onPress={handleReviewItems}
                 />
@@ -542,15 +544,14 @@ export default function CriticalItemsScreen() {
         showVocabularyTypes
         subjects={vocabularySubjects}
         sections={filterSections}
-        title="Filter Critical Items"
+        title={uiT("ui.filter_critical_items_e9e6c732")}
       />
 
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            Loading critical items...
-          </Text>
+            {uiT("ui.loading_critical_items_da9884e5")} </Text>
         </View>
       ) : error ? (
         <View style={styles.errorContainer}>
@@ -565,7 +566,7 @@ export default function CriticalItemsScreen() {
             }
             activeOpacity={0.7}
           >
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
         </View>
       ) : filteredItems.length === 0 ? (
@@ -576,11 +577,9 @@ export default function CriticalItemsScreen() {
             color={theme.accent}
           />
           <Text style={[styles.emptyText, { color: theme.accent }]}>
-            No critical items found
-          </Text>
+            {uiT("ui.no_critical_items_found_bd3c67f4")} </Text>
           <Text style={[styles.emptySubtext, { color: theme.textSecondary }]}>
-            Great job! All your items are above {threshold}% accuracy.
-          </Text>
+            {uiT("ui.great_job_all_your_items_are_above_cff81a93")} {threshold}{uiT("ui.accuracy_bdbe15b3")} </Text>
         </View>
       ) : (
         <FlashList

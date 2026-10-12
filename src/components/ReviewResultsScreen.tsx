@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -34,6 +35,7 @@ const CircularProgress = ({
   strokeWidth?: number;
   color?: string;
 }) => {
+  useInterfaceLanguage();
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -142,6 +144,7 @@ export default function ReviewResultsScreen({
   secondaryActionLabel,
   onSecondaryAction,
 }: ReviewResultsProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const display = useLearningDisplay();
   const { width: windowWidth } = useWindowDimensions();
@@ -377,6 +380,7 @@ export default function ReviewResultsScreen({
     subject: Subject;
     size?: number;
   }) => {
+  useInterfaceLanguage();
     const isRadical = subject.object === "radical";
 
     // For radicals, try SVG fallback if no characters
@@ -471,8 +475,7 @@ export default function ReviewResultsScreen({
                 <Text
                   style={[styles.answerLabel, { color: theme.textSecondary }]}
                 >
-                  Meaning
-                </Text>
+                  {uiT("ui.meaning_1f5d64b9")} </Text>
                 <Ionicons
                   name={
                     meaningStatus === "correct"
@@ -501,7 +504,7 @@ export default function ReviewResultsScreen({
                 ]}
                 numberOfLines={2}
               >
-                {isRevealed ? primaryMeaning : "Tap to reveal"}
+                {isRevealed ? primaryMeaning : uiT("ui.tap_to_reveal_4efdce88")}
               </Text>
             </View>
           )}
@@ -512,8 +515,7 @@ export default function ReviewResultsScreen({
                 <Text
                   style={[styles.answerLabel, { color: theme.textSecondary }]}
                 >
-                  Reading
-                </Text>
+                  {uiT("ui.reading_463816d0")} </Text>
                 <Ionicons
                   name={
                     readingStatus === "correct"
@@ -543,15 +545,14 @@ export default function ReviewResultsScreen({
                 ]}
                 numberOfLines={2}
               >
-                {isRevealed ? primaryReading ?? "—" : "Tap to reveal"}
+                {isRevealed ? primaryReading ?? "—" : uiT("ui.tap_to_reveal_4efdce88")}
               </Text>
             </View>
           )}
 
           {hideAnswersForRequiz ? (
             <Text style={[styles.requizHint, { color: theme.textSecondary }]}>
-              Long press for details
-            </Text>
+              {uiT("ui.long_press_for_details_5f6b8709")} </Text>
           ) : null}
         </View>
       </TouchableOpacity>
@@ -580,8 +581,7 @@ export default function ReviewResultsScreen({
         <View style={styles.submittingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.submittingText, { color: theme.textSecondary }]}>
-            Submitting your results...
-          </Text>
+            {uiT("ui.submitting_your_results_bcb2d7c5")} </Text>
         </View>
       </View>
     );
@@ -599,11 +599,9 @@ export default function ReviewResultsScreen({
         {/* Header */}
         <View style={styles.header}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            Review Complete!
-          </Text>
+            {uiT("ui.review_complete_2ba7fd07")} </Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Great job! Here&apos;s how you did:
-          </Text>
+            {uiT("ui.great_job_here_s_how_you_did_014e88a3")} </Text>
         </View>
 
         {/* Summary Stats with Ring Progress */}
@@ -631,8 +629,7 @@ export default function ReviewResultsScreen({
                 <Text
                   style={[styles.statLabel, { color: theme.textSecondary }]}
                 >
-                  Items Completed
-                </Text>
+                  {uiT("ui.items_completed_01ac16a9")} </Text>
               </View>
 
               <View style={styles.statItem}>
@@ -642,8 +639,7 @@ export default function ReviewResultsScreen({
                 <Text
                   style={[styles.statLabel, { color: theme.textSecondary }]}
                 >
-                  Meaning Accuracy
-                </Text>
+                  {uiT("ui.meaning_accuracy_1788b651")} </Text>
               </View>
 
               <View style={styles.statItem}>
@@ -653,8 +649,7 @@ export default function ReviewResultsScreen({
                 <Text
                   style={[styles.statLabel, { color: theme.textSecondary }]}
                 >
-                  Reading Accuracy
-                </Text>
+                  {uiT("ui.reading_accuracy_bceb2bb9")} </Text>
               </View>
             </View>
           </View>
@@ -668,8 +663,7 @@ export default function ReviewResultsScreen({
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            By Category
-          </Text>
+            {uiT("ui.by_category_4171d1ae")} </Text>
 
           <View style={styles.categoryChartsContainer}>
             {["radical", "kanji", "vocabulary"].map((category) => {
@@ -737,7 +731,7 @@ export default function ReviewResultsScreen({
                 },
               ]}
             >
-              Mistakes ({itemsWithMistakes.length})
+              {uiT("ui.mistakes_b1bed115")}{itemsWithMistakes.length})
             </Text>
           </TouchableOpacity>
 
@@ -757,8 +751,7 @@ export default function ReviewResultsScreen({
                 },
               ]}
             >
-              All Items
-            </Text>
+              {uiT("ui.all_items_477730fc")} </Text>
           </TouchableOpacity>
         </View>
 
@@ -782,8 +775,7 @@ export default function ReviewResultsScreen({
                 style={styles.requizIcon}
               />
               <Text style={[styles.requizToggleTitle, { color: theme.textColor }]}>
-                Tap To Reveal Answers
-              </Text>
+                {uiT("ui.tap_to_reveal_answers_1b9ddaf1")} </Text>
             </View>
             <View
               style={[
@@ -803,14 +795,14 @@ export default function ReviewResultsScreen({
                   },
                 ]}
               >
-                {hideAnswersForRequiz ? "ON" : "OFF"}
+                {hideAnswersForRequiz ? uiT("ui.on_e8a01133") : uiT("ui.off_38cca6be")}
               </Text>
             </View>
           </TouchableOpacity>
           <Text style={[styles.requizDescription, { color: theme.textSecondary }]}>
             {hideAnswersForRequiz
-              ? "Tap cards to reveal meaning/reading."
-              : "Show meaning and reading directly on cards."}
+              ? uiT("ui.tap_cards_to_reveal_meaning_reading_03128a5f")
+              : uiT("ui.show_meaning_and_reading_directly_on_cards_39f40d63")}
           </Text>
         </View>
 
@@ -831,8 +823,8 @@ export default function ReviewResultsScreen({
               <Ionicons name="checkmark-circle" size={64} color="#4caf50" />
               <Text style={[styles.emptyStateText, { color: theme.textColor }]}>
                 {selectedTab === "mistakes"
-                  ? "Perfect! No mistakes found."
-                  : "No items to display."}
+                  ? uiT("ui.perfect_no_mistakes_found_abf0b469")
+                  : uiT("ui.no_items_to_display_a0e9bed6")}
               </Text>
             </View>
           )}
@@ -852,7 +844,7 @@ export default function ReviewResultsScreen({
           onPress={onBackToDashboard}
           activeOpacity={0.8}
         >
-          <Text style={styles.backButtonText}>Back to Dashboard</Text>
+          <Text style={styles.backButtonText}>{uiT("ui.back_to_dashboard_97ba1d39")}</Text>
         </TouchableOpacity>
         {hasMistakeSubjects ? (
           <View style={styles.mistakesActionsRow}>
@@ -865,7 +857,7 @@ export default function ReviewResultsScreen({
               activeOpacity={0.8}
             >
               <Text style={styles.practiceMistakesButtonText}>
-                {`Practice Mistakes • ${mistakeSubjectIds.length}`}
+                {uiT("ui.practice_mistakes_value_9504c0c8", {value1: (mistakeSubjectIds.length)})}
               </Text>
             </TouchableOpacity>
 
@@ -876,7 +868,7 @@ export default function ReviewResultsScreen({
               ]}
               onPress={handleAddMistakesToList}
               activeOpacity={0.8}
-              accessibilityLabel="Add mistakes to lists"
+              accessibilityLabel={uiT("ui.add_mistakes_to_lists_5b41ff9b")}
             >
               <Ionicons
                 name="bookmark-outline"
@@ -924,7 +916,7 @@ export default function ReviewResultsScreen({
       <AddToSubjectListsModal
         visible={showAddMistakesToListModal}
         subjectIds={mistakeSubjectIds}
-        subjectLabel={`Session mistakes (${mistakeSubjectIds.length})`}
+        subjectLabel={uiT("ui.dynamic_3015bbf7c74e", {value1: (mistakeSubjectIds.length)})}
         onClose={() => setShowAddMistakesToListModal(false)}
       />
     </SafeAreaView>

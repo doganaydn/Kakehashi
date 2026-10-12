@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "../utils/haptics";
 import { LinearGradient } from "expo-linear-gradient";
@@ -108,6 +109,7 @@ export default function HomeDashboardWidget({
   previewMode = false,
   style,
 }: HomeDashboardWidgetProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const homeExtraStudyModeOrder = useSettingsStore(
     (state) => state.homeExtraStudyModeOrder,
@@ -310,16 +312,13 @@ export default function HomeDashboardWidget({
             <Ionicons name="umbrella" size={28} color="white" />
           </LinearGradient>
           <Text style={[styles.vacationTitle, { color: theme.textColor }]}>
-            Vacation Mode
-          </Text>
+            {uiT("ui.vacation_mode_cff1de64")} </Text>
           <Text style={[styles.vacationSubtitle, { color: theme.textSecondary }]}>
-            Your SRS progress is paused. Reviews and lessons are on hold until
-            you return. Enjoy your break!
-          </Text>
+            {uiT("ui.your_srs_progress_is_paused_reviews_and_lessons_are_on_hold_until_2780dfc6")} </Text>
           <Text style={[styles.vacationSince, { color: theme.textSecondary }]}>
-            On vacation since{" "}
+            {uiT("ui.on_vacation_since_5d975e3b")}{" "}
             {new Date(userData.current_vacation_started_at).toLocaleDateString(
-              undefined,
+              interfaceLocale(),
               {
                 month: "long",
                 day: "numeric",
@@ -377,11 +376,9 @@ export default function HomeDashboardWidget({
         <View style={[styles.section, { marginHorizontal: -16 }]}>
           <View style={[styles.sectionHeader, { paddingHorizontal: 16 }]}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Extra Study
-            </Text>
+              {uiT("ui.extra_study_055dce81")} </Text>
             <Text style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
-              Practice without affecting SRS
-            </Text>
+              {uiT("ui.practice_without_affecting_srs_76c715db")} </Text>
           </View>
           <ScrollView
             horizontal
@@ -489,8 +486,7 @@ export default function HomeDashboardWidget({
                           ]}
                           numberOfLines={1}
                         >
-                          Resume
-                        </Text>
+                          {uiT("ui.resume_d640c742")} </Text>
                       </View>
                     ) : item.count !== undefined && item.count > 0 ? (
                       <View
@@ -688,6 +684,7 @@ function SubjectListsEntryWidget({
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { lists, isLoading } = useSubjectLists();
   const totalSubjectCount = useMemo(
@@ -724,7 +721,7 @@ function SubjectListsEntryWidget({
       activeOpacity={interactive ? 0.75 : 1}
       disabled={!interactive}
       accessibilityRole="button"
-      accessibilityLabel="Manage subject lists"
+      accessibilityLabel={uiT("ui.manage_subject_lists_3646a1ff")}
     >
       <View style={styles.subjectListsHeader}>
         <View style={styles.subjectListsHeaderLeft}>
@@ -743,8 +740,7 @@ function SubjectListsEntryWidget({
           </View>
           <View style={styles.subjectListsHeadingText}>
             <Text style={[styles.subjectListsTitle, { color: theme.textColor }]}>
-              Subject Lists
-            </Text>
+              {uiT("ui.subject_lists_20c1f7d1")} </Text>
             <Text style={[styles.subjectListsSubtitle, { color: theme.textSecondary }]}>
               {summary}
             </Text>
@@ -758,8 +754,7 @@ function SubjectListsEntryWidget({
           ]}
         >
           <Text style={[styles.subjectListsManageText, { color: theme.textColor }]}>
-            Manage
-          </Text>
+            {uiT("ui.manage_5a234448")} </Text>
           <Ionicons name="chevron-forward" size={14} color={theme.textSecondary} />
         </View>
       </View>
@@ -767,7 +762,7 @@ function SubjectListsEntryWidget({
       <View style={styles.subjectListsStatsRow}>
         <SubjectListsMetric
           icon="albums-outline"
-          label="Lists"
+          label={uiT("ui.lists_308d5a09")}
           value={isLoading ? "-" : listCountLabel}
           theme={theme}
           surfaceColor={metricSurfaceColor}
@@ -776,7 +771,7 @@ function SubjectListsEntryWidget({
         />
         <SubjectListsMetric
           icon="bookmark-outline"
-          label="Saved Items"
+          label={uiT("ui.saved_items_330d66d1")}
           value={isLoading ? "-" : subjectCountLabel}
           theme={theme}
           surfaceColor={metricSurfaceColor}
@@ -805,6 +800,7 @@ function SubjectListsMetric({
   borderColor: string;
   accentColor: string;
 }) {
+  useInterfaceLanguage();
   return (
     <View
       style={[

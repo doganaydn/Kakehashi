@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -79,6 +80,7 @@ interface TextRegion {
 type StudyMode = "none" | "wk" | "full";
 
 export default function OCRResultsScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const kanjiTextColor = getReadableTextColor(subjectColors.kanji);
@@ -251,7 +253,7 @@ export default function OCRResultsScreen() {
       setJpdbParsedTokens(Array.isArray(parsedTokens) ? parsedTokens : []);
     } catch (err) {
       console.error("Error finding vocabulary matches:", err);
-      setError("Failed to find vocabulary matches");
+      setError(uiT("ui.message_40435a73d2df"));
       setJpdbParsedTokens([]);
     } finally {
       setIsLoading(false);
@@ -736,14 +738,13 @@ export default function OCRResultsScreen() {
               <Text
                 style={[styles.vocabularyLevel, { color: theme.textLight }]}
               >
-                Level {item.level}
+                {uiT("ui.level_1709305c")} {item.level}
               </Text>
               {item.positions && item.positions.length > 0 && (
                 <Text
                   style={[styles.positionCount, { color: theme.textSecondary }]}
                 >
-                  • {item.positions.length} location
-                  {item.positions.length !== 1 ? "s" : ""}
+                  • {item.positions.length} {uiT("ui.location_e6eaea18")} {uiPluralSuffix(item.positions.length !== 1 ? "s" : "")}
                 </Text>
               )}
             </View>
@@ -779,8 +780,7 @@ export default function OCRResultsScreen() {
                   <Text
                     style={[styles.moreReadings, { color: theme.textLight }]}
                   >
-                    +{item.readings.length - 2} more
-                  </Text>
+                    +{item.readings.length - 2} {uiT("ui.more_187897ce")} </Text>
                 )}
               </View>
             )}
@@ -839,14 +839,13 @@ export default function OCRResultsScreen() {
               <Text
                 style={[styles.vocabularyLevel, { color: theme.textLight }]}
               >
-                Level {item.level}
+                {uiT("ui.level_1709305c")} {item.level}
               </Text>
               {item.positions && item.positions.length > 0 && (
                 <Text
                   style={[styles.positionCount, { color: theme.textSecondary }]}
                 >
-                  • {item.positions.length} location
-                  {item.positions.length !== 1 ? "s" : ""}
+                  • {item.positions.length} {uiT("ui.location_e6eaea18")} {uiPluralSuffix(item.positions.length !== 1 ? "s" : "")}
                 </Text>
               )}
             </View>
@@ -882,8 +881,7 @@ export default function OCRResultsScreen() {
                   <Text
                     style={[styles.moreReadings, { color: theme.textLight }]}
                   >
-                    +{item.readings.length - 2} more
-                  </Text>
+                    +{item.readings.length - 2} {uiT("ui.more_187897ce")} </Text>
                 )}
               </View>
             )}
@@ -913,8 +911,7 @@ export default function OCRResultsScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          OCR Results
-        </Text>
+          {uiT("ui.ocr_results_8af57ee5")} </Text>
         <TouchableOpacity
           style={styles.backButton}
           onPress={handleRetryOCR}
@@ -929,8 +926,7 @@ export default function OCRResultsScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Detected Text
-            </Text>
+              {uiT("ui.detected_text_13b4198b")} </Text>
             <View style={styles.studyModeSelector}>
               <TouchableOpacity
                 style={[
@@ -952,8 +948,7 @@ export default function OCRResultsScreen() {
                     { color: studyMode === "none" ? "white" : theme.textColor },
                   ]}
                 >
-                  No
-                </Text>
+                  {uiT("ui.no_1ea442a1")} </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -973,8 +968,7 @@ export default function OCRResultsScreen() {
                     { color: studyMode === "wk" ? "white" : theme.textColor },
                   ]}
                 >
-                  WK
-                </Text>
+                  {uiT("ui.wk_0ebb2504")} </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -1003,8 +997,7 @@ export default function OCRResultsScreen() {
                     },
                   ]}
                 >
-                  JPDB
-                </Text>
+                  {uiT("ui.jpdb_a35a1116")} </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1081,8 +1074,7 @@ export default function OCRResultsScreen() {
                             { color: theme.textSecondary },
                           ]}
                         >
-                          Translating...
-                        </Text>
+                          {uiT("ui.translating_f21771ab")} </Text>
                       </View>
                     ) : translationLines[index] ? (
                       <View style={styles.lineTranslationContainer}>
@@ -1150,8 +1142,7 @@ export default function OCRResultsScreen() {
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Translating...
-                    </Text>
+                      {uiT("ui.translating_f21771ab")} </Text>
                   </View>
                 ) : translationLines[0] ? (
                   <View style={styles.translationContainer}>
@@ -1179,8 +1170,7 @@ export default function OCRResultsScreen() {
           >
             <View style={styles.sectionTitleContainer}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Vocabulary Matches
-              </Text>
+                {uiT("ui.vocabulary_matches_e1a18c03")} </Text>
               {wkVocabularyMatches.length > 0 && (
                 <View
                   style={[
@@ -1218,8 +1208,7 @@ export default function OCRResultsScreen() {
                 <Text
                   style={[styles.loadingText, { color: theme.textSecondary }]}
                 >
-                  Searching for vocabulary matches...
-                </Text>
+                  {uiT("ui.searching_for_vocabulary_matches_b58dd694")} </Text>
               </View>
             ) : error ? (
               <View
@@ -1252,11 +1241,9 @@ export default function OCRResultsScreen() {
                 <Text
                   style={[styles.emptyText, { color: theme.textSecondary }]}
                 >
-                  No vocabulary matches found
-                </Text>
+                  {uiT("ui.no_vocabulary_matches_found_70e11543")} </Text>
                 <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                  Try with an image containing more Japanese vocabulary
-                </Text>
+                  {uiT("ui.try_with_an_image_containing_more_japanese_vocabulary_5d6712c2")} </Text>
               </View>
             ) : (
               <View style={styles.vocabularyList}>
@@ -1282,8 +1269,7 @@ export default function OCRResultsScreen() {
           >
             <View style={styles.sectionTitleContainer}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Kanji Matches
-              </Text>
+                {uiT("ui.kanji_matches_35ac7b70")} </Text>
               {wkKanjiMatches.length > 0 && (
                 <View
                   style={[
@@ -1318,8 +1304,7 @@ export default function OCRResultsScreen() {
                 <Text
                   style={[styles.loadingText, { color: theme.textSecondary }]}
                 >
-                  Searching for kanji matches...
-                </Text>
+                  {uiT("ui.searching_for_kanji_matches_efb212ae")} </Text>
               </View>
             ) : error ? (
               <View
@@ -1352,11 +1337,9 @@ export default function OCRResultsScreen() {
                 <Text
                   style={[styles.emptyText, { color: theme.textSecondary }]}
                 >
-                  No kanji matches found
-                </Text>
+                  {uiT("ui.no_kanji_matches_found_2365630e")} </Text>
                 <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                  Individual kanji that are not part of vocabulary words
-                </Text>
+                  {uiT("ui.individual_kanji_that_are_not_part_of_vocabulary_words_b0e63d5e")} </Text>
               </View>
             ) : (
               <View style={styles.vocabularyList}>

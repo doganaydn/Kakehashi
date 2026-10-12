@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -70,6 +71,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
   compactMode = false,
   assignments = [],
 }) => {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const widgetReviewHeatmapLevel1Color = useSettingsStore(
     (state) => state.widgetReviewHeatmapLevel1Color,
@@ -103,10 +105,10 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
 
     return [
       yearPages[0],
-      { key: "past-year", label: "Past year", type: "past-year" as const },
+      { key: "past-year", label: uiT("ui.past_year_f4f7b266"), type: "past-year" as const },
       ...yearPages.slice(1),
     ];
-  }, [currentYear]);
+  }, [currentYear, interfaceLocale()]);
 
   const selectedPage =
     heatmapPages[selectedPageIndex] ?? heatmapPages[DEFAULT_PAGE_INDEX];
@@ -281,7 +283,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
 
     while (monthCursor <= endMonth) {
       labels.push(
-        monthCursor.toLocaleDateString("en-US", {
+        monthCursor.toLocaleDateString(interfaceLocale(), {
           month: "short",
         }),
       );
@@ -335,7 +337,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
 
   // Format date for tooltip
   const formatDate = (date: Date): string => {
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString(interfaceLocale(), {
       weekday: "short",
       month: "short",
       day: "numeric",
@@ -350,14 +352,12 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
       >
         <View style={styles.header}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            Review Activity
-          </Text>
+            {uiT("ui.review_activity_5a5b15c6")} </Text>
         </View>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            Loading review data...
-          </Text>
+            {uiT("ui.loading_review_data_7e78523b")} </Text>
         </View>
       </View>
     );
@@ -367,8 +367,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
     <View style={[styles.container, { backgroundColor: theme.cardBackground }]}>
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.textColor }]}>
-          Review Activity
-        </Text>
+          {uiT("ui.review_activity_5a5b15c6")} </Text>
         {showYearSelector && (
           <View style={styles.yearSelector}>
             <TouchableOpacity
@@ -421,8 +420,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
       </View>
 
       <Text style={[styles.description, { color: theme.textSecondary }]}>
-        Lesson, Guru and Burn milestones; not every review.
-      </Text>
+        {uiT("ui.lesson_guru_and_burn_milestones_not_every_review_14fc3d56")} </Text>
 
       <ScrollView
         ref={scrollViewRef}
@@ -506,9 +504,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
                         if (cell.count > 0) {
                           Alert.alert(
                             formatDate(cell.date),
-                            `${cell.count} item${
-                              cell.count === 1 ? "" : "s"
-                            } with study milestones`
+                            uiT("ui.value_itemvalue_with_study_milestones_27a824dc", {value1: (cell.count), value2: (cell.count === 1 ? "" : "s")})
                           );
                         }
                       }}
@@ -524,8 +520,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
       {/* Legend */}
       <View style={styles.legend}>
         <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-          Less
-        </Text>
+          {uiT("ui.less_ae5239ec")} </Text>
         <View style={[styles.legendScale, { gap: CELL_GAP }]}>
           {[0, 1, 2, 3, 4].map((level) => {
             let backgroundColor: string;
@@ -552,8 +547,7 @@ const ReviewHeatmap: React.FC<ReviewHeatmapProps> = ({
           })}
         </View>
         <Text style={[styles.legendText, { color: theme.textSecondary }]}>
-          More
-        </Text>
+          {uiT("ui.more_d47d7cb0")} </Text>
       </View>
     </View>
   );

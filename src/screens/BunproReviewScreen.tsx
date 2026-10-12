@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
@@ -657,12 +658,12 @@ function getIncludedResource(
 
 function getModeLabel(mode: BunproReviewMode): string {
   if (mode === "grammar") {
-    return "Grammar";
+    return uiT("ui.grammar_1325f21d");
   }
   if (mode === "vocab") {
-    return "Vocab";
+    return uiT("ui.vocab_eb535ff6");
   }
-  return "Grammar & Vocab";
+  return uiT("ui.grammar_vocab_6ffa1c93");
 }
 
 export function buildReviewQueue(response: {
@@ -746,6 +747,7 @@ type RubyTextProps = {
 };
 
 function RubyText({ runs, baseTextStyle, readingTextStyle, hideFurigana = false, questionKey = "" }: RubyTextProps) {
+  useInterfaceLanguage();
   if (runs.length === 0) {
     return null;
   }
@@ -789,9 +791,10 @@ function BunproResultQuestion({
   color: string;
   mutedColor: string;
 }) {
+  useInterfaceLanguage();
   const parts = result.question.split(/(?:_{2,}|＿{2,})/g);
   const answerText = result.wasCorrect ? result.enteredAnswer : result.correctAnswer || result.enteredAnswer;
-  return <Text style={[styles.resultQuestionText, { color }]}>{parts.map((part, index) => <React.Fragment key={index}>{index > 0 ? <Text style={{ color: result.wasCorrect ? BUNPRO_SUCCESS_COLOR : "#db6466", fontWeight: "800" }}>{answerText || "____"}</Text> : null}{part}</React.Fragment>)}{!result.question.length ? <Text style={{ color: mutedColor }}>No prompt available</Text> : null}</Text>;
+  return <Text style={[styles.resultQuestionText, { color }]}>{parts.map((part, index) => <React.Fragment key={index}>{index > 0 ? <Text style={{ color: result.wasCorrect ? BUNPRO_SUCCESS_COLOR : "#db6466", fontWeight: "800" }}>{answerText || "____"}</Text> : null}{part}</React.Fragment>)}{!result.question.length ? <Text style={{ color: mutedColor }}>{uiT("ui.no_prompt_available_46521928")}</Text> : null}</Text>;
 }
 
 function BunproResultCard({
@@ -817,6 +820,7 @@ function BunproResultCard({
   accent: string;
   onOpenReviewable: (kind: "grammar" | "vocab", slug: string) => void;
 }) {
+  useInterfaceLanguage();
   const resultColor = result.wasCorrect ? BUNPRO_SUCCESS_COLOR : theme.error;
   const kindLabel = result.reviewableKind === "grammar" ? "Grammar" : "Vocab";
 
@@ -885,12 +889,12 @@ function BunproResultCard({
         {result.audioSources && bunproAudioUrls(result.audioSources).length > 0 ? (
           <TouchableOpacity
             accessibilityRole="button"
-            accessibilityLabel={`${audioPlaying || audioLoading ? "Stop" : "Replay"} audio for ${result.reviewableTitle || kindLabel}`}
+            accessibilityLabel={uiT("ui.dynamic_5d0376f5138e", {value1: (audioPlaying || audioLoading ? uiT("ui.stop_cae7d57b") : uiT("ui.replay_c8dae637")), value2: (result.reviewableTitle || kindLabel)})}
             onPress={onReplay}
             style={styles.resultAudioButton}
           >
             {audioLoading ? <ActivityIndicator size="small" color={theme.textColor} /> : <Ionicons name={audioPlaying ? "stop" : "volume-medium-outline"} size={20} color={theme.textColor} />}
-            <Text style={{ color: theme.textColor }}>{audioLoading ? "Loading audio…" : audioPlaying ? "Stop audio" : "Replay audio"}</Text>
+            <Text style={{ color: theme.textColor }}>{audioLoading ? uiT("ui.loading_audio_b5984238") : audioPlaying ? uiT("ui.stop_audio_d69657bc") : uiT("ui.replay_audio_8e8fcf4c")}</Text>
           </TouchableOpacity>
         ) : null}
         {result.tenseHint ? (
@@ -913,8 +917,7 @@ function BunproResultCard({
       <View style={styles.resultAnswersRow}>
         <View style={styles.resultAnswerColumn}>
           <Text style={[styles.resultAnswerLabel, { color: mutedColor }]}>
-            Your answer
-          </Text>
+            {uiT("ui.your_answer_d0e869b7")} </Text>
           <Text style={[styles.resultAnswerValue, { color: resultColor }]}>
             {result.enteredAnswer || "—"}
           </Text>
@@ -922,8 +925,7 @@ function BunproResultCard({
         {!result.wasCorrect ? (
           <View style={styles.resultAnswerColumn}>
             <Text style={[styles.resultAnswerLabel, { color: mutedColor }]}>
-              Expected
-            </Text>
+              {uiT("ui.expected_ca99b7f1")} </Text>
             <Text style={[styles.resultAnswerValue, { color: BUNPRO_SUCCESS_COLOR }]}>
               {result.correctAnswer || "—"}
             </Text>
@@ -932,7 +934,7 @@ function BunproResultCard({
       </View>
 
       {result.saveStatus === "unconfirmed" ? (
-        <Text style={[styles.inlineError, { color: theme.error }]}>Save unconfirmed. {result.saveError}</Text>
+        <Text style={[styles.inlineError, { color: theme.error }]}>{uiT("ui.save_unconfirmed_4ecff662")} {result.saveError}</Text>
       ) : result.stageLabel ? (
         <View style={styles.resultStageRow}>
           <Ionicons
@@ -941,7 +943,7 @@ function BunproResultCard({
             color={resultColor}
           />
           <Text style={[styles.resultStageText, { color: resultColor }]}>
-            {result.previousStage ? `${result.previousStage} → ` : ""}{result.stageLabel}
+            {result.previousStage ? uiT("ui.value_f0a70775", {value1: (result.previousStage)}) : ""}{result.stageLabel}
           </Text>
         </View>
       ) : null}
@@ -986,6 +988,7 @@ function BunproResultsScreen({
   onDone: () => void;
   onOpenReviewable: (kind: "grammar" | "vocab", slug: string) => void;
 }) {
+  useInterfaceLanguage();
   const insets = useSafeAreaInsets();
   const audio = useBunproAudio();
   const audioVoice = useSettingsStore((state) => state.vocabularyAudioVoice);
@@ -1003,7 +1006,7 @@ function BunproResultsScreen({
   const detailTitle = "Reviewed items";
   const detailSubtitle =
     missedResults.length > 0
-      ? `${missedResults.length} item${missedResults.length === 1 ? "" : "s"} marked incorrect.`
+      ? uiT("ui.dynamic_4b1a66f20359", {value1: (missedResults.length), value2: (missedResults.length === 1 ? "" : uiPluralSuffix("s"))})
       : results.length > 0
         ? "No missed items this session."
         : "No scored review details were captured.";
@@ -1016,8 +1019,7 @@ function BunproResultsScreen({
           <Ionicons name="arrow-back-outline" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.resultsHeaderTitle, { color: theme.textColor }]}>
-          Bunpro Results
-        </Text>
+          {uiT("ui.bunpro_results_9863c85a")} </Text>
         <View style={styles.resultsHeaderButton} />
       </View>
 
@@ -1054,8 +1056,7 @@ function BunproResultsScreen({
             <View style={styles.resultsStatRow}>
               <Ionicons name="checkmark-circle-outline" size={17} color={BUNPRO_SUCCESS_COLOR} />
               <Text style={[styles.resultsStatLabel, { color: theme.textColor }]}>
-                Correct
-              </Text>
+                {uiT("ui.correct_aca01a1a")} </Text>
               <Text style={[styles.resultsStatValue, { color: BUNPRO_SUCCESS_COLOR }]}>
                 {correctCount}
               </Text>
@@ -1063,8 +1064,7 @@ function BunproResultsScreen({
             <View style={styles.resultsStatRow}>
               <Ionicons name="close-circle-outline" size={17} color={theme.error} />
               <Text style={[styles.resultsStatLabel, { color: theme.textColor }]}>
-                Incorrect
-              </Text>
+                {uiT("ui.incorrect_a8a57dbc")} </Text>
               <Text style={[styles.resultsStatValue, { color: theme.error }]}>
                 {incorrectCount}
               </Text>
@@ -1072,8 +1072,7 @@ function BunproResultsScreen({
             <View style={styles.resultsStatRow}>
               <Ionicons name="file-tray-full-outline" size={17} color={mutedColor} />
               <Text style={[styles.resultsStatLabel, { color: theme.textColor }]}>
-                Reviews
-              </Text>
+                {uiT("ui.reviews_84cb7871")} </Text>
               <Text style={[styles.resultsStatValue, { color: theme.textColor }]}>
                 {totalItems}
               </Text>
@@ -1081,10 +1080,9 @@ function BunproResultsScreen({
           </View>
         </View>
 
-        <Text style={{ color: mutedColor }}>Session time: {Math.floor(duration / 60000)}m {Math.floor(duration / 1000) % 60}s</Text>
+        <Text style={{ color: mutedColor }}>{uiT("ui.session_time_eafdc1f9")} {Math.floor(duration / 60000)}m {Math.floor(duration / 1000) % 60}s</Text>
         {unconfirmedResults.length ? <Text accessibilityRole="alert" style={[styles.inlineError, { color: theme.error }]}>
-          {unconfirmedResults.length} Bunpro answer{unconfirmedResults.length === 1 ? " has" : "s have"} an unconfirmed save and may still be due in Bunpro.
-        </Text> : null}
+          {unconfirmedResults.length} {uiT("ui.bunpro_answer_8f8743b8")}{unconfirmedResults.length === 1 ? uiT("ui.has_e4417b80") : uiT("ui.s_have_bced00a6")} {uiT("ui.an_unconfirmed_save_and_may_still_be_due_in_bunpro_bf912304")} </Text> : null}
         <View style={styles.resultsSectionHeading}>
           <Text style={[styles.resultsSectionTitle, { color: theme.textColor }]}>
             {detailTitle}
@@ -1096,7 +1094,7 @@ function BunproResultsScreen({
 
         {audio.error ? <Text accessibilityRole="alert" style={[styles.inlineError, { color: theme.error }]}>{audio.error}</Text> : null}
         <View style={{ flexDirection: "row", gap: 16 }}>
-          {(["all", "correct", "missed"] as const).map(filter => <TouchableOpacity key={filter} accessibilityRole="tab" accessibilityState={{ selected: resultFilter === filter }} onPress={() => setResultFilter(filter)} style={{ minHeight: 44, padding: 12, borderBottomWidth: 2, borderBottomColor: resultFilter === filter ? accent : "transparent" }}><Text style={{ color: theme.textColor }}>{filter === "all" ? "All" : filter === "correct" ? "Correct" : "Missed"} ({results.filter(result => filter === "all" || (filter === "correct" ? result.wasCorrect : !result.wasCorrect)).length})</Text></TouchableOpacity>)}
+          {(["all", "correct", "missed"] as const).map(filter => <TouchableOpacity key={filter} accessibilityRole="tab" accessibilityState={{ selected: resultFilter === filter }} onPress={() => setResultFilter(filter)} style={{ minHeight: 44, padding: 12, borderBottomWidth: 2, borderBottomColor: resultFilter === filter ? accent : "transparent" }}><Text style={{ color: theme.textColor }}>{filter === "all" ? uiT("ui.all_a52ace42") : filter === "correct" ? uiT("ui.correct_aca01a1a") : uiT("ui.missed_3d86eb08")} ({results.filter(result => filter === "all" || (filter === "correct" ? result.wasCorrect : !result.wasCorrect)).length})</Text></TouchableOpacity>)}
         </View>
         {displayedResults.length > 0 ? (
           displayedResults.map((result, index) => (
@@ -1123,8 +1121,7 @@ function BunproResultsScreen({
           >
             <Ionicons name="sparkles-outline" size={24} color={accent} />
             <Text style={[styles.resultsEmptyText, { color: mutedColor }]}>
-              Nothing to review here.
-            </Text>
+              {uiT("ui.nothing_to_review_here_2f758c84")} </Text>
           </View>
         )}
 
@@ -1158,6 +1155,7 @@ export default function BunproReviewScreen({
   onBack,
   onComplete,
 }: BunproReviewScreenProps = {}) {
+  useInterfaceLanguage();
   const { theme, isDark } = useTheme();
   const { userData } = useAuthStore();
   const autoSwitchKeyboard = useSettingsStore(
@@ -1893,7 +1891,7 @@ export default function BunproReviewScreen({
           setSaveFailure(savePolicy.failed(error));
           setErrorMessage(formatBunproError(error));
         } else {
-          setErrorMessage(`${formatBunproError(error)} Your answer is kept. Tap Next to retry.`);
+          setErrorMessage(uiT("ui.dynamic_ab4c18a9ffe7", {value1: (formatBunproError(error))}));
         }
       }
     } finally {
@@ -1957,10 +1955,9 @@ export default function BunproReviewScreen({
       <SafeAreaView style={[styles.centeredContainer, { backgroundColor: theme.backgroundColor }]}>
         {isActive ? <StatusBar style={theme.statusBarStyle} /> : null}
         <Ionicons name="lock-closed-outline" size={26} color={theme.textSecondary} />
-        <Text style={[styles.gatedTitle, { color: theme.textColor }]}>Bunpro Beta Is Portego-Only</Text>
+        <Text style={[styles.gatedTitle, { color: theme.textColor }]}>{uiT("ui.bunpro_beta_is_portego_only_014ac945")}</Text>
         <Text style={[styles.gatedSubtitle, { color: theme.textSecondary }]}>
-          This review flow is currently enabled only for the Portego account.
-        </Text>
+          {uiT("ui.this_review_flow_is_currently_enabled_only_for_the_portego_accoun_f30c13e3")} </Text>
       </SafeAreaView>
     );
   }
@@ -1991,9 +1988,9 @@ export default function BunproReviewScreen({
             void loadQueue();
           }}
         >
-          <Text style={styles.primaryButtonText}>Try again</Text>
+          <Text style={styles.primaryButtonText}>{uiT("ui.try_again_d8b8392e")}</Text>
         </TouchableOpacity>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Back" onPress={handleBack} style={styles.iconButton}><Text style={{ color: theme.textColor }}>Back</Text></TouchableOpacity>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.back_76900f1b")} onPress={handleBack} style={styles.iconButton}><Text style={{ color: theme.textColor }}>{uiT("ui.back_76900f1b")}</Text></TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -2005,9 +2002,9 @@ export default function BunproReviewScreen({
         <Ionicons name="checkmark-done-outline" size={32} color={accent} />
         <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{emptyTitle}</Text>
         <Text style={[styles.emptySubtitle, { color: mutedColor }]}>
-          {emptySubtitle ?? `You are all caught up for ${getModeLabel(mode)}.`}
+          {emptySubtitle ?? uiT("ui.you_are_all_caught_up_for_value_bb3be2d5", {value1: (getModeLabel(mode))})}
         </Text>
-        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Back" onPress={handleBack} style={[styles.primaryButton, { backgroundColor: accent }]}><Text style={styles.primaryButtonText}>Back</Text></TouchableOpacity>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.back_76900f1b")} onPress={handleBack} style={[styles.primaryButton, { backgroundColor: accent }]}><Text style={styles.primaryButtonText}>{uiT("ui.back_76900f1b")}</Text></TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -2018,8 +2015,7 @@ export default function BunproReviewScreen({
         {isActive ? <StatusBar style={isDark ? "light" : "dark"} /> : null}
         <ActivityIndicator size="large" color={accent} />
         <Text style={[styles.loadingText, { color: mutedColor }]}>
-          Loading more Bunpro reviews...
-        </Text>
+          {uiT("ui.loading_more_bunpro_reviews_f23bd7d1")} </Text>
       </SafeAreaView>
     );
   }
@@ -2084,7 +2080,7 @@ export default function BunproReviewScreen({
           </TouchableOpacity>
           {searchEnabled ? <TouchableOpacity
             accessibilityRole="button"
-            accessibilityLabel="Search Bunpro"
+            accessibilityLabel={uiT("ui.search_bunpro_f2edc443")}
             style={styles.iconButton}
             onPress={() => {
               router.push("/(app)/(bunpro-tabs)/bunpro-search");
@@ -2095,7 +2091,7 @@ export default function BunproReviewScreen({
         </View>
 
         <View style={styles.headerRightGroup}>
-          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Bunpro review settings" disabled={isSubmitting} style={styles.iconButton} onPress={() => { Keyboard.dismiss(); setReviewSettingsOpen(true); }}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.bunpro_review_settings_ff18cd41")} disabled={isSubmitting} style={styles.iconButton} onPress={() => { Keyboard.dismiss(); setReviewSettingsOpen(true); }}>
             <Ionicons name="settings-outline" size={23} color={theme.textColor} />
           </TouchableOpacity>
           {!mixed && pendingOutcome?.stageLabel && !saveFailure ? (
@@ -2110,12 +2106,12 @@ export default function BunproReviewScreen({
               </Text>
             </View>
           ) : null}
-          <Text accessibilityLabel={mixed ? "Mixed review accuracy" : "Bunpro review accuracy"} style={[styles.headerStatsText, { color: mutedColor }]}>{(mixed?.accuracy ?? answerAccuracy).answered ? `${Math.round((mixed?.accuracy ?? answerAccuracy).correct / (mixed?.accuracy ?? answerAccuracy).answered * 100)}%` : "—"}</Text>
+          <Text accessibilityLabel={mixed ? "Mixed review accuracy" : "Bunpro review accuracy"} style={[styles.headerStatsText, { color: mutedColor }]}>{(mixed?.accuracy ?? answerAccuracy).answered ? uiT("ui.value_fec45485", {value1: (Math.round((mixed?.accuracy ?? answerAccuracy).correct / (mixed?.accuracy ?? answerAccuracy).answered * 100))}) : "—"}</Text>
           <Text accessibilityLabel={mixed ? "Mixed review progress" : "Bunpro review progress"} style={[styles.headerStatsText, { color: mutedColor }]}>
-            {mixed ? `${mixed.progress.completed}/${mixed.progress.total}` : `${displayCurrentItem}/${displayTotalItems}`}
+            {mixed ? uiT("ui.value_value_7b652f58", {value1: (mixed.progress.completed), value2: (mixed.progress.total)}) : uiT("ui.value_value_7b652f58", {value1: (displayCurrentItem), value2: (displayTotalItems)})}
           </Text>
           {submissionContext !== "learn" && !wrappedUp && !mixed?.wrapUpRequest && (mixed ? mixed.progress.total - mixed.progress.completed : queue.length - currentIndex) > wrapUpSize ? (
-            <TouchableOpacity accessibilityRole="button" accessibilityLabel={mixed ? "Wrap up mixed reviews" : `Wrap up ${wrapUpSize} Bunpro reviews`} disabled={isSubmitting} style={styles.iconButton} onPress={() => mixed ? mixed.onWrapUp() : wrapUp()}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={mixed ? "Wrap up mixed reviews" : uiT("ui.dynamic_9c0b15fef335", {value1: (wrapUpSize)})} disabled={isSubmitting} style={styles.iconButton} onPress={() => mixed ? mixed.onWrapUp() : wrapUp()}>
               <Ionicons name="stop-circle-outline" size={24} color={theme.textColor} />
             </TouchableOpacity>
           ) : null}
@@ -2136,7 +2132,7 @@ export default function BunproReviewScreen({
           keyboardShouldPersistTaps="handled"
         >
           <Text style={[styles.questionType, { color: accent }]}>
-            {reviewableKind === "grammar" ? "Bunpro grammar" : "Bunpro vocabulary"} · {questionKind === "meaning" ? "Meaning" : "Reading"}{currentReviewType === "ghost_review" ? " · Ghost review" : currentReviewType === "self_study_review" ? " · Self-study review" : ""}{isMasteryRepeat ? " · Retry" : ""}
+            {reviewableKind === "grammar" ? uiT("ui.bunpro_grammar_52d4965a") : uiT("ui.bunpro_vocabulary_e87c1de3")} · {questionKind === "meaning" ? uiT("ui.meaning_1f5d64b9") : uiT("ui.reading_463816d0")}{currentReviewType === "ghost_review" ? uiT("ui.ghost_review_5b39c60b") : currentReviewType === "self_study_review" ? uiT("ui.self_study_review_ad7de72b") : ""}{isMasteryRepeat ? uiT("ui.retry_3a0a669e") : ""}
           </Text>
           {tenseHint ? (
             <Text accessibilityElementsHidden={hintLevel < 2 && !answerRevealed} importantForAccessibility={hintLevel < 2 && !answerRevealed ? "no-hide-descendants" : "auto"} style={[styles.tenseLabel, { color: mutedColor, opacity: hintLevel >= 2 || answerRevealed ? 1 : 0 }]}>{tenseHint}</Text>
@@ -2185,17 +2181,17 @@ export default function BunproReviewScreen({
             {sanitizeText(reviewableAttributes.nuance_translation) ? <Text style={{ color: theme.textColor }}>{sanitizeText(reviewableAttributes.nuance_translation)}</Text> : null}
             {sanitizeText(studyQuestionAttributes.extra_info) ? <Text style={{ color: mutedColor }}>{sanitizeText(studyQuestionAttributes.extra_info)}</Text> : null}
           </View> : null}
-          {pendingOutcome ? <><Text accessibilityLiveRegion="polite" style={[styles.feedbackText, { color: statusColor, marginTop: 12 }]}>{pendingOutcome.correct ? "Correct" : "Incorrect"}</Text>{!pendingOutcome.correct ? <Text selectable style={{ color: theme.textColor }}>The answer is {canonicalAnswer}.</Text> : null}</> : null}
+          {pendingOutcome ? <><Text accessibilityLiveRegion="polite" style={[styles.feedbackText, { color: statusColor, marginTop: 12 }]}>{pendingOutcome.correct ? uiT("ui.correct_aca01a1a") : uiT("ui.incorrect_a8a57dbc")}</Text>{!pendingOutcome.correct ? <Text selectable style={{ color: theme.textColor }}>{uiT("ui.the_answer_is_c9336136")} {canonicalAnswer}.</Text> : null}</> : null}
           {showLevel ? <Text style={{ color: mutedColor }}>{reviewableLevel} · {bunproStage(currentReviewAttributes).label}</Text> : null}
-          {showFrequency && reviewableKind === "vocab" && typeof reviewableAttributes.frequency_dictionary === "number" ? <Text style={{ color: mutedColor }}>Frequency: Top {reviewableAttributes.frequency_dictionary.toLocaleString()}</Text> : null}
-          {showContext && reviewableKind === "vocab" ? <TouchableOpacity accessibilityRole="button" onPress={() => setContextOpen(!contextOpen)} style={{ minHeight: 44, padding: 12 }}><Text style={{ color: theme.textColor }}>{contextOpen ? "Hide context" : "Show context"}</Text></TouchableOpacity> : null}
+          {showFrequency && reviewableKind === "vocab" && typeof reviewableAttributes.frequency_dictionary === "number" ? <Text style={{ color: mutedColor }}>{uiT("ui.frequency_top_f631d74c")} {reviewableAttributes.frequency_dictionary.toLocaleString()}</Text> : null}
+          {showContext && reviewableKind === "vocab" ? <TouchableOpacity accessibilityRole="button" onPress={() => setContextOpen(!contextOpen)} style={{ minHeight: 44, padding: 12 }}><Text style={{ color: theme.textColor }}>{contextOpen ? uiT("ui.hide_context_f9054741") : uiT("ui.show_context_e6be2129")}</Text></TouchableOpacity> : null}
           {contextOpen && reviewableKind === "vocab" ? <View style={{ height: 480 }}><BunproDetailsContent key={`context:${currentReviewIdString}`} kind="vocab" slug={reviewableSlug} active={isActive} initialTab="Context" /></View> : null}
           {voice.error ? <Text accessibilityRole="alert" style={{ color: theme.error }}>{voice.error}</Text> : null}
           {detailsOpen && reviewableSlug ? <View style={{ height: 480, width: "100%" }}><BunproDetailsContent key={`details:${currentReviewIdString}`} kind={reviewableKind} slug={reviewableSlug} review={currentReviewAttributes ?? undefined} active={isActive} /></View> : null}
           <BunproProgressionCard progression={mixed?.bunproProgression ?? progression} />
           {audio.error ? <Text accessibilityRole="alert" style={[styles.inlineError, { color: theme.error }]}>{audio.error}</Text> : null}
 
-          {showAlternatives ? <View style={{ padding: 12, gap: 8 }}><Text style={{ color: theme.textColor, fontWeight: "600" }}>Accepted answers</Text><Text selectable style={{ color: theme.textColor }}>{[...new Set([canonicalAnswer, ...alternativeAnswers])].join(" ・ ")}</Text>{alternateAnswerFeedback.size ? <><Text style={{ color: theme.textColor, fontWeight: "600" }}>Other answers</Text>{[...alternateAnswerFeedback].map(([answer, feedback]) => <Text key={answer} selectable style={{ color: mutedColor }}>{answer}: {feedback}</Text>)}</> : null}</View> : null}
+          {showAlternatives ? <View style={{ padding: 12, gap: 8 }}><Text style={{ color: theme.textColor, fontWeight: "600" }}>{uiT("ui.accepted_answers_6d0329f8")}</Text><Text selectable style={{ color: theme.textColor }}>{[...new Set([canonicalAnswer, ...alternativeAnswers])].join(" ・ ")}</Text>{alternateAnswerFeedback.size ? <><Text style={{ color: theme.textColor, fontWeight: "600" }}>{uiT("ui.other_answers_99ac1b61")}</Text>{[...alternateAnswerFeedback].map(([answer, feedback]) => <Text key={answer} selectable style={{ color: mutedColor }}>{answer}: {feedback}</Text>)}</> : null}</View> : null}
 
           {reviewFeedback ? (
             <View style={styles.feedbackRow}>
@@ -2220,44 +2216,43 @@ export default function BunproReviewScreen({
           ) : null}
           {saveFailure ? <Text style={[styles.inlineError, { color: theme.error }]}>{saveFailure.message}</Text> : null}
           {!saveFailure && unconfirmedRef.current.size ? <Text style={[styles.inlineError, { color: warningColor }]}>
-            {unconfirmedRef.current.size} answer{unconfirmedRef.current.size === 1 ? " has" : "s have"} an unconfirmed save.
-          </Text> : null}
+            {unconfirmedRef.current.size} {uiT("ui.answer_0db52f40")}{unconfirmedRef.current.size === 1 ? uiT("ui.has_e4417b80") : uiT("ui.s_have_bced00a6")} {uiT("ui.an_unconfirmed_save_5724d970")} </Text> : null}
         </ScrollView>
 
         <View style={styles.bottomArea}>
-          {outboxState.pending > 0 && !outboxState.failure ? <Text accessibilityLiveRegion="polite" style={{ color: mutedColor }}>Saving {outboxState.pending} answer{outboxState.pending === 1 ? "" : "s"}…</Text> : null}
+          {outboxState.pending > 0 && !outboxState.failure ? <Text accessibilityLiveRegion="polite" style={{ color: mutedColor }}>{uiT("ui.saving_096b7362")} {outboxState.pending} {uiT("ui.answer_0db52f40")}{uiPluralSuffix(outboxState.pending === 1 ? "" : "s")}…</Text> : null}
           {outboxState.failure ? <View accessibilityRole="alert">
-            <Text style={{ color: theme.error }}>Could not save {outboxState.title}. {outboxState.failure.message}</Text>
+            <Text style={{ color: theme.error }}>{uiT("ui.could_not_save_16efcd21")} {outboxState.title}. {outboxState.failure.message}</Text>
             <View style={styles.saveActions}>
-              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retry previous save" style={[styles.saveActionButton, { borderColor: inputBorder }]} onPress={outbox.retry}>
-                <Text style={{ color: theme.textColor }}>Retry save</Text>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.retry_previous_save_75168ca8")} style={[styles.saveActionButton, { borderColor: inputBorder }]} onPress={outbox.retry}>
+                <Text style={{ color: theme.textColor }}>{uiT("ui.retry_save_71fdfa79")}</Text>
               </TouchableOpacity>
-              {!outboxState.failure.pause ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Continue without saving previous answer" style={[styles.saveActionButton, { borderColor: inputBorder }]} onPress={outbox.skip}>
-                <Text style={{ color: theme.textColor }}>Continue without saving</Text>
+              {!outboxState.failure.pause ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.continue_without_saving_previous_answer_bb254556")} style={[styles.saveActionButton, { borderColor: inputBorder }]} onPress={outbox.skip}>
+                <Text style={{ color: theme.textColor }}>{uiT("ui.continue_without_saving_a0eb393c")}</Text>
               </TouchableOpacity> : null}
             </View>
           </View> : null}
           {saveFailure && pendingOutcome ? <View style={styles.saveActions}>
-            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Retry save" disabled={isSubmitting} onPress={() => { void submitCurrentAnswer(); }} style={[styles.saveActionButton, { borderColor: inputBorder }]}>
-              <Text style={{ color: theme.textColor }}>Retry save</Text>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.retry_save_71fdfa79")} disabled={isSubmitting} onPress={() => { void submitCurrentAnswer(); }} style={[styles.saveActionButton, { borderColor: inputBorder }]}>
+              <Text style={{ color: theme.textColor }}>{uiT("ui.retry_save_71fdfa79")}</Text>
             </TouchableOpacity>
-            {!saveFailure.pause ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Continue without saving" disabled={isSubmitting} onPress={() => { void submitCurrentAnswer(true); }} style={[styles.saveActionButton, { borderColor: inputBorder }]}>
-              <Text style={{ color: theme.textColor }}>Continue without saving</Text>
+            {!saveFailure.pause ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.continue_without_saving_a0eb393c")} disabled={isSubmitting} onPress={() => { void submitCurrentAnswer(true); }} style={[styles.saveActionButton, { borderColor: inputBorder }]}>
+              <Text style={{ color: theme.textColor }}>{uiT("ui.continue_without_saving_a0eb393c")}</Text>
             </TouchableOpacity> : null}
           </View> : null}
           <View style={styles.bottomActions}>
-            {voiceEnabled && !pendingOutcome && !selfAssessment ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Answer with voice" disabled={voice.listening || isSubmitting} onPress={() => { void voice.start(); }} style={[styles.hintButton, { borderColor: inputBorder }]}><Text style={{ color: theme.textColor }}>{voice.listening ? "Listening…" : "Speak"}</Text></TouchableOpacity> : null}
-            {reviewableKind === "grammar" ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Hint level ${hintLevel} of 4`} style={[styles.hintButton, { borderColor: inputBorder }]} onPress={() => setHintLevel((level) => (level + 1) % 5)}>
+            {voiceEnabled && !pendingOutcome && !selfAssessment ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.answer_with_voice_9410842c")} disabled={voice.listening || isSubmitting} onPress={() => { void voice.start(); }} style={[styles.hintButton, { borderColor: inputBorder }]}><Text style={{ color: theme.textColor }}>{voice.listening ? uiT("ui.listening_bbb4106e") : uiT("ui.speak_cb09d412")}</Text></TouchableOpacity> : null}
+            {reviewableKind === "grammar" ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.dynamic_2425e91db7de", {value1: (hintLevel)})} style={[styles.hintButton, { borderColor: inputBorder }]} onPress={() => setHintLevel((level) => (level + 1) % 5)}>
               <Ionicons name="bulb-outline" size={16} color={theme.textColor} />
-              <Text style={[styles.hintButtonText, { color: theme.textColor }]}>Hint {"●".repeat(hintLevel)}{"○".repeat(4 - hintLevel)}</Text>
+              <Text style={[styles.hintButtonText, { color: theme.textColor }]}>{uiT("ui.hint_a7b4cf9f")} {"●".repeat(hintLevel)}{"○".repeat(4 - hintLevel)}</Text>
             </TouchableOpacity> : null}
-            {allowSkipping && currentIndex + 1 < queue.length ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Skip Bunpro question" disabled={isSubmitting || answerAlreadySaved} style={[styles.hintButton, { borderColor: inputBorder }]} onPress={skipCurrentQuestion}>
-              <Text style={{ color: theme.textColor }}>Skip</Text>
+            {allowSkipping && currentIndex + 1 < queue.length ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.skip_bunpro_question_e69d6bb5")} disabled={isSubmitting || answerAlreadySaved} style={[styles.hintButton, { borderColor: inputBorder }]} onPress={skipCurrentQuestion}>
+              <Text style={{ color: theme.textColor }}>{uiT("ui.skip_28d03596")}</Text>
             </TouchableOpacity> : null}
             {pendingOutcome && !answerAlreadySaved ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={pendingOutcome.correct ? "Mark incorrect" : "Mark correct"} disabled={isSubmitting || Boolean(saveFailure)} style={[styles.hintButton, { borderColor: inputBorder }]} onPress={() => {
               if (!pendingOutcome) return;
               void submitCurrentAnswer(false, { ...pendingOutcome, correct: !pendingOutcome.correct });
-            }}><Text style={{ color: theme.textColor }}>{pendingOutcome.correct ? "Mark incorrect" : "Mark correct"}</Text></TouchableOpacity> : null}
+            }}><Text style={{ color: theme.textColor }}>{pendingOutcome.correct ? uiT("ui.mark_incorrect_83fedd89") : uiT("ui.mark_correct_aed2fbe7")}</Text></TouchableOpacity> : null}
           </View>
           {isFrozenOnResult ? (
             <View style={styles.resultActionsRow}>
@@ -2277,7 +2272,7 @@ export default function BunproReviewScreen({
                   }}
                 >
                   <Ionicons name="arrow-undo-outline" size={17} color={theme.textColor} />
-                  <Text style={[styles.resultActionButtonText, { color: theme.textColor }]}>Undo</Text>
+                  <Text style={[styles.resultActionButtonText, { color: theme.textColor }]}>{uiT("ui.undo_a8283ade")}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.resultActionSlot}>
@@ -2288,7 +2283,7 @@ export default function BunproReviewScreen({
                   disabled={!reviewableSlug}
                 >
                   <Ionicons name="information-circle-outline" size={17} color={theme.textColor} />
-                  <Text style={[styles.resultActionButtonText, { color: theme.textColor }]}>{detailsOpen ? "Hide Info" : "Show Info"}</Text>
+                  <Text style={[styles.resultActionButtonText, { color: theme.textColor }]}>{detailsOpen ? uiT("ui.hide_info_23be5e0d") : uiT("ui.show_info_4a6df3f5")}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.resultActionSlot}>
@@ -2317,26 +2312,26 @@ export default function BunproReviewScreen({
           ) : null}
 
           {selfAssessment ? <View style={{ gap: 12 }}>
-            {!ankiRevealed ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Reveal Bunpro answer" disabled={!isActive || Boolean(questionError)} style={[styles.resultsDoneButton, { flexDirection: "column", paddingVertical: 12, backgroundColor: theme.cardBackground }]} onPress={() => { setAnkiRevealed(true); if (autoplayAudio) void playCurrentAudio(); }}>
+            {!ankiRevealed ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.reveal_bunpro_answer_9e344f75")} disabled={!isActive || Boolean(questionError)} style={[styles.resultsDoneButton, { flexDirection: "column", paddingVertical: 12, backgroundColor: theme.cardBackground }]} onPress={() => { setAnkiRevealed(true); if (autoplayAudio) void playCurrentAudio(); }}>
               {!hideAnkiAnswer ? <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ overflow: "hidden", padding: 12 }}>
                 <Text style={[styles.resultAnswerValue, { color: theme.textColor }]}>{canonicalAnswer}</Text>
                 {Platform.OS === "ios" ? <BlurView intensity={80} tint={isDark ? "dark" : "light"} style={StyleSheet.absoluteFill} /> : <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.cardBackground ?? backgroundColor }]} />}
               </View> : null}
-              <Text style={{ color: theme.textColor }}>Show answer</Text>
+              <Text style={{ color: theme.textColor }}>{uiT("ui.show_answer_892fbc4e")}</Text>
             </TouchableOpacity> : <>
               <Text selectable style={[styles.resultAnswerValue, { color: theme.textColor, textAlign: "center" }]}>{canonicalAnswer}</Text>
               {ankiGroup && ankiScope === "both" ? <Text style={{ color: mutedColor, textAlign: "center" }}>{questionKind === "reading" ? reviewableMeaning : sanitizeText(reviewableAttributes.kana || reviewableAttributes.furigana)}</Text> : null}
               {showAnkiAlternatives && alternativeAnswers.length > 0 ? <Text style={{ color: mutedColor, textAlign: "center" }}>{alternativeAnswers.join(" · ")}</Text> : null}
               {showAnkiParts ? <Text style={{ color: mutedColor, textAlign: "center" }}>{Array.isArray(reviewableAttributes.jmdict_pos) ? reviewableAttributes.jmdict_pos.join(", ") : sanitizeText(reviewableAttributes.part_of_speech_translation)}</Text> : null}
-              {showAnkiPitchNumber && typeof reviewableAttributes.pitch_accent_stress === "string" && reviewableAttributes.pitch_accent_stress.includes("HL") ? <Text style={{ color: mutedColor, textAlign: "center" }}>Pitch accent: [{reviewableAttributes.pitch_accent_stress.indexOf("HL") + 1}]</Text> : null}
+              {showAnkiPitchNumber && typeof reviewableAttributes.pitch_accent_stress === "string" && reviewableAttributes.pitch_accent_stress.includes("HL") ? <Text style={{ color: mutedColor, textAlign: "center" }}>{uiT("ui.pitch_accent_135a972c")}{reviewableAttributes.pitch_accent_stress.indexOf("HL") + 1}]</Text> : null}
               {showAnkiPitchGraph && typeof reviewableAttributes.pitch_accent_stress === "string" && reviewableAttributes.pitch_accent_stress.includes("HL") ? <PitchAccentVisualization reading={sanitizeText(reviewableAttributes.kana)} accents={[reviewableAttributes.pitch_accent_stress.indexOf("HL") + 1]} compact showHeader={false} /> : null}
-              <TouchableOpacity accessibilityRole="button" onPress={() => setDetailsOverride(!detailsOpen)} style={{ padding: 12, minHeight: 44 }}><Text style={{ color: theme.textColor }}>{detailsOpen ? "Hide Info" : "Show Info"}</Text></TouchableOpacity>
-              {showAnkiReplay && hasAudio ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Replay Bunpro answer" onPress={() => { void playCurrentAudio(); }} style={styles.resultAudioButton}><Ionicons name={isPlayingAudio ? "stop" : "volume-medium-outline"} size={22} color={theme.textColor} /></TouchableOpacity> : null}
-              {pendingOutcome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Next question" disabled={isSubmitting || Boolean(saveFailure)} onPress={() => { void submitCurrentAnswer(); }} style={styles.resultsDoneButton}><Text style={{ color: theme.textColor }}>Next</Text></TouchableOpacity> :
+              <TouchableOpacity accessibilityRole="button" onPress={() => setDetailsOverride(!detailsOpen)} style={{ padding: 12, minHeight: 44 }}><Text style={{ color: theme.textColor }}>{detailsOpen ? uiT("ui.hide_info_23be5e0d") : uiT("ui.show_info_4a6df3f5")}</Text></TouchableOpacity>
+              {showAnkiReplay && hasAudio ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.replay_bunpro_answer_af9fd030")} onPress={() => { void playCurrentAudio(); }} style={styles.resultAudioButton}><Ionicons name={isPlayingAudio ? "stop" : "volume-medium-outline"} size={22} color={theme.textColor} /></TouchableOpacity> : null}
+              {pendingOutcome ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.next_question_f7a9d743")} disabled={isSubmitting || Boolean(saveFailure)} onPress={() => { void submitCurrentAnswer(); }} style={styles.resultsDoneButton}><Text style={{ color: theme.textColor }}>{uiT("ui.next_1ff57a29")}</Text></TouchableOpacity> :
               <View style={styles.resultActionsRow}>
                 {[false, true].map((correct) => <TouchableOpacity key={String(correct)} accessibilityRole="button" accessibilityLabel={correct ? "Mark Bunpro correct" : "Mark Bunpro incorrect"} disabled={!isActive || isSubmitting || Boolean(saveFailure) || Boolean(outboxState.failure)} style={[styles.resultActionSlot, styles.resultActionButton, { minHeight: ankiButtonless ? 100 : 50, borderColor: correct ? BUNPRO_SUCCESS_COLOR : theme.error }]} onPress={() => { const outcome = { correct, enteredText: canonicalAnswer, stageLabel: "" }; setPendingOutcome(outcome); setDetailsOverride(null); if (feedbackSounds) void playBunproFeedback(correct); void Haptics.notificationAsync(correct ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error); if (correct || !showDetailsOnWrong) void submitCurrentAnswer(false, outcome); }}>
                   <Ionicons name={correct ? "checkmark" : "close"} size={24} color={correct ? BUNPRO_SUCCESS_COLOR : theme.error} />
-                  {!ankiButtonless ? <Text style={{ color: theme.textColor }}>{correct ? "Correct" : "Incorrect"}</Text> : null}
+                  {!ankiButtonless ? <Text style={{ color: theme.textColor }}>{correct ? uiT("ui.correct_aca01a1a") : uiT("ui.incorrect_a8a57dbc")}</Text> : null}
                 </TouchableOpacity>)}
               </View>}
             </>}
@@ -2391,7 +2386,7 @@ export default function BunproReviewScreen({
               resetSignal={inputResetSignal}
               autoCorrect={false}
               autoCapitalize="none"
-              accessibilityLabel="Bunpro answer"
+              accessibilityLabel={uiT("ui.bunpro_answer_8f8743b8")}
               placeholder={questionKind === "meaning" ? "Type the meaning..." : "Type your answer..."}
               placeholderTextColor={mutedColor}
               style={[styles.answerInput, { fontSize: 22 * inputScale, lineHeight: 28 * inputScale, color: pendingOutcome?.correct ? theme.textColor : isFrozenOnResult ? statusColor : theme.textColor }]}

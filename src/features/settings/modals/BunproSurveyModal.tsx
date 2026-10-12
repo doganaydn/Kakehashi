@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import React from "react";
 import {
   Modal,
@@ -12,6 +13,7 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function BunproSurveyModal() {
+  useInterfaceLanguage();
   const {
     bunproFeatureRequestInput,
     bunproIntegrationAnswer,
@@ -71,12 +73,10 @@ export function BunproSurveyModal() {
                     },
                   ]}
                 >
-                  Close
-                </Text>
+                  {uiT("ui.close_7d9eb7ac")} </Text>
               </TouchableOpacity>
               <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-                Bunpro Survey
-              </Text>
+                {uiT("ui.bunpro_survey_001933d9")} </Text>
               <View style={{ width: 60 }} />
             </View>
 
@@ -88,8 +88,7 @@ export function BunproSurveyModal() {
               <Text
                 style={[styles.settingSubtext, { color: theme.textSecondary }]}
               >
-                Super short. This helps prioritize Bunpro support in the app.
-              </Text>
+                {uiT("ui.super_short_this_helps_prioritize_bunpro_support_in_the_app_29651ecf")} </Text>
 
               <Text
                 style={[
@@ -97,8 +96,7 @@ export function BunproSurveyModal() {
                   { color: theme.textColor, marginTop: 16 },
                 ]}
               >
-                Do you use Bunpro?
-              </Text>
+                {uiT("ui.do_you_use_bunpro_1f7175f2")} </Text>
 
               <View style={styles.bunproSurveyButtonRow}>
                 <TouchableOpacity
@@ -132,8 +130,7 @@ export function BunproSurveyModal() {
                       },
                     ]}
                   >
-                    Yes
-                  </Text>
+                    {uiT("ui.yes_85a39ab3")} </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -167,8 +164,7 @@ export function BunproSurveyModal() {
                       },
                     ]}
                   >
-                    No
-                  </Text>
+                    {uiT("ui.no_1ea442a1")} </Text>
                 </TouchableOpacity>
               </View>
 
@@ -180,8 +176,7 @@ export function BunproSurveyModal() {
                       { color: theme.textColor, marginBottom: 8 },
                     ]}
                   >
-                    Would you want Bunpro inside this app too?
-                  </Text>
+                    {uiT("ui.would_you_want_bunpro_inside_this_app_too_a477e9dc")} </Text>
 
                   <View style={styles.bunproSurveyButtonRow}>
                     <TouchableOpacity
@@ -213,8 +208,7 @@ export function BunproSurveyModal() {
                           },
                         ]}
                       >
-                        Yes
-                      </Text>
+                        {uiT("ui.yes_85a39ab3")} </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -246,8 +240,7 @@ export function BunproSurveyModal() {
                           },
                         ]}
                       >
-                        No
-                      </Text>
+                        {uiT("ui.no_1ea442a1")} </Text>
                     </TouchableOpacity>
                   </View>
 
@@ -257,7 +250,7 @@ export function BunproSurveyModal() {
                     editable={!isSubmittingBunproSurvey}
                     multiline
                     numberOfLines={3}
-                    placeholder="Optional: What Bunpro features would you like here?"
+                    placeholder={uiT("ui.optional_what_bunpro_features_would_you_like_here_e43a3dd3")}
                     placeholderTextColor={theme.textSecondary}
                     style={[
                       styles.bunproSurveyInput,
@@ -283,7 +276,7 @@ export function BunproSurveyModal() {
                     }}
                   >
                     <Text style={styles.bunproSurveySubmitButtonText}>
-                      {isSubmittingBunproSurvey ? "Saving..." : "Submit"}
+                      {isSubmittingBunproSurvey ? uiT("ui.saving_dc85af8f") : uiT("ui.submit_155f816c")}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -305,7 +298,7 @@ export function BunproSurveyModal() {
                   }}
                 >
                   <Text style={styles.bunproSurveySubmitButtonText}>
-                    {isSubmittingBunproSurvey ? "Saving..." : "Submit"}
+                    {isSubmittingBunproSurvey ? uiT("ui.saving_dc85af8f") : uiT("ui.submit_155f816c")}
                   </Text>
                 </TouchableOpacity>
               )}

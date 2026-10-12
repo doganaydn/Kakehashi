@@ -22,7 +22,7 @@ if ([IO.Path]::GetFullPath($BuildDirectory).TrimEnd('\') -eq $PSScriptRoot.TrimE
     throw 'Use a separate short build directory on Windows.'
 }
 New-Item -ItemType Directory -Force $BuildDirectory | Out-Null
-& robocopy.exe $PSScriptRoot $BuildDirectory /E /R:1 /W:1 /NFL /NDL /NJH /NJS /XD .git .local-tools .test-cache .turkish-checks .gradle .cxx "$PSScriptRoot\android\app\build" "$PSScriptRoot\android\build" /XF '.turkish-*'
+& robocopy.exe $PSScriptRoot $BuildDirectory /E /R:1 /W:1 /NFL /NDL /NJH /NJS /XD .git .local-tools .cache .test-cache .turkish-checks .gradle .cxx "$PSScriptRoot\android\app\build" "$PSScriptRoot\android\build" /XF '.turkish-*'
 if ($LASTEXITCODE -ge 8) { throw 'Build staging copy failed.' }
 # Clear only generated bundle assets so old content-hashed DOM files cannot accumulate.
 $taskStageRoot = [IO.Path]::GetFullPath($BuildDirectory).TrimEnd('\')

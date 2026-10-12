@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -107,6 +108,7 @@ const sanitizeConfig = (rawConfig: Partial<Config>, userLevel: number): Config =
 };
 
 export default function KanaKanjiConfigScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const { autoSwitchKeyboard, setAutoSwitchKeyboard } = useSettingsStore();
@@ -139,7 +141,7 @@ export default function KanaKanjiConfigScreen() {
       const hasJapaneseKeyboard = await KeyboardManager.hasJapaneseKeyboard();
       if (!hasJapaneseKeyboard) {
         Alert.alert(
-          "No Japanese Keyboard",
+          uiT("ui.no_japanese_keyboard_ffbd52b8"),
           JAPANESE_KEYBOARD_SETUP_INSTRUCTIONS,
         );
         return;
@@ -153,8 +155,8 @@ export default function KanaKanjiConfigScreen() {
     if (!canStart()) {
       if (!autoSwitchKeyboard) {
         Alert.alert(
-          "Japanese Keyboard Required",
-          "Enable \"Switch to Japanese Keyboard\" to start Kana to Kanji mode.",
+          uiT("ui.japanese_keyboard_required_ecd8a724"),
+          uiT("ui.enable_switch_to_japanese_keyboard_to_start_kana_to_kanji_mode_6dffcafe"),
         );
       }
       return;
@@ -233,10 +235,10 @@ export default function KanaKanjiConfigScreen() {
         return;
       }
 
-      Alert.alert("Resume Kana to Kanji Test?", "You have a test in progress.", [
-        { text: "Not Now", style: "cancel" },
+      Alert.alert(uiT("ui.resume_kana_to_kanji_test_11bbd40e"), uiT("ui.you_have_a_test_in_progress_c8f20fe7"), [
+        { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => {
             void clearExtraStudySessionState(
@@ -245,7 +247,7 @@ export default function KanaKanjiConfigScreen() {
           },
         },
         {
-          text: "Resume",
+          text: uiT("ui.resume_d640c742"),
           onPress: () => {
             router.push({
               pathname: "/kana-kanji-session",
@@ -311,12 +313,12 @@ export default function KanaKanjiConfigScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Kana to Kanji</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.kana_to_kanji_612a3750")}</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Number of Questions</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.number_of_questions_e69db859")}</Text>
           <View style={styles.sliderContainer}> 
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.numberOfQuestions}
@@ -336,8 +338,8 @@ export default function KanaKanjiConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Include SRS Stages</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Choose which progression stages to include</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.include_srs_stages_eb382d10")}</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.choose_which_progression_stages_to_include_983f6d5c")}</Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = (config.srsGroups as any)[key];
@@ -389,8 +391,8 @@ export default function KanaKanjiConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Input Requirements</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary, marginBottom: 10 }]}>This mode requires Japanese keyboard input so you can type kanji answers.</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.input_requirements_eb2c7bcd")}</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary, marginBottom: 10 }]}>{uiT("ui.this_mode_requires_japanese_keyboard_input_so_you_can_type_kanji_d255430f")}</Text>
 
           <View
             style={[
@@ -402,7 +404,7 @@ export default function KanaKanjiConfigScreen() {
               },
             ]}
           >
-            <Text style={[styles.toggleText, { color: theme.textColor }]}>Switch to Japanese Keyboard</Text>
+            <Text style={[styles.toggleText, { color: theme.textColor }]}>{uiT("ui.switch_to_japanese_keyboard_3d31738e")}</Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={autoSwitchKeyboard}
@@ -414,8 +416,8 @@ export default function KanaKanjiConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Levels</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Without a subject list, includes levels 1 to your level ({userLevel}). Selected lists can include any level. Enable a custom range to restrict.</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.levels_b1482131")}</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")}</Text>
           <View
             style={[
               styles.toggleRow,
@@ -427,7 +429,7 @@ export default function KanaKanjiConfigScreen() {
               },
             ]}
           >
-            <Text style={[styles.toggleText, { color: theme.textColor }]}>Use custom level range</Text>
+            <Text style={[styles.toggleText, { color: theme.textColor }]}>{uiT("ui.use_custom_level_range_fdb84cae")}</Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -449,7 +451,7 @@ export default function KanaKanjiConfigScreen() {
           >
             <View>
               <View style={styles.levelSliderRow}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Min Level</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.min_level_4986a2df")}</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.minLevel}</Text>
               </View>
               <Slider
@@ -466,7 +468,7 @@ export default function KanaKanjiConfigScreen() {
                 thumbTintColor={theme.secondary}
               />
               <View style={[styles.levelSliderRow, { marginTop: 12 }]}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Max Level</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.max_level_2833a212")}</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.maxLevel}</Text>
               </View>
               <Slider
@@ -490,8 +492,8 @@ export default function KanaKanjiConfigScreen() {
               <Ionicons name="stats-chart" size={16} color={theme.textSecondary} />
               <Text style={[styles.levelSummaryText, { color: theme.textSecondary }]}>
                 {config.selectedListIds.length > 0
-                  ? "All levels in selected lists"
-                  : `Levels 1 - ${userLevel}`}
+                  ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
+                  : uiT("ui.levels_1_value_97fc00a2", {value1: (userLevel)})}
               </Text>
             </View>
           )}
@@ -501,7 +503,7 @@ export default function KanaKanjiConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={["vocabulary"]}
-          description="Optional: only include vocabulary from these saved lists."
+          description={uiT("ui.optional_only_include_vocabulary_from_these_saved_lists_5efc3c54")}
         />
 
         {!autoSwitchKeyboard && (
@@ -516,7 +518,7 @@ export default function KanaKanjiConfigScreen() {
             ]}
           >
             <Ionicons name="warning" size={20} color="#ff9800" />
-            <Text style={[styles.warningText, { color: "#ff9800" }]}>Enable Japanese keyboard input to start Kana to Kanji mode.</Text>
+            <Text style={[styles.warningText, { color: "#ff9800" }]}>{uiT("ui.enable_japanese_keyboard_input_to_start_kana_to_kanji_mode_d43697ad")}</Text>
           </View>
         )}
 
@@ -542,7 +544,7 @@ export default function KanaKanjiConfigScreen() {
           activeOpacity={0.8}
         >
           <Ionicons name="play" size={24} color="white" style={{ marginRight: 8 }} />
-          <Text style={styles.startButtonText}>Start Kana to Kanji Test</Text>
+          <Text style={styles.startButtonText}>{uiT("ui.start_kana_to_kanji_test_708c3d54")}</Text>
         </TouchableOpacity>
       </View>
     </View>

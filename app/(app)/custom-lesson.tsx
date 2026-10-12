@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { router, useLocalSearchParams } from "expo-router";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import { useSubjectLists } from "../../src/hooks/useSubjectLists";
@@ -65,6 +66,7 @@ const isSubjectType = (subject: any, type: string): boolean => {
 };
 
 export default function CustomLessonScreen() {
+  useInterfaceLanguage();
   useActivityTracking("custom_lesson");
   const { apiToken } = useAuthStore();
   const {
@@ -167,9 +169,9 @@ export default function CustomLessonScreen() {
 
       if (subjectIds.length === 0) {
         Alert.alert(
-          "No Subjects Found",
-          "Could not load the selected subjects.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_subjects_found_4e19ea6d"),
+          uiT("ui.could_not_load_the_selected_subjects_f9bc8fed"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -212,9 +214,9 @@ export default function CustomLessonScreen() {
 
       if (loadedSubjects.length === 0) {
         Alert.alert(
-          "No Subjects Found",
-          "Could not load the selected subjects.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_subjects_found_4e19ea6d"),
+          uiT("ui.could_not_load_the_selected_subjects_f9bc8fed"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -525,11 +527,11 @@ export default function CustomLessonScreen() {
     } else {
       // All done!
       Alert.alert(
-        "Custom Lessons Complete",
-        "You've completed all your custom lessons!",
+        uiT("ui.custom_lessons_complete_a59f64ea"),
+        uiT("ui.you_ve_completed_all_your_custom_lessons_a8b8d84f"),
         [
           { 
-            text: "Return to Dashboard", 
+            text: uiT("ui.return_to_dashboard_16ec0c91"),
             onPress: () => {
               navigateToDashboard();
             }
@@ -612,8 +614,7 @@ export default function CustomLessonScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            Loading custom lesson...
-          </Text>
+            {uiT("ui.loading_custom_lesson_9d04b404")} </Text>
         </View>
       </View>
     );
@@ -626,22 +627,20 @@ export default function CustomLessonScreen() {
         <View style={styles.loadingContainer}>
           <Ionicons name="cloud-offline-outline" size={64} color={theme.textLight} />
           <Text style={[styles.offlineTitle, { color: theme.textColor }]}>
-            Unable to Load Lesson
-          </Text>
+            {uiT("ui.unable_to_load_lesson_41cad97b")} </Text>
           <Text style={[styles.offlineText, { color: theme.textSecondary }]}>
-            Connect to WiFi to start your custom lesson
-          </Text>
+            {uiT("ui.connect_to_wifi_to_start_your_custom_lesson_ae744c0e")} </Text>
           <TouchableOpacity
             style={[styles.retryButton, { backgroundColor: theme.primary }]}
             onPress={loadCustomLesson}
           >
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.backButton, { borderColor: theme.textLight }]}
             onPress={() => router.back()}
           >
-            <Text style={[styles.backButtonText, { color: theme.textColor }]}>Go Back</Text>
+            <Text style={[styles.backButtonText, { color: theme.textColor }]}>{uiT("ui.go_back_b8d99df1")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -669,11 +668,11 @@ export default function CustomLessonScreen() {
           }}
           onExit={() => {
             Alert.alert(
-              "Exit Custom Lessons",
-              "Are you sure you want to exit? Your progress will not be saved.",
+              uiT("ui.exit_custom_lessons_bdb1aedc"),
+              uiT("ui.are_you_sure_you_want_to_exit_your_progress_will_not_be_saved_6634d3e2"),
               [
-                { text: "Cancel", style: "cancel" },
-                { text: "Exit", onPress: () => navigateToDashboard() },
+                { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+                { text: uiT("ui.exit_d17d84a6"), onPress: () => navigateToDashboard() },
               ]
             );
           }}
@@ -725,7 +724,7 @@ export default function CustomLessonScreen() {
         <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
           <StatusBar barStyle={theme.isDark ? "light-content" : "dark-content"} />
           <View style={styles.loadingContainer}>
-            <Text style={[styles.errorText, { color: theme.error }]}>Error loading question</Text>
+            <Text style={[styles.errorText, { color: theme.error }]}>{uiT("ui.error_loading_question_2c8347e0")}</Text>
           </View>
         </View>
       );
@@ -757,11 +756,11 @@ export default function CustomLessonScreen() {
         onSkip={handleSkip}
         onExit={() => {
           Alert.alert(
-            "Exit Custom Lessons",
-            "Are you sure you want to exit? Your progress will not be saved.",
+            uiT("ui.exit_custom_lessons_bdb1aedc"),
+            uiT("ui.are_you_sure_you_want_to_exit_your_progress_will_not_be_saved_6634d3e2"),
             [
-              { text: "Cancel", style: "cancel" },
-              { text: "Exit", onPress: () => navigateToDashboard() },
+              { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+              { text: uiT("ui.exit_d17d84a6"), onPress: () => navigateToDashboard() },
             ]
           );
         }}
@@ -815,23 +814,21 @@ export default function CustomLessonScreen() {
               <Text
                 style={[styles.batchCompleteTitle, { color: theme.textColor }]}
               >
-                Batch Complete!
-              </Text>
+                {uiT("ui.batch_complete_c559bc78")} </Text>
               <Text
                 style={[
                   styles.batchCompleteSubtitle,
                   { color: theme.textSecondary },
                 ]}
               >
-                Great job! You&apos;ve completed batch{" "}
-                {completedBatchStats.batchNumber} of {lessonBatches.length}
+                {uiT("ui.great_job_you_ve_completed_batch_00116c41")}{" "}
+                {completedBatchStats.batchNumber} {uiT("ui.of_28391d3b")} {lessonBatches.length}
               </Text>
             </View>
 
             <View style={styles.batchStatsContainer}>
               <Text style={[styles.batchStatsTitle, { color: theme.textColor }]}>
-                Items Learned:
-              </Text>
+                {uiT("ui.items_learned_b6144187")} </Text>
               <View style={styles.batchStatsGrid}>
                 {completedBatchStats.typeCounts.radical > 0 && (
                   <View
@@ -844,8 +841,7 @@ export default function CustomLessonScreen() {
                       {completedBatchStats.typeCounts.radical}
                     </Text>
                     <Text style={styles.batchStatLabel}>
-                      Radical
-                      {completedBatchStats.typeCounts.radical !== 1 ? "s" : ""}
+                      {uiT("ui.radical_af294da6")} {uiPluralSuffix(completedBatchStats.typeCounts.radical !== 1 ? "s" : "")}
                     </Text>
                   </View>
                 )}
@@ -859,7 +855,7 @@ export default function CustomLessonScreen() {
                     <Text style={styles.batchStatNumber}>
                       {completedBatchStats.typeCounts.kanji}
                     </Text>
-                    <Text style={styles.batchStatLabel}>Kanji</Text>
+                    <Text style={styles.batchStatLabel}>{uiT("ui.kanji_45f62a35")}</Text>
                   </View>
                 )}
                 {completedBatchStats.typeCounts.vocabulary > 0 && (
@@ -873,17 +869,15 @@ export default function CustomLessonScreen() {
                       {completedBatchStats.typeCounts.vocabulary}
                     </Text>
                     <Text style={styles.batchStatLabel}>
-                      Vocabular
-                      {completedBatchStats.typeCounts.vocabulary !== 1
-                        ? "ies"
+                      {uiT("ui.vocabular_a0f17cbe")} {completedBatchStats.typeCounts.vocabulary !== 1
+                        ? uiT("ui.ies_388f91ea")
                         : "y"}
                     </Text>
                   </View>
                 )}
               </View>
               <Text style={[styles.batchTotalText, { color: theme.textColor }]}>
-                Total: {completedBatchStats.itemCount} item
-                {completedBatchStats.itemCount !== 1 ? "s" : ""}
+                {uiT("ui.total_18e872be")} {completedBatchStats.itemCount} {uiT("ui.item_4a33eacd")} {uiPluralSuffix(completedBatchStats.itemCount !== 1 ? "s" : "")}
               </Text>
             </View>
 
@@ -891,8 +885,7 @@ export default function CustomLessonScreen() {
               <Text
                 style={[styles.batchProgressText, { color: theme.textSecondary }]}
               >
-                {progress.completedItems} of {progress.totalItems} items completed
-              </Text>
+                {progress.completedItems} {uiT("ui.of_28391d3b")} {progress.totalItems} {uiT("ui.items_completed_2b6ad5db")} </Text>
               <View
                 style={[
                   styles.batchProgressBar,
@@ -928,7 +921,7 @@ export default function CustomLessonScreen() {
                 ]}
                 onPress={handleContinueToNextBatch}
               >
-                <Text style={styles.batchContinueButtonText}>Next batch</Text>
+                <Text style={styles.batchContinueButtonText}>{uiT("ui.next_batch_be7d204c")}</Text>
                 <Ionicons name="chevron-forward" size={20} color="white" />
               </TouchableOpacity>
             </View>
@@ -943,7 +936,7 @@ export default function CustomLessonScreen() {
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <StatusBar barStyle={theme.isDark ? "light-content" : "dark-content"} />
       <View style={styles.loadingContainer}>
-        <Text style={[styles.errorText, { color: theme.error }]}>No lessons available</Text>
+        <Text style={[styles.errorText, { color: theme.error }]}>{uiT("ui.no_lessons_available_89b13e13")}</Text>
       </View>
     </View>
   );

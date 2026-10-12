@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Alert, BackHandler, Keyboard, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
@@ -27,20 +28,22 @@ const MixedBunproScreen = React.memo(BunproReviewScreen, (before, after) =>
 const LANE_NAMES = { wanikani: "WaniKani", grammar: "Bunpro grammar", vocab: "Bunpro vocabulary" };
 
 export default function MixedReviewsRoute() {
+  useInterfaceLanguage();
   const username = useAuthStore((state) => state.userData?.username);
   const params = useLocalSearchParams<{ mode?: string }>();
   const mode = params.mode === "grammar" || params.mode === "vocab" ? params.mode : "all";
   const { theme } = useTheme();
   if (!isPortegoUsername(username)) {
     return <SafeAreaView style={[styles.center, { backgroundColor: theme.backgroundColor }]}>
-      <Text style={{ color: theme.textColor }}>Mixed reviews are not available for this account.</Text>
-      <TouchableOpacity accessibilityRole="button" onPress={() => router.back()} style={styles.button}><Text style={{ color: theme.primary }}>Back</Text></TouchableOpacity>
+      <Text style={{ color: theme.textColor }}>{uiT("ui.mixed_reviews_are_not_available_for_this_account_e6c75450")}</Text>
+      <TouchableOpacity accessibilityRole="button" onPress={() => router.back()} style={styles.button}><Text style={{ color: theme.primary }}>{uiT("ui.back_76900f1b")}</Text></TouchableOpacity>
     </SafeAreaView>;
   }
   return <MixedReviewSession key={mode} mode={mode} />;
 }
 
 export function MixedReviewSession({ mode }: { mode: "all" | "grammar" | "vocab" }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -81,10 +84,10 @@ export function MixedReviewSession({ mode }: { mode: "all" | "grammar" | "vocab"
     router.replace({ pathname: "/", params: { refreshLessonsReviews: "true" } });
   }, []);
   const exit = useCallback(() => {
-    if (isSaving) { Alert.alert("Saving answer", "Please wait until this answer has been saved before leaving."); return; }
+    if (isSaving) { Alert.alert(uiT("ui.saving_answer_53fed192"), uiT("ui.please_wait_until_this_answer_has_been_saved_before_leaving_97485ad7")); return; }
     if (!accuracy.answered || state.complete) { leave(); return; }
-    Alert.alert("End mixed reviews?", unconfirmedCount ? `${unconfirmedCount} Bunpro answers have unconfirmed saves and may still be due. Other completed reviews are saved.` : "Completed reviews are saved. Unfinished items will remain due.", [
-      { text: "Continue reviewing", style: "cancel" }, { text: "End session", onPress: leave },
+    Alert.alert(uiT("ui.end_mixed_reviews_1e6507c9"), unconfirmedCount ? uiT("ui.dynamic_1e4eab585087", {value1: (unconfirmedCount)}) : "Completed reviews are saved. Unfinished items will remain due.", [
+      { text: uiT("ui.continue_reviewing_0f2f376a"), style: "cancel" }, { text: uiT("ui.end_session_f00b921f"), onPress: leave },
     ]);
   }, [accuracy.answered, leave, state.complete, isSaving, unconfirmedCount]);
   useFocusEffect(useCallback(() => {
@@ -113,7 +116,7 @@ export function MixedReviewSession({ mode }: { mode: "all" | "grammar" | "vocab"
     },
   }])) as Record<MixedReviewLane, Pick<MixedReviewBridge, "report" | "reportError" | "reportProgress" | "reportAccuracy" | "reportPending" | "reportSaving" | "onAnswer" | "onSaveSettled">>, [state.lanes]);
   const onWrapUp = () => {
-    if (isSaving) { Alert.alert("Saving answer", "Please wait until this answer has been saved before wrapping up."); return; }
+    if (isSaving) { Alert.alert(uiT("ui.saving_answer_53fed192"), uiT("ui.please_wait_until_this_answer_has_been_saved_before_wrapping_up_7a7e0406")); return; }
     if (wrapUp) return;
     const remaining = Object.fromEntries(state.lanes.map((lane) => [lane, Math.max(0, (laneProgress[lane]?.total ?? 0) - (laneProgress[lane]?.completed ?? 0))]));
     const open = Object.fromEntries(state.lanes.map(lane => [lane, new Set(state.heads[lane]?.pending?.filter(question => question.open || (lane === state.active && question.id === (state.heads[lane]?.retryKey ?? state.heads[lane]?.id))).map(question => question.subjectId)).size]));
@@ -133,43 +136,43 @@ export function MixedReviewSession({ mode }: { mode: "all" | "grammar" | "vocab"
   return <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
     {!state.started && !state.lanes.some((lane) => state.errors[lane]) ? <SafeAreaView style={styles.center}>
       <ActivityIndicator size="large" color={theme.primary} />
-      <Text style={[styles.loading, { color: theme.textColor }]}>Loading mixed reviews…</Text>
-      <TouchableOpacity accessibilityRole="button" onPress={exit} style={styles.button}><Text style={{ color: theme.textSecondary }}>Back</Text></TouchableOpacity>
+      <Text style={[styles.loading, { color: theme.textColor }]}>{uiT("ui.loading_mixed_reviews_801c0f7d")}</Text>
+      <TouchableOpacity accessibilityRole="button" onPress={exit} style={styles.button}><Text style={{ color: theme.textSecondary }}>{uiT("ui.back_76900f1b")}</Text></TouchableOpacity>
     </SafeAreaView> : null}
     {state.complete ? <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.results}>
         {audio.error ? <Text accessibilityRole="alert" style={{ color: theme.textSecondary }}>{audio.error}</Text> : null}
-        <Text style={[styles.title, { color: theme.textColor }]}>Mixed reviews complete</Text>
-        <Text style={[styles.summary, { color: theme.textSecondary }]}>{progress.completed} completed · {accuracy.answered ? Math.round(accuracy.correct / accuracy.answered * 100) : 0}% accuracy</Text>
-        <Text style={{ color: theme.textSecondary }}>Session time: {Math.floor(duration / 60000)}m {Math.floor(duration / 1000) % 60}s</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.mixed_reviews_complete_90e52a5a")}</Text>
+        <Text style={[styles.summary, { color: theme.textSecondary }]}>{progress.completed} {uiT("ui.completed_29b6c604")} {accuracy.answered ? Math.round(accuracy.correct / accuracy.answered * 100) : 0}{uiT("ui.accuracy_1af3f08b")}</Text>
+        <Text style={{ color: theme.textSecondary }}>{uiT("ui.session_time_eafdc1f9")} {Math.floor(duration / 60000)}m {Math.floor(duration / 1000) % 60}s</Text>
         <BunproProgressionCard progression={bunproProgression} />
         {state.lanes.map((lane) => <View key={lane} style={[styles.resultRow, { borderBottomColor: theme.border }]}>
           <Text style={{ color: theme.textColor, fontSize: 16 }}>{LANE_NAMES[lane]}</Text>
-          <Text style={{ color: theme.textSecondary, fontSize: 16 }}>{laneProgress[lane]?.completed ?? 0} completed</Text>
+          <Text style={{ color: theme.textSecondary, fontSize: 16 }}>{laneProgress[lane]?.completed ?? 0} {uiT("ui.completed_4ddb3e96")}</Text>
         </View>)}
-        {pendingCount > 0 ? <Text style={[styles.note, { color: theme.textSecondary }]}>{pendingCount} WaniKani review{pendingCount === 1 ? " is" : "s are"} saved on this device and waiting to sync.</Text> : null}
-        {unconfirmedCount ? <Text accessibilityRole="alert" style={[styles.note, { color: theme.textSecondary }]}>{unconfirmedCount} Bunpro answer{unconfirmedCount === 1 ? " has" : "s have"} an unconfirmed save and may still be due in Bunpro.</Text> : null}
+        {pendingCount > 0 ? <Text style={[styles.note, { color: theme.textSecondary }]}>{pendingCount} {uiT("ui.wanikani_review_e29dfabc")}{pendingCount === 1 ? uiT("ui.is_a8bdfde1") : uiT("ui.s_are_9cdade10")} {uiT("ui.saved_on_this_device_and_waiting_to_sync_c7646053")}</Text> : null}
+        {unconfirmedCount ? <Text accessibilityRole="alert" style={[styles.note, { color: theme.textSecondary }]}>{unconfirmedCount} {uiT("ui.bunpro_answer_8f8743b8")}{unconfirmedCount === 1 ? uiT("ui.has_e4417b80") : uiT("ui.s_have_bced00a6")} {uiT("ui.an_unconfirmed_save_and_may_still_be_due_in_bunpro_bf912304")}</Text> : null}
         {allAnswers.length ? <>
-          <Text style={[styles.subtitle, { color: theme.textColor }]}>Reviewed items</Text>
+          <Text style={[styles.subtitle, { color: theme.textColor }]}>{uiT("ui.reviewed_items_464425a2")}</Text>
           <View style={styles.filters}>
             {(["all", "correct", "missed"] as const).map((filter) => <TouchableOpacity key={filter} accessibilityRole="tab" accessibilityState={{ selected: resultFilter === filter }} onPress={() => setResultFilter(filter)} style={[styles.filter, { borderBottomColor: resultFilter === filter ? theme.primary : "transparent" }]}>
-              <Text style={{ color: resultFilter === filter ? theme.primary : theme.textSecondary, fontWeight: resultFilter === filter ? "600" : "400" }}>{filter === "all" ? "All" : filter === "correct" ? "Correct" : "Missed"} ({allAnswers.filter((answer) => filter === "all" || (filter === "correct" ? answer.correct : !answer.correct)).length})</Text>
+              <Text style={{ color: resultFilter === filter ? theme.primary : theme.textSecondary, fontWeight: resultFilter === filter ? "600" : "400" }}>{filter === "all" ? uiT("ui.all_a52ace42") : filter === "correct" ? uiT("ui.correct_aca01a1a") : uiT("ui.missed_3d86eb08")} ({allAnswers.filter((answer) => filter === "all" || (filter === "correct" ? answer.correct : !answer.correct)).length})</Text>
             </TouchableOpacity>)}
           </View>
           {displayedAnswers.map(answer => <View key={answer.id} style={{ paddingVertical: 16, gap: 8, borderBottomWidth: 1, borderBottomColor: theme.border }}>
             <TouchableOpacity accessibilityRole="button" disabled={!answer.subjectId && !answer.bunproSubject?.slug} onPress={() => openAnswer(answer)}><Text style={[styles.itemTitle, { color: theme.textColor }]}>{answer.title}</Text><Text style={{ color: theme.textSecondary }}>{answer.meaning}</Text></TouchableOpacity>
-            <Text style={{ color: answer.correct ? "#017b37" : theme.textSecondary }}>{answer.source === "wanikani" ? "WaniKani" : "Bunpro"} · {answer.correct ? "Correct" : "Missed"}</Text>
+            <Text style={{ color: answer.correct ? "#017b37" : theme.textSecondary }}>{answer.source === "wanikani" ? "WaniKani" : "Bunpro"} · {answer.correct ? uiT("ui.correct_aca01a1a") : uiT("ui.missed_3d86eb08")}</Text>
             {answer.question ? <Text selectable style={{ color: theme.textColor }}>{answer.question.replace(/(?:_{2,}|＿{2,})/g, answer.correctAnswer ?? answer.enteredAnswer ?? "____")}</Text> : null}
             {answer.reading ? <Text selectable style={{ color: theme.textSecondary }}>{answer.reading}</Text> : null}
             {answer.translation ? <Text selectable style={{ color: theme.textSecondary }}>{answer.translation}</Text> : null}
-            {answer.enteredAnswer ? <Text selectable style={{ color: theme.textColor }}>Your answer: {answer.enteredAnswer}</Text> : null}
-            {answer.stage || answer.previousStage ? <Text style={{ color: theme.textSecondary }}>{answer.previousStage}{answer.stage ? ` → ${answer.stage}` : ""}</Text> : null}
-            {answer.audioSources && bunproAudioUrls(answer.audioSources, audioVoice).length ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Replay ${answer.title}`} onPress={() => { void audio.play(answer.id, bunproAudioUrls(answer.audioSources ?? {}, audioVoice), audioVoice === "both"); }} style={{ minHeight: 44, justifyContent: "center" }}><Text style={{ color: theme.textColor }}>{audio.playingKey === answer.id ? "Stop audio" : "Replay audio"}</Text></TouchableOpacity> : null}
-            {answer.saveStatus === "unconfirmed" ? <Text style={{ color: theme.textSecondary }}>Save unconfirmed</Text> : null}
+            {answer.enteredAnswer ? <Text selectable style={{ color: theme.textColor }}>{uiT("ui.your_answer_adceb15c")} {answer.enteredAnswer}</Text> : null}
+            {answer.stage || answer.previousStage ? <Text style={{ color: theme.textSecondary }}>{answer.previousStage}{answer.stage ? uiT("ui.value_7778670c", {value1: (answer.stage)}) : ""}</Text> : null}
+            {answer.audioSources && bunproAudioUrls(answer.audioSources, audioVoice).length ? <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Replay ${answer.title}`} onPress={() => { void audio.play(answer.id, bunproAudioUrls(answer.audioSources ?? {}, audioVoice), audioVoice === "both"); }} style={{ minHeight: 44, justifyContent: "center" }}><Text style={{ color: theme.textColor }}>{audio.playingKey === answer.id ? uiT("ui.stop_audio_d69657bc") : uiT("ui.replay_audio_8e8fcf4c")}</Text></TouchableOpacity> : null}
+            {answer.saveStatus === "unconfirmed" ? <Text style={{ color: theme.textSecondary }}>{uiT("ui.save_unconfirmed_1a11217f")}</Text> : null}
           </View>)}
-          {!displayedAnswers.length ? <Text style={{ color: theme.textSecondary }}>No {resultFilter} items.</Text> : null}
+          {!displayedAnswers.length ? <Text style={{ color: theme.textSecondary }}>{uiT("ui.no_1ea442a1")} {resultFilter} {uiT("ui.items_f11d3840")}</Text> : null}
         </> : null}
-        <TouchableOpacity accessibilityRole="button" style={[styles.done, { backgroundColor: theme.primary }]} onPress={leave}><Text style={styles.doneLabel}>Back to home</Text></TouchableOpacity>
+        <TouchableOpacity accessibilityRole="button" style={[styles.done, { backgroundColor: theme.primary }]} onPress={leave}><Text style={styles.doneLabel}>{uiT("ui.back_to_home_76c5505f")}</Text></TouchableOpacity>
       </ScrollView>
     </SafeAreaView> : null}
     {state.lanes.map((lane) => {
@@ -184,7 +187,7 @@ export function MixedReviewSession({ mode }: { mode: "all" | "grammar" | "vocab"
       </View>;
     })}
     {!state.complete && state.active === "wanikani" && state.started ? <>
-      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Mixed review settings" disabled={isSaving} onPress={() => { Keyboard.dismiss(); setSettingsOpen(true); }} style={{ position: "absolute", top: wrapUp || progress.total - progress.completed > wrapUpSize ? 184 : 140, right: 16 + (reviewSearchEnabled ? 48 : 0) + (jitaiEnabled ? 48 : 0), minHeight: 44, minWidth: 36, padding: 8, zIndex: 40 }}><Text style={{ color: theme.textColor }}>⚙</Text></TouchableOpacity>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel={uiT("ui.mixed_review_settings_f45d73aa")} disabled={isSaving} onPress={() => { Keyboard.dismiss(); setSettingsOpen(true); }} style={{ position: "absolute", top: wrapUp || progress.total - progress.completed > wrapUpSize ? 184 : 140, right: 16 + (reviewSearchEnabled ? 48 : 0) + (jitaiEnabled ? 48 : 0), minHeight: 44, minWidth: 36, padding: 8, zIndex: 40 }}><Text style={{ color: theme.textColor }}>⚙</Text></TouchableOpacity>
       {bunproProgression ? <View pointerEvents="none" style={{ position: "absolute", bottom: insets.bottom + 96, left: 24, right: 24 }}><BunproProgressionCard progression={bunproProgression} /></View> : null}
     </> : null}
     <BunproReviewSettingsSheet visible={settingsOpen} onClose={() => setSettingsOpen(false)} />

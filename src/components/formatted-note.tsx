@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, {
   useCallback,
@@ -76,6 +77,7 @@ export const FormattedNoteText = React.memo(function FormattedNoteText({
   selectable = true,
   onSubjectLinkPress,
 }: FormattedNoteTextProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const segments = useMemo(() => parseFormattedNote(text), [text]);
@@ -144,7 +146,7 @@ export const FormattedNoteText = React.memo(function FormattedNoteText({
       : theme.textColor;
     renderedSegments.push(
       <Text
-        accessibilityHint="Shows a quick subject preview"
+        accessibilityHint={uiT("ui.shows_a_quick_subject_preview_af48b435")}
         accessibilityLabel={linkText}
         accessibilityRole="link"
         key={`${index}:${subjectId}:${linkText}`}
@@ -237,15 +239,16 @@ const FORMAT_BUTTONS: {
   label: string;
   accessibilityLabel: string;
 }[] = [
-  { format: "bold", label: "B", accessibilityLabel: "Bold" },
-  { format: "italic", label: "I", accessibilityLabel: "Italic" },
-  { format: "underline", label: "U", accessibilityLabel: "Underline" },
+  { format: "bold", label: "B", get accessibilityLabel() { return uiT("ui.bold_94fee62e"); } },
+  { format: "italic", label: "I", get accessibilityLabel() { return uiT("ui.italic_9bf37cb5"); } },
+  { format: "underline", label: "U", get accessibilityLabel() { return uiT("ui.underline_02f84326"); } },
 ];
 
 export const FormattedNoteEditor = React.forwardRef<
   FormattedNoteEditorHandle,
   FormattedNoteEditorProps
 >(function FormattedNoteEditor(props, forwardedRef) {
+  useInterfaceLanguage();
   const advancedEditorEnabled = useSettingsStore(
     (state) => state.advancedNoteEditorEnabled,
   );
@@ -297,6 +300,7 @@ const PlainNoteEditor = React.forwardRef<
   },
   forwardedRef,
 ) {
+  useInterfaceLanguage();
   const currentValueRef = useRef(value);
   currentValueRef.current = value;
   const plainText = useMemo(
@@ -357,6 +361,7 @@ const RichNoteEditor = React.forwardRef<
   },
   forwardedRef,
 ) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const includeLinkCharacters = useSettingsStore((state) => state.noteLinkIncludeCharacters);
@@ -988,7 +993,7 @@ const RichNoteEditor = React.forwardRef<
 
         <View style={styles.editorModeRow}>
           <View
-            accessibilityLabel="Note editor mode"
+            accessibilityLabel={uiT("ui.note_editor_mode_62629068")}
             accessibilityRole="tablist"
             style={[
               styles.modeSwitcher,
@@ -1052,7 +1057,7 @@ const RichNoteEditor = React.forwardRef<
               ]}
             >
               <Pressable
-                accessibilityLabel="Change subject link"
+                accessibilityLabel={uiT("ui.change_subject_link_75ea8fc2")}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: !editorIsEditable }}
                 disabled={!editorIsEditable}
@@ -1063,15 +1068,14 @@ const RichNoteEditor = React.forwardRef<
                 ]}
               >
                 <Text style={[styles.linkActionText, { color: theme.primary }]}>
-                  Change
-                </Text>
+                  {uiT("ui.change_c0bf75bd")} </Text>
               </Pressable>
               <Pressable
-                accessibilityLabel="Remove subject link"
+                accessibilityLabel={uiT("ui.remove_subject_link_7fa935cc")}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: !editorIsEditable }}
                 disabled={!editorIsEditable}
-                accessibilityHint="Removes the whole subject link and keeps its text"
+                accessibilityHint={uiT("ui.removes_the_whole_subject_link_and_keeps_its_text_e699bb4c")}
                 onPress={() => handleRemoveSelectedLink("link")}
                 style={({ pressed }) => [
                   styles.linkActionButton,
@@ -1079,8 +1083,7 @@ const RichNoteEditor = React.forwardRef<
                 ]}
               >
                 <Text style={[styles.linkActionText, { color: theme.error }]}>
-                  Remove
-                </Text>
+                  {uiT("ui.remove_c3812fc4")} </Text>
               </Pressable>
             </View>
           </View>
@@ -1088,7 +1091,7 @@ const RichNoteEditor = React.forwardRef<
         <View
           style={styles.toolbar}
           accessibilityRole="toolbar"
-          accessibilityLabel="Note formatting"
+          accessibilityLabel={uiT("ui.note_formatting_8fdbc7e6")}
         >
           {FORMAT_BUTTONS.map(({ format, label, accessibilityLabel }) => {
             const selected =
@@ -1100,7 +1103,7 @@ const RichNoteEditor = React.forwardRef<
                 key={format}
                 accessibilityRole="button"
                 accessibilityLabel={accessibilityLabel}
-                accessibilityHint={`Formats the selected note text as ${accessibilityLabel.toLocaleLowerCase("en-US")}`}
+                accessibilityHint={uiT("ui.dynamic_fe9ec3474174", {value1: (accessibilityLabel.toLocaleLowerCase("en-US"))})}
                 accessibilityState={{ disabled: !editorIsEditable, selected }}
                 disabled={!editorIsEditable}
                 onPress={() => handleFormatPress(format)}

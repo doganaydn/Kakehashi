@@ -1,8 +1,10 @@
+import { uiT, useInterfaceLanguage } from "../../../../src/features/interface-language/runtime";
 import { Stack, useRouter } from "expo-router";
 import { supportsNativeTabs } from "../../../../src/utils/nativeTabs";
 import { bunproNativeSearchBarRef } from "./searchBarRef";
 
 export default function BunproSearchLayout() {
+  useInterfaceLanguage();
   const router = useRouter();
   const showNativeSearchBar = supportsNativeTabs();
 
@@ -20,7 +22,7 @@ export default function BunproSearchLayout() {
             ? {
                 ref: bunproNativeSearchBarRef,
                 placement: "automatic",
-                placeholder: "Search Bunpro grammar or vocabulary...",
+                placeholder: uiT("ui.search_bunpro_grammar_or_vocabulary_53042d3d"),
                 autoFocus: true,
                 onChangeText: (event) => {
                   const text = event?.nativeEvent?.text ?? "";

@@ -1,0 +1,22 @@
+<resources>
+  <string name="native_ui_1">AnkiDroid izin isteği zaten sürüyor</string>
+  <string name="native_ui_2">AnkiDroid izni istemek için açık bir ekran yok</string>
+  <string name="native_ui_3">Geçersiz AnkiDroid not türü</string>
+  <string name="native_ui_4">Seçilen AnkiDroid not türü kullanılamıyor</string>
+  <string name="native_ui_5">AnkiDroid dışa aktarma ayarları geçersiz</string>
+  <string name="native_ui_6">Seçilen AnkiDroid not türünün alanları değişti. Dışa aktarmayı yeniden ayarlayın.</string>
+  <string name="native_ui_7">AnkiDroid notu ekleyemedi</string>
+  <string name="native_ui_8">AnkiDroid yüklü değil</string>
+  <string name="native_ui_9">AnkiDroid erişimine izin verilmedi</string>
+  <string name="native_ui_10">AnkiDroid desteleri yüklenemedi</string>
+  <string name="native_ui_11">AnkiDroid not türleri yüklenemedi</string>
+  <string name="native_ui_12">AnkiDroid alanları yüklenemedi</string>
+  <string name="native_ui_13">Not AnkiDroid’e eklenemedi</string>
+  <string name="native_ui_14">Bildirim ayarları eksik</string>
+  <string name="native_ui_15">Bildirim izin isteği zaten sürüyor</string>
+  <string name="native_ui_16">İzin istemek için açık bir ekran yok</string>
+  <string name="native_ui_17">Bildirimlere izin verilmedi</string>
+  <string name="native_ui_18">WaniKani deneme bildirimi</string>
+  <string name="native_ui_19">Bu bir deneme! 42 yeni tekrar hazır.</string>
+  <string name="native_ui_20">Klavye dili ipucu güncellenemedi</string>
+</resources>

@@ -3,14 +3,15 @@
 Fork: https://github.com/doganaydn/Kakehashi · Dal: turkish-content.
 Upstream: Portego-00/Kakehashi; e9d29f4 güncellemesi birleştirildi.
 
-- Kişisel Android sürümü: 1.5.0-tr.15 / code 40 / arm64-v8a.
+- Derlenmiş kişisel Android sürümü: 1.5.0-tr.16 / code 41 / arm64-v8a. Son kaynak derleme/teslim sonucu ana projenin BUILD-MANIFEST-tr.16.json kaydında tutulur.
 - Uygulama kimliği: com.portego00.kakehashi.tr. Önceki kişisel imza ve kapalı upstream OTA korunur.
-- Kullanıcı son APK'yı telefonunda sorunsuz kullandığını bildirdi; her özellik ayrı doğrulanmış sayılmaz.
+- Kullanıcı önceki tr.15 APK'yı telefonunda sorunsuz kullandığını bildirdi; her özellik ayrı doğrulanmış sayılmaz.
 - Güncel dosya: translation-packages/wanikani-tr-v3.json, paket 1.5.0.
 - 1–60 anlamları, 491 radikal, 1–15 seviyelerden 5.522 cümle ve kullanım açıklaması.
 - Veri APK'ya gömülü değildir; Settings → Appearance üzerinden içe aktarılır.
 - Seçimli eş anlam aktarımı ve geri alma açık kullanıcı onayı gerektirir; otomatik aktarım yok.
-- Arayüz şu anda İngilizce. localization/ altında ilerideki UI çevirisinin kaynak envanteri var; henüz runtime'a bağlı değil.
+- Android arayüzünde İngilizce varsayılan; Appearance → App language ile Türkçe seçilebilir. Öğrenme paketi ve UI dili ayrıdır. Çevrimdışı kaynaklar runtime'a bağlıdır; dil tercihi Android widget/bildirim tarafında da saklanır.
+- Türkçe UI kataloğu taslak ve ayrıca düzeltilmiş metinlerden oluşur. Tüm ekranların cihaz kontrolü ve uzun metinlerin dilsel ikinci kontrolü bitmiş sayılmaz. Ayrıntı: localization/ANDROID-YERELLESTIRME.md.
 
 ## Çalışma kuralları
 

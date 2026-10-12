@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -20,6 +21,7 @@ function VoiceBar({ level, pulse, height, color, reducedMotion }: {
   color: string;
   reducedMotion: boolean;
 }) {
+  useInterfaceLanguage();
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scaleY: reducedMotion ? 0.65 : 0.25 + level.value * 0.65 + pulse.value * 0.1 }],
     opacity: reducedMotion ? 1 : 0.6 + level.value * 0.3 + pulse.value * 0.1,
@@ -34,6 +36,7 @@ export function VoiceAnswerStatus({ listening, paused, transcript, error, level 
   error: string | null;
   level: SharedValue<number>;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const reducedMotion = useReducedMotion();
   const pulse = useSharedValue(0);
@@ -62,7 +65,7 @@ export function VoiceAnswerStatus({ listening, paused, transcript, error, level 
       </View>
       <View style={styles.content}>
         <Text style={[styles.status, { color: error ? theme.error : theme.textSecondary }]}>
-          {error ? "Try again" : paused ? "Mic paused" : listening ? "Listening…" : "Mic on"}
+          {error ? uiT("ui.try_again_d8b8392e") : paused ? uiT("ui.mic_paused_eca4a596") : listening ? uiT("ui.listening_bbb4106e") : uiT("ui.mic_on_c0673f44")}
         </Text>
         {!!(transcript || error) && (
           <Text style={[styles.transcript, { color: theme.textColor }]} numberOfLines={3}>

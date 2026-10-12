@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -94,6 +95,7 @@ const WRITING_PRACTICE_SESSION_KEY =
   EXTRA_STUDY_SESSION_STORAGE_KEYS.WRITING_PRACTICE;
 
 export default function WritingPracticeSessionScreen() {
+  useInterfaceLanguage();
   useActivityTracking("writing_freehand");
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
@@ -215,9 +217,9 @@ export default function WritingPracticeSessionScreen() {
         }
         if (!params.sessionId) {
           Alert.alert(
-            "Session Not Available",
-            "Couldn't restore that writing practice session.",
-            [{ text: "OK", onPress: () => router.replace("/writing-practice-config") }],
+            uiT("ui.session_not_available_3b81ebff"),
+            uiT("ui.couldn_t_restore_that_writing_practice_session_40e4dd9e"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/writing-practice-config") }],
           );
           return;
         }
@@ -243,8 +245,8 @@ export default function WritingPracticeSessionScreen() {
       }
     } catch (error) {
       console.error("Failed to load config:", error);
-      Alert.alert("Error", "Failed to load practice configuration.", [
-        { text: "OK", onPress: () => router.back() },
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_practice_configuration_0ef0dd49"), [
+        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
       ]);
     }
   }, [params.resume, params.sessionId, restoreSavedWritingPracticeSession]);
@@ -259,7 +261,7 @@ export default function WritingPracticeSessionScreen() {
 
     try {
       setIsLoading(true);
-      setLoadingMessage("Fetching your kanji...");
+      setLoadingMessage(uiT("ui.message_8cd6f0430d15"));
       await clearSavedWritingPracticeSession();
 
       // Get assignments based on SRS filter
@@ -289,9 +291,9 @@ export default function WritingPracticeSessionScreen() {
         selectedListIds.length === 0
       ) {
         Alert.alert(
-          "No Kanji Available",
-          "No kanji found matching your SRS stage filters. Try including more stages or complete some lessons first!",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_kanji_available_b7212f9c"),
+          uiT("ui.no_kanji_found_matching_your_srs_stage_filters_try_including_more_a7fc25c7"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -312,14 +314,14 @@ export default function WritingPracticeSessionScreen() {
 
       if (candidateSubjectIds.length === 0) {
         Alert.alert(
-          "No Kanji Available",
-          "You haven't learned any kanji yet. Complete some kanji lessons first!",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_kanji_available_b7212f9c"),
+          uiT("ui.you_haven_t_learned_any_kanji_yet_complete_some_kanji_lessons_fir_79357d22"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
 
-      setLoadingMessage("Loading kanji details...");
+      setLoadingMessage(uiT("ui.message_5769d704dc19"));
 
       // Get subject details
       const kanjiSubjects: ApiSubject[] = [];
@@ -359,9 +361,9 @@ export default function WritingPracticeSessionScreen() {
 
       if (kanjiSubjects.length === 0) {
         Alert.alert(
-          "No Matching Kanji",
-          "No kanji match your level range. Try adjusting your settings.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_matching_kanji_c8358e57"),
+          uiT("ui.no_kanji_match_your_level_range_try_adjusting_your_settings_e5665c95"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -394,7 +396,7 @@ export default function WritingPracticeSessionScreen() {
       setCandidatePool(remainingKanji);
 
       // Preload stroke data for first few kanji
-      setLoadingMessage("Preloading stroke data...");
+      setLoadingMessage(uiT("ui.message_89f685a5efb0"));
       const charsToPreload = writingQuestions
         .slice(0, 3)
         .map((q) => q.character);
@@ -404,8 +406,8 @@ export default function WritingPracticeSessionScreen() {
       setIsLoading(false);
     } catch (error) {
       console.error("Failed to load questions:", error);
-      Alert.alert("Error", "Failed to load kanji for practice.", [
-        { text: "OK", onPress: () => router.back() },
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_kanji_for_practice_11228d31"), [
+        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
       ]);
     }
   }, [apiToken, clearSavedWritingPracticeSession, config]);
@@ -511,23 +513,23 @@ export default function WritingPracticeSessionScreen() {
   const handleExit = useCallback(() => {
     if (!isComplete && questions.length > 0) {
       Alert.alert(
-        "Exit Practice?",
-        "Want to continue this writing practice later?",
+        uiT("ui.exit_practice_f46b2536"),
+        uiT("ui.want_to_continue_this_writing_practice_later_a0edd1e6"),
         [
-          { text: "Cancel", style: "cancel" },
+          { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
           {
-            text: "Continue Later",
+            text: uiT("ui.continue_later_ba247ab0"),
             onPress: async () => {
               const wasSaved = await saveWritingPracticeSessionForLater();
               if (!wasSaved) {
-                Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
+                Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
                 return;
               }
               router.back();
             },
           },
           {
-            text: "Exit",
+            text: uiT("ui.exit_d17d84a6"),
             style: "destructive",
             onPress: async () => {
               await clearSavedWritingPracticeSession();
@@ -539,12 +541,7 @@ export default function WritingPracticeSessionScreen() {
     } else {
       router.back();
     }
-  }, [
-    clearSavedWritingPracticeSession,
-    isComplete,
-    questions.length,
-    saveWritingPracticeSessionForLater,
-  ]);
+  }, [clearSavedWritingPracticeSession, isComplete, questions.length, saveWritingPracticeSessionForLater, ]);
 
   useEffect(() => {
     if (isComplete) {
@@ -622,13 +619,11 @@ export default function WritingPracticeSessionScreen() {
           <ScrollView contentContainerStyle={styles.resultsContainer}>
             {/* Header */}
             <Text style={[styles.resultsTitle, { color: theme.textColor }]}>
-              Practice Complete!
-            </Text>
+              {uiT("ui.practice_complete_967dfcdd")} </Text>
             <Text
               style={[styles.resultsSubtitle, { color: theme.textSecondary }]}
             >
-              You practiced {stats.total} kanji
-            </Text>
+              {uiT("ui.you_practiced_46c370d6")} {stats.total} {uiT("ui.kanji_7faabe85")} </Text>
 
           {/* Stats Grid */}
           <View style={styles.statsGrid}>
@@ -640,8 +635,7 @@ export default function WritingPracticeSessionScreen() {
                   {stats.perfectCount}
                 </Text>
                 <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-                  Perfect
-                </Text>
+                  {uiT("ui.perfect_b7b5d051")} </Text>
               </View>
               <View
                 style={[styles.statCard, { backgroundColor: theme.cardBackground }]}
@@ -650,8 +644,7 @@ export default function WritingPracticeSessionScreen() {
                   {stats.totalMistakes}
                 </Text>
                 <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-                  Total Mistakes
-                </Text>
+                  {uiT("ui.total_mistakes_38c1ef53")} </Text>
               </View>
             </View>
             <View style={styles.statsRow}>
@@ -662,8 +655,7 @@ export default function WritingPracticeSessionScreen() {
                   {stats.avgMistakesPerKanji}
                 </Text>
                 <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-                  Avg mistakes per Kanji
-                </Text>
+                  {uiT("ui.avg_mistakes_per_kanji_190e5983")} </Text>
               </View>
               <View
                 style={[styles.statCard, { backgroundColor: theme.cardBackground }]}
@@ -672,16 +664,14 @@ export default function WritingPracticeSessionScreen() {
                   {stats.skippedCount}
                 </Text>
                 <Text style={[styles.statLabel, { color: theme.textSecondary }]}>
-                  Skipped
-                </Text>
+                  {uiT("ui.skipped_12698ce1")} </Text>
               </View>
             </View>
           </View>
 
           {/* Kanji Grid */}
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            All Kanji
-          </Text>
+            {uiT("ui.all_kanji_3c3fe6d4")} </Text>
           <View style={styles.kanjiGrid}>
             {/* Render kanji in rows of 2 */}
             {Array.from({ length: Math.ceil(results.length / 2) }).map(
@@ -769,12 +759,12 @@ export default function WritingPracticeSessionScreen() {
                             ]}
                           >
                             {isSkipped
-                              ? "Skipped"
+                              ? uiT("ui.skipped_12698ce1")
                               : isPerfect
-                                ? "Perfect"
+                                ? uiT("ui.perfect_b7b5d051")
                                 : item.totalMistakes === 1
-                                  ? "mistake"
-                                  : "mistakes"}
+                                  ? uiT("ui.mistake_1b34ffb5")
+                                  : uiT("ui.mistakes_6294ed26")}
                           </Text>
                         </View>
                         {item.similarityPercent !== undefined && !isSkipped && (
@@ -784,8 +774,7 @@ export default function WritingPracticeSessionScreen() {
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {item.similarityPercent}% match
-                          </Text>
+                            {item.similarityPercent}{uiT("ui.match_d978b625")} </Text>
                         )}
                       </View>
                     </TouchableOpacity>
@@ -822,7 +811,7 @@ export default function WritingPracticeSessionScreen() {
                 router.replace("/");
               }}
             >
-              <Text style={styles.primaryButtonText}>Back to Dashboard</Text>
+              <Text style={styles.primaryButtonText}>{uiT("ui.back_to_dashboard_97ba1d39")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.secondaryButton, { borderColor: theme.border }]}
@@ -837,8 +826,7 @@ export default function WritingPracticeSessionScreen() {
               <Text
                 style={[styles.secondaryButtonText, { color: theme.textColor }]}
               >
-                Practice Again
-              </Text>
+                {uiT("ui.practice_again_7842287f")} </Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -895,8 +883,7 @@ export default function WritingPracticeSessionScreen() {
           {!isSubmissionVisible && (
             <View style={styles.promptContainer}>
               <Text style={[styles.promptLabel, { color: theme.textSecondary }]}>
-                Meaning
-              </Text>
+                {uiT("ui.meaning_1f5d64b9")} </Text>
               <Text style={[styles.promptText, { color: theme.textColor }]}>
                 {currentQuestion.meanings.join(", ")}
               </Text>
@@ -908,8 +895,7 @@ export default function WritingPracticeSessionScreen() {
                       { color: theme.textSecondary, marginTop: 8 },
                     ]}
                   >
-                    Reading
-                  </Text>
+                    {uiT("ui.reading_463816d0")} </Text>
                   <Text
                     style={[styles.promptReading, { color: theme.textSecondary }]}
                   >

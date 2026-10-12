@@ -1,3 +1,4 @@
+import { uiMessage, uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, {
   startTransition,
@@ -108,6 +109,7 @@ function withTimeout<T>(
 }
 
 export default function SubjectDetailsScreen() {
+  useInterfaceLanguage();
   const noteModalInsets = useSafeAreaInsets();
   const { id, initialTab, from } = useLocalSearchParams<{
     id: string;
@@ -305,14 +307,14 @@ export default function SubjectDetailsScreen() {
 
   const fetchSubjectData = async (showLoading = true, cachedSubject?: any) => {
     if (!apiToken || !id) {
-      setError("Missing API token or subject ID");
+      setError(uiT("ui.message_56a73e2dc93e"));
       setInitialLoading(false);
       return;
     }
 
     const parsedId = parseInt(id as string, 10);
     if (Number.isNaN(parsedId)) {
-      setError("Invalid subject ID");
+      setError(uiT("ui.message_3e5b064ea6ce"));
       setInitialLoading(false);
       return;
     }
@@ -568,7 +570,7 @@ export default function SubjectDetailsScreen() {
       // Only set error if we don't have cached data
       // If showLoading is false, we're doing background revalidation, so don't show error
       if (showLoading && !subjectData) {
-        setError("Failed to load subject data. Please try again.");
+        setError(uiT("ui.message_4ea3b2df6eb1"));
       }
       setInitialLoading(false);
     }
@@ -666,10 +668,8 @@ export default function SubjectDetailsScreen() {
       setShowNoteModal(false);
     } catch (error) {
       Alert.alert(
-        "Error",
-        `Failed to save note: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
+        uiT("ui.error_54a0e8c1"),
+        uiT("ui.failed_to_save_note_value_f35ce596", {value1: (error instanceof Error ? error.message : "Unknown error")})
       );
     } finally {
       setIsSavingNote(false);
@@ -712,10 +712,8 @@ export default function SubjectDetailsScreen() {
       console.error("❌ Error saving synonyms:", error);
       console.error("❌ Error details:", JSON.stringify(error, null, 2));
       Alert.alert(
-        "Error",
-        `Failed to save synonyms: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
+        uiT("ui.error_54a0e8c1"),
+        uiT("ui.failed_to_save_synonyms_value_99f8f8c2", {value1: (error instanceof Error ? error.message : "Unknown error")})
       );
       throw error; // Re-throw so the modal knows it failed
     }
@@ -732,8 +730,7 @@ export default function SubjectDetailsScreen() {
       >
         <ActivityIndicator size="large" color={theme.secondary} />
         <Text style={[styles.loadingText, { color: theme.textColor }]}>
-          Loading subject details...
-        </Text>
+          {uiT("ui.loading_subject_details_f4a5c9c7")} </Text>
       </View>
     );
   }
@@ -760,8 +757,7 @@ export default function SubjectDetailsScreen() {
         ]}
       >
         <Text style={[styles.errorText, { color: theme.error }]}>
-          No subject data found.
-        </Text>
+          {uiT("ui.no_subject_data_found_706d3102")} </Text>
       </View>
     );
   }
@@ -986,18 +982,18 @@ export default function SubjectDetailsScreen() {
       }
 
       setNoteText(currentNoteText);
-      Alert.alert("Discard note changes?", "Your changes will not be saved.", [
-        { text: "Keep editing", style: "cancel" },
+      Alert.alert(uiT("ui.discard_note_changes_be6f883a"), uiT("ui.your_changes_will_not_be_saved_7a5bc1d7"), [
+        { text: uiT("ui.keep_editing_e76fd2ad"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => setShowNoteModal(false),
         },
       ]);
     } catch {
       Alert.alert(
-        "Unable to close note",
-        "Please try again. Your changes are still here.",
+        uiT("ui.unable_to_close_note_08fcec44"),
+        uiT("ui.please_try_again_your_changes_are_still_here_78a1e9b5"),
       );
     } finally {
       checkingNoteChangesRef.current = false;
@@ -1026,7 +1022,7 @@ export default function SubjectDetailsScreen() {
         >
           <View style={styles.modalHeader}>
             <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-              {noteType === "meaning" ? "Meaning Note" : "Reading Note"}
+              {noteType === "meaning" ? uiT("ui.meaning_note_2991d09a") : uiT("ui.reading_note_72ec4fc8")}
             </Text>
 
             <TouchableOpacity
@@ -1034,7 +1030,7 @@ export default function SubjectDetailsScreen() {
               onPress={closeNoteModal}
               disabled={isSavingNote}
               accessibilityRole="button"
-              accessibilityLabel="Close note editor"
+              accessibilityLabel={uiT("ui.close_note_editor_61a1c88c")}
             >
               <Text
                 style={[
@@ -1063,10 +1059,8 @@ export default function SubjectDetailsScreen() {
             ]}
             value={noteText}
             onChangeText={setNoteText}
-            accessibilityLabel={`${
-              noteType === "meaning" ? "Meaning" : "Reading"
-            } note text`}
-            placeholder={`Add your ${noteType} note here...`}
+            accessibilityLabel={uiT("ui.dynamic_07ededdab2cc", {value1: (noteType === "meaning" ? uiT("ui.meaning_1f5d64b9") : uiT("ui.reading_463816d0"))})}
+            placeholder={uiT("ui.dynamic_34710e02ac08", {value1: (uiMessage(noteType))})}
             placeholderTextColor={theme.textLight}
           />
 
@@ -1077,8 +1071,7 @@ export default function SubjectDetailsScreen() {
               disabled={isSavingNote}
             >
               <Text style={[styles.modalButtonText, { color: theme.textColor }]}>
-                Cancel
-              </Text>
+                {uiT("ui.cancel_19766ed6")} </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -1094,8 +1087,7 @@ export default function SubjectDetailsScreen() {
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
                 <Text style={[styles.modalButtonText, { color: "white" }]}>
-                  Save
-                </Text>
+                  {uiT("ui.save_1509f561")} </Text>
               )}
             </TouchableOpacity>
           </View>
@@ -1222,7 +1214,7 @@ export default function SubjectDetailsScreen() {
           ]}
         >
           <Text style={[styles.errorText, { color: theme.error }]}>
-            Unknown subject type: {subjectData.object}
+            {uiT("ui.unknown_subject_type_0a37409a")} {subjectData.object}
           </Text>
         </View>
       );

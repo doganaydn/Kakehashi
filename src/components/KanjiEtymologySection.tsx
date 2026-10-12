@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import React from "react";
 import {
   Linking,
@@ -28,6 +29,7 @@ export default function KanjiEtymologySection({
   visible = true,
   style,
 }: KanjiEtymologySectionProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const styles = createStyles(theme);
   const entry: KanjiEtymologyEntry | null = visible
@@ -61,7 +63,7 @@ export default function KanjiEtymologySection({
         </Text>
       ) : null}
       <TouchableOpacity
-        accessibilityHint="Opens the etymology source"
+        accessibilityHint={uiT("ui.opens_the_etymology_source_a5e249bb")}
         accessibilityLabel={`Source: ${entry.source.title}`}
         accessibilityRole="link"
         activeOpacity={0.7}
@@ -69,7 +71,7 @@ export default function KanjiEtymologySection({
         style={styles.sourceLink}
       >
         <Text selectable style={styles.sourceText}>
-          Source: {entry.source.title} ↗
+          {uiT("ui.source_c707ee4e")} {entry.source.title} ↗
         </Text>
       </TouchableOpacity>
     </>
@@ -78,13 +80,12 @@ export default function KanjiEtymologySection({
   if (presentation === "details") {
     return (
       <View
-        accessibilityLabel="Kanji etymology"
+        accessibilityLabel={uiT("ui.kanji_etymology_364f20ef")}
         style={[styles.detailsSection, style]}
         testID="kanji-etymology-section"
       >
         <Text selectable style={styles.detailsTitle}>
-          Etymology
-        </Text>
+          {uiT("ui.etymology_205245c4")} </Text>
         <View style={styles.detailsCard} testID="kanji-etymology-card">
           {content}
         </View>
@@ -94,13 +95,12 @@ export default function KanjiEtymologySection({
 
   return (
     <View
-      accessibilityLabel="Kanji etymology"
+      accessibilityLabel={uiT("ui.kanji_etymology_364f20ef")}
       style={[styles.lessonCard, style]}
       testID="kanji-etymology-section"
     >
       <Text selectable style={styles.lessonTitle}>
-        Etymology
-      </Text>
+        {uiT("ui.etymology_205245c4")} </Text>
       {content}
     </View>
   );

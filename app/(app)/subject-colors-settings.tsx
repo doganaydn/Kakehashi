@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { router } from "expo-router";
@@ -43,8 +44,8 @@ const SUBJECT_COLOR_KEYS: SubjectColorType[] = [
 const SUBJECT_COLOR_PRESET_SETS: SubjectPresetSet[] = [
   {
     key: "light",
-    title: "Light",
-    description: "Classic default palette for light mode.",
+    get title() { return uiT("ui.light_dbcd5e7b"); },
+    get description() { return uiT("ui.classic_default_palette_for_light_mode_045eff0c"); },
     colors: {
       radical: "#3c9bff",
       kanji: "#fa1f62",
@@ -53,8 +54,8 @@ const SUBJECT_COLOR_PRESET_SETS: SubjectPresetSet[] = [
   },
   {
     key: "dark",
-    title: "Dark",
-    description: "Deep tones for dark mode.",
+    get title() { return uiT("ui.dark_60acc53f"); },
+    get description() { return uiT("ui.deep_tones_for_dark_mode_6f04e3f7"); },
     colors: {
       radical: "#1f4f85",
       kanji: "#8f1d43",
@@ -63,8 +64,8 @@ const SUBJECT_COLOR_PRESET_SETS: SubjectPresetSet[] = [
   },
   {
     key: "sepia",
-    title: "Sepia",
-    description: "Warmer tones tuned for sepia reading.",
+    get title() { return uiT("ui.sepia_7464e26f"); },
+    get description() { return uiT("ui.warmer_tones_tuned_for_sepia_reading_3565dfbc"); },
     colors: {
       radical: "#4f90cc",
       kanji: "#dc5f72",
@@ -73,8 +74,8 @@ const SUBJECT_COLOR_PRESET_SETS: SubjectPresetSet[] = [
   },
   {
     key: "midnight",
-    title: "Midnight",
-    description: "Extra-dark, high contrast midnight accents.",
+    get title() { return uiT("ui.midnight_aa996cf2"); },
+    get description() { return uiT("ui.extra_dark_high_contrast_midnight_accents_d06cdb90"); },
     colors: {
       radical: "#173a63",
       kanji: "#701534",
@@ -91,20 +92,20 @@ const SUBJECT_COLOR_ITEMS: {
 }[] = [
   {
     key: "radical",
-    title: "Radicals",
-    description: "Used for radical cards, tags, and highlights.",
+    get title() { return uiT("ui.radicals_80608601"); },
+    get description() { return uiT("ui.used_for_radical_cards_tags_and_highlights_41b0b4f3"); },
     icon: "shapes",
   },
   {
     key: "kanji",
-    title: "Kanji",
-    description: "Used for kanji cards, badges, and reading accents.",
+    get title() { return uiT("ui.kanji_45f62a35"); },
+    get description() { return uiT("ui.used_for_kanji_cards_badges_and_reading_accents_a6988354"); },
     icon: "language",
   },
   {
     key: "vocabulary",
-    title: "Vocabulary",
-    description: "Used for vocabulary cards, chips, and context accents.",
+    get title() { return uiT("ui.vocabulary_eebd90a0"); },
+    get description() { return uiT("ui.used_for_vocabulary_cards_chips_and_context_accents_a985306f"); },
     icon: "book",
   },
 ];
@@ -141,6 +142,7 @@ function getThemePresetKey(themeMode: string, isDark: boolean): PresetKey {
 }
 
 export default function SubjectColorsSettings() {
+  useInterfaceLanguage();
   const { theme, themeMode } = useTheme();
   const insets = useSafeAreaInsets();
 
@@ -282,18 +284,18 @@ export default function SubjectColorsSettings() {
           style={styles.backButton}
           onPress={() => router.back()}
           accessibilityRole="button"
-          accessibilityLabel="Go back"
+          accessibilityLabel={uiT("ui.go_back_6aadac2f")}
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.title, { color: theme.textColor }]}>Subject Colors</Text>
+        <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.subject_colors_df0341bb")}</Text>
         <TouchableOpacity
           style={styles.resetButton}
           onPress={resetDefaults}
           accessibilityRole="button"
-          accessibilityLabel="Reset to default subject colors"
+          accessibilityLabel={uiT("ui.reset_to_default_subject_colors_26b8fe2a")}
         >
-          <Text style={[styles.resetButtonText, { color: theme.primary }]}>Reset</Text>
+          <Text style={[styles.resetButtonText, { color: theme.primary }]}>{uiT("ui.reset_daee7606")}</Text>
         </TouchableOpacity>
       </View>
 
@@ -312,10 +314,9 @@ export default function SubjectColorsSettings() {
             },
           ]}
         >
-          <Text style={[styles.presetTitle, { color: theme.textColor }]}>Preset Sets</Text>
+          <Text style={[styles.presetTitle, { color: theme.textColor }]}>{uiT("ui.preset_sets_aacb9f3f")}</Text>
           <Text style={[styles.presetSubtitle, { color: theme.textSecondary }]}> 
-            Apply all three colors at once. The highlighted set matches your current theme mode.
-          </Text>
+            {uiT("ui.apply_all_three_colors_at_once_the_highlighted_set_matches_your_c_70fdd9e0")} </Text>
 
           <View style={styles.presetSetGrid}>
             {SUBJECT_COLOR_PRESET_SETS.map((preset) => {
@@ -334,7 +335,7 @@ export default function SubjectColorsSettings() {
                   ]}
                   onPress={() => applyPresetSet(preset)}
                   accessibilityRole="button"
-                  accessibilityLabel={`Apply ${preset.title} preset set`}
+                  accessibilityLabel={uiT("ui.dynamic_83fa9e6db8ab", {value1: (preset.title)})}
                 >
                   <View style={styles.presetSetHeader}>
                     <Text style={[styles.presetSetTitle, { color: theme.textColor }]}>
@@ -347,7 +348,7 @@ export default function SubjectColorsSettings() {
                           { backgroundColor: theme.primary },
                         ]}
                       >
-                        <Text style={styles.themeBadgeText}>Theme</Text>
+                        <Text style={styles.themeBadgeText}>{uiT("ui.theme_efb52e71")}</Text>
                       </View>
                     ) : null}
                   </View>

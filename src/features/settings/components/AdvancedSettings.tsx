@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../../ui/settings/settings-icon";
 import React, {
   createContext,
@@ -67,6 +68,7 @@ export function AdvancedSettingsGroup({
   children: React.ReactNode;
   grouped?: boolean;
 }) {
+  useInterfaceLanguage();
   const { theme } = useSettingsControllerContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const expansionProgress = useSharedValue(0);
@@ -129,7 +131,7 @@ export function AdvancedSettingsGroup({
             <Text
               style={[componentStyles.settingText, { color: theme.textColor }]}
             >
-              {isExpanded ? "Collapse advanced settings" : "Advanced settings"}
+              {isExpanded ? uiT("ui.collapse_advanced_settings_31686fc3") : uiT("ui.advanced_settings_7b0bd218")}
             </Text>
             <Animated.View style={chevronStyle}>
               <Ionicons
@@ -146,6 +148,7 @@ export function AdvancedSettingsGroup({
 }
 
 export function AdvancedSetting({ children }: { children: React.ReactNode }) {
+  useInterfaceLanguage();
   const isExpanded = useContext(AdvancedSettingsContext);
   const searchRegistry = useContext(SettingsSearchRegistryContext);
 

@@ -1,3 +1,4 @@
+import { useInterfaceLanguage, uiT } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Keyboard, Modal, Platform, Pressable, StyleSheet, Text, View } from "react-native";
@@ -13,6 +14,7 @@ export type IssueView = "open" | "closed" | "activity";
 const labels: Record<IssueView, string> = { open: "Open", closed: "Closed", activity: "My activity" };
 
 export function IssueViewMenu({ selected, counts, onSelect }: { selected: IssueView; counts: { open: number | null; closed: number | null; activity: number }; onSelect: (view: IssueView) => void }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [visible, setVisible] = useState(false);
   const iconColor = theme.isDark ? theme.headerText : "#111111";
@@ -27,7 +29,7 @@ export function IssueViewMenu({ selected, counts, onSelect }: { selected: IssueV
 
   if (SwiftUI && modifiers) return <View style={styles.trigger} onTouchStart={Keyboard.dismiss}>
     <SwiftUI.Host matchContents style={styles.trigger}>
-      <SwiftUI.Menu modifiers={[modifiers.accessibilityLabel(`Community views, ${labels[selected]}`)]} label={<SwiftUI.Image systemName="line.3.horizontal.decrease" size={22} color={iconColor} modifiers={[modifiers.frame({ width: 44, height: 44 }), modifiers.glassEffect({ glass: { variant: "clear", interactive: true, tint: `${theme.headerBackground}40` }, shape: "circle" })]} />}
+      <SwiftUI.Menu modifiers={[modifiers.accessibilityLabel(uiT("ui.dynamic_6b8d876b7822", {value1: (labels[selected])}))]} label={<SwiftUI.Image systemName="line.3.horizontal.decrease" size={22} color={iconColor} modifiers={[modifiers.frame({ width: 44, height: 44 }), modifiers.glassEffect({ glass: { variant: "clear", interactive: true, tint: `${theme.headerBackground}40` }, shape: "circle" })]} />}
       >
         {options.map((view) => <SwiftUI.Button key={view} label={label(view)} systemImage={selected === view ? "checkmark" : undefined} onPress={() => select(view)} />)}
       </SwiftUI.Menu>
@@ -36,7 +38,7 @@ export function IssueViewMenu({ selected, counts, onSelect }: { selected: IssueV
   </View>;
 
   return <>
-    <Pressable accessibilityRole="button" accessibilityLabel={`Community views, ${labels[selected]}`} onPress={() => { Keyboard.dismiss(); setVisible(true); }}>{trigger}</Pressable>
+    <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.dynamic_6b8d876b7822", {value1: (labels[selected])})} onPress={() => { Keyboard.dismiss(); setVisible(true); }}>{trigger}</Pressable>
     <Modal transparent visible={visible} animationType="fade" onRequestClose={() => setVisible(false)}>
       <Pressable style={styles.overlay} onPress={() => setVisible(false)}>
         <View style={[styles.menu, { backgroundColor: theme.cardBackground }]}>

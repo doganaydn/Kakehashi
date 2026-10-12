@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import { router, Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
@@ -108,6 +109,7 @@ const findLookupMatchAtOffset = (
 };
 
 export default function EpubReaderScreen() {
+  useInterfaceLanguage();
   useActivityTracking("epub", { mode: "focus" });
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
@@ -206,7 +208,7 @@ export default function EpubReaderScreen() {
       return true;
     } catch (error) {
       console.error("Failed to save EPUB annotation:", error);
-      setAnnotationError("Could not save this change. Please try again.");
+      setAnnotationError(uiT("ui.message_62dcbb2a8d9c"));
       return false;
     } finally {
       annotationSaveInFlightRef.current = false;
@@ -564,7 +566,7 @@ export default function EpubReaderScreen() {
 
   const reloadBook = useCallback(async () => {
     if (!bookId) {
-      setLoadError("No EPUB selected.");
+      setLoadError(uiT("ui.message_6b701c05c623"));
       setIsLoading(false);
       return;
     }
@@ -596,11 +598,11 @@ export default function EpubReaderScreen() {
         annotationsLoadedRef.current = true;
       } catch (error) {
         console.error("Failed to load EPUB annotations:", error);
-        setAnnotationError("Could not load saved passages. Reopen the book to try again.");
+        setAnnotationError(uiT("ui.message_45022c034e44"));
       }
 
       if (!storedBook) {
-        setLoadError("This EPUB is no longer available in your library.");
+        setLoadError(uiT("ui.message_5b4040dc2a03"));
         setBook(null);
       } else {
         setBook(storedBook);
@@ -609,7 +611,7 @@ export default function EpubReaderScreen() {
       }
     } catch (error) {
       console.error("Failed to load EPUB book:", error);
-      setLoadError("Could not open this EPUB right now.");
+      setLoadError(uiT("ui.message_e9a3f5e75c2f"));
       setBook(null);
     } finally {
       setIsLoading(false);
@@ -795,7 +797,7 @@ export default function EpubReaderScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <Stack.Screen options={{ headerShown: false }} />
         <ActivityIndicator size="large" color={theme.primary} />
-        <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>Opening EPUB...</Text>
+        <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>{uiT("ui.opening_epub_209f3418")}</Text>
       </View>
     );
   }
@@ -806,16 +808,16 @@ export default function EpubReaderScreen() {
         <StatusBar style={theme.statusBarStyle} />
         <Stack.Screen options={{ headerShown: false }} />
         <Ionicons name="alert-circle-outline" size={64} color={theme.error} />
-        <Text style={[styles.errorTitle, { color: theme.textColor }]}>Could not open EPUB</Text>
+        <Text style={[styles.errorTitle, { color: theme.textColor }]}>{uiT("ui.could_not_open_epub_470886bf")}</Text>
         <Text style={[styles.errorSubtitle, { color: theme.textSecondary }]}>
-          {loadError || "Unknown reader error"}
+          {loadError || uiT("ui.unknown_reader_error_a0d22ac8")}
         </Text>
         <TouchableOpacity
           style={[styles.errorButton, { backgroundColor: theme.primary }]}
           onPress={() => router.back()}
           activeOpacity={0.8}
         >
-          <Text style={styles.errorButtonText}>Back to Library</Text>
+          <Text style={styles.errorButtonText}>{uiT("ui.back_to_library_0bd663c0")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -918,10 +920,9 @@ export default function EpubReaderScreen() {
           >
             <ActivityIndicator size="small" color={theme.primary} />
             <Text style={[styles.positioningTitle, { color: theme.textColor }]}>
-              Opening your page
-            </Text>
+              {uiT("ui.opening_your_page_f005aee9")} </Text>
             <Text style={[styles.positioningSubtitle, { color: theme.textSecondary }]}>
-              Jumping to page {initialPageForWebView}
+              {uiT("ui.jumping_to_page_f5668a85")} {initialPageForWebView}
             </Text>
           </View>
         </View>
@@ -952,7 +953,7 @@ export default function EpubReaderScreen() {
               {book.metadata.title}
             </Text>
             <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-              Page {currentPage} / {totalPages}
+              {uiT("ui.page_0a30a815")} {currentPage} / {totalPages}
             </Text>
           </View>
           <Pressable
@@ -973,7 +974,7 @@ export default function EpubReaderScreen() {
           <Pressable
             style={styles.annotationButton}
             accessibilityRole="button"
-            accessibilityLabel="Open bookmarks and highlights"
+            accessibilityLabel={uiT("ui.open_bookmarks_and_highlights_c84d426e")}
             onPress={() => {
               clearChromeHideTimer();
               setIsSavedPassagesVisible(true);
@@ -987,11 +988,11 @@ export default function EpubReaderScreen() {
       {selection && !isLookupModalVisible && !isSavedPassagesVisible ? (
         <View style={[styles.selectionActions, { bottom: readerBottomInset + 12, backgroundColor: theme.cardBackground, borderColor: theme.border }]}>
           {annotationError ? <Text style={{ color: theme.error, flexShrink: 1 }}>{annotationError}</Text> : null}
-          <Pressable accessibilityRole="button" accessibilityLabel="Highlight selected passage" disabled={isSavingAnnotation || !annotationsLoadedRef.current} onPress={saveHighlight} style={styles.highlightAction}>
+          <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.highlight_selected_passage_129e5d5e")} disabled={isSavingAnnotation || !annotationsLoadedRef.current} onPress={saveHighlight} style={styles.highlightAction}>
             <Ionicons name="pencil-outline" size={18} color={theme.primary} />
-            <Text style={{ color: theme.primary, fontSize: 15, fontWeight: "600" }}>{isSavingAnnotation ? "Saving…" : "Highlight"}</Text>
+            <Text style={{ color: theme.primary, fontSize: 15, fontWeight: "600" }}>{isSavingAnnotation ? uiT("ui.saving_23e39291") : uiT("ui.highlight_07ccd15d")}</Text>
           </Pressable>
-          <Pressable accessibilityRole="button" accessibilityLabel="Cancel text selection" style={styles.annotationButton} onPress={() => {
+          <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.cancel_text_selection_8a2a85bf")} style={styles.annotationButton} onPress={() => {
             setSelection(null);
             runReaderCommand("window.__WK_EPUB__?.clearSelection?.()");
           }}>
@@ -1062,8 +1063,8 @@ export default function EpubReaderScreen() {
                     <View style={styles.lookupLevelBadge}>
                       <Text style={styles.lookupLevelBadgeText}>
                         {isSelectedLookupWaniKaniBacked
-                          ? `Lv ${selectedLookupItem.level}`
-                          : "JPDB"}
+                          ? uiT("ui.lv_value_7c1085b4", {value1: (selectedLookupItem.level)})
+                          : uiT("ui.jpdb_a35a1116")}
                       </Text>
                     </View>
                   </View>
@@ -1075,7 +1076,7 @@ export default function EpubReaderScreen() {
                     ]}
                   >
                     <View style={styles.lookupRow}>
-                      <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>Type</Text>
+                      <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>{uiT("ui.type_baaddf70")}</Text>
                       <Text style={[styles.lookupValue, { color: theme.textColor }]}>
                         {selectedLookupTypeLabel}
                       </Text>
@@ -1084,8 +1085,7 @@ export default function EpubReaderScreen() {
                     {selectedLookupReading ? (
                       <View style={styles.lookupRow}>
                         <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>
-                          Reading
-                        </Text>
+                          {uiT("ui.reading_463816d0")} </Text>
                         <Text
                           style={[styles.lookupValue, { color: theme.textColor }, fontStyles.japaneseText]}
                         >
@@ -1095,7 +1095,7 @@ export default function EpubReaderScreen() {
                     ) : null}
 
                     <View style={styles.lookupRow}>
-                      <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>Meaning</Text>
+                      <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>{uiT("ui.meaning_1f5d64b9")}</Text>
                       <Text style={[styles.lookupValue, { color: theme.textColor }]}>
                         {selectedLookupItem.meaning}
                       </Text>
@@ -1104,8 +1104,7 @@ export default function EpubReaderScreen() {
                     {selectedLookupJpdbKanjiComposition.length > 0 ? (
                       <View style={styles.lookupRow}>
                         <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>
-                          Kanji
-                        </Text>
+                          {uiT("ui.kanji_45f62a35")} </Text>
                         <View style={styles.lookupKanjiCompositionWrap}>
                           {selectedLookupJpdbKanjiComposition.map((kanjiEntry) => (
                             <TouchableOpacity
@@ -1134,8 +1133,7 @@ export default function EpubReaderScreen() {
                     {selectedLookupInflectionLabels.length > 0 ? (
                       <View style={styles.lookupRow}>
                         <Text style={[styles.lookupLabel, { color: theme.textSecondary }]}>
-                          Form:
-                        </Text>
+                          {uiT("ui.form_31988f23")} </Text>
                         <Text style={[styles.lookupValue, { color: theme.textColor }]}>
                           {selectedLookupInflectionLabels.join(", ")}
                         </Text>
@@ -1148,7 +1146,7 @@ export default function EpubReaderScreen() {
                         onPress={openLookupDetails}
                         activeOpacity={0.85}
                       >
-                        <Text style={styles.lookupButtonText}>View details</Text>
+                        <Text style={styles.lookupButtonText}>{uiT("ui.view_details_d1bf045b")}</Text>
                         <Ionicons name="arrow-forward" size={16} color="#fff" />
                       </TouchableOpacity>
                     ) : null}

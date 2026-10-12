@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -74,7 +75,7 @@ const SIMILAR_KANJI_SOURCE_OPTIONS: {
   value: SimilarKanjiSource;
   label: string;
 }[] = [
-  { value: "niai", label: "Niai" },
+  { value: "niai", get label() { return uiT("ui.niai_d72a745b"); } },
   { value: "wanikani", label: "WaniKani" },
 ];
 
@@ -137,6 +138,7 @@ const sanitizeConfig = (
 };
 
 export default function SimilarKanjiConfigScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const params = useLocalSearchParams<{
@@ -259,12 +261,12 @@ export default function SimilarKanjiConfigScreen() {
       }
 
       Alert.alert(
-        "Resume Similar Kanji Match?",
-        "You have a match session in progress.",
+        uiT("ui.resume_similar_kanji_match_1486279a"),
+        uiT("ui.you_have_a_match_session_in_progress_790bbdf1"),
         [
-          { text: "Not Now", style: "cancel" },
+          { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
           {
-            text: "Discard",
+            text: uiT("ui.discard_eb1a70e3"),
             style: "destructive",
             onPress: () => {
               void clearExtraStudySessionState(
@@ -273,7 +275,7 @@ export default function SimilarKanjiConfigScreen() {
             },
           },
           {
-            text: "Resume",
+            text: uiT("ui.resume_d640c742"),
             onPress: () => {
               router.push({
                 pathname: "/similar-kanji-session" as any,
@@ -344,8 +346,7 @@ export default function SimilarKanjiConfigScreen() {
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Similar Kanji Match
-        </Text>
+          {uiT("ui.similar_kanji_match_e9a0b1a8")} </Text>
       </View>
 
       <ScrollView
@@ -354,8 +355,7 @@ export default function SimilarKanjiConfigScreen() {
       >
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Number of Rounds
-          </Text>
+            {uiT("ui.number_of_rounds_73fcb717")} </Text>
           <View style={styles.sliderContainer}>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.numberOfQuestions}
@@ -378,8 +378,7 @@ export default function SimilarKanjiConfigScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Kanji per Round
-          </Text>
+            {uiT("ui.kanji_per_round_a246e5d6")} </Text>
           <View style={styles.sliderContainer}>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.kanjiPerQuestion}
@@ -402,8 +401,7 @@ export default function SimilarKanjiConfigScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Similar Kanji Source
-          </Text>
+            {uiT("ui.similar_kanji_source_cc585406")} </Text>
           <View style={styles.segmentedControl}>
             {SIMILAR_KANJI_SOURCE_OPTIONS.map((option) => {
               const selected = config.similarKanjiSource === option.value;
@@ -440,16 +438,14 @@ export default function SimilarKanjiConfigScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Similar Kanji Pool
-          </Text>
+            {uiT("ui.similar_kanji_pool_3aaca90a")} </Text>
           <Text
             style={[
               styles.sectionDescription,
               { color: theme.textSecondary, marginBottom: 10 },
             ]}
           >
-            Keep rounds limited to kanji with active WaniKani assignments.
-          </Text>
+            {uiT("ui.keep_rounds_limited_to_kanji_with_active_wanikani_assignments_16dc4a6f")} </Text>
 
           <View
             style={[
@@ -465,8 +461,7 @@ export default function SimilarKanjiConfigScreen() {
             ]}
           >
             <Text style={[styles.toggleText, { color: theme.textColor }]}>
-              Only use learned similar kanji
-            </Text>
+              {uiT("ui.only_use_learned_similar_kanji_97e1fdde")} </Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.onlyLearnedSimilarKanji}
@@ -481,13 +476,11 @@ export default function SimilarKanjiConfigScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Include SRS Stages
-          </Text>
+            {uiT("ui.include_srs_stages_eb382d10")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Choose which progression stages to include as prompts.
-          </Text>
+            {uiT("ui.choose_which_progression_stages_to_include_as_prompts_1acd8b7b")} </Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = config.srsGroups[key];
@@ -540,14 +533,11 @@ export default function SimilarKanjiConfigScreen() {
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Levels
-          </Text>
+            {uiT("ui.levels_b1482131")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Without a subject list, includes levels 1 to your level ({userLevel}).
-            Selected lists can include any level.
-          </Text>
+            {uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_eade73ed")} </Text>
           <View
             style={[
               styles.toggleRow,
@@ -562,8 +552,7 @@ export default function SimilarKanjiConfigScreen() {
             ]}
           >
             <Text style={[styles.toggleText, { color: theme.textColor }]}>
-              Use custom level range
-            </Text>
+              {uiT("ui.use_custom_level_range_fdb84cae")} </Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -588,8 +577,7 @@ export default function SimilarKanjiConfigScreen() {
             <View>
               <View style={styles.levelSliderRow}>
                 <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>
-                  Min Level
-                </Text>
+                  {uiT("ui.min_level_4986a2df")} </Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>
                   {config.minLevel}
                 </Text>
@@ -611,8 +599,7 @@ export default function SimilarKanjiConfigScreen() {
               />
               <View style={[styles.levelSliderRow, { marginTop: 12 }]}>
                 <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>
-                  Max Level
-                </Text>
+                  {uiT("ui.max_level_2833a212")} </Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>
                   {config.maxLevel}
                 </Text>
@@ -649,8 +636,8 @@ export default function SimilarKanjiConfigScreen() {
                 ]}
               >
                 {config.selectedListIds.length > 0
-                  ? "All levels in selected lists"
-                  : `Levels 1 - ${userLevel}`}
+                  ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
+                  : uiT("ui.levels_1_value_97fc00a2", {value1: (userLevel)})}
               </Text>
             </View>
           )}
@@ -660,7 +647,7 @@ export default function SimilarKanjiConfigScreen() {
           selectedListIds={config.selectedListIds}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={["kanji"]}
-          description="Optional: only use prompt kanji from these saved lists."
+          description={uiT("ui.optional_only_use_prompt_kanji_from_these_saved_lists_3e7a4090")}
         />
 
         {!canStart() && (
@@ -676,8 +663,7 @@ export default function SimilarKanjiConfigScreen() {
           >
             <Ionicons name="warning" size={20} color="#ff9800" />
             <Text style={[styles.warningText, { color: "#ff9800" }]}>
-              Select at least one SRS stage to start.
-            </Text>
+              {uiT("ui.select_at_least_one_srs_stage_to_start_36defe24")} </Text>
           </View>
         )}
 
@@ -708,7 +694,7 @@ export default function SimilarKanjiConfigScreen() {
             color="white"
             style={{ marginRight: 8 }}
           />
-          <Text style={styles.startButtonText}>Start Similar Kanji Match</Text>
+          <Text style={styles.startButtonText}>{uiT("ui.start_similar_kanji_match_d2a26374")}</Text>
         </TouchableOpacity>
       </View>
     </View>

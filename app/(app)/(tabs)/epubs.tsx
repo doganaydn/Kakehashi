@@ -1,3 +1,4 @@
+import { uiPluralSuffix,  uiT, interfaceLocale, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
@@ -54,19 +55,19 @@ type SectionConfig = {
 const SECTION_CONFIG: SectionConfig[] = [
   {
     key: "reading",
-    title: "Currently Reading",
+    get title() { return uiT("ui.currently_reading_baafc2ec"); },
     icon: "book-outline",
     emptyLabel: "Books you start will appear here.",
   },
   {
     key: "queued",
-    title: "Queued",
+    get title() { return uiT("ui.queued_661ff40a"); },
     icon: "time-outline",
     emptyLabel: "Import more EPUB files to grow your queue.",
   },
   {
     key: "read",
-    title: "Finished",
+    get title() { return uiT("ui.finished_7804f7a7"); },
     icon: "checkmark-done-outline",
     emptyLabel: "Finished books will show up here.",
   },
@@ -130,7 +131,7 @@ function fallbackWeekDays(): ReadingGoalDay[] {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const dateKey = `${year}-${month}-${day}`;
-    const label = new Intl.DateTimeFormat(undefined, { weekday: "short" })
+    const label = new Intl.DateTimeFormat(interfaceLocale(), { weekday: "short" })
       .format(date)
       .slice(0, 1)
       .toUpperCase();
@@ -160,6 +161,7 @@ function getFallbackGoalsProgress(): ReadingGoalsProgress {
 }
 
 export default function EpubsTab() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const { width } = useWindowDimensions();
@@ -185,7 +187,7 @@ export default function EpubsTab() {
         setBooks(booksResult.value);
       } else {
         console.error("Failed to load EPUB library:", booksResult.reason);
-        Alert.alert("Unable to load books", "Please try again in a moment.");
+        Alert.alert(uiT("ui.unable_to_load_books_e9c79d2d"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
       }
 
       if (goalsResult.status === "fulfilled") {
@@ -265,8 +267,8 @@ export default function EpubsTab() {
     } catch (error) {
       console.error("Failed to import EPUB:", error);
       Alert.alert(
-        "Import failed",
-        "This EPUB could not be opened. Try another file or re-export it."
+        uiT("ui.import_failed_0a26f41a"),
+        uiT("ui.this_epub_could_not_be_opened_try_another_file_or_re_export_it_314207f9")
       );
     } finally {
       setIsImporting(false);
@@ -276,12 +278,12 @@ export default function EpubsTab() {
   const confirmDelete = useCallback(
     (book: EpubLibraryItem) => {
       Alert.alert(
-        "Delete this EPUB?",
-        `${book.title} will be removed from this device library.`,
+        uiT("ui.delete_this_epub_b431cb4f"),
+        uiT("ui.value_will_be_removed_from_this_device_library_d69f6d1f", {value1: (book.title)}),
         [
-          { text: "Cancel", style: "cancel" },
+          { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
           {
-            text: "Delete",
+            text: uiT("ui.delete_e2d0a549"),
             style: "destructive",
             onPress: async () => {
               try {
@@ -289,7 +291,7 @@ export default function EpubsTab() {
                 await loadData();
               } catch (error) {
                 console.error("Failed to delete EPUB:", error);
-                Alert.alert("Delete failed", "Please try again.");
+                Alert.alert(uiT("ui.delete_failed_8727e2ba"), uiT("ui.please_try_again_eea4fb33"));
               }
             },
           },
@@ -310,7 +312,7 @@ export default function EpubsTab() {
         await loadData();
       } catch (error) {
         console.error("Failed to update EPUB progress:", error);
-        Alert.alert(failureTitle, "Please try again.");
+        Alert.alert(failureTitle, uiT("ui.please_try_again_eea4fb33"));
       }
     },
     [loadData]
@@ -463,7 +465,7 @@ export default function EpubsTab() {
             <View style={styles.bookFooter}>
               <Text style={[styles.progressPercent, { color: progressColor }]}>{metrics.percent}%</Text>
               <Text style={[styles.bookFooterDate, { color: theme.textLight }]}>
-                Updated {formatDate(item.updatedAt)}
+                {uiT("ui.updated_3a5ecca1")} {formatDate(item.updatedAt)}
               </Text>
             </View>
           </TouchableOpacity>
@@ -479,12 +481,7 @@ export default function EpubsTab() {
         </View>
       );
     },
-    [
-      cardWidth,
-      coverHeight,
-      openBook,
-      theme,
-    ]
+    [cardWidth, coverHeight, openBook, theme, ]
   );
 
   return (
@@ -501,7 +498,7 @@ export default function EpubsTab() {
         ]}
       >
         <View style={styles.headerTextWrap}>
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>EPUB Reader</Text>
+          <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.epub_reader_62b70bc4")}</Text>
         </View>
 
         <View style={styles.headerActions}>
@@ -539,17 +536,16 @@ export default function EpubsTab() {
       {isLoading ? (
         <View style={styles.centerState}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>Loading library...</Text>
+          <Text style={[styles.centerStateText, { color: theme.textSecondary }]}>{uiT("ui.loading_library_296f311e")}</Text>
         </View>
       ) : books.length === 0 ? (
         <View style={styles.centerState}>
           <View style={[styles.emptyIconWrap, { backgroundColor: `${theme.primary}1A` }]}>
             <Ionicons name="book-outline" size={46} color={theme.primary} />
           </View>
-          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>No EPUB books yet</Text>
+          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{uiT("ui.no_epub_books_yet_73d6c63e")}</Text>
           <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-            Import your first book and your reading shelves will appear here.
-          </Text>
+            {uiT("ui.import_your_first_book_and_your_reading_shelves_will_appear_here_3b611808")} </Text>
           <TouchableOpacity
             style={[styles.emptyImportButton, { backgroundColor: theme.primary }]}
             onPress={handleImport}
@@ -557,7 +553,7 @@ export default function EpubsTab() {
             activeOpacity={0.86}
           >
             <Ionicons name="cloud-upload-outline" size={18} color="#fff" />
-            <Text style={styles.emptyImportButtonText}>Import EPUB</Text>
+            <Text style={styles.emptyImportButtonText}>{uiT("ui.import_epub_ca70d2f0")}</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -584,10 +580,9 @@ export default function EpubsTab() {
             ]}
           >
             <View style={styles.goalsTodayRow}>
-              <Text style={[styles.goalsTodayLabel, { color: theme.textColor }]}>Today</Text>
+              <Text style={[styles.goalsTodayLabel, { color: theme.textColor }]}>{uiT("ui.today_2b065c7c")}</Text>
               <Text style={[styles.goalsTodayValue, { color: theme.textColor }]}>
-                {goalsProgress.todayMinutes} / {goalsProgress.goalMinutes} min
-              </Text>
+                {goalsProgress.todayMinutes} / {goalsProgress.goalMinutes} {uiT("ui.min_1f6fa6f6")} </Text>
             </View>
 
             <View
@@ -611,8 +606,8 @@ export default function EpubsTab() {
 
             <Text style={[styles.goalsHint, { color: theme.textSecondary }]}>
               {goalsProgress.todayCompleted
-                ? "Goal reached for today."
-                : `${remainingGoalMinutes} more minute${remainingGoalMinutes === 1 ? "" : "s"} to hit your goal.`}
+                ? uiT("ui.goal_reached_for_today_fb715130")
+                : uiT("ui.value_more_minutevalue_to_hit_your_goal_08e28106", {value1: (remainingGoalMinutes), value2: (remainingGoalMinutes === 1 ? "" : "s")})}
             </Text>
 
             <View style={styles.streakRow}>
@@ -646,11 +641,10 @@ export default function EpubsTab() {
             </View>
 
             <Text style={[styles.streakText, { color: theme.textColor }]}>
-              Your reading streak is {goalsProgress.streakCurrent} day
-              {goalsProgress.streakCurrent === 1 ? "" : "s"}
+              {uiT("ui.your_reading_streak_is_80e002a6")} {goalsProgress.streakCurrent} {uiT("ui.day_944c27e5")} {uiPluralSuffix(goalsProgress.streakCurrent === 1 ? "" : "s")}
             </Text>
             <Text style={[styles.streakSubtext, { color: theme.textSecondary }]}>
-              Best streak: {goalsProgress.streakBest} day{goalsProgress.streakBest === 1 ? "" : "s"}
+              {uiT("ui.best_streak_802acbee")} {goalsProgress.streakBest} {uiT("ui.day_944c27e5")}{uiPluralSuffix(goalsProgress.streakBest === 1 ? "" : "s")}
             </Text>
           </View>
 
@@ -722,8 +716,7 @@ export default function EpubsTab() {
                 >
                   <Ionicons name="time-outline" size={18} color={theme.textColor} />
                   <Text style={[styles.bookMenuOptionText, { color: theme.textColor }]}>
-                    Move to queue
-                  </Text>
+                    {uiT("ui.move_to_queue_d10a1e70")} </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -733,8 +726,7 @@ export default function EpubsTab() {
                 >
                   <Ionicons name="refresh-outline" size={18} color={theme.textColor} />
                   <Text style={[styles.bookMenuOptionText, { color: theme.textColor }]}>
-                    Reset progress
-                  </Text>
+                    {uiT("ui.reset_progress_0b026c02")} </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -743,7 +735,7 @@ export default function EpubsTab() {
                   activeOpacity={0.82}
                 >
                   <Ionicons name="trash-outline" size={18} color={theme.error} />
-                  <Text style={[styles.bookMenuOptionText, { color: theme.error }]}>Delete</Text>
+                  <Text style={[styles.bookMenuOptionText, { color: theme.error }]}>{uiT("ui.delete_e2d0a549")}</Text>
                 </TouchableOpacity>
               </View>
             </TouchableWithoutFeedback>

@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import {
   HanziWriter,
@@ -40,6 +41,7 @@ function GridOverlay({
   size: number;
   color: string;
 }) {
+  useInterfaceLanguage();
   return (
     <Svg
       width={size}
@@ -82,6 +84,7 @@ export default function KanjiWriterQuiz({
   onNext,
   onUnavailable,
 }: KanjiWriterQuizProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { width: screenWidth } = useWindowDimensions();
   const isTablet = screenWidth >= 768;
@@ -353,8 +356,7 @@ export default function KanjiWriterQuiz({
           <View style={styles.loadingInner}>
             <ActivityIndicator size="large" color={theme.primary} />
             <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-              Loading...
-            </Text>
+              {uiT("ui.loading_47d2a515")} </Text>
           </View>
         </View>
         {/* Show progress badge placeholder */}
@@ -365,8 +367,7 @@ export default function KanjiWriterQuiz({
           ]}
         >
           <Text style={[styles.progressText, { color: theme.textSecondary }]}>
-            Loading...
-          </Text>
+            {uiT("ui.loading_47d2a515")} </Text>
         </View>
       </View>
     );
@@ -403,16 +404,16 @@ export default function KanjiWriterQuiz({
               ]}
             >
               {hasReplacement
-                ? "Stroke data not available"
-                : "Stroke data not available"}
+                ? uiT("ui.stroke_data_not_available_65d50934")
+                : uiT("ui.stroke_data_not_available_65d50934")}
             </Text>
             <Text style={[styles.errorSubtext, { color: theme.textSecondary }]}>
               {character}
             </Text>
             <Text style={[styles.autoSkipText, { color: theme.textSecondary }]}>
               {hasReplacement
-                ? "Finding another kanji..."
-                : "Skipping automatically..."}
+                ? uiT("ui.finding_another_kanji_a99535f4")
+                : uiT("ui.skipping_automatically_c374906a")}
             </Text>
           </View>
         </View>
@@ -423,7 +424,7 @@ export default function KanjiWriterQuiz({
           >
             <Ionicons name="arrow-forward" size={18} color="#fff" />
             <Text style={styles.skipButtonText}>
-              {hasReplacement ? "Next" : "Skip Now"}
+              {hasReplacement ? uiT("ui.next_1ff57a29") : uiT("ui.skip_now_e174ab1a")}
             </Text>
           </TouchableOpacity>
         )}
@@ -533,11 +534,11 @@ export default function KanjiWriterQuiz({
       >
         {isComplete ? (
           <Text style={[styles.progressText, { color: "#fff" }]}>
-            <Text style={{ fontWeight: "700" }}>Complete!</Text>
+            <Text style={{ fontWeight: "700" }}>{uiT("ui.complete_d0957425")}</Text>
           </Text>
         ) : (
           <Text style={[styles.progressText, { color: theme.textColor }]}>
-            Stroke{" "}
+            {uiT("ui.stroke_1582a13f")}{" "}
             <Text style={{ fontWeight: "700" }}>
               {Math.min(strokeNum + 1, totalStrokes)}
             </Text>
@@ -551,7 +552,7 @@ export default function KanjiWriterQuiz({
               { color: isComplete ? "rgba(255,255,255,0.8)" : theme.error },
             ]}
           >
-            {totalMistakes} mistake{totalMistakes !== 1 ? "s" : ""}
+            {totalMistakes} {uiT("ui.mistake_1b34ffb5")}{uiPluralSuffix(totalMistakes !== 1 ? "s" : "")}
           </Text>
         )}
       </View>
@@ -583,7 +584,7 @@ export default function KanjiWriterQuiz({
                 },
               ]}
             >
-              {isAnimating ? "Playing..." : "Replay"}
+              {isAnimating ? uiT("ui.playing_696b21fd") : uiT("ui.replay_c8dae637")}
             </Text>
           </TouchableOpacity>
 
@@ -591,7 +592,7 @@ export default function KanjiWriterQuiz({
             style={[styles.nextButton, { backgroundColor: "#4caf50" }]}
             onPress={handleNext}
           >
-            <Text style={styles.nextButtonText}>Next</Text>
+            <Text style={styles.nextButtonText}>{uiT("ui.next_1ff57a29")}</Text>
             <Ionicons name="arrow-forward" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -622,8 +623,7 @@ export default function KanjiWriterQuiz({
                 { color: showGrid ? "#fff" : theme.textColor },
               ]}
             >
-              Grid
-            </Text>
+              {uiT("ui.grid_0d7d12ac")} </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -651,8 +651,7 @@ export default function KanjiWriterQuiz({
                 { color: showOutline ? "#fff" : theme.textColor },
               ]}
             >
-              Outline
-            </Text>
+              {uiT("ui.outline_eabbf3ab")} </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -669,8 +668,7 @@ export default function KanjiWriterQuiz({
             <Text
               style={[styles.controlButtonText, { color: theme.textColor }]}
             >
-              Hint
-            </Text>
+              {uiT("ui.hint_a7b4cf9f")} </Text>
           </TouchableOpacity>
 
           {onSkip && (
@@ -692,8 +690,7 @@ export default function KanjiWriterQuiz({
               <Text
                 style={[styles.controlButtonText, { color: theme.textColor }]}
               >
-                Skip
-              </Text>
+                {uiT("ui.skip_28d03596")} </Text>
             </TouchableOpacity>
           )}
         </View>

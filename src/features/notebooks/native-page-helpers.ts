@@ -1,3 +1,4 @@
+import { uiT } from "../interface-language/runtime";
 import { NOTEBOOK_TEMPLATES } from "../../../web/src/features/notebooks/templates";
 import type { NotebookBlock, NotebookPage } from "./model";
 
@@ -28,7 +29,7 @@ export function duplicateNotebookTitle(title: string): string {
   const suffix = " (copy)";
   // Match the shared 240 UTF-16-unit title limit without cutting an emoji in half.
   const prefix = (title || "Untitled").slice(0, 240 - suffix.length).replace(/[\uD800-\uDBFF]$/, "");
-  return `${prefix}${suffix}`;
+  return uiT("ui.valuevalue_ae6ed6c2", {value1: (prefix), value2: (suffix)});
 }
 
 export function notebookDescendantIds(pages: readonly NotebookPage[], pageId: string): Set<string> {

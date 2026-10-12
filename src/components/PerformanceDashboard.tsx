@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -25,6 +26,7 @@ interface PerformanceDashboardProps {
 }
 
 export default function PerformanceDashboard({ visible, onClose }: PerformanceDashboardProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [sessions, setSessions] = useState<PerformanceSession[]>([]);
   const [selectedSession, setSelectedSession] = useState<PerformanceSession | null>(null);
@@ -90,17 +92,17 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
         
         <View style={styles.sessionStats}>
           <View style={styles.statItem}>
-            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Total Operations</Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{uiT("ui.total_operations_49c14f84")}</Text>
             <Text style={[styles.statValue, { color: theme.textColor }]}>{session.logs.length}</Text>
           </View>
           
           <View style={styles.statItem}>
-            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>API Calls</Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{uiT("ui.api_calls_8ca27181")}</Text>
             <Text style={[styles.statValue, { color: theme.textColor }]}>{analysis.apiCalls.length}</Text>
           </View>
           
           <View style={styles.statItem}>
-            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Cache Ops</Text>
+            <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{uiT("ui.cache_ops_9f56891b")}</Text>
             <Text style={[styles.statValue, { color: theme.textColor }]}>{analysis.cacheOperations.length}</Text>
           </View>
         </View>
@@ -108,8 +110,7 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
         {analysis.failedOperations.length > 0 && (
           <View style={[styles.errorBadge, { backgroundColor: theme.error + '20' }]}>
             <Text style={[styles.errorText, { color: theme.error }]}>
-              {analysis.failedOperations.length} failed operations
-            </Text>
+              {analysis.failedOperations.length} {uiT("ui.failed_operations_509b7b7c")} </Text>
           </View>
         )}
       </TouchableOpacity>
@@ -247,25 +248,25 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
     
     return (
       <View style={styles.analysisSection}>
-        <Text style={[styles.analysisTitle, { color: theme.textColor }]}>Performance Analysis</Text>
+        <Text style={[styles.analysisTitle, { color: theme.textColor }]}>{uiT("ui.performance_analysis_83501208")}</Text>
         
         <View style={styles.analysisGrid}>
           <View style={styles.analysisItem}>
-            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>Total Time</Text>
+            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>{uiT("ui.total_time_893bd4a5")}</Text>
             <Text style={[styles.analysisValue, { color: theme.primary }]}>
               {formatDuration(analysis.totalTime)}
             </Text>
           </View>
           
           <View style={styles.analysisItem}>
-            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>API Calls</Text>
+            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>{uiT("ui.api_calls_8ca27181")}</Text>
             <Text style={[styles.analysisValue, { color: theme.textColor }]}>
               {analysis.apiCalls.length}
             </Text>
           </View>
           
           <View style={styles.analysisItem}>
-            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>Cache Hits</Text>
+            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>{uiT("ui.cache_hits_35e14328")}</Text>
             <Text style={[styles.analysisValue, { color: theme.textColor }]}>
               {analysis.cacheOperations.filter(op => 
                 op.details && op.details.result === 'hit'
@@ -274,7 +275,7 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
           </View>
           
           <View style={styles.analysisItem}>
-            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>Failures</Text>
+            <Text style={[styles.analysisLabel, { color: theme.textSecondary }]}>{uiT("ui.failures_7bd31a02")}</Text>
             <Text style={[styles.analysisValue, { color: theme.error }]}>
               {analysis.failedOperations.length}
             </Text>
@@ -283,7 +284,7 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
 
         {analysis.slowestOperations.length > 0 && (
           <View style={styles.slowestSection}>
-            <Text style={[styles.slowestTitle, { color: theme.textColor }]}>Slowest Operations</Text>
+            <Text style={[styles.slowestTitle, { color: theme.textColor }]}>{uiT("ui.slowest_operations_1ed4d6bb")}</Text>
             {analysis.slowestOperations.slice(0, 5).map((log, index) => (
               <View key={log.id} style={styles.slowestItem}>
                 <Text style={[styles.slowestOperation, { color: theme.textSecondary }]}>
@@ -304,7 +305,7 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
       <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <View style={[styles.header, { backgroundColor: theme.headerBackground }]}>
-          <Text style={[styles.title, { color: theme.headerText }]}>Performance Dashboard</Text>
+          <Text style={[styles.title, { color: theme.headerText }]}>{uiT("ui.performance_dashboard_50c6354d")}</Text>
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
             <Ionicons name="close" size={24} color={theme.headerText} />
           </TouchableOpacity>
@@ -315,23 +316,20 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
             style={[styles.controlButton, { backgroundColor: theme.primary }]}
             onPress={handleClearLogs}
           >
-            <Text style={[styles.controlButtonText, { color: 'white' }]}>Clear Logs</Text>
+            <Text style={[styles.controlButtonText, { color: 'white' }]}>{uiT("ui.clear_logs_65e50783")}</Text>
           </TouchableOpacity>
           
           <Text style={[styles.sessionCount, { color: theme.textSecondary }]}>
-            {sessions.length} sessions recorded
-          </Text>
+            {sessions.length} {uiT("ui.sessions_recorded_7737ba67")} </Text>
         </View>
 
         {sessions.length === 0 ? (
           <View style={styles.emptyState}>
             <Ionicons name="analytics-outline" size={64} color={theme.textSecondary} />
             <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-              No performance data available.
-            </Text>
+              {uiT("ui.no_performance_data_available_9f694bfd")} </Text>
             <Text style={[styles.emptySubtext, { color: theme.textSecondary }]}>
-              Refresh the homepage to start collecting performance metrics.
-            </Text>
+              {uiT("ui.refresh_the_homepage_to_start_collecting_performance_metrics_78e589d2")} </Text>
           </View>
         ) : (
           <FlatList
@@ -363,12 +361,11 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
                 style={[styles.headerButton, { backgroundColor: theme.primary }]}
               >
                 <Ionicons name="copy-outline" size={18} color="white" />
-                <Text style={[styles.headerButtonText, { color: 'white' }]}>Log to Console</Text>
+                <Text style={[styles.headerButtonText, { color: 'white' }]}>{uiT("ui.log_to_console_963fd726")}</Text>
               </TouchableOpacity>
               
               <Text style={[styles.title, { color: theme.headerText }]}>
-                Session Details
-              </Text>
+                {uiT("ui.session_details_142027a2")} </Text>
               
               <TouchableOpacity 
                 onPress={() => setDetailsVisible(false)} 
@@ -383,7 +380,7 @@ export default function PerformanceDashboard({ visible, onClose }: PerformanceDa
                 {renderAnalysis()}
                 
                 <Text style={[styles.logsTitle, { color: theme.textColor }]}>
-                  All Operations ({selectedSession.logs.length})
+                  {uiT("ui.all_operations_6037234f")}{selectedSession.logs.length})
                 </Text>
                 
                 <FlatList

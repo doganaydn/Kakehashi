@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { SettingsIcon as Ionicons } from "../../src/ui/settings/settings-icon";
 
 import { router } from "expo-router";
@@ -89,23 +90,23 @@ const RECENT_LESSON_WINDOW_OPTIONS: {
 }[] = [
   {
     value: "apprentice",
-    label: "Default",
-    subtitle: "Matches WaniKani (apprentice-stage lessons).",
+    get label() { return uiT("ui.default_21b111cb"); },
+    get subtitle() { return uiT("ui.matches_wanikani_apprentice_stage_lessons_6b629f8d"); },
   },
   {
     value: "24h",
-    label: "Last 24 hours",
-    subtitle: "Only lessons completed in the last 24h.",
+    get label() { return uiT("ui.last_24_hours_5c37cf8f"); },
+    get subtitle() { return uiT("ui.only_lessons_completed_in_the_last_24h_87fec219"); },
   },
   {
     value: "7d",
-    label: "Last 7 days",
-    subtitle: "Only lessons completed in the last 7 days.",
+    get label() { return uiT("ui.last_7_days_0603deca"); },
+    get subtitle() { return uiT("ui.only_lessons_completed_in_the_last_7_days_19f3ec56"); },
   },
   {
     value: "30d",
-    label: "Last 30 days",
-    subtitle: "Only lessons completed in the last 30 days.",
+    get label() { return uiT("ui.last_30_days_f8f03fb4"); },
+    get subtitle() { return uiT("ui.only_lessons_completed_in_the_last_30_days_70d5251f"); },
   },
 ];
 
@@ -116,68 +117,67 @@ const SRS_BREAKDOWN_DISPLAY_OPTIONS: {
 }[] = [
   {
     value: "combined",
-    label: "Single Card (Navigable)",
-    subtitle: "Graph + breakdown in one card with Details/Back.",
+    get label() { return uiT("ui.single_card_navigable_172cf6f3"); },
+    get subtitle() { return uiT("ui.graph_breakdown_in_one_card_with_details_back_497e6e77"); },
   },
   {
     value: "split",
-    label: "Two Cards",
-    subtitle:
-      "Graph and breakdown in separate cards (side by side on wide layouts).",
+    get label() { return uiT("ui.two_cards_aaee4645"); },
+    get subtitle() { return uiT("ui.graph_and_breakdown_in_separate_cards_side_by_side_on_wide_layout_e134e6fc"); },
   },
   {
     value: "graph",
-    label: "Graph Only",
-    subtitle: "Show only the graph card with no details navigation.",
+    get label() { return uiT("ui.graph_only_bc63dd15"); },
+    get subtitle() { return uiT("ui.show_only_the_graph_card_with_no_details_navigation_779ab8c7"); },
   },
   {
     value: "details",
-    label: "Breakdown Only",
-    subtitle: "Show only the breakdown list card with no graph navigation.",
+    get label() { return uiT("ui.breakdown_only_3b8dca62"); },
+    get subtitle() { return uiT("ui.show_only_the_breakdown_list_card_with_no_graph_navigation_97fd37df"); },
   },
 ];
 
 const LESSON_CARD_COLOR_FIELDS: EmbeddedColorField[] = [
-  { key: "widgetLessonCardGradientStart", label: "Lesson Gradient Start" },
-  { key: "widgetLessonCardGradientEnd", label: "Lesson Gradient End" },
+  { key: "widgetLessonCardGradientStart", get label() { return uiT("ui.lesson_gradient_start_950e9462"); } },
+  { key: "widgetLessonCardGradientEnd", get label() { return uiT("ui.lesson_gradient_end_4c776dc8"); } },
 ];
 
 const REVIEW_CARD_COLOR_FIELDS: EmbeddedColorField[] = [
-  { key: "widgetReviewCardGradientStart", label: "Review Gradient Start" },
-  { key: "widgetReviewCardGradientEnd", label: "Review Gradient End" },
+  { key: "widgetReviewCardGradientStart", get label() { return uiT("ui.review_gradient_start_567e15a3"); } },
+  { key: "widgetReviewCardGradientEnd", get label() { return uiT("ui.review_gradient_end_15c5261b"); } },
 ];
 
 const STREAK_CARD_COLOR_FIELDS: EmbeddedColorField[] = [
-  { key: "widgetStreakCardGradientStart", label: "Streak Gradient Start" },
-  { key: "widgetStreakCardGradientMiddle", label: "Streak Gradient Middle" },
-  { key: "widgetStreakCardGradientEnd", label: "Streak Gradient End" },
+  { key: "widgetStreakCardGradientStart", get label() { return uiT("ui.streak_gradient_start_bcff0d24"); } },
+  { key: "widgetStreakCardGradientMiddle", get label() { return uiT("ui.streak_gradient_middle_d5a216d2"); } },
+  { key: "widgetStreakCardGradientEnd", get label() { return uiT("ui.streak_gradient_end_2f6b899b"); } },
 ];
 
 const ANALYTICS_WIDGET_COLOR_FIELDS: Partial<
   Record<HomeWidgetId, EmbeddedColorField[]>
 > = {
   reviewHeatmap: [
-    { key: "widgetReviewHeatmapLevel1Color", label: "Heatmap Low" },
-    { key: "widgetReviewHeatmapLevel2Color", label: "Heatmap Mid-Low" },
-    { key: "widgetReviewHeatmapLevel3Color", label: "Heatmap Mid-High" },
-    { key: "widgetReviewHeatmapLevel4Color", label: "Heatmap High" },
+    { key: "widgetReviewHeatmapLevel1Color", get label() { return uiT("ui.heatmap_low_f4a8fecb"); } },
+    { key: "widgetReviewHeatmapLevel2Color", get label() { return uiT("ui.heatmap_mid_low_2deafd49"); } },
+    { key: "widgetReviewHeatmapLevel3Color", get label() { return uiT("ui.heatmap_mid_high_ab4d6035"); } },
+    { key: "widgetReviewHeatmapLevel4Color", get label() { return uiT("ui.heatmap_high_d4b8e57d"); } },
   ],
   levelTiming: [
-    { key: "widgetLevelTimingFastColor", label: "Fast Level Color" },
-    { key: "widgetLevelTimingAverageColor", label: "Average Level Color" },
-    { key: "widgetLevelTimingSlowColor", label: "Slow Level Color" },
-    { key: "widgetLevelTimingCurrentColor", label: "Current Level Color" },
-    { key: "widgetLevelTimingResetColor", label: "Reset Marker Color" },
+    { key: "widgetLevelTimingFastColor", get label() { return uiT("ui.fast_level_color_6b7a54d1"); } },
+    { key: "widgetLevelTimingAverageColor", get label() { return uiT("ui.average_level_color_dd774ed2"); } },
+    { key: "widgetLevelTimingSlowColor", get label() { return uiT("ui.slow_level_color_04d2af97"); } },
+    { key: "widgetLevelTimingCurrentColor", get label() { return uiT("ui.current_level_color_dfdb09c6"); } },
+    { key: "widgetLevelTimingResetColor", get label() { return uiT("ui.reset_marker_color_8873748c"); } },
   ],
   reviewStats: [
-    { key: "widgetReviewStatsExcellentColor", label: "Excellent Accuracy" },
-    { key: "widgetReviewStatsGoodColor", label: "Good Accuracy" },
-    { key: "widgetReviewStatsWarningColor", label: "Warning Accuracy" },
-    { key: "widgetReviewStatsPoorColor", label: "Poor Accuracy" },
-    { key: "widgetReviewStatsBadColor", label: "Bad Accuracy" },
-    { key: "widgetReviewStatsMeaningAccentColor", label: "Meaning Accent" },
-    { key: "widgetReviewStatsReadingAccentColor", label: "Reading Accent" },
-    { key: "widgetReviewStatsTotalAccentColor", label: "Total Accent" },
+    { key: "widgetReviewStatsExcellentColor", get label() { return uiT("ui.excellent_accuracy_2465395e"); } },
+    { key: "widgetReviewStatsGoodColor", get label() { return uiT("ui.good_accuracy_cf9dfc6e"); } },
+    { key: "widgetReviewStatsWarningColor", get label() { return uiT("ui.warning_accuracy_4f7d56be"); } },
+    { key: "widgetReviewStatsPoorColor", get label() { return uiT("ui.poor_accuracy_045cbc40"); } },
+    { key: "widgetReviewStatsBadColor", get label() { return uiT("ui.bad_accuracy_32f13b69"); } },
+    { key: "widgetReviewStatsMeaningAccentColor", get label() { return uiT("ui.meaning_accent_96a53d61"); } },
+    { key: "widgetReviewStatsReadingAccentColor", get label() { return uiT("ui.reading_accent_07a4af43"); } },
+    { key: "widgetReviewStatsTotalAccentColor", get label() { return uiT("ui.total_accent_94a4486b"); } },
   ],
 };
 
@@ -242,6 +242,7 @@ function buildDrafts(
 }
 
 export default function HomeCustomizationSettings() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
@@ -796,12 +797,12 @@ export default function HomeCustomizationSettings() {
 
   const handleResetPress = () => {
     Alert.alert(
-      "Reset Home Customization?",
-      "This will restore your default Home widgets, Extra Study carousel, and Recent Lessons range.",
+      uiT("ui.reset_home_customization_cb167150"),
+      uiT("ui.this_will_restore_your_default_home_widgets_extra_study_carousel_8e0bd3c0"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Reset",
+          text: uiT("ui.reset_daee7606"),
           style: "destructive",
           onPress: () => {
             resetHomeWidgetOrder();
@@ -976,8 +977,7 @@ export default function HomeCustomizationSettings() {
 
         <View style={styles.headerTextContainer}>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Home Customization
-          </Text>
+            {uiT("ui.home_customization_2482c0e7")} </Text>
         </View>
 
         <View style={styles.headerActions}>
@@ -1111,7 +1111,7 @@ export default function HomeCustomizationSettings() {
                     accessibilityRole="button"
                     accessibilityLabel={
                       isPinnedWidget
-                        ? `${definition.title} cannot be removed`
+                        ? uiT("ui.dynamic_0bbb7620313c", {value1: (definition.title)})
                         : `Remove ${definition.title}`
                     }
                   >
@@ -1301,11 +1301,10 @@ export default function HomeCustomizationSettings() {
                     }
                   >
                     <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                      Extra Study Carousel
-                    </Text>
+                      {uiT("ui.extra_study_carousel_34a378d4")} </Text>
                     <View style={styles.expandSectionButtonRight}>
                       <Text style={[styles.expandSectionButtonText, { color: theme.textColor }]}>
-                        {isExtraStudyExpanded ? "Hide" : "Customize"}
+                        {isExtraStudyExpanded ? uiT("ui.hide_ac20a57b") : uiT("ui.customize_c5276e27")}
                       </Text>
                       <Ionicons
                         name={isExtraStudyExpanded ? "chevron-up" : "chevron-down"}
@@ -1329,8 +1328,7 @@ export default function HomeCustomizationSettings() {
                             { color: theme.textSecondary },
                           ]}
                         >
-                          Manage Carousel Modes
-                        </Text>
+                          {uiT("ui.manage_carousel_modes_08fc1e54")} </Text>
                         <TouchableOpacity
                           style={[
                             styles.smallActionButton,
@@ -1365,15 +1363,13 @@ export default function HomeCustomizationSettings() {
                               },
                             ]}
                           >
-                            Add Mode
-                          </Text>
+                            {uiT("ui.add_mode_bcadf543")} </Text>
                         </TouchableOpacity>
                       </View>
 
                       {!canAddExtraStudyModes ? (
                         <Text style={[styles.disabledHintText, { color: theme.textSecondary }]}>
-                          All available Extra Study modes are already added.
-                        </Text>
+                          {uiT("ui.all_available_extra_study_modes_are_already_added_71eaaa70")} </Text>
                       ) : null}
 
                       <View style={styles.modeRowsWrap}>
@@ -1535,11 +1531,10 @@ export default function HomeCustomizationSettings() {
                     }
                   >
                     <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                      Lessons & Reviews Colors
-                    </Text>
+                      {uiT("ui.lessons_reviews_colors_a276dea6")} </Text>
                     <View style={styles.expandSectionButtonRight}>
                       <Text style={[styles.expandSectionButtonText, { color: theme.textColor }]}>
-                        {isColorSectionExpanded(item) ? "Hide" : "Customize"}
+                        {isColorSectionExpanded(item) ? uiT("ui.hide_ac20a57b") : uiT("ui.customize_c5276e27")}
                       </Text>
                       <Ionicons
                         name={isColorSectionExpanded(item) ? "chevron-up" : "chevron-down"}
@@ -1558,8 +1553,7 @@ export default function HomeCustomizationSettings() {
                     >
                       <View style={styles.inlineSectionHeader}>
                         <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                          Card Color Settings
-                        </Text>
+                          {uiT("ui.card_color_settings_3e036a8f")} </Text>
                         <TouchableOpacity
                           style={[
                             styles.smallActionButton,
@@ -1576,15 +1570,13 @@ export default function HomeCustomizationSettings() {
                           <Text
                             style={[styles.smallActionButtonText, { color: theme.textColor }]}
                           >
-                            Reset Colors
-                          </Text>
+                            {uiT("ui.reset_colors_2cf794db")} </Text>
                         </TouchableOpacity>
                       </View>
 
                       <View style={styles.switchRowCompact}>
                         <Text style={[styles.inlineSwitchLabel, { color: theme.textColor }]}>
-                          Lesson Card Follows Theme
-                        </Text>
+                          {uiT("ui.lesson_card_follows_theme_b0e62f13")} </Text>
                         <Switch
                           value={widgetLessonCardFollowTheme}
                           onValueChange={setWidgetLessonCardFollowTheme}
@@ -1599,8 +1591,7 @@ export default function HomeCustomizationSettings() {
 
                       <View style={styles.switchRowCompact}>
                         <Text style={[styles.inlineSwitchLabel, { color: theme.textColor }]}>
-                          Review Card Follows Theme
-                        </Text>
+                          {uiT("ui.review_card_follows_theme_3f915609")} </Text>
                         <Switch
                           value={widgetReviewCardFollowTheme}
                           onValueChange={setWidgetReviewCardFollowTheme}
@@ -1638,11 +1629,10 @@ export default function HomeCustomizationSettings() {
                     }
                   >
                     <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                      Streak Card Colors
-                    </Text>
+                      {uiT("ui.streak_card_colors_cf06f7c4")} </Text>
                     <View style={styles.expandSectionButtonRight}>
                       <Text style={[styles.expandSectionButtonText, { color: theme.textColor }]}>
-                        {isColorSectionExpanded(item) ? "Hide" : "Customize"}
+                        {isColorSectionExpanded(item) ? uiT("ui.hide_ac20a57b") : uiT("ui.customize_c5276e27")}
                       </Text>
                       <Ionicons
                         name={isColorSectionExpanded(item) ? "chevron-up" : "chevron-down"}
@@ -1661,8 +1651,7 @@ export default function HomeCustomizationSettings() {
                     >
                       <View style={styles.inlineSectionHeader}>
                         <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                          Card Color Settings
-                        </Text>
+                          {uiT("ui.card_color_settings_3e036a8f")} </Text>
                         <TouchableOpacity
                           style={[
                             styles.smallActionButton,
@@ -1679,15 +1668,13 @@ export default function HomeCustomizationSettings() {
                           <Text
                             style={[styles.smallActionButtonText, { color: theme.textColor }]}
                           >
-                            Reset Colors
-                          </Text>
+                            {uiT("ui.reset_colors_2cf794db")} </Text>
                         </TouchableOpacity>
                       </View>
 
                       <View style={styles.switchRowCompact}>
                         <Text style={[styles.inlineSwitchLabel, { color: theme.textColor }]}>
-                          Streak Card Follows Theme
-                        </Text>
+                          {uiT("ui.streak_card_follows_theme_6e3ce130")} </Text>
                         <Switch
                           value={widgetStreakCardFollowTheme}
                           onValueChange={setWidgetStreakCardFollowTheme}
@@ -1718,11 +1705,10 @@ export default function HomeCustomizationSettings() {
                     ]}
                     onPress={openSrsBreakdownDisplayModeSettings}
                     accessibilityRole="button"
-                    accessibilityLabel="Show SRS breakdown layout options"
+                    accessibilityLabel={uiT("ui.show_srs_breakdown_layout_options_4eb95794")}
                   >
                     <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                      SRS Breakdown Layout
-                    </Text>
+                      {uiT("ui.srs_breakdown_layout_2c21809a")} </Text>
                     <View style={styles.expandSectionButtonRight}>
                       <Text style={[styles.expandSectionButtonText, { color: theme.textColor }]}>
                         {selectedSrsBreakdownDisplayOption.label}
@@ -1757,11 +1743,10 @@ export default function HomeCustomizationSettings() {
                     }
                   >
                     <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                      Widget Colors
-                    </Text>
+                      {uiT("ui.widget_colors_977a9db1")} </Text>
                     <View style={styles.expandSectionButtonRight}>
                       <Text style={[styles.expandSectionButtonText, { color: theme.textColor }]}>
-                        {isColorSectionExpanded(item) ? "Hide" : "Customize"}
+                        {isColorSectionExpanded(item) ? uiT("ui.hide_ac20a57b") : uiT("ui.customize_c5276e27")}
                       </Text>
                       <Ionicons
                         name={isColorSectionExpanded(item) ? "chevron-up" : "chevron-down"}
@@ -1780,8 +1765,7 @@ export default function HomeCustomizationSettings() {
                     >
                       <View style={styles.inlineSectionHeader}>
                         <Text style={[styles.widgetSettingLabel, { color: theme.textSecondary }]}>
-                          Widget Color Settings
-                        </Text>
+                          {uiT("ui.widget_color_settings_def80c6f")} </Text>
                         <TouchableOpacity
                           style={[
                             styles.smallActionButton,
@@ -1798,8 +1782,7 @@ export default function HomeCustomizationSettings() {
                           <Text
                             style={[styles.smallActionButtonText, { color: theme.textColor }]}
                           >
-                            Reset Colors
-                          </Text>
+                            {uiT("ui.reset_colors_2cf794db")} </Text>
                         </TouchableOpacity>
                       </View>
 
@@ -1848,7 +1831,7 @@ export default function HomeCustomizationSettings() {
                 style={styles.sheetCloseButton}
                 onPress={closeSheet}
                 accessibilityRole="button"
-                accessibilityLabel="Close menu"
+                accessibilityLabel={uiT("ui.close_menu_6ccd5c78")}
               >
                 <Ionicons name="close" size={20} color={theme.textSecondary} />
               </TouchableOpacity>

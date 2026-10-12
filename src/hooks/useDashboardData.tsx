@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import {
   createContext,
   ReactNode,
@@ -448,6 +449,7 @@ const DashboardContext = createContext<DashboardContextType>({
 });
 
 export function DashboardProvider({ children }: { children: ReactNode }) {
+  useInterfaceLanguage();
   const { apiToken, setUserData, setLearnedKanjiCount, lastWrappedLevel, setLastWrappedLevel } =
     useAuthStore();
   const authUserId = useAuthStore((state) => state.userData?.id ?? null);
@@ -2303,9 +2305,9 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
           );
 
           Alert.alert(
-            "API Error",
-            "The WaniKani API rejected some requests. This could be due to request limitations. Showing partial data.",
-            [{ text: "OK" }]
+            uiT("ui.api_error_b2013ebe"),
+            uiT("ui.the_wanikani_api_rejected_some_requests_this_could_be_due_to_requ_cf8c03f5"),
+            [{ text: uiT("ui.ok_565339bc") }]
           );
         } else if (
           error instanceof Error &&
@@ -2316,9 +2318,9 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
           setErrorStatus("Authentication error. Please refresh and try again.");
 
           Alert.alert(
-            "Authentication Error",
-            "Could not verify your API token right now. Please pull to refresh. If this keeps happening, log out and log back in from Settings.",
-            [{ text: "OK" }]
+            uiT("ui.authentication_error_797b4f03"),
+            uiT("ui.could_not_verify_your_api_token_right_now_please_pull_to_refresh_ce4cb741"),
+            [{ text: uiT("ui.ok_565339bc") }]
           );
         } else {
           // Generic error message
@@ -2327,9 +2329,9 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
           );
 
           Alert.alert(
-            "Error",
-            "Failed to load complete dashboard data. Please check your internet connection.",
-            [{ text: "OK" }]
+            uiT("ui.error_54a0e8c1"),
+            uiT("ui.failed_to_load_complete_dashboard_data_please_check_your_internet_84e5dccb"),
+            [{ text: uiT("ui.ok_565339bc") }]
           );
         }
       } finally {
@@ -2362,13 +2364,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
         }
       }
     },
-    [
-      apiToken,
-      loadPendingProgressAssignmentIds,
-      processAssignments,
-      reconcileReviewCountWithVisibleEndpoint,
-      syncReviewNotificationState,
-    ]
+    [apiToken, loadPendingProgressAssignmentIds, processAssignments, reconcileReviewCountWithVisibleEndpoint, syncReviewNotificationState, ]
   );
 
   const refreshLessonReviewCountsFromLocalCache = useCallback(async () => {

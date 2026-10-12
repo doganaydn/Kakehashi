@@ -33,8 +33,9 @@ open class HomeWidgetProvider : AppWidgetProvider() {
     internal fun views(context: Context, props: JSONObject, width: Float, height: Float): RemoteViews {
       return RemoteViews(context.packageName, R.layout.kakehashi_home_widget).apply {
         setImageViewBitmap(R.id.widget_image, HomeWidgetRenderer.render(context, props, width, height))
-        setContentDescription(R.id.widget_image, HomeWidgetRenderer.description(props, width >= 250))
-        val launch = Intent(Intent.ACTION_VIEW, Uri.parse("kakehashi://"))
+        setContentDescription(R.id.widget_image, HomeWidgetRenderer.description(props, width >= 250, context))
+        val launch = (context.packageManager.getLaunchIntentForPackage(context.packageName)
+          ?: Intent(Intent.ACTION_VIEW, Uri.parse("kakehashitr://")))
           .setPackage(context.packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         setOnClickPendingIntent(R.id.widget_image, PendingIntent.getActivity(context, 421, launch,
           PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))

@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import {
   getCurrentTimezone,
   getLessonsStartedToday,
@@ -192,12 +193,12 @@ export function getReviewEstimateSourceLabel(
   source: ReviewEstimateSource,
 ): string {
   if (source === "review_statistics") {
-    return "review statistics updates";
+    return uiT("ui.review_statistics_updates_73e4f46d");
   }
 
   if (source === "assignment_updates") {
-    return "assignment activity updates";
+    return uiT("ui.assignment_activity_updates_6e26d3c9");
   }
 
-  return "the latest synced activity";
+  return uiT("ui.the_latest_synced_activity_0d05e0d3");
 }

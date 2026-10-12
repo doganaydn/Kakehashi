@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useState } from "react";
@@ -22,6 +23,7 @@ import { supportsNativeTabs } from "../../../src/utils/nativeTabs";
 import { useTheme } from "../../../src/utils/theme";
 
 export default function ItemsTab() {
+  useInterfaceLanguage();
   const { dashboardData, isLoading, loadingProgress, refreshData, errorStatus } = useDashboardData();
   const { theme } = useTheme();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -62,7 +64,7 @@ export default function ItemsTab() {
     return (
       <View style={[styles.loadingContainer, { backgroundColor: theme.backgroundColor }]}>
         <ActivityIndicator size="large" color={theme.secondary} />
-        <Text style={[styles.loadingText, { color: theme.textColor }]}>Loading items data...</Text>
+        <Text style={[styles.loadingText, { color: theme.textColor }]}>{uiT("ui.loading_items_data_233fd95d")}</Text>
       </View>
     );
   }
@@ -73,10 +75,9 @@ export default function ItemsTab() {
       <View style={[styles.header, { backgroundColor: theme.headerBackground }]}>
         <View style={styles.headerOverlay} />
         <View style={styles.headerContent}>
-          <Text style={[styles.headerTitle, { color: theme.headerText }]}>Item Collections</Text>
+          <Text style={[styles.headerTitle, { color: theme.headerText }]}>{uiT("ui.item_collections_a99f6188")}</Text>
           <Text style={[styles.headerSubtitle, { color: theme.headerText }]}>
-            Unlocks, critical items, and more
-          </Text>
+            {uiT("ui.unlocks_critical_items_and_more_b3ef9f55")} </Text>
         </View>
         <View style={styles.headerButtons}>
           <GlassButton

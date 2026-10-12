@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
@@ -34,6 +35,7 @@ function TroubleItem({
   delay: number;
   usesLargeText: boolean;
 }) {
+  useInterfaceLanguage();
   const translateX = useSharedValue(-40);
   const opacity = useSharedValue(0);
 
@@ -108,7 +110,7 @@ function TroubleItem({
           {item.primaryMeaning}
         </Text>
         <Text style={styles.mistakeCount}>
-          {item.totalIncorrect} mistake{item.totalIncorrect !== 1 ? "s" : ""}
+          {item.totalIncorrect} {uiT("ui.mistake_1b34ffb5")}{uiPluralSuffix(item.totalIncorrect !== 1 ? "s" : "")}
         </Text>
       </View>
 
@@ -125,6 +127,7 @@ function TroubleItem({
 }
 
 export function TroubleSlide({ mostMissed }: TroubleSlideProps) {
+  useInterfaceLanguage();
   const appTextSizeScale = useSettingsStore((state) => state.appTextSizeScale);
   const { fontScale } = useWindowDimensions();
   const usesLargeText = appTextSizeScale > 1 || fontScale > 1;
@@ -172,10 +175,9 @@ export function TroubleSlide({ mostMissed }: TroubleSlideProps) {
               color="#4ade80"
               style={styles.headerIcon}
             />
-            <Text style={styles.headerText}>No trouble items!</Text>
+            <Text style={styles.headerText}>{uiT("ui.no_trouble_items_21a0d209")}</Text>
             <Text style={styles.perfectText}>
-              You aced every single item. Incredible!
-            </Text>
+              {uiT("ui.you_aced_every_single_item_incredible_6f018aa9")} </Text>
           </View>
         </ScrollView>
       </LinearGradient>
@@ -207,7 +209,7 @@ export function TroubleSlide({ mostMissed }: TroubleSlideProps) {
               color="#f87171"
               style={styles.headerIcon}
             />
-            <Text style={styles.headerText}>These gave you trouble</Text>
+            <Text style={styles.headerText}>{uiT("ui.these_gave_you_trouble_302d9b54")}</Text>
           </Animated.View>
 
           <View style={styles.itemsList}>

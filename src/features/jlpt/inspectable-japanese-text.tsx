@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, useWindowDimensions } from "react-native";
@@ -29,6 +30,7 @@ export function InspectableJapaneseText({
   text: string;
   style?: object;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { width, height } = useWindowDimensions();
   const [matches, setMatches] = useState<AnyMatch[]>([]);
@@ -124,7 +126,7 @@ export function InspectableJapaneseText({
           segment.match ? (
             <Text
               accessibilityRole="button"
-              accessibilityHint="Shows WaniKani or JPDB information"
+              accessibilityHint={uiT("ui.shows_wanikani_or_jpdb_information_04e4d20b")}
               key={`${segment.match.id}-${index}-${segment.text}`}
               onPress={(event) =>
                 openTooltip(segment.match!, segment.text, event)

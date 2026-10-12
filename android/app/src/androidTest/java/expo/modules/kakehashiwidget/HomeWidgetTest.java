@@ -22,6 +22,17 @@ public class HomeWidgetTest {
 
   @Before public void setUp() throws Exception {
     context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    InterfaceLocale.INSTANCE.set(context, "en");
+  }
+
+  @Test public void testTurkishPreferenceSurvivesNewContextAndLocalizesDescriptions() throws Exception {
+    InterfaceLocale.INSTANCE.set(context, "tr");
+    Context recreated = context.createPackageContext(context.getPackageName(), 0);
+    assertEquals("tr", InterfaceLocale.INSTANCE.language(recreated));
+    JSONObject data = props("reviews", new String[]{"#FF7A18", "#FF5A3D", "#FF3F6C"});
+    assertTrue(HomeWidgetRenderer.INSTANCE.description(data, false, recreated).contains("84 tekrar hazır"));
+    InterfaceLocale.INSTANCE.set(context, "en");
+    assertTrue(HomeWidgetRenderer.INSTANCE.description(data, false, recreated).contains("Reviews"));
   }
 
   private JSONObject props(String mode, String[] colors) throws Exception {
@@ -81,7 +92,7 @@ public class HomeWidgetTest {
           assertEquals(0, bitmap.getPixel(0, 0)); // rounded clipping
           assertEquals(255, bitmap.getPixel(bitmap.getWidth() / 2, bitmap.getHeight() / 2) >>> 24);
           if (previous != null) assertFalse("Color change must redraw " + mode, previous.sameAs(bitmap));
-          String description = HomeWidgetRenderer.INSTANCE.description(data, width >= 250);
+          String description = HomeWidgetRenderer.INSTANCE.description(data, width >= 250, context);
           if (mode.equals("critical")) {
             assertTrue(description.contains("bridge"));
             assertEquals(width >= 250, description.contains("river"));
@@ -111,11 +122,11 @@ public class HomeWidgetTest {
     JSONObject data = props("critical", new String[]{"#FDE68A", "#FDBA74", "#FB7185"});
     data.put("criticalItems", new JSONArray()).put("criticalCount", 0);
     save(HomeWidgetRenderer.INSTANCE.render(context, data, 170, 170), "critical-empty");
-    assertTrue(HomeWidgetRenderer.INSTANCE.description(data, false).contains("No critical items"));
+    assertTrue(HomeWidgetRenderer.INSTANCE.description(data, false, context).contains("No critical items"));
     data.put("criticalItems", new JSONArray().put(new JSONObject().put("characters", "")
       .put("meaning", "a radical with a very long meaning").put("percentage", 0)));
     save(HomeWidgetRenderer.INSTANCE.render(context, data, 170, 170), "critical-radical");
-    assertTrue(HomeWidgetRenderer.INSTANCE.description(data, false).contains("Radical"));
+    assertTrue(HomeWidgetRenderer.INSTANCE.description(data, false, context).contains("Radical"));
     data.getJSONArray("criticalItems").getJSONObject(0).put("characters", "国際連合安全保障理事会")
       .put("reading", "こくさいれんごうあんぜんほしょうりじかい");
     for (float[] size : new float[][]{{110, 110}, {170, 220}, {250, 110}, {364, 170}, {600, 400}}) {

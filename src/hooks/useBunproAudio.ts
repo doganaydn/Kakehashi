@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Audio, type AudioSound } from "../utils/expoAvCompat";
 
@@ -44,7 +45,7 @@ export function useBunproAudio() {
     const startTimeout = () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
-        if (generation === generationRef.current) { void stop(); setError("Audio timed out. Replay it or continue."); }
+        if (generation === generationRef.current) { void stop(); setError(uiT("ui.message_21c0b29c66fb")); }
       }, 15000);
     };
     startTimeout();
@@ -74,7 +75,7 @@ export function useBunproAudio() {
               void playFrom(index + 1);
             } else { void stop(); }
           } else if (!status.isLoaded && status.error) {
-            void stop(); setError("Audio could not be played. Replay it or continue.");
+            void stop(); setError(uiT("ui.message_714d0a2bde3f"));
           }
         });
         setLoadingKey(null);
@@ -94,7 +95,7 @@ export function useBunproAudio() {
       if (generation === generationRef.current) {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         activeKeyRef.current = null; setLoadingKey(null); setPlayingKey(null);
-        setError("Audio could not be played. Replay it or continue.");
+        setError(uiT("ui.message_714d0a2bde3f"));
       }
     };
     await playFrom(0);

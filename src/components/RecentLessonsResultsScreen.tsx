@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -33,6 +34,7 @@ const CircularProgress = ({
   strokeWidth?: number;
   color?: string;
 }) => {
+  useInterfaceLanguage();
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -117,6 +119,7 @@ export default function RecentLessonsResultsScreen({
   onRestart,
   onBackToDashboard,
 }: RecentLessonsResultsProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const [selectedTab, setSelectedTab] = useState<"mistakes" | "all">(
@@ -223,6 +226,7 @@ export default function RecentLessonsResultsScreen({
     item: GroupedReviewItem;
     size?: number;
   }) => {
+  useInterfaceLanguage();
     const isRadical = item.type === "radical";
 
     // For radicals, try SVG fallback if no characters
@@ -316,8 +320,7 @@ export default function RecentLessonsResultsScreen({
               <Text
                 style={[styles.statusLabel, { color: theme.textSecondary }]}
               >
-                Meaning
-              </Text>
+                {uiT("ui.meaning_1f5d64b9")} </Text>
               <Ionicons
                 name={
                   meaningStatus === "correct"
@@ -342,8 +345,7 @@ export default function RecentLessonsResultsScreen({
                 <Text
                   style={[styles.statusLabel, { color: theme.textSecondary }]}
                 >
-                  Reading
-                </Text>
+                  {uiT("ui.reading_463816d0")} </Text>
                 <Ionicons
                   name={
                     readingStatus === "correct"
@@ -395,11 +397,9 @@ export default function RecentLessonsResultsScreen({
         {/* Header */}
         <View style={styles.header}>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            Practice Complete!
-          </Text>
+            {uiT("ui.practice_complete_967dfcdd")} </Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-            Great job practicing your recent lessons!
-          </Text>
+            {uiT("ui.great_job_practicing_your_recent_lessons_6bb0221c")} </Text>
         </View>
 
         {/* Summary Stats with Ring Progress */}
@@ -429,8 +429,7 @@ export default function RecentLessonsResultsScreen({
                 <Text
                   style={[styles.statLabel, { color: theme.textSecondary }]}
                 >
-                  Items Completed
-                </Text>
+                  {uiT("ui.items_completed_01ac16a9")} </Text>
               </View>
 
               <View style={styles.statItem}>
@@ -453,8 +452,7 @@ export default function RecentLessonsResultsScreen({
                 <Text
                   style={[styles.statLabel, { color: theme.textSecondary }]}
                 >
-                  Meaning Accuracy
-                </Text>
+                  {uiT("ui.meaning_accuracy_1788b651")} </Text>
               </View>
 
               <View style={styles.statItem}>
@@ -471,8 +469,7 @@ export default function RecentLessonsResultsScreen({
                 <Text
                   style={[styles.statLabel, { color: theme.textSecondary }]}
                 >
-                  Reading Accuracy
-                </Text>
+                  {uiT("ui.reading_accuracy_bceb2bb9")} </Text>
               </View>
             </View>
           </View>
@@ -486,8 +483,7 @@ export default function RecentLessonsResultsScreen({
           ]}
         >
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            By Category
-          </Text>
+            {uiT("ui.by_category_4171d1ae")} </Text>
 
           <View style={styles.categoryChartsContainer}>
             {["radical", "kanji", "vocabulary"].map((category) => {
@@ -555,7 +551,7 @@ export default function RecentLessonsResultsScreen({
                 },
               ]}
             >
-              Mistakes ({itemsWithMistakes.length})
+              {uiT("ui.mistakes_b1bed115")}{itemsWithMistakes.length})
             </Text>
           </TouchableOpacity>
 
@@ -575,8 +571,7 @@ export default function RecentLessonsResultsScreen({
                 },
               ]}
             >
-              All Items
-            </Text>
+              {uiT("ui.all_items_477730fc")} </Text>
           </TouchableOpacity>
         </View>
 
@@ -597,8 +592,8 @@ export default function RecentLessonsResultsScreen({
               <Ionicons name="checkmark-circle" size={64} color="#4caf50" />
               <Text style={[styles.emptyStateText, { color: theme.textColor }]}>
                 {selectedTab === "mistakes"
-                  ? "Perfect! No mistakes found."
-                  : "No items to display."}
+                  ? uiT("ui.perfect_no_mistakes_found_abf0b469")
+                  : uiT("ui.no_items_to_display_a0e9bed6")}
               </Text>
             </View>
           )}
@@ -619,7 +614,7 @@ export default function RecentLessonsResultsScreen({
             onPress={onRestart}
             activeOpacity={0.8}
           >
-            <Text style={styles.actionButtonText}>Practice Again</Text>
+            <Text style={styles.actionButtonText}>{uiT("ui.practice_again_7842287f")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -627,7 +622,7 @@ export default function RecentLessonsResultsScreen({
             onPress={onBackToDashboard}
             activeOpacity={0.8}
           >
-            <Text style={styles.actionButtonText}>Back to Dashboard</Text>
+            <Text style={styles.actionButtonText}>{uiT("ui.back_to_dashboard_97ba1d39")}</Text>
           </TouchableOpacity>
         </View>
       </View>

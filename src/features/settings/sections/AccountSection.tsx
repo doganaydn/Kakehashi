@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
 import { SettingsIcon as Ionicons } from "../../../ui/settings/settings-icon";
@@ -9,6 +10,7 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function AccountSection() {
+  useInterfaceLanguage();
   const { handleLogout, theme, updateSectionOffset } =
     useSettingsControllerContext();
 
@@ -33,8 +35,7 @@ export function AccountSection() {
             { color: theme.textColor, borderBottomColor: theme.border },
           ]}
         >
-          Account
-        </Text>
+          {uiT("ui.account_7e1b0d56")} </Text>
 
         <TouchableOpacity
           style={[styles.settingItem, { borderBottomColor: "transparent" }]}
@@ -47,8 +48,7 @@ export function AccountSection() {
             style={styles.settingIcon}
           />
           <SettingsLabel style={[styles.settingText, { color: "#e53935" }]}>
-            Sign Out
-          </SettingsLabel>
+            {uiT("ui.sign_out_0b184bc5")} </SettingsLabel>
         </TouchableOpacity>
       </SettingsSectionSurface>
     </>

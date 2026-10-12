@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import { Buffer } from "buffer";
 import { File } from "expo-file-system";
 import { getFileNameFromUri } from "./animeTranscriptDevHelpers";
@@ -303,7 +304,7 @@ function buildTrackLabel(track: MkvSubtitleTrack, fallbackOrder: number): string
   const name = track.name?.trim();
   const language = track.language?.trim();
   if (name && language) {
-    return `${name} (${language})`;
+    return uiT("ui.value_value_f69c76a0", {value1: (name), value2: (language)});
   }
   if (name) {
     return name;
@@ -311,7 +312,7 @@ function buildTrackLabel(track: MkvSubtitleTrack, fallbackOrder: number): string
   if (language) {
     return language;
   }
-  return `Track ${fallbackOrder + 1}`;
+  return uiT("ui.track_value_8c5fa3c4", {value1: (fallbackOrder + 1)});
 }
 
 export async function extractPreferredMkvSubtitleCues({

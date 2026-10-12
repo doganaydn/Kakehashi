@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 /**
  * Cache Integrity Service
  *
@@ -145,7 +146,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
       status.isHealthy = false;
       status.issues.push({
         type: 'no_cache',
-        description: 'No subjects cache found in storage',
+        description: uiT("ui.no_subjects_cache_found_in_storage_ef0ba93f"),
         severity: 'critical'
       });
       timer.end({ result: 'no_cache' });
@@ -160,7 +161,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
       status.isHealthy = false;
       status.issues.push({
         type: 'malformed_structure',
-        description: 'Cache entry exists but data property is missing',
+        description: uiT("ui.cache_entry_exists_but_data_property_is_missing_8a568e89"),
         severity: 'critical'
       });
       timer.end({ result: 'malformed_structure' });
@@ -171,7 +172,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
       status.isHealthy = false;
       status.issues.push({
         type: 'malformed_structure',
-        description: 'Cache data is not an array',
+        description: uiT("ui.cache_data_is_not_an_array_d666a9a1"),
         severity: 'critical'
       });
       timer.end({ result: 'malformed_structure' });
@@ -183,7 +184,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
       status.isHealthy = false;
       status.issues.push({
         type: 'empty_cache',
-        description: 'Cache is empty (0 subjects)',
+        description: uiT("ui.cache_is_empty_0_subjects_d6c9f618"),
         severity: 'critical'
       });
       timer.end({ result: 'empty_cache' });
@@ -237,7 +238,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
     for (const [type, count] of issuesByType) {
       status.issues.push({
         type,
-        description: `${count} subjects with ${type.replace(/_/g, ' ')}`,
+        description: uiT("ui.value_subjects_with_value_cb74677b", {value1: (count), value2: (type.replace(/_/g, ' '))}),
         severity: count > status.totalSubjects * 0.1 ? 'error' : 'warning',
         affectedCount: count
       });
@@ -246,7 +247,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
     if (duplicateCount > 0) {
       status.issues.push({
         type: 'duplicate_ids',
-        description: `${duplicateCount} duplicate subject IDs found`,
+        description: uiT("ui.value_duplicate_subject_ids_found_d6573dce", {value1: (duplicateCount)}),
         severity: duplicateCount > 10 ? 'error' : 'warning',
         affectedCount: duplicateCount
       });
@@ -256,7 +257,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
     if (status.totalSubjects < MIN_EXPECTED_SUBJECTS) {
       status.issues.push({
         type: 'insufficient_subjects',
-        description: `Only ${status.totalSubjects} subjects in cache (expected at least ${MIN_EXPECTED_SUBJECTS})`,
+        description: uiT("ui.only_value_subjects_in_cache_expected_at_least_value_b44c6fe8", {value1: (status.totalSubjects), value2: (MIN_EXPECTED_SUBJECTS)}),
         severity: 'error',
         affectedCount: status.totalSubjects
       });
@@ -272,7 +273,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
 
       status.issues.push({
         type: 'incomplete_cache',
-        description: `Cache is incomplete: ${status.totalSubjects} subjects cached but ${status.expectedSubjects} expected (missing ${missingCount}, ${missingPercentage.toFixed(1)}%)`,
+        description: uiT("ui.cache_is_incomplete_value_subjects_cached_but_value_expected_miss_253cc139", {value1: (status.totalSubjects), value2: (status.expectedSubjects), value3: (missingCount), value4: (missingPercentage.toFixed(1))}),
         severity,
         affectedCount: missingCount
       });
@@ -283,7 +284,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
     if (corruptionRate > MAX_CORRUPTION_RATE) {
       status.issues.push({
         type: 'high_corruption_rate',
-        description: `${(corruptionRate * 100).toFixed(1)}% of subjects are corrupted (threshold: ${MAX_CORRUPTION_RATE * 100}%)`,
+        description: uiT("ui.value_of_subjects_are_corrupted_threshold_value_31ac2350", {value1: ((corruptionRate * 100).toFixed(1)), value2: (MAX_CORRUPTION_RATE * 100)}),
         severity: 'critical',
         affectedCount: status.invalidSubjects
       });
@@ -311,7 +312,7 @@ export async function checkCacheHealth(): Promise<CacheHealthStatus> {
     status.isHealthy = false;
     status.issues.push({
       type: 'json_parse_error',
-      description: `Failed to read cache: ${error.message}`,
+      description: uiT("ui.failed_to_read_cache_value_96b9658a", {value1: (error.message)}),
       severity: 'critical'
     });
 
@@ -343,7 +344,7 @@ export async function repairCache(
     return {
       success: true,
       action: 'none',
-      message: 'Cache is already healthy, no repair needed',
+      message: uiT("ui.cache_is_already_healthy_no_repair_needed_0cbae510"),
       previousStatus
     };
   }
@@ -400,7 +401,7 @@ export async function repairCache(
           return {
             success: false,
             action: 'failed',
-            message: 'API returned empty or invalid data during repair',
+            message: uiT("ui.api_returned_empty_or_invalid_data_during_repair_eab63b44"),
             previousStatus
           };
         }
@@ -410,7 +411,7 @@ export async function repairCache(
         return {
           success: false,
           action: 'cleared',
-          message: `Cache cleared but refetch failed: ${fetchError.message}. App will retry on next load.`,
+          message: uiT("ui.cache_cleared_but_refetch_failed_value_app_will_retry_on_next_loa_27b2375e", {value1: (fetchError.message)}),
           previousStatus
         };
       }
@@ -421,7 +422,7 @@ export async function repairCache(
       return {
         success: true,
         action: 'cleared',
-        message: 'Corrupted cache cleared. Fresh data will be fetched on next app load.',
+        message: uiT("ui.corrupted_cache_cleared_fresh_data_will_be_fetched_on_next_app_lo_81a373a5"),
         previousStatus
       };
     }
@@ -431,7 +432,7 @@ export async function repairCache(
     return {
       success: false,
       action: 'failed',
-      message: `Cache repair failed: ${error.message}`,
+      message: uiT("ui.cache_repair_failed_value_f3d5bb69", {value1: (error.message)}),
       previousStatus
     };
   }

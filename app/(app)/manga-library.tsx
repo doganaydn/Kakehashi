@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -70,6 +71,7 @@ function formatSourceType(sourceType: MangaLibraryItem["sourceType"]): string {
 export default function MangaLibraryScreen({
   showBackButton = true,
 }: MangaLibraryScreenProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const insets = useSafeAreaInsets();
@@ -87,7 +89,7 @@ export default function MangaLibraryScreen({
       setMangas(libraryItems);
     } catch (error) {
       console.error("Failed to load manga library:", error);
-      Alert.alert("Could not load mangas", "Please try again in a moment.");
+      Alert.alert(uiT("ui.could_not_load_mangas_ea66ba10"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -141,8 +143,8 @@ export default function MangaLibraryScreen({
       } catch (error) {
         console.error("Failed to import manga:", error);
         Alert.alert(
-          "Import failed",
-          "This source could not be imported. Choose a valid CBZ file or a folder containing manga images."
+          uiT("ui.import_failed_0a26f41a"),
+          uiT("ui.this_source_could_not_be_imported_choose_a_valid_cbz_file_or_a_fo_562f09da")
         );
       } finally {
         setIsImporting(false);
@@ -153,7 +155,7 @@ export default function MangaLibraryScreen({
 
   const handleImport = useCallback(() => {
     if (!canAccessManga) {
-      Alert.alert("Restricted", "This feature is only available to Portego.");
+      Alert.alert(uiT("ui.restricted_a00571bc"), uiT("ui.this_feature_is_only_available_to_portego_52fde220"));
       return;
     }
 
@@ -161,37 +163,37 @@ export default function MangaLibraryScreen({
       return;
     }
 
-    Alert.alert("Import manga", "Choose your source format.", [
+    Alert.alert(uiT("ui.import_manga_736ed910"), uiT("ui.choose_your_source_format_5172b316"), [
       {
-        text: "CBZ file",
+        text: uiT("ui.cbz_file_642a2f0a"),
         onPress: () => {
           void runImport("file");
         },
       },
       {
-        text: "Image folder",
+        text: uiT("ui.image_folder_19c3939a"),
         onPress: () => {
           void runImport("directory");
         },
       },
-      { text: "Cancel", style: "cancel" },
+      { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
     ]);
   }, [canAccessManga, isImporting, runImport]);
 
   const confirmDelete = useCallback(
     (item: MangaLibraryItem) => {
       if (!canAccessManga) {
-        Alert.alert("Restricted", "This feature is only available to Portego.");
+        Alert.alert(uiT("ui.restricted_a00571bc"), uiT("ui.this_feature_is_only_available_to_portego_52fde220"));
         return;
       }
 
       Alert.alert(
-        "Remove this manga?",
-        `${item.title} will be deleted from this device, including OCR cache.`,
+        uiT("ui.remove_this_manga_e669d60c"),
+        uiT("ui.value_will_be_deleted_from_this_device_including_ocr_cache_90438380", {value1: (item.title)}),
         [
-          { text: "Cancel", style: "cancel" },
+          { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
           {
-            text: "Delete",
+            text: uiT("ui.delete_e2d0a549"),
             style: "destructive",
             onPress: async () => {
               try {
@@ -199,7 +201,7 @@ export default function MangaLibraryScreen({
                 await loadLibrary();
               } catch (error) {
                 console.error("Failed to delete manga:", error);
-                Alert.alert("Delete failed", "Please try again.");
+                Alert.alert(uiT("ui.delete_failed_8727e2ba"), uiT("ui.please_try_again_eea4fb33"));
               }
             },
           },
@@ -237,7 +239,7 @@ export default function MangaLibraryScreen({
           ) : (
             <View style={styles.headerButton} />
           )}
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>Manga</Text>
+          <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.manga_69fc4fcd")}</Text>
           <View style={styles.headerButton} />
         </View>
         <View style={styles.emptyWrap}>
@@ -246,10 +248,9 @@ export default function MangaLibraryScreen({
             size={56}
             color={withAlpha(theme.textSecondary, 0.75)}
           />
-          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>Restricted</Text>
+          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{uiT("ui.restricted_a00571bc")}</Text>
           <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-            This feature is only available to user Portego.
-          </Text>
+            {uiT("ui.this_feature_is_only_available_to_user_portego_3adec1d5")} </Text>
           <TouchableOpacity
             style={[
               styles.importButton,
@@ -263,7 +264,7 @@ export default function MangaLibraryScreen({
             onPress={() => router.replace("/")}
             activeOpacity={0.82}
           >
-            <Text style={[styles.importButtonText, { color: theme.primary }]}>Go Home</Text>
+            <Text style={[styles.importButtonText, { color: theme.primary }]}>{uiT("ui.go_home_82bc39f6")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -295,7 +296,7 @@ export default function MangaLibraryScreen({
           <View style={styles.headerButton} />
         )}
 
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Manga</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.manga_69fc4fcd")}</Text>
 
         <GlassButton
           iconName={isImporting ? "hourglass" : "add"}
@@ -310,7 +311,7 @@ export default function MangaLibraryScreen({
       {isLoading ? (
         <View style={styles.loadingWrap}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>Loading manga library...</Text>
+          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>{uiT("ui.loading_manga_library_bfdb3eb5")}</Text>
         </View>
       ) : (
         <FlatList
@@ -330,8 +331,7 @@ export default function MangaLibraryScreen({
           ListHeaderComponent={
             <View style={styles.summaryWrap}>
               <Text style={[styles.summaryText, { color: theme.textSecondary }]}> 
-                {mangas.length} volume{mangas.length === 1 ? "" : "s"} · {totalPages} total pages
-              </Text>
+                {mangas.length} {uiT("ui.volume_62d7a6b1")}{uiPluralSuffix(mangas.length === 1 ? "" : "s")} · {totalPages} {uiT("ui.total_pages_cc89081f")} </Text>
 
               <TouchableOpacity
                 style={[
@@ -349,15 +349,15 @@ export default function MangaLibraryScreen({
                 ) : (
                   <Ionicons name="cloud-upload-outline" size={18} color={theme.primary} />
                 )}
-                <Text style={[styles.importButtonText, { color: theme.primary }]}>Import Manga</Text>
+                <Text style={[styles.importButtonText, { color: theme.primary }]}>{uiT("ui.import_manga_a1452340")}</Text>
               </TouchableOpacity>
             </View>
           }
           ListEmptyComponent={
             <View style={styles.emptyWrap}>
               <Ionicons name="book-outline" size={56} color={withAlpha(theme.textSecondary, 0.75)} />
-              <Text style={[styles.emptyTitle, { color: theme.textColor }]}>No manga yet</Text>
-              <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>Import a CBZ file or an image folder to start reading with OCR and word lookup.</Text>
+              <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{uiT("ui.no_manga_yet_5b5795c1")}</Text>
+              <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>{uiT("ui.import_a_cbz_file_or_an_image_folder_to_start_reading_with_ocr_an_06903547")}</Text>
             </View>
           }
           renderItem={({ item }) => {
@@ -432,7 +432,7 @@ export default function MangaLibraryScreen({
                   </View>
 
                   <Text style={[styles.cardFooter, { color: theme.textSecondary }]}> 
-                    Updated {formatRelativeDate(item.updatedAt)}
+                    {uiT("ui.updated_3a5ecca1")} {formatRelativeDate(item.updatedAt)}
                   </Text>
                 </View>
               </TouchableOpacity>

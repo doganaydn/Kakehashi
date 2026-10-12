@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import { router, useLocalSearchParams } from "expo-router";
@@ -450,6 +451,7 @@ const buildRandomTestSession = (
 };
 
 export default function TestSessionRoute() {
+  useInterfaceLanguage();
   const params = useLocalSearchParams();
   return resolveTestSessionMode(params.mode) === "audio-vocab" ? (
     <ExtraStudyModeAccess modeId="audio-vocab">
@@ -461,6 +463,7 @@ export default function TestSessionRoute() {
 }
 
 function TestSessionScreen() {
+  useInterfaceLanguage();
   useActivityTracking("test_session");
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
@@ -550,8 +553,8 @@ function TestSessionScreen() {
         if (!cancelled) {
           console.warn("[Random Test] Failed to load user synonyms:", error);
           Alert.alert(
-            "User Synonyms Unavailable",
-            "Your quiz will continue, but user synonyms could not be loaded and will not be accepted in this session. Reopen the quiz to try loading them again.",
+            uiT("ui.user_synonyms_unavailable_4fcac0b2"),
+            uiT("ui.your_quiz_will_continue_but_user_synonyms_could_not_be_loaded_and_3604c5fa"),
           );
         }
       }
@@ -683,9 +686,9 @@ function TestSessionScreen() {
         }
         if (!params.sessionId) {
           Alert.alert(
-            "Session Not Available",
-            `Couldn't restore that ${sessionLabel}.`,
-            [{ text: "OK", onPress: () => router.replace(configRoute as any) }],
+            uiT("ui.session_not_available_3b81ebff"),
+            uiT("ui.couldn_t_restore_that_value_e93ff766", {value1: (sessionLabel)}),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace(configRoute as any) }],
           );
           return;
         }
@@ -789,37 +792,11 @@ function TestSessionScreen() {
       });
     } catch (error) {
       console.error("Failed to load config:", error);
-      Alert.alert("Error", "Failed to load test configuration.", [
-        { text: "OK", onPress: () => router.back() },
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_test_configuration_9a47354b"), [
+        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
       ]);
     }
-  }, [
-    params.autoPlayAudio,
-    params.audioSource,
-    params.includeKanaVocabulary,
-    params.includeKanji,
-    params.includeMeaning,
-    params.includeRadicals,
-    params.includeReading,
-    params.includeVocabulary,
-    params.maxLevel,
-    params.minLevel,
-    params.numberOfQuestions,
-    params.resume,
-    params.selectedListIds,
-    params.sessionId,
-    params.srsApprentice,
-    params.srsBurned,
-    params.srsEnlightened,
-    params.srsGuru,
-    params.srsMaster,
-    params.useCustomLevelRange,
-    configRoute,
-    isMeaningOnlyVocabMode,
-    isHiraganaVocabMeaningMode,
-    restoreSavedRandomTestSession,
-    sessionLabel,
-  ]);
+  }, [params.autoPlayAudio, params.audioSource, params.includeKanaVocabulary, params.includeKanji, params.includeMeaning, params.includeRadicals, params.includeReading, params.includeVocabulary, params.maxLevel, params.minLevel, params.numberOfQuestions, params.resume, params.selectedListIds, params.sessionId, params.srsApprentice, params.srsBurned, params.srsEnlightened, params.srsGuru, params.srsMaster, params.useCustomLevelRange, configRoute, isMeaningOnlyVocabMode, isHiraganaVocabMeaningMode, restoreSavedRandomTestSession, sessionLabel, ]);
 
   useEffect(() => {
     loadConfig();
@@ -912,9 +889,9 @@ function TestSessionScreen() {
         config.selectedListIds.length === 0
       ) {
         Alert.alert(
-          "No Learned Items",
-          "You haven't learned enough items yet to take a test. Complete some lessons first!",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.no_learned_items_920cb61f"),
+          uiT("ui.you_haven_t_learned_enough_items_yet_to_take_a_test_complete_some_e714c401"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -1025,11 +1002,11 @@ function TestSessionScreen() {
 
       if (filteredSubjects.length === 0) {
         Alert.alert(
-          "No Matching Items",
+          uiT("ui.no_matching_items_cef58eee"),
           isAudioVocabMode
-            ? `No learned vocabulary with ${config.audioSource === "sentence" ? "context sentences" : "WaniKani audio"} matches your filters. Try expanding the level range or SRS stages.`
+            ? uiT("ui.dynamic_10623bbe809a", {value1: (config.audioSource === "sentence" ? uiT("ui.dynamic_148f5422f17d") : uiT("ui.dynamic_4ac726545826"))})
             : "No learned items match your selected criteria. Try expanding subject types or SRS stages.",
-          [{ text: "OK", onPress: () => router.back() }],
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -1059,9 +1036,9 @@ function TestSessionScreen() {
 
       if (questions.length === 0) {
         Alert.alert(
-          "No Questions Generated",
-          "Could not generate questions with your selected criteria. Please adjust your settings.",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.no_questions_generated_1985c748"),
+          uiT("ui.could_not_generate_questions_with_your_selected_criteria_please_a_b0022810"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -1079,9 +1056,9 @@ function TestSessionScreen() {
 
         if (!allSubjectsRaw || allSubjectsRaw.length === 0) {
           Alert.alert(
-            "Offline",
-            "No cached subjects available. Please open the app online once to cache data.",
-            [{ text: "OK", onPress: () => router.back() }],
+            uiT("ui.offline_a1794783"),
+            uiT("ui.no_cached_subjects_available_please_open_the_app_online_once_to_c_2c650b66"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
           );
           return;
         }
@@ -1156,10 +1133,10 @@ function TestSessionScreen() {
         });
 
         if (filteredSubjects.length === 0) {
-          Alert.alert("No Matching Items", isAudioVocabMode
-            ? `No cached vocabulary with ${config.audioSource === "sentence" ? "context sentences" : "WaniKani audio"} matches your filters.`
+          Alert.alert(uiT("ui.no_matching_items_cef58eee"), isAudioVocabMode
+            ? uiT("ui.dynamic_9e6a935cb0d0", {value1: (config.audioSource === "sentence" ? uiT("ui.dynamic_148f5422f17d") : uiT("ui.dynamic_4ac726545826"))})
             : "No cached items match your selected criteria.", [
-            { text: "OK", onPress: () => router.back() },
+            { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
           ]);
           return;
         }
@@ -1185,9 +1162,9 @@ function TestSessionScreen() {
 
         if (questions.length === 0) {
           Alert.alert(
-            "No Questions Generated",
-            "Could not generate questions offline with your settings.",
-            [{ text: "OK", onPress: () => router.back() }],
+            uiT("ui.no_questions_generated_1985c748"),
+            uiT("ui.could_not_generate_questions_offline_with_your_settings_e881cbe2"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
           );
           return;
         }
@@ -1196,29 +1173,14 @@ function TestSessionScreen() {
         initializeSessionState(questions, generatedReviewItems);
       } catch (fallbackError) {
         console.error("Offline fallback failed:", fallbackError);
-        Alert.alert("Error", "Failed to load test questions.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_test_questions_7756232c"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
       }
     } finally {
       setIsLoading(false);
     }
-  }, [
-    ankiCardMode,
-    ankiCardModeScope,
-    ankiGroupQuestions,
-    apiToken,
-    backToBackQuestions,
-    config,
-    isAuthLoading,
-    isAudioVocabMode,
-    isMeaningOnlyVocabMode,
-    isHiraganaVocabMeaningMode,
-    preferredQuestionType,
-    reviewQuestionOrderEnabled,
-    clearSavedRandomTestSession,
-    initializeSessionState,
-  ]);
+  }, [ankiCardMode, ankiCardModeScope, ankiGroupQuestions, apiToken, backToBackQuestions, config, isAuthLoading, isAudioVocabMode, isMeaningOnlyVocabMode, isHiraganaVocabMeaningMode, preferredQuestionType, reviewQuestionOrderEnabled, clearSavedRandomTestSession, initializeSessionState, ]);
 
   useEffect(() => {
     if (config && !hasRestoredSession) {
@@ -1334,23 +1296,23 @@ function TestSessionScreen() {
 
   const handleExit = () => {
     Alert.alert(
-      "Exit Test",
-      `Want to continue this ${sessionLabel} later?`,
+      uiT("ui.exit_test_d80c3862"),
+      uiT("ui.want_to_continue_this_value_later_9a4cf9ac", {value1: (sessionLabel)}),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Continue Later",
+          text: uiT("ui.continue_later_ba247ab0"),
           onPress: async () => {
             const wasSaved = await saveRandomTestSessionForLater();
             if (!wasSaved) {
-              Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
+              Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
               return;
             }
             router.back();
           },
         },
         {
-          text: "Exit",
+          text: uiT("ui.exit_d17d84a6"),
           style: "destructive",
           onPress: async () => {
             await clearSavedRandomTestSession();
@@ -1391,10 +1353,10 @@ function TestSessionScreen() {
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
             {isAudioVocabMode
-              ? "Preparing your audio vocab quiz..."
+              ? uiT("ui.preparing_your_audio_vocab_quiz_580e70c8")
               : isHiraganaVocabMeaningMode
-                ? "Preparing your hiragana vocab quiz..."
-                : "Preparing your test..."}
+                ? uiT("ui.preparing_your_hiragana_vocab_quiz_d738f24b")
+                : uiT("ui.preparing_your_test_171d8e3e")}
           </Text>
         </View>
       </SafeAreaView>
@@ -1425,13 +1387,12 @@ function TestSessionScreen() {
       >
         <View style={styles.errorContainer}>
           <Text style={[styles.errorText, { color: theme.error }]}>
-            No test questions available
-          </Text>
+            {uiT("ui.no_test_questions_available_5053cbef")} </Text>
           <TouchableOpacity
             style={[styles.errorButton, { backgroundColor: theme.secondary }]}
             onPress={() => router.back()}
           >
-            <Text style={styles.errorButtonText}>Go Back</Text>
+            <Text style={styles.errorButtonText}>{uiT("ui.go_back_b8d99df1")}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

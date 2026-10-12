@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { useRouter } from "expo-router";
@@ -20,6 +21,7 @@ import { useTheme } from "../../src/utils/theme";
 type SearchMode = "japanese" | "english";
 
 export default function TextSearchScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const [inputText, setInputText] = useState("");
@@ -118,8 +120,7 @@ export default function TextSearchScreen() {
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Text Search
-          </Text>
+            {uiT("ui.text_search_88d92094")} </Text>
           <TouchableOpacity
             onPress={handleShowHistory}
             style={styles.headerButton}
@@ -169,15 +170,15 @@ export default function TextSearchScreen() {
           <View style={styles.instructionsContainer}>
             <Text style={[styles.instructionsTitle, { color: theme.textColor }]}>
               {searchMode === "japanese"
-                ? "Enter Japanese Text"
-                : "Enter English Text"}
+                ? uiT("ui.enter_japanese_text_06eafefb")
+                : uiT("ui.enter_english_text_5fc3ee00")}
             </Text>
             <Text
               style={[styles.instructionsSubtitle, { color: theme.textSecondary }]}
             >
               {searchMode === "japanese"
-                ? "Type or paste Japanese text to find vocabulary and kanji matches"
-                : "Type English text - it will be translated to Japanese to find matches"}
+                ? uiT("ui.type_or_paste_japanese_text_to_find_vocabulary_and_kanji_matches_41d27387")
+                : uiT("ui.type_english_text_it_will_be_translated_to_japanese_to_find_match_a24e5083")}
             </Text>
           </View>
 
@@ -251,7 +252,7 @@ export default function TextSearchScreen() {
               ) : (
                 <>
                   <Ionicons name="search" size={20} color="white" />
-                  <Text style={styles.submitButtonText}>Analyze Text</Text>
+                  <Text style={styles.submitButtonText}>{uiT("ui.analyze_text_fd6a390a")}</Text>
                 </>
               )}
             </TouchableOpacity>

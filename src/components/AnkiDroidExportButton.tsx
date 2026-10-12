@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useMemo, useState } from "react";
@@ -45,7 +46,7 @@ interface AnkiDroidSetupModalProps {
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error && error.message) return error.message;
-  return "Could not export this sentence to AnkiDroid.";
+  return uiT("ui.could_not_export_this_sentence_to_ankidroid_1e770e47");
 }
 
 function parseTags(value: string): string[] {
@@ -64,6 +65,7 @@ function AnkiDroidSetupModal({
   onClose,
   onSave,
 }: AnkiDroidSetupModalProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [decks, setDecks] = useState<AnkiDroidCollectionItem[]>([]);
   const [noteTypes, setNoteTypes] = useState<AnkiDroidCollectionItem[]>([]);
@@ -225,9 +227,9 @@ function AnkiDroidSetupModal({
       >
         <View style={[styles.modalHeader, { borderBottomColor: theme.border }]}>
           <TouchableOpacity onPress={onClose} style={styles.headerAction}>
-            <Text style={[styles.headerActionText, { color: theme.primary }]}>Cancel</Text>
+            <Text style={[styles.headerActionText, { color: theme.primary }]}>{uiT("ui.cancel_19766ed6")}</Text>
           </TouchableOpacity>
-          <Text style={[styles.modalTitle, { color: theme.textColor }]}>AnkiDroid Export</Text>
+          <Text style={[styles.modalTitle, { color: theme.textColor }]}>{uiT("ui.ankidroid_export_b242da24")}</Text>
           <TouchableOpacity
             accessibilityRole="button"
             onPress={handleSave}
@@ -243,8 +245,7 @@ function AnkiDroidSetupModal({
                   { color: canSave ? theme.primary : theme.textSecondary },
                 ]}
               >
-                Save
-              </Text>
+                {uiT("ui.save_1509f561")} </Text>
             )}
           </TouchableOpacity>
         </View>
@@ -252,7 +253,7 @@ function AnkiDroidSetupModal({
         {loading ? (
           <View style={styles.centeredState}>
             <ActivityIndicator size="large" color={theme.primary} />
-            <Text style={[styles.stateText, { color: theme.textSecondary }]}>Loading your AnkiDroid collection…</Text>
+            <Text style={[styles.stateText, { color: theme.textSecondary }]}>{uiT("ui.loading_your_ankidroid_collection_e7aeada3")}</Text>
           </View>
         ) : (
           <ScrollView
@@ -260,7 +261,7 @@ function AnkiDroidSetupModal({
             contentContainerStyle={styles.modalContent}
             keyboardShouldPersistTaps="handled"
           >
-            <Text style={[styles.description, { color: theme.textSecondary }]}>Choose where Kakehashi should put the Japanese sentence and English translation. Other fields are left empty.</Text>
+            <Text style={[styles.description, { color: theme.textSecondary }]}>{uiT("ui.choose_where_kakehashi_should_put_the_japanese_sentence_and_engli_e7b20331")}</Text>
 
             {errorMessage && (
               <View
@@ -274,7 +275,7 @@ function AnkiDroidSetupModal({
               </View>
             )}
 
-            <PickerField label="Deck" theme={theme}>
+            <PickerField label={uiT("ui.deck_889eacd6")} theme={theme}>
               <Picker
                 selectedValue={deckId}
                 onValueChange={(value) => setDeckId(String(value))}
@@ -287,7 +288,7 @@ function AnkiDroidSetupModal({
               </Picker>
             </PickerField>
 
-            <PickerField label="Note type" theme={theme}>
+            <PickerField label={uiT("ui.note_type_1b906ea1")} theme={theme}>
               <Picker
                 selectedValue={noteTypeId}
                 onValueChange={(value) => setNoteTypeId(String(value))}
@@ -308,7 +309,7 @@ function AnkiDroidSetupModal({
               <ActivityIndicator size="small" color={theme.primary} />
             ) : (
               <>
-                <PickerField label="Japanese sentence field" theme={theme}>
+                <PickerField label={uiT("ui.japanese_sentence_field_c3f9274e")} theme={theme}>
                   <Picker
                     selectedValue={japaneseFieldIndex}
                     onValueChange={(value) => setJapaneseFieldIndex(Number(value))}
@@ -321,7 +322,7 @@ function AnkiDroidSetupModal({
                   </Picker>
                 </PickerField>
 
-                <PickerField label="English translation field" theme={theme}>
+                <PickerField label={uiT("ui.english_translation_field_53a19679")} theme={theme}>
                   <Picker
                     selectedValue={englishFieldIndex}
                     onValueChange={(value) => setEnglishFieldIndex(Number(value))}
@@ -337,15 +338,15 @@ function AnkiDroidSetupModal({
             )}
 
             {japaneseFieldIndex === englishFieldIndex && (
-              <Text style={[styles.validationText, { color: theme.error ?? "#d92c2c" }]}>Choose two different fields.</Text>
+              <Text style={[styles.validationText, { color: theme.error ?? "#d92c2c" }]}>{uiT("ui.choose_two_different_fields_bbc2b3fd")}</Text>
             )}
 
             <View style={styles.fieldGroup}>
-              <Text style={[styles.fieldLabel, { color: theme.textColor }]}>Tags</Text>
+              <Text style={[styles.fieldLabel, { color: theme.textColor }]}>{uiT("ui.tags_1331275b")}</Text>
               <TextInput
                 value={tags}
                 onChangeText={setTags}
-                placeholder="kakehashi context-sentence"
+                placeholder={uiT("ui.kakehashi_context_sentence_ccb231cb")}
                 placeholderTextColor={theme.textSecondary}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -358,7 +359,7 @@ function AnkiDroidSetupModal({
                   },
                 ]}
               />
-              <Text style={[styles.fieldHint, { color: theme.textSecondary }]}>Separate tags with spaces or commas.</Text>
+              <Text style={[styles.fieldHint, { color: theme.textSecondary }]}>{uiT("ui.separate_tags_with_spaces_or_commas_ae4d8ad3")}</Text>
             </View>
           </ScrollView>
         )}
@@ -376,6 +377,7 @@ function PickerField({
   theme: ReturnType<typeof useTheme>["theme"];
   children: React.ReactNode;
 }) {
+  useInterfaceLanguage();
   return (
     <View style={styles.fieldGroup}>
       <Text style={[styles.fieldLabel, { color: theme.textColor }]}>{label}</Text>
@@ -392,6 +394,7 @@ function PickerField({
 }
 
 export function AnkiDroidExportButton(props: AnkiDroidExportButtonProps) {
+  useInterfaceLanguage();
   const enabled = useSettingsStore((state) => state.ankiDroidExportEnabled);
   if (Platform.OS !== "android" || enabled !== true) return null;
 
@@ -409,6 +412,7 @@ function AnkiDroidSentenceExportButton({
   compact = false,
   style,
 }: AnkiDroidExportButtonProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [exporting, setExporting] = useState(false);
   const [exported, setExported] = useState(false);
@@ -419,7 +423,7 @@ function AnkiDroidSentenceExportButton({
     try {
       await exportContextSentenceToAnkiDroid(config, { japanese, english });
       setExported(true);
-      ToastAndroid.show(`Added to ${config.deckName}`, ToastAndroid.SHORT);
+      ToastAndroid.show(uiT("ui.dynamic_48dbe907c42a", {value1: (config.deckName)}), ToastAndroid.SHORT);
     } finally {
       setExporting(false);
     }
@@ -442,7 +446,7 @@ function AnkiDroidSentenceExportButton({
       ) {
         setSetupVisible(true);
       } else {
-        Alert.alert("AnkiDroid Export", getErrorMessage(error));
+        Alert.alert(uiT("ui.ankidroid_export_b242da24"), getErrorMessage(error));
       }
     } finally {
       setExporting(false);
@@ -487,7 +491,7 @@ function AnkiDroidSentenceExportButton({
               { color: exported ? "#2e9b56" : theme.primary },
             ]}
           >
-            {exported ? "Added" : "Anki"}
+            {exported ? uiT("ui.added_6b02e0d3") : "Anki"}
           </Text>
         )}
       </TouchableOpacity>
@@ -502,6 +506,7 @@ function AnkiDroidSentenceExportButton({
 }
 
 export function AnkiDroidExportSettingsButton() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [config, setConfig] = useState<AnkiDroidExportConfig | null>(null);
   const [setupVisible, setSetupVisible] = useState(false);
@@ -534,11 +539,11 @@ export function AnkiDroidExportSettingsButton() {
           <Ionicons name="albums-outline" size={20} color={theme.primary} />
         </View>
         <View style={styles.settingsText}>
-          <Text style={[styles.settingsTitle, { color: theme.textColor }]}>AnkiDroid Export</Text>
+          <Text style={[styles.settingsTitle, { color: theme.textColor }]}>{uiT("ui.ankidroid_export_b242da24")}</Text>
           <Text style={[styles.settingsSubtitle, { color: theme.textSecondary }]}>
             {config
-              ? `${config.deckName} · ${config.noteTypeName}`
-              : "Choose a deck, note type, and field mapping"}
+              ? uiT("ui.value_value_939adcc9", {value1: (config.deckName), value2: (config.noteTypeName)})
+              : uiT("ui.choose_a_deck_note_type_and_field_mapping_09f828ed")}
           </Text>
         </View>
         <Ionicons name="chevron-forward" size={20} color={theme.textSecondary} />

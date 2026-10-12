@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
@@ -77,12 +78,12 @@ function getDaySectionKey(timestamp: number): "today" | "yesterday" | "earlier" 
 
 function getDaySectionTitle(sectionKey: "today" | "yesterday" | "earlier"): string {
   if (sectionKey === "today") {
-    return "Today";
+    return uiT("ui.today_2b065c7c");
   }
   if (sectionKey === "yesterday") {
-    return "Yesterday";
+    return uiT("ui.yesterday_56618125");
   }
-  return "Earlier";
+  return uiT("ui.earlier_e10ae990");
 }
 
 function HistoryVideoThumbnail({
@@ -92,6 +93,7 @@ function HistoryVideoThumbnail({
   videoUri: string;
   durationLabel: string;
 }) {
+  useInterfaceLanguage();
   const player = useVideoPlayer(videoUri, (videoPlayer) => {
     videoPlayer.loop = false;
     videoPlayer.muted = true;
@@ -124,6 +126,7 @@ type AnimeTranscriptDevHistoryScreenProps = {
 export default function AnimeTranscriptDevHistoryScreen({
   showBackButton = true,
 }: AnimeTranscriptDevHistoryScreenProps) {
+  useInterfaceLanguage();
   useActivityTracking("video", { mode: "focus" });
   const { theme } = useTheme();
   const router = useRouter();
@@ -288,7 +291,7 @@ export default function AnimeTranscriptDevHistoryScreen({
         ) : (
           <View style={styles.headerGlassButton} />
         )}
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Watched</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.watched_1ca8c1c0")}</Text>
         <GlassButton
           iconName="add"
           iconSize={22}
@@ -334,7 +337,7 @@ export default function AnimeTranscriptDevHistoryScreen({
             </View>
           </View>
 
-          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>TODAY</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textSecondary }]}>{uiT("ui.today_ea4171ae")}</Text>
 
           {[0, 1, 2, 3].map((index) => (
             <View
@@ -448,15 +451,15 @@ export default function AnimeTranscriptDevHistoryScreen({
       ) : history.length === 0 ? (
         <View style={styles.emptyWrap}>
           <Ionicons name="videocam-outline" size={56} color={theme.textSecondary} />
-          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>No videos yet</Text>
-          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>Your imported videos and subtitles will appear here.</Text>
+          <Text style={[styles.emptyTitle, { color: theme.textColor }]}>{uiT("ui.no_videos_yet_7b1fd323")}</Text>
+          <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>{uiT("ui.your_imported_videos_and_subtitles_will_appear_here_a708e180")}</Text>
           <TouchableOpacity
             style={[styles.emptyActionButton, { backgroundColor: theme.primary }]}
             onPress={handleOpenImportScreen}
             activeOpacity={0.82}
           >
             <Ionicons name="add" size={18} color="#ffffff" />
-            <Text style={styles.emptyActionButtonText}>Import Video</Text>
+            <Text style={styles.emptyActionButtonText}>{uiT("ui.import_video_9c43af07")}</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -471,17 +474,17 @@ export default function AnimeTranscriptDevHistoryScreen({
           ListHeaderComponent={
             <View style={styles.listHeaderWrap}>
               <Text style={[styles.listSummaryText, { color: theme.textSecondary }]}>
-                {history.length} videos · {formatTotalDuration(totalDurationSeconds)}
+                {history.length} {uiT("ui.videos_66bba386")} {formatTotalDuration(totalDurationSeconds)}
               </Text>
               <View style={styles.filterPillRow}>
                 {([
-                  { key: "all", label: "All", count: historyCounts.all },
+                  { key: "all", label: uiT("ui.all_a52ace42"), count: historyCounts.all },
                   {
                     key: "inProgress",
-                    label: "In progress",
+                    label: uiT("ui.in_progress_c1f88e9d"),
                     count: historyCounts.inProgress,
                   },
-                  { key: "finished", label: "Finished", count: historyCounts.finished },
+                  { key: "finished", label: uiT("ui.finished_7804f7a7"), count: historyCounts.finished },
                 ] as const).map((chip) => {
                   const selected = filter === chip.key;
                   return (
@@ -609,7 +612,7 @@ export default function AnimeTranscriptDevHistoryScreen({
                     >
                       <Ionicons name="play" size={12} color={theme.primary} />
                       <Text style={[styles.resumePillText, { color: theme.primary }]}>
-                        Resume {formatDuration(item.lastPlaybackPositionSeconds)}
+                        {uiT("ui.resume_d640c742")} {formatDuration(item.lastPlaybackPositionSeconds)}
                       </Text>
                     </TouchableOpacity>
                   ) : null}

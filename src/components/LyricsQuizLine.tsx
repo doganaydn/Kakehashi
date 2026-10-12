@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactElement } from "react";
 import {
@@ -50,6 +51,7 @@ export function LyricsQuizLine({
   mutedTextColor = "#6b7280",
   surfaceColor = "rgba(127,127,127,0.06)",
 }: LyricsQuizLineProps): ReactElement {
+  useInterfaceLanguage();
   const isCorrect = selectedAnswer === question.answer;
   const hasWrongAnswer = Boolean(selectedAnswer) && !isCorrect;
   const playerVariant = variant === "player";
@@ -82,7 +84,7 @@ export function LyricsQuizLine({
           }
           accessibilityLabel={
             isCorrect && onOpenAnswerDetails
-              ? `View details for ${question.answer}`
+              ? uiT("ui.dynamic_7c827f65655c", {value1: (question.answer)})
               : undefined
           }
           onPress={
@@ -208,7 +210,7 @@ export function LyricsQuizLine({
           <View style={styles.actions}>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Replay this lyric line"
+              accessibilityLabel={uiT("ui.replay_this_lyric_line_8a153ef6")}
               onPress={(event) => {
                 event.stopPropagation();
                 onReplay();
@@ -226,14 +228,13 @@ export function LyricsQuizLine({
               <Text
                 style={[styles.actionText, { color: resolvedTextColor }]}
               >
-                Replay line
-              </Text>
+                {uiT("ui.replay_line_58456bf1")} </Text>
             </Pressable>
 
             {isPlaybackPaused ? (
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Skip this question for now and continue the song"
+                accessibilityLabel={uiT("ui.skip_this_question_for_now_and_continue_the_song_c56eeb4c")}
                 onPress={(event) => {
                   event.stopPropagation();
                   onSkip();
@@ -254,8 +255,7 @@ export function LyricsQuizLine({
                     { color: playerVariant ? "#171717" : "#fff" },
                   ]}
                 >
-                  Skip for now
-                </Text>
+                  {uiT("ui.skip_for_now_b58eb52c")} </Text>
                 <Ionicons
                   name="play-forward-outline"
                   size={16}

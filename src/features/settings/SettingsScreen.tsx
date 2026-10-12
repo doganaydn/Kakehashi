@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import React, {
   useCallback,
   useEffect,
@@ -71,6 +72,7 @@ import { CacheAnalysisModal } from "./modals/CacheAnalysisModal";
 import { NotificationsDebugModal } from "./modals/NotificationsDebugModal";
 
 export default function SettingsScreen() {
+  useInterfaceLanguage();
   const controller = useSettingsController();
 
   return (
@@ -107,6 +109,7 @@ const SETTINGS_SECTIONS: readonly [string, React.ComponentType][] = [
 ];
 
 function SettingsScreenContent() {
+  useInterfaceLanguage();
   const {
     PerformanceDashboard,
     handleBack,
@@ -259,7 +262,7 @@ function SettingsScreenContent() {
           >
             <TouchableOpacity
               accessibilityRole="button"
-              accessibilityLabel="Back"
+              accessibilityLabel={uiT("ui.back_76900f1b")}
               style={styles.backButton}
               onPress={handleBack}
             >
@@ -269,8 +272,7 @@ function SettingsScreenContent() {
               style={[styles.title, { color: theme.textColor }]}
               numberOfLines={1}
             >
-              Settings
-            </Text>
+              {uiT("ui.settings_74a883a0")} </Text>
             <View
               style={{
                 flex: 1,
@@ -289,8 +291,8 @@ function SettingsScreenContent() {
               <Ionicons name="search" size={16} color={theme.textSecondary} />
               <TextInput
                 ref={searchRef}
-                accessibilityLabel="Search settings"
-                placeholder="Search"
+                accessibilityLabel={uiT("ui.search_settings_255b076d")}
+                placeholder={uiT("ui.search_49c266ba")}
                 placeholderTextColor={theme.textSecondary}
                 value={query}
                 onChangeText={(text) => {
@@ -316,7 +318,7 @@ function SettingsScreenContent() {
               {query ? (
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel="Clear settings search"
+                  accessibilityLabel={uiT("ui.clear_settings_search_63c62e14")}
                   onPress={() => setQuery("")}
                   hitSlop={6}
                   style={{
@@ -464,8 +466,8 @@ function SettingsScreenContent() {
                   }}
                 >
                   {results.length
-                    ? results.length + " matching settings"
-                    : "No matching settings"}
+                    ? results.length + uiT("ui.matching_settings_91882cff")
+                    : uiT("ui.no_matching_settings_ae3505ef")}
                 </Text>
                 {results.map((entry) => (
                   <Pressable

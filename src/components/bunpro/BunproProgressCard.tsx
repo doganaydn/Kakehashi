@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -35,6 +36,7 @@ export default function BunproProgressCard({
   stagePalette,
   dimmedStageColor,
 }: BunproProgressCardProps) {
+  useInterfaceLanguage();
   const footerBackground = isDark ? "#7f7f81" : "#d2d2d4";
   const footerTextColor = getBestContrastTextColor(footerBackground, "#1f1f24", "#ffffff");
 
@@ -53,8 +55,7 @@ export default function BunproProgressCard({
             { color: themeTextColor },
           ]}
         >
-          Progress
-        </Text>
+          {uiT("ui.progress_4664827f")} </Text>
         <BunproTogglePill
           leftLabel="Grammar"
           rightLabel="Vocab"
@@ -114,7 +115,7 @@ export default function BunproProgressCard({
             { backgroundColor: footerBackground },
           ]}
         >
-          <Text style={[styles.progressFooterTitle, { color: footerTextColor }]}>Ghosts</Text>
+          <Text style={[styles.progressFooterTitle, { color: footerTextColor }]}>{uiT("ui.ghosts_f1fca274")}</Text>
           <Text style={[styles.progressFooterCount, { color: footerTextColor }]}>
             {activeSrsBuckets?.ghost ?? 0}
           </Text>
@@ -125,7 +126,7 @@ export default function BunproProgressCard({
             { backgroundColor: footerBackground },
           ]}
         >
-          <Text style={[styles.progressFooterTitle, { color: footerTextColor }]}>Self-Study</Text>
+          <Text style={[styles.progressFooterTitle, { color: footerTextColor }]}>{uiT("ui.self_study_bb4f5e22")}</Text>
           <Text style={[styles.progressFooterCount, { color: footerTextColor }]}>
             {activeSrsBuckets?.self_study ?? 0}
           </Text>

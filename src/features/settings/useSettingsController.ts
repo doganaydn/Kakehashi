@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale } from "../interface-language/runtime";
 import { createSettingsScrollGuard } from "./settings-scroll-guard";
 import { Ionicons } from "@expo/vector-icons";
 import { File, Paths } from "expo-file-system";
@@ -140,10 +141,10 @@ const VOCABULARY_AUDIO_VOICE_OPTIONS: {
   label: string;
   systemImage: string;
 }[] = [
-  { value: "female", label: "Kyoko (Female)", systemImage: "person.fill" },
-  { value: "male", label: "Kenichi (Male)", systemImage: "person.fill" },
-  { value: "random", label: "Random", systemImage: "shuffle" },
-  { value: "both", label: "Both", systemImage: "person.2.fill" },
+  { value: "female", get label() { return uiT("ui.kyoko_female_a5cee2ea"); }, systemImage: "person.fill" },
+  { value: "male", get label() { return uiT("ui.kenichi_male_af73784c"); }, systemImage: "person.fill" },
+  { value: "random", get label() { return uiT("ui.random_67bc4844"); }, systemImage: "shuffle" },
+  { value: "both", get label() { return uiT("ui.both_b6c1d862"); }, systemImage: "person.2.fill" },
 ];
 
 const VOCABULARY_AUDIO_VOICE_LABELS: Record<
@@ -160,28 +161,28 @@ const STUDY_MODE_DEFAULT_OPTIONS: {
   value: StudyModePreference;
   label: string;
 }[] = [
-  { value: "none", label: "Normal" },
-  { value: "wk", label: "Vocab" },
-  { value: "full", label: "Full" },
+  { value: "none", get label() { return uiT("ui.normal_a7248eeb"); } },
+  { value: "wk", get label() { return uiT("ui.vocab_eb535ff6"); } },
+  { value: "full", get label() { return uiT("ui.full_008dacb6"); } },
 ];
 
 const SONG_LYRICS_STUDY_MODE_DEFAULT_OPTIONS: {
   value: SongLyricsStudyModePreference;
   label: string;
 }[] = [
-  { value: "none", label: "Normal" },
-  { value: "wk", label: "Vocab" },
-  { value: "quiz", label: "Quiz" },
-  { value: "full", label: "Full" },
+  { value: "none", get label() { return uiT("ui.normal_a7248eeb"); } },
+  { value: "wk", get label() { return uiT("ui.vocab_eb535ff6"); } },
+  { value: "quiz", get label() { return uiT("ui.quiz_03aa7dc1"); } },
+  { value: "full", get label() { return uiT("ui.full_008dacb6"); } },
 ];
 
 const SRS_PROGRESSION_CARD_MODE_OPTIONS: {
   value: SrsProgressionCardDisplayMode;
   label: string;
 }[] = [
-  { value: "normal", label: "Normal" },
-  { value: "compact", label: "Compact" },
-  { value: "hidden", label: "Hidden" },
+  { value: "normal", get label() { return uiT("ui.normal_a7248eeb"); } },
+  { value: "compact", get label() { return uiT("ui.compact_99452646"); } },
+  { value: "hidden", get label() { return uiT("ui.hidden_7e6fefff"); } },
 ];
 
 const SRS_PROGRESSION_CARD_MODE_LABELS: Record<
@@ -231,33 +232,33 @@ const REVIEW_INCORRECT_SHORTCUT_FIELDS: {
 }[] = [
   {
     key: "markIncorrect",
-    label: "Mark Incorrect",
-    hint: "Grade a revealed Anki card or paused answer as incorrect.",
+    get label() { return uiT("ui.mark_incorrect_fc9e459b"); },
+    get hint() { return uiT("ui.grade_a_revealed_anki_card_or_paused_answer_as_incorrect_7770c446"); },
   },
   {
     key: "markCorrect",
-    label: "Mark Correct",
-    hint: "Grade a revealed Anki card or paused answer as correct.",
+    get label() { return uiT("ui.mark_correct_32d7e0f6"); },
+    get hint() { return uiT("ui.grade_a_revealed_anki_card_or_paused_answer_as_correct_33e77e77"); },
   },
   {
     key: "askAgain",
-    label: "Skip",
-    hint: "Skip and requeue without marking incorrect.",
+    get label() { return uiT("ui.skip_28d03596"); },
+    get hint() { return uiT("ui.skip_and_requeue_without_marking_incorrect_71a8736a"); },
   },
   {
     key: "addSynonym",
-    label: "Add as Synonym",
-    hint: "Meaning questions only.",
+    get label() { return uiT("ui.add_as_synonym_b707a51e"); },
+    get hint() { return uiT("ui.meaning_questions_only_4e5e387b"); },
   },
   {
     key: "openDetails",
-    label: "Open Details",
-    hint: "Open the current subject details page.",
+    get label() { return uiT("ui.open_details_1743ca90"); },
+    get hint() { return uiT("ui.open_the_current_subject_details_page_f97d919e"); },
   },
   {
     key: "replayAudio",
-    label: "Replay Audio",
-    hint: "Replay vocabulary pronunciation audio.",
+    get label() { return uiT("ui.replay_audio_005551d2"); },
+    get hint() { return uiT("ui.replay_vocabulary_pronunciation_audio_53b12cec"); },
   },
 ];
 
@@ -268,13 +269,13 @@ const REVIEW_CORRECT_SHORTCUT_FIELDS: {
 }[] = [
   {
     key: "advanceOnCorrect",
-    label: "Advance",
-    hint: "Reveal and advance Anki cards, or continue after a correct answer.",
+    get label() { return uiT("ui.advance_77598889"); },
+    get hint() { return uiT("ui.reveal_and_advance_anki_cards_or_continue_after_a_correct_answer_5e64e270"); },
   },
   {
     key: "replayAudio",
-    label: "Replay Audio",
-    hint: "Replay vocabulary pronunciation audio.",
+    get label() { return uiT("ui.replay_audio_005551d2"); },
+    get hint() { return uiT("ui.replay_vocabulary_pronunciation_audio_53b12cec"); },
   },
 ];
 
@@ -719,68 +720,68 @@ export function useSettingsController() {
     });
   const sectionChips = useMemo<SettingsSectionChip[]>(() => {
     const chips: SettingsSectionChip[] = [
-      { key: "support", label: "Support", icon: "heart-outline" },
-      { key: "voice", label: "Voice", icon: "volume-high-outline" },
-      { key: "vocabContext", label: "Vocab Context", icon: "book-outline" },
-      { key: "readingDefaults", label: "Reading", icon: "newspaper-outline" },
+      { key: "support", label: uiT("ui.support_be91940b"), icon: "heart-outline" },
+      { key: "voice", label: uiT("ui.voice_87bf2bc0"), icon: "volume-high-outline" },
+      { key: "vocabContext", label: uiT("ui.vocab_context_4cae73b0"), icon: "book-outline" },
+      { key: "readingDefaults", label: uiT("ui.reading_463816d0"), icon: "newspaper-outline" },
     ];
 
     if (showMusicPlaybackSection) {
       chips.push({
         key: "musicPlayback",
-        label: "Music",
+        label: uiT("ui.music_6eb00b4b"),
         icon: "musical-notes-outline",
       });
     }
 
     chips.push(
-      { key: "lessons", label: "Lessons", icon: "school-outline" },
-      { key: "subjectLists", label: "Subject Lists", icon: "list-outline" },
-      { key: "subjectDetails", label: "Subject Details", icon: "information-circle-outline" },
-      { key: "reviews", label: "Reviews", icon: "checkmark-done-outline" },
+      { key: "lessons", label: uiT("ui.lessons_cb4ad503"), icon: "school-outline" },
+      { key: "subjectLists", label: uiT("ui.subject_lists_20c1f7d1"), icon: "list-outline" },
+      { key: "subjectDetails", label: uiT("ui.subject_details_3628f952"), icon: "information-circle-outline" },
+      { key: "reviews", label: uiT("ui.reviews_84cb7871"), icon: "checkmark-done-outline" },
     );
 
     if (isPortegoUser) {
-      chips.push({ key: "bunproReviews", label: "Bunpro reviews", icon: "book-outline" });
+      chips.push({ key: "bunproReviews", label: uiT("ui.bunpro_reviews_3d16c9d5"), icon: "book-outline" });
     }
 
     chips.push(
-      { key: "notes", label: "Notes", icon: "create-outline" },
-      { key: "haptic", label: "Haptic", icon: "phone-portrait-outline" },
-      { key: "kanji", label: "Kanji", icon: "brush-outline" },
-      { key: "profile", label: "Profile", icon: "person-circle-outline" },
-      { key: "appearance", label: "Appearance", icon: "color-palette-outline" },
-      { key: "theme", label: "Theme", icon: "contrast-outline" },
+      { key: "notes", label: uiT("ui.notes_8a7525b1"), icon: "create-outline" },
+      { key: "haptic", label: uiT("ui.haptic_9b9bf8d6"), icon: "phone-portrait-outline" },
+      { key: "kanji", label: uiT("ui.kanji_45f62a35"), icon: "brush-outline" },
+      { key: "profile", label: uiT("ui.profile_d696a35b"), icon: "person-circle-outline" },
+      { key: "appearance", label: uiT("ui.appearance_3907fa7f"), icon: "color-palette-outline" },
+      { key: "theme", label: uiT("ui.theme_efb52e71"), icon: "contrast-outline" },
     );
 
     if (showWidgetsSection) {
-      chips.push({ key: "widgets", label: "Widgets", icon: "grid-outline" });
+      chips.push({ key: "widgets", label: uiT("ui.widgets_1fda79ff"), icon: "grid-outline" });
     }
 
     chips.push({
       key: "notifications",
-      label: "Notifications",
+      label: uiT("ui.notifications_78801183"),
       icon: "notifications-outline",
     });
 
     if (showDataStorageSection) {
-      chips.push({ key: "dataStorage", label: "Data", icon: "server-outline" });
+      chips.push({ key: "dataStorage", label: uiT("ui.data_cec3a9b8"), icon: "server-outline" });
     }
     if (showLevelRecapSection) {
       chips.push({
         key: "levelRecap",
-        label: "Level Recap",
+        label: uiT("ui.level_recap_368c8143"),
         icon: "bar-chart-outline",
       });
     }
 
     chips.push(
       { key: "patreon", label: "Patreon", icon: "people-outline" },
-      { key: "account", label: "Account", icon: "log-out-outline" },
+      { key: "account", label: uiT("ui.account_7e1b0d56"), icon: "log-out-outline" },
     );
 
     if (canAccessApiDebugTools) {
-      chips.push({ key: "apiDebug", label: "API Debug", icon: "bug-outline" });
+      chips.push({ key: "apiDebug", label: uiT("ui.api_debug_1b86c599"), icon: "bug-outline" });
     }
 
     return chips;
@@ -791,7 +792,7 @@ export function useSettingsController() {
     showLevelRecapSection,
     showMusicPlaybackSection,
     showWidgetsSection,
-  ]);
+  , interfaceLocale()]);
   const updateSectionOffset = useCallback(
     (sectionKey: SettingsSectionKey, sectionY: number) => {
       const normalizedY = Math.max(0, sectionY);
@@ -1142,8 +1143,8 @@ export function useSettingsController() {
       });
     } catch {
       Alert.alert(
-        "Offline Audio",
-        "Failed to queue offline vocabulary audio downloads. Please try again.",
+        uiT("ui.offline_audio_d37b9ac9"),
+        uiT("ui.failed_to_queue_offline_vocabulary_audio_downloads_please_try_aga_5124b489"),
       );
     }
   };
@@ -1179,19 +1180,19 @@ export function useSettingsController() {
     const email = gravatarEmailInput.trim();
     if (email === "") {
       setGravatarEmail(null);
-      Alert.alert("Success", "Gravatar email removed.");
+      Alert.alert(uiT("ui.success_c88a0b90"), uiT("ui.gravatar_email_removed_2e57a005"));
       return;
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      Alert.alert("Error", "Please enter a valid email address.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_enter_a_valid_email_address_958e4ccf"));
       return;
     }
 
     setGravatarEmail(email);
-    Alert.alert("Success", "Gravatar email updated.");
+    Alert.alert(uiT("ui.success_c88a0b90"), uiT("ui.gravatar_email_updated_7c316950"));
   };
 
   const handleSaveJpdbApiKey = async () => {
@@ -1202,7 +1203,7 @@ export function useSettingsController() {
       await clearJpdbApiKey();
       setHasStoredJpdbApiKey(false);
       setJpdbApiKeyStatus({
-        message: "JPDB API key removed.",
+        message: uiT("ui.jpdb_api_key_removed_432ce7fd"),
         isError: false,
       });
       return;
@@ -1210,7 +1211,7 @@ export function useSettingsController() {
 
     setIsSavingJpdbApiKey(true);
     setJpdbApiKeyStatus({
-      message: "Validating JPDB API key...",
+      message: uiT("ui.validating_jpdb_api_key_2531b086"),
       isError: false,
     });
 
@@ -1218,7 +1219,7 @@ export function useSettingsController() {
       const isValid = await validateJpdbApiKey(normalizedKey);
       if (!isValid) {
         setJpdbApiKeyStatus({
-          message: "JPDB API key is invalid or JPDB is unavailable.",
+          message: uiT("ui.jpdb_api_key_is_invalid_or_jpdb_is_unavailable_6c4fe8c9"),
           isError: true,
         });
         return;
@@ -1228,13 +1229,13 @@ export function useSettingsController() {
       setJpdbApiKeyInput(normalizedKey);
       setHasStoredJpdbApiKey(true);
       setJpdbApiKeyStatus({
-        message: "JPDB API key saved.",
+        message: uiT("ui.jpdb_api_key_saved_d5d5813d"),
         isError: false,
       });
     } catch (error) {
       console.error("Failed to save JPDB API key:", error);
       setJpdbApiKeyStatus({
-        message: "Could not save JPDB API key right now.",
+        message: uiT("ui.could_not_save_jpdb_api_key_right_now_bbd010cc"),
         isError: true,
       });
     } finally {
@@ -1249,13 +1250,13 @@ export function useSettingsController() {
       setJpdbApiKeyInput("");
       setHasStoredJpdbApiKey(false);
       setJpdbApiKeyStatus({
-        message: "JPDB API key removed.",
+        message: uiT("ui.jpdb_api_key_removed_432ce7fd"),
         isError: false,
       });
     } catch (error) {
       console.error("Failed to remove JPDB API key:", error);
       setJpdbApiKeyStatus({
-        message: "Could not remove JPDB API key right now.",
+        message: uiT("ui.could_not_remove_jpdb_api_key_right_now_3efa0fba"),
         isError: true,
       });
     } finally {
@@ -1344,8 +1345,8 @@ export function useSettingsController() {
     const didOpenReviewFlow = await rateAppService.openRateAppFlow();
     if (!didOpenReviewFlow) {
       Alert.alert(
-        "Unable to Open Store",
-        "Could not open the app rating flow. Please try again later.",
+        uiT("ui.unable_to_open_store_e966344d"),
+        uiT("ui.could_not_open_the_app_rating_flow_please_try_again_later_2acee322"),
       );
     }
   };
@@ -1355,8 +1356,8 @@ export function useSettingsController() {
       const canOpenPatreon = await Linking.canOpenURL(PATREON_URL);
       if (!canOpenPatreon) {
         Alert.alert(
-          "Unable to Open Patreon",
-          "Could not open Patreon right now. Please try again later.",
+          uiT("ui.unable_to_open_patreon_0e0779a9"),
+          uiT("ui.could_not_open_patreon_right_now_please_try_again_later_e1ecbcbb"),
         );
         return;
       }
@@ -1365,8 +1366,8 @@ export function useSettingsController() {
     } catch (error) {
       console.error("Failed to open Patreon URL:", error);
       Alert.alert(
-        "Unable to Open Patreon",
-        "Could not open Patreon right now. Please try again later.",
+        uiT("ui.unable_to_open_patreon_0e0779a9"),
+        uiT("ui.could_not_open_patreon_right_now_please_try_again_later_e1ecbcbb"),
       );
     }
   };
@@ -1393,8 +1394,8 @@ export function useSettingsController() {
 
         if (!wasLogged) {
           Alert.alert(
-            "Couldn't Save Response",
-            "Please try again in a moment.",
+            uiT("ui.couldn_t_save_response_1ce67454"),
+            uiT("ui.please_try_again_in_a_moment_7ba353b0"),
           );
           return false;
         }
@@ -1409,15 +1410,7 @@ export function useSettingsController() {
         setIsSubmittingBunproSurvey(false);
       }
     },
-    [
-      bunproFeatureRequestInput,
-      bunproIntegrationAnswer,
-      isSubmittingBunproSurvey,
-      setBunproSurveyCompleted,
-      userData?.id,
-      userData?.level,
-      userData?.username,
-    ],
+    [bunproFeatureRequestInput, bunproIntegrationAnswer, isSubmittingBunproSurvey, setBunproSurveyCompleted, userData?.id, userData?.level, userData?.username, ],
   );
 
   const handleBunproUsageSelection = useCallback((selection: "yes" | "no") => {
@@ -1432,14 +1425,14 @@ export function useSettingsController() {
 
   const handleSubmitBunproSurvey = useCallback(async () => {
     if (!bunproUsageAnswer) {
-      Alert.alert("One More Thing", "Please answer whether you use Bunpro.");
+      Alert.alert(uiT("ui.one_more_thing_c33c0f7f"), uiT("ui.please_answer_whether_you_use_bunpro_b386f7e2"));
       return;
     }
 
     if (bunproUsageAnswer === "yes" && !bunproIntegrationAnswer) {
       Alert.alert(
-        "One More Thing",
-        "Please answer whether you want Bunpro in this app.",
+        uiT("ui.one_more_thing_c33c0f7f"),
+        uiT("ui.please_answer_whether_you_want_bunpro_in_this_app_3d3776fe"),
       );
       return;
     }
@@ -1449,19 +1442,19 @@ export function useSettingsController() {
 
   const handleJpdbApiKeyInfoPress = () => {
     Alert.alert(
-      "JPDB API Key",
-      'This key enables parse-first vocabulary detection in News, the EPUB reader, and the URL Reader.\n\nYou can get it for free by creating a JPDB account, then opening jpdb.io/settings and copying your key from the "Account information" section.',
+      uiT("ui.jpdb_api_key_7359b884"),
+      uiT("ui.this_key_enables_parse_first_vocabulary_detection_in_news_the_epu_9d5c5225"),
       [
-        { text: "Close", style: "cancel" },
+        { text: uiT("ui.close_7d9eb7ac"), style: "cancel" },
         {
-          text: "Open JPDB Settings",
+          text: uiT("ui.open_jpdb_settings_858f136d"),
           onPress: async () => {
             try {
               const canOpen = await Linking.canOpenURL(JPDB_SETTINGS_URL);
               if (!canOpen) {
                 Alert.alert(
-                  "Unable to Open JPDB",
-                  "Could not open JPDB settings right now.",
+                  uiT("ui.unable_to_open_jpdb_20bfa5aa"),
+                  uiT("ui.could_not_open_jpdb_settings_right_now_6a16a078"),
                 );
                 return;
               }
@@ -1469,8 +1462,8 @@ export function useSettingsController() {
             } catch (error) {
               console.error("Failed to open JPDB settings URL:", error);
               Alert.alert(
-                "Unable to Open JPDB",
-                "Could not open JPDB settings right now.",
+                uiT("ui.unable_to_open_jpdb_20bfa5aa"),
+                uiT("ui.could_not_open_jpdb_settings_right_now_6a16a078"),
               );
             }
           },
@@ -1487,12 +1480,12 @@ export function useSettingsController() {
           : "the Song Lyrics default view";
 
       Alert.alert(
-        "JPDB API Key Required",
-        `Full mode for ${contextLabel} is blocked until you save a JPDB API key.`,
+        uiT("ui.jpdb_api_key_required_9c3a619c"),
+        uiT("ui.full_mode_for_value_is_blocked_until_you_save_a_jpdb_api_key_abdce887", {value1: (contextLabel)}),
         [
-          { text: "Not now", style: "cancel" },
+          { text: uiT("ui.not_now_a0e63d7c"), style: "cancel" },
           {
-            text: "Go to JPDB API Key",
+            text: uiT("ui.go_to_jpdb_api_key_91e9ad1a"),
             onPress: () => {
               scrollToSection("profile", true);
             },
@@ -1557,8 +1550,8 @@ export function useSettingsController() {
           setSongsPlaybackSource("youtube");
         }
         Alert.alert(
-          "Subscription Required",
-          "Apple Music playback needs an active Apple Music subscription.",
+          uiT("ui.subscription_required_505c21bd"),
+          uiT("ui.apple_music_playback_needs_an_active_apple_music_subscription_e60e8f07"),
         );
         return false;
       }
@@ -1572,7 +1565,7 @@ export function useSettingsController() {
         setSongsPlaybackSource("youtube");
       }
       Alert.alert(
-        "Apple Music Unavailable",
+        uiT("ui.apple_music_unavailable_36378894"),
         getAppleMusicSubscriptionAlertMessage(error),
       );
       return false;
@@ -1582,8 +1575,8 @@ export function useSettingsController() {
   const handleAppleMusicLogin = async () => {
     if (Platform.OS !== "ios" || !isAppleMusicAuthAvailable) {
       Alert.alert(
-        "Unsupported",
-        "Apple Music login is only available on iOS development builds.",
+        uiT("ui.unsupported_54324658"),
+        uiT("ui.apple_music_login_is_only_available_on_ios_development_builds_d6e26055"),
       );
       return;
     }
@@ -1598,20 +1591,20 @@ export function useSettingsController() {
           return;
         }
 
-        Alert.alert("Connected", "Apple Music is now authorized.");
+        Alert.alert(uiT("ui.connected_22965568"), uiT("ui.apple_music_is_now_authorized_37c83c2c"));
         setSongsPlaybackSource("appleMusic");
       } else {
         Alert.alert(
-          "Not Authorized",
-          "Apple Music authorization was not granted.",
+          uiT("ui.not_authorized_67d64f61"),
+          uiT("ui.apple_music_authorization_was_not_granted_81219807"),
         );
         setAppleMusicPlaybackAccessStatus("unknown");
       }
     } catch (error) {
       console.error("Apple Music login failed:", error);
       Alert.alert(
-        "Login Failed",
-        "Could not complete Apple Music authorization. Check device Music settings and your Apple Music subscription.",
+        uiT("ui.login_failed_717a2914"),
+        uiT("ui.could_not_complete_apple_music_authorization_check_device_music_s_9fb753ba"),
       );
     }
   };
@@ -1620,8 +1613,8 @@ export function useSettingsController() {
     if (!isSpotifyAuthAvailable) {
       setSpotifyAuthStatus("notConfigured");
       Alert.alert(
-        "Spotify Setup Required",
-        "Open Spotify setup in Music Playback settings. Follow the guide to create your personal developer app, then save its Client ID.",
+        uiT("ui.spotify_setup_required_546a7b0c"),
+        uiT("ui.open_spotify_setup_in_music_playback_settings_follow_the_guide_to_8e51fff2"),
       );
       return;
     }
@@ -1640,18 +1633,18 @@ export function useSettingsController() {
       setSongsPlaybackSource("spotify");
       if (profile.product && profile.product !== "premium") {
         Alert.alert(
-          "Spotify Connected",
-          "Your account is linked, but Spotify playback and personal developer apps require an active Spotify Premium subscription.",
+          uiT("ui.spotify_connected_9ee5e9b6"),
+          uiT("ui.your_account_is_linked_but_spotify_playback_and_personal_develope_7d829cde"),
         );
         return;
       }
 
-      Alert.alert("Connected", "Your Spotify account is linked. Open Spotify and play a song once, then return to Kakehashi to control playback.");
+      Alert.alert(uiT("ui.connected_22965568"), uiT("ui.your_spotify_account_is_linked_open_spotify_and_play_a_song_once_65e7c50b"));
     } catch (error) {
       console.error("Spotify login failed:", error);
       Alert.alert(
-        "Login Failed",
-        "Could not complete Spotify authorization. Please try again.",
+        uiT("ui.login_failed_717a2914"),
+        uiT("ui.could_not_complete_spotify_authorization_please_try_again_850f50fd"),
       );
     }
   };
@@ -1674,8 +1667,8 @@ export function useSettingsController() {
     if (source === "spotify") {
       if (!isSpotifyAuthAvailable) {
         Alert.alert(
-          "Spotify Setup Required",
-          "Open Spotify setup in Music Playback settings. Follow the guide to create your personal developer app, then save its Client ID.",
+          uiT("ui.spotify_setup_required_546a7b0c"),
+          uiT("ui.open_spotify_setup_in_music_playback_settings_follow_the_guide_to_8e51fff2"),
         );
         return;
       }
@@ -1692,16 +1685,16 @@ export function useSettingsController() {
 
     if (Platform.OS !== "ios") {
       Alert.alert(
-        "Not Available",
-        "Apple Music playback is only available on iOS.",
+        uiT("ui.not_available_2ab64517"),
+        uiT("ui.apple_music_playback_is_only_available_on_ios_681d8ee5"),
       );
       return;
     }
 
     if (!isAppleMusicAuthAvailable) {
       Alert.alert(
-        "Setup Required",
-        "Install an iOS development build to use Apple Music authentication.",
+        uiT("ui.setup_required_d0c82eb8"),
+        uiT("ui.install_an_ios_development_build_to_use_apple_music_authenticatio_c7476008"),
       );
       return;
     }
@@ -1725,12 +1718,12 @@ export function useSettingsController() {
 
   const handleDevClearAndLogout = async () => {
     Alert.alert(
-      "Clear All Data & Logout",
-      "This will completely reset the app to its initial state, clearing all cache and logging you out. This is useful for debugging first-time user issues.",
+      uiT("ui.clear_all_data_logout_c42eb1d7"),
+      uiT("ui.this_will_completely_reset_the_app_to_its_initial_state_clearing_8d861521"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Reset App",
+          text: uiT("ui.reset_app_a63cb257"),
           style: "destructive",
           onPress: async () => {
             try {
@@ -1743,8 +1736,8 @@ export function useSettingsController() {
             } catch (error) {
               console.error("Error clearing app data:", error);
               Alert.alert(
-                "Error",
-                "Failed to clear app data. Please try again.",
+                uiT("ui.error_54a0e8c1"),
+                uiT("ui.failed_to_clear_app_data_please_try_again_7475b054"),
               );
             }
           },
@@ -1993,8 +1986,8 @@ export function useSettingsController() {
 
       if (finalStatus !== "granted") {
         Alert.alert(
-          "Notifications Disabled",
-          "Enable notifications in your device settings to receive reminder alerts.",
+          uiT("ui.notifications_disabled_8d68e6c4"),
+          uiT("ui.enable_notifications_in_your_device_settings_to_receive_reminder_f59379a6"),
         );
       }
     }
@@ -2019,8 +2012,8 @@ export function useSettingsController() {
 
       if (finalStatus !== "granted") {
         Alert.alert(
-          "Notifications Disabled",
-          "Enable notifications in your device settings to receive reminder alerts.",
+          uiT("ui.notifications_disabled_8d68e6c4"),
+          uiT("ui.enable_notifications_in_your_device_settings_to_receive_reminder_f59379a6"),
         );
       }
     }
@@ -2163,12 +2156,12 @@ export function useSettingsController() {
     });
 
     Alert.alert(
-      "Delete offline audio?",
-      "You can keep the downloaded audio or delete it to free up space.",
+      uiT("ui.delete_offline_audio_65468e98"),
+      uiT("ui.you_can_keep_the_downloaded_audio_or_delete_it_to_free_up_space_6dbd31e2"),
       [
-        { text: "Keep", style: "cancel" },
+        { text: uiT("ui.keep_183f00f4"), style: "cancel" },
         {
-          text: "Delete",
+          text: uiT("ui.delete_e2d0a549"),
           style: "destructive",
           onPress: () => {
             setIsClearingOfflineAudioCache(true);
@@ -2183,12 +2176,12 @@ export function useSettingsController() {
 
   const handleClearOfflineAudioCache = () => {
     Alert.alert(
-      "Delete cached audio?",
-      "This removes all downloaded vocabulary audio from your device.",
+      uiT("ui.delete_cached_audio_1dc79a82"),
+      uiT("ui.this_removes_all_downloaded_vocabulary_audio_from_your_device_c5ec2dc4"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Delete",
+          text: uiT("ui.delete_e2d0a549"),
           style: "destructive",
           onPress: () => {
             setIsClearingOfflineAudioCache(true);
@@ -2208,14 +2201,14 @@ export function useSettingsController() {
     }
 
     Alert.alert(
-      "Vocabulary Audio Voice",
-      "Choose the voice mode used after correct reading answers.",
+      uiT("ui.vocabulary_audio_voice_bfc74eeb"),
+      uiT("ui.choose_the_voice_mode_used_after_correct_reading_answers_c0fecdc0"),
       [
         ...VOCABULARY_AUDIO_VOICE_OPTIONS.map((option) => ({
           text: option.label,
           onPress: () => selectVocabularyAudioVoice(option.value),
         })),
-        { text: "Cancel", style: "destructive" as const },
+        { text: uiT("ui.cancel_19766ed6"), style: "destructive" as const },
       ],
     );
   };
@@ -2227,14 +2220,14 @@ export function useSettingsController() {
     }
 
     Alert.alert(
-      "SRS Progression",
-      "Choose how SRS progression appears after answering review items.",
+      uiT("ui.srs_progression_96060b33"),
+      uiT("ui.choose_how_srs_progression_appears_after_answering_review_items_ca373dc7"),
       [
         ...SRS_PROGRESSION_CARD_MODE_OPTIONS.map((option) => ({
           text: option.label,
           onPress: () => selectSrsProgressionCardMode(option.value),
         })),
-        { text: "Cancel", style: "destructive" as const },
+        { text: uiT("ui.cancel_19766ed6"), style: "destructive" as const },
       ],
     );
   };
@@ -2349,7 +2342,7 @@ export function useSettingsController() {
       setCacheAnalysis(analysis);
       setShowCacheModal(true);
     } catch {
-      Alert.alert("Error", "Failed to analyze cache storage");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_analyze_cache_storage_347b45c5"));
     } finally {
       setIsAnalyzingCache(false);
     }
@@ -2357,23 +2350,23 @@ export function useSettingsController() {
 
   const handleClearAllCache = async () => {
     Alert.alert(
-      "Clear All Cache",
-      "This will clear all cached data. You may need to re-download content when using the app.",
+      uiT("ui.clear_all_cache_ae71b7e0"),
+      uiT("ui.this_will_clear_all_cached_data_you_may_need_to_re_download_conte_12203e13"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Clear",
+          text: uiT("ui.clear_83b12c22"),
           style: "destructive",
           onPress: async () => {
             try {
               await clearCache();
-              Alert.alert("Success", "All cache has been cleared");
+              Alert.alert(uiT("ui.success_c88a0b90"), uiT("ui.all_cache_has_been_cleared_f55a846b"));
               // Refresh analysis if modal is open
               if (showCacheModal) {
                 handleCacheAnalysis();
               }
             } catch {
-              Alert.alert("Error", "Failed to clear cache");
+              Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_clear_cache_5961326e"));
             }
           },
         },
@@ -2383,21 +2376,21 @@ export function useSettingsController() {
 
   const handleClearLargeItems = async () => {
     Alert.alert(
-      "Clear Large Items",
-      "This will clear cache items larger than 5MB. This can help reduce storage usage.",
+      uiT("ui.clear_large_items_69ee0766"),
+      uiT("ui.this_will_clear_cache_items_larger_than_5mb_this_can_help_reduce_923c844e"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Clear",
+          text: uiT("ui.clear_83b12c22"),
           style: "destructive",
           onPress: async () => {
             try {
               await clearLargeCache(undefined, 5);
-              Alert.alert("Success", "Large cache items have been cleared");
+              Alert.alert(uiT("ui.success_c88a0b90"), uiT("ui.large_cache_items_have_been_cleared_3807598f"));
               // Refresh analysis
               handleCacheAnalysis();
             } catch {
-              Alert.alert("Error", "Failed to clear large cache items");
+              Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_clear_large_cache_items_3510d3dc"));
             }
           },
         },
@@ -2407,21 +2400,21 @@ export function useSettingsController() {
 
   const handleClearCategory = async (categoryName: string) => {
     Alert.alert(
-      `Clear ${categoryName}`,
-      `This will clear all cached data in the ${categoryName} category.`,
+      uiT("ui.clear_value_806f10e5", {value1: (categoryName)}),
+      uiT("ui.this_will_clear_all_cached_data_in_the_value_category_4d28d2aa", {value1: (categoryName)}),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Clear",
+          text: uiT("ui.clear_83b12c22"),
           style: "destructive",
           onPress: async () => {
             try {
               await clearLargeCache(categoryName);
-              Alert.alert("Success", `${categoryName} cache has been cleared`);
+              Alert.alert(uiT("ui.success_c88a0b90"), uiT("ui.value_cache_has_been_cleared_ac073a0f", {value1: (categoryName)}));
               // Refresh analysis
               handleCacheAnalysis();
             } catch {
-              Alert.alert("Error", `Failed to clear ${categoryName} cache`);
+              Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_clear_value_cache_590ff33e", {value1: (categoryName)}));
             }
           },
         },
@@ -2433,31 +2426,29 @@ export function useSettingsController() {
     try {
       await analyzeSubjectsCache();
       Alert.alert(
-        "Analysis Complete",
-        "Check the console for detailed subjects cache breakdown. This shows the difference between individual subject caches and collection caches.",
+        uiT("ui.analysis_complete_690b280d"),
+        uiT("ui.check_the_console_for_detailed_subjects_cache_breakdown_this_show_6612e332"),
       );
     } catch {
-      Alert.alert("Error", "Failed to analyze subjects cache");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_analyze_subjects_cache_461b035c"));
     }
   };
 
   const handleOptimizeCache = async () => {
     Alert.alert(
-      "Optimize Cache",
-      "This will remove duplicate data, expired entries, and enforce size limits. This could save 20-50MB of storage.",
+      uiT("ui.optimize_cache_b31f1b08"),
+      uiT("ui.this_will_remove_duplicate_data_expired_entries_and_enforce_size_432cece0"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Optimize",
+          text: uiT("ui.optimize_aa5f530a"),
           onPress: async () => {
             try {
               const result = await quickOptimize();
 
               Alert.alert(
-                "Optimization Complete",
-                `Saved ${result.savedSpaceFormatted} by removing ${
-                  result.itemsRemoved
-                } items.\n\n${result.optimizationsApplied.join("\n")}`,
+                uiT("ui.optimization_complete_f9f18f77"),
+                uiT("ui.saved_value_by_removing_value_items_value_e4428742", {value1: (result.savedSpaceFormatted), value2: (result.itemsRemoved), value3: (result.optimizationsApplied.join("\n"))}),
               );
 
               // Refresh analysis if modal is open
@@ -2465,7 +2456,7 @@ export function useSettingsController() {
                 handleCacheAnalysis();
               }
             } catch (error) {
-              Alert.alert("Error", `Failed to optimize cache ${error}`);
+              Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_optimize_cache_value_2f93a46a", {value1: (error)}));
             }
           },
         },
@@ -2496,7 +2487,7 @@ export function useSettingsController() {
       setExpoPendingNotifications(expoScheduledNotifications);
       setShowNotificationsModal(true);
     } catch (error) {
-      Alert.alert("Error", "Failed to get pending notifications");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_get_pending_notifications_75730869"));
       console.error("Failed to get pending notifications:", error);
     }
   };
@@ -2505,8 +2496,8 @@ export function useSettingsController() {
     console.log("\n📊 API Debug Summary (triggered from Settings)");
     apiDebugger.printSummary();
     Alert.alert(
-      "API Summary",
-      "API call summary has been printed to the console. Check the terminal/debugger for details.",
+      uiT("ui.api_summary_30607139"),
+      uiT("ui.api_call_summary_has_been_printed_to_the_console_check_the_termin_1d1b47e2"),
     );
   };
 
@@ -2514,8 +2505,8 @@ export function useSettingsController() {
     console.log("\n📋 API Detailed Log (triggered from Settings)");
     apiDebugger.printDetailedLog();
     Alert.alert(
-      "API Details",
-      "Detailed API call log has been printed to the console. Check the terminal/debugger for timestamps and payloads.",
+      uiT("ui.api_details_0d855d05"),
+      uiT("ui.detailed_api_call_log_has_been_printed_to_the_console_check_the_t_f5ee6fc7"),
     );
   };
 
@@ -2523,8 +2514,8 @@ export function useSettingsController() {
     apiDebugger.clear();
     clearInMemoryCache();
     Alert.alert(
-      "Cleared",
-      "API debug history and in-memory cache have been cleared.",
+      uiT("ui.cleared_15f3a289"),
+      uiT("ui.api_debug_history_and_in_memory_cache_have_been_cleared_160d92e2"),
     );
   };
 
@@ -2532,8 +2523,8 @@ export function useSettingsController() {
     console.log("\nAPI Timeline Summary (triggered from Settings)");
     apiDebugger.printTimelineSummary();
     Alert.alert(
-      "Timeline Summary",
-      "API timeline summary has been printed to the console.",
+      uiT("ui.timeline_summary_1f2060f6"),
+      uiT("ui.api_timeline_summary_has_been_printed_to_the_console_d5b827c6"),
     );
   };
 
@@ -2543,8 +2534,8 @@ export function useSettingsController() {
 
       if (payload.entries.length === 0) {
         Alert.alert(
-          "No timeline data",
-          "No API requests were captured yet. Refresh dashboard data first, then try again.",
+          uiT("ui.no_timeline_data_27318307"),
+          uiT("ui.no_api_requests_were_captured_yet_refresh_dashboard_data_first_th_cb5c3524"),
         );
         return;
       }
@@ -2555,7 +2546,7 @@ export function useSettingsController() {
       exportFile.write(JSON.stringify(payload, null, 2));
 
       await Share.share({
-        title: "WaniKani API timeline JSON",
+        title: uiT("ui.wanikani_api_timeline_json_ec2f5d97"),
         message:
           Platform.OS === "android"
             ? `API timeline exported to:\n${exportFile.uri}`
@@ -2565,15 +2556,15 @@ export function useSettingsController() {
     } catch (error) {
       console.error("Failed to export API timeline:", error);
       Alert.alert(
-        "Export failed",
-        "Could not export API timeline right now. Please try again.",
+        uiT("ui.export_failed_e94d3ee0"),
+        uiT("ui.could_not_export_api_timeline_right_now_please_try_again_20f6a085"),
       );
     }
   };
 
   const handleClearApiTimeline = () => {
     apiDebugger.clearTimeline();
-    Alert.alert("Cleared", "API timeline history has been cleared.");
+    Alert.alert(uiT("ui.cleared_15f3a289"), uiT("ui.api_timeline_history_has_been_cleared_4e227f22"));
   };
 
   // Cache health check handler
@@ -2588,9 +2579,9 @@ export function useSettingsController() {
           ? ` (expected: ${status.expectedSubjects})`
           : "";
         Alert.alert(
-          "Cache Healthy",
-          `Your subjects cache is healthy.\n\n${status.validSubjects} subjects cached${expectedInfo}.`,
-          [{ text: "OK" }],
+          uiT("ui.cache_healthy_281cf2b4"),
+          uiT("ui.your_subjects_cache_is_healthy_value_subjects_cachedvalue_c823fdff", {value1: (status.validSubjects), value2: (expectedInfo)}),
+          [{ text: uiT("ui.ok_565339bc") }],
         );
       } else {
         const issuesSummary = status.issues
@@ -2598,12 +2589,12 @@ export function useSettingsController() {
           .join("\n");
 
         Alert.alert(
-          "Cache Issues Detected",
-          `The cache has ${status.issues.length} issue(s):\n\n${issuesSummary}\n\nWould you like to repair it?`,
+          uiT("ui.cache_issues_detected_c75ebd2f"),
+          uiT("ui.the_cache_has_value_issue_s_value_would_you_like_to_repair_it_ee731f52", {value1: (status.issues.length), value2: (issuesSummary)}),
           [
-            { text: "Cancel", style: "cancel" },
+            { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
             {
-              text: "Repair Now",
+              text: uiT("ui.repair_now_e1ef3d71"),
               onPress: () => handleRepairCache(),
             },
           ],
@@ -2611,7 +2602,7 @@ export function useSettingsController() {
       }
     } catch (error) {
       console.error("Error checking cache health:", error);
-      Alert.alert("Error", "Failed to check cache health.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_check_cache_health_abc5c882"));
     } finally {
       setIsCheckingCacheHealth(false);
     }
@@ -2635,17 +2626,17 @@ export function useSettingsController() {
   // Cache repair handler
   const handleRepairCache = async () => {
     if (!apiToken) {
-      Alert.alert("Error", "No API token available. Please log in again.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.no_api_token_available_please_log_in_again_5ab37adb"));
       return;
     }
 
     Alert.alert(
-      "Repair Cache",
-      "This will clear the cache and download fresh data from WaniKani. This may take a moment.",
+      uiT("ui.repair_cache_ba243317"),
+      uiT("ui.this_will_clear_the_cache_and_download_fresh_data_from_wanikani_t_24d18561"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Repair",
+          text: uiT("ui.repair_1196b6c5"),
           onPress: async () => {
             setIsRepairingCache(true);
             try {
@@ -2658,15 +2649,15 @@ export function useSettingsController() {
 
               if (result.success) {
                 setCacheHealthStatus(result.newStatus || null);
-                Alert.alert("Cache Repaired", result.message, [{ text: "OK" }]);
+                Alert.alert(uiT("ui.cache_repaired_cee32419"), result.message, [{ text: uiT("ui.ok_565339bc") }]);
               } else {
-                Alert.alert("Repair Failed", result.message, [{ text: "OK" }]);
+                Alert.alert(uiT("ui.repair_failed_61aa4a7c"), result.message, [{ text: uiT("ui.ok_565339bc") }]);
               }
             } catch (error) {
               console.error("Error repairing cache:", error);
               Alert.alert(
-                "Error",
-                "Failed to repair cache. Please try again later or reinstall the app.",
+                uiT("ui.error_54a0e8c1"),
+                uiT("ui.failed_to_repair_cache_please_try_again_later_or_reinstall_the_ap_1d0d7694"),
               );
             } finally {
               setIsRepairingCache(false);
@@ -2698,8 +2689,8 @@ export function useSettingsController() {
   const handleOpenLevelAnalyticsExportModal = () => {
     if (availableLevelAnalyticsLevels.length === 0) {
       Alert.alert(
-        "No data to export",
-        "Level analytics aren't available yet. Refresh your dashboard data and try again.",
+        uiT("ui.no_data_to_export_cc395a89"),
+        uiT("ui.level_analytics_aren_t_available_yet_refresh_your_dashboard_data_dfe07d47"),
       );
       return;
     }
@@ -2752,8 +2743,8 @@ export function useSettingsController() {
 
       if (rowCount === 0) {
         Alert.alert(
-          "No rows to export",
-          "No analytics rows matched your selected levels.",
+          uiT("ui.no_rows_to_export_bc4220f5"),
+          uiT("ui.no_analytics_rows_matched_your_selected_levels_29f3be27"),
         );
         return;
       }
@@ -2767,7 +2758,7 @@ export function useSettingsController() {
       setIsExportingLevelAnalytics(false);
 
       await Share.share({
-        title: `${datasetLabel} level analytics CSV`,
+        title: uiT("ui.value_level_analytics_csv_3f39b175", {value1: (datasetLabel)}),
         message:
           Platform.OS === "android"
             ? `${datasetLabel} level analytics CSV exported to:\n${exportFile.uri}`
@@ -2777,8 +2768,8 @@ export function useSettingsController() {
     } catch (error) {
       console.error("Failed to export level analytics:", error);
       Alert.alert(
-        "Export failed",
-        "Could not export level analytics right now. Please try again.",
+        uiT("ui.export_failed_e94d3ee0"),
+        uiT("ui.could_not_export_level_analytics_right_now_please_try_again_ef9eb248"),
       );
     } finally {
       setIsExportingLevelAnalytics(false);
@@ -2788,8 +2779,8 @@ export function useSettingsController() {
   const handleConfirmLevelAnalyticsExport = async () => {
     if (selectedLevelAnalyticsLevels.length === 0) {
       Alert.alert(
-        "Select levels",
-        "Choose at least one level before exporting analytics.",
+        uiT("ui.select_levels_75c0f9d7"),
+        uiT("ui.choose_at_least_one_level_before_exporting_analytics_56717b92"),
       );
       return;
     }

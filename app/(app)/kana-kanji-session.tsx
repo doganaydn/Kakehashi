@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import { router, useLocalSearchParams } from "expo-router";
@@ -118,6 +119,7 @@ const EMPTY_PROGRESS_STATE: KanaKanjiProgressState = {
 const KANA_KANJI_SESSION_KEY = EXTRA_STUDY_SESSION_STORAGE_KEYS.KANA_KANJI;
 
 export default function KanaKanjiSessionScreen() {
+  useInterfaceLanguage();
   useActivityTracking("kana_kanji");
   const { theme } = useTheme();
   const { apiToken } = useAuthStore();
@@ -212,9 +214,9 @@ export default function KanaKanjiSessionScreen() {
         }
         if (!params.sessionId) {
           Alert.alert(
-            "Session Not Available",
-            "Couldn't restore that kana to kanji session.",
-            [{ text: "OK", onPress: () => router.replace("/kana-kanji-config") }],
+            uiT("ui.session_not_available_3b81ebff"),
+            uiT("ui.couldn_t_restore_that_kana_to_kanji_session_7bf4d597"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/kana-kanji-config") }],
           );
           return;
         }
@@ -268,25 +270,11 @@ export default function KanaKanjiSessionScreen() {
       }
     } catch (error) {
       console.error("Failed to load kana->kanji config:", error);
-      Alert.alert("Error", "Failed to load test configuration.", [
-        { text: "OK", onPress: () => router.back() },
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_test_configuration_9a47354b"), [
+        { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
       ]);
     }
-  }, [
-    params.maxLevel,
-    params.minLevel,
-    params.numberOfQuestions,
-    params.resume,
-    params.selectedListIds,
-    params.sessionId,
-    params.srsApprentice,
-    params.srsBurned,
-    params.srsEnlightened,
-    params.srsGuru,
-    params.srsMaster,
-    params.useCustomLevelRange,
-    restoreSavedKanaKanjiSession,
-  ]);
+  }, [params.maxLevel, params.minLevel, params.numberOfQuestions, params.resume, params.selectedListIds, params.sessionId, params.srsApprentice, params.srsBurned, params.srsEnlightened, params.srsGuru, params.srsMaster, params.useCustomLevelRange, restoreSavedKanaKanjiSession, ]);
 
   useEffect(() => {
     loadConfig();
@@ -309,9 +297,9 @@ export default function KanaKanjiSessionScreen() {
     if (!autoSwitchKeyboard) {
       setIsLoading(false);
       Alert.alert(
-        "Japanese Keyboard Required",
-        "Enable \"Switch to Japanese Keyboard\" before starting Kana to Kanji mode.",
-        [{ text: "OK", onPress: () => router.replace("/kana-kanji-config") }],
+        uiT("ui.japanese_keyboard_required_ecd8a724"),
+        uiT("ui.enable_switch_to_japanese_keyboard_before_starting_kana_to_kanji_6aa0f649"),
+        [{ text: uiT("ui.ok_565339bc"), onPress: () => router.replace("/kana-kanji-config") }],
       );
       return;
     }
@@ -333,9 +321,9 @@ export default function KanaKanjiSessionScreen() {
         selectedListIds.length === 0
       ) {
         Alert.alert(
-          "No Learned Items",
-          "You haven't learned enough items yet to take a test.",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.no_learned_items_920cb61f"),
+          uiT("ui.you_haven_t_learned_enough_items_yet_to_take_a_test_57bc5a43"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -407,9 +395,9 @@ export default function KanaKanjiSessionScreen() {
 
       if (filtered.length === 0) {
         Alert.alert(
-          "No Matching Items",
-          "No learned kanji vocabulary items match your selected criteria.",
-          [{ text: "OK", onPress: () => router.back() }],
+          uiT("ui.no_matching_items_cef58eee"),
+          uiT("ui.no_learned_kanji_vocabulary_items_match_your_selected_criteria_f39e5828"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
         );
         return;
       }
@@ -436,8 +424,8 @@ export default function KanaKanjiSessionScreen() {
 
       const shuffled = selected.sort(() => Math.random() - 0.5);
       if (shuffled.length === 0) {
-        Alert.alert("No Questions Generated", "Could not generate questions.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.no_questions_generated_1985c748"), uiT("ui.could_not_generate_questions_ab9c5beb"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
         return;
       }
@@ -477,9 +465,9 @@ export default function KanaKanjiSessionScreen() {
         );
         if (!allSubjectsRaw || allSubjectsRaw.length === 0) {
           Alert.alert(
-            "Offline",
-            "No cached subjects available. Please open the app online once to cache data.",
-            [{ text: "OK", onPress: () => router.back() }],
+            uiT("ui.offline_a1794783"),
+            uiT("ui.no_cached_subjects_available_please_open_the_app_online_once_to_c_2c650b66"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
           );
           return;
         }
@@ -513,9 +501,9 @@ export default function KanaKanjiSessionScreen() {
 
         if (filtered.length === 0) {
           Alert.alert(
-            "No Matching Items",
-            "No cached kanji vocabulary items match your selected criteria.",
-            [{ text: "OK", onPress: () => router.back() }],
+            uiT("ui.no_matching_items_cef58eee"),
+            uiT("ui.no_cached_kanji_vocabulary_items_match_your_selected_criteria_8bf7b61f"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
           );
           return;
         }
@@ -537,9 +525,9 @@ export default function KanaKanjiSessionScreen() {
 
         if (selected.length === 0) {
           Alert.alert(
-            "No Questions Generated",
-            "Could not generate questions offline.",
-            [{ text: "OK", onPress: () => router.back() }],
+            uiT("ui.no_questions_generated_1985c748"),
+            uiT("ui.could_not_generate_questions_offline_f41b3242"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }],
           );
           return;
         }
@@ -570,8 +558,8 @@ export default function KanaKanjiSessionScreen() {
         });
       } catch (fallbackError) {
         console.error("Offline fallback failed:", fallbackError);
-        Alert.alert("Error", "Failed to load questions.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_questions_2619febe"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
       }
     } finally {
@@ -669,23 +657,23 @@ export default function KanaKanjiSessionScreen() {
 
   const handleExit = () => {
     Alert.alert(
-      "Exit Test",
-      "Want to continue this test later?",
+      uiT("ui.exit_test_d80c3862"),
+      uiT("ui.want_to_continue_this_test_later_29b1c2b7"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Continue Later",
+          text: uiT("ui.continue_later_ba247ab0"),
           onPress: async () => {
             const wasSaved = await saveKanaKanjiSessionForLater();
             if (!wasSaved) {
-              Alert.alert("Couldn't Save Progress", "Please try again in a moment.");
+              Alert.alert(uiT("ui.couldn_t_save_progress_7bbcd471"), uiT("ui.please_try_again_in_a_moment_7ba353b0"));
               return;
             }
             router.back();
           },
         },
         {
-          text: "Exit",
+          text: uiT("ui.exit_d17d84a6"),
           style: "destructive",
           onPress: async () => {
             await clearSavedKanaKanjiSession();
@@ -715,7 +703,7 @@ export default function KanaKanjiSessionScreen() {
       >
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
-          <Text style={[styles.loadingText, { color: theme.textColor }]}>Preparing your kana to kanji test...</Text>
+          <Text style={[styles.loadingText, { color: theme.textColor }]}>{uiT("ui.preparing_your_kana_to_kanji_test_50aa6cfa")}</Text>
         </View>
       </SafeAreaView>
     );
@@ -744,12 +732,12 @@ export default function KanaKanjiSessionScreen() {
         style={[styles.container, { backgroundColor: theme.backgroundColor }]}
       >
         <View style={styles.errorContainer}>
-          <Text style={[styles.errorText, { color: theme.error }]}>No test questions available</Text>
+          <Text style={[styles.errorText, { color: theme.error }]}>{uiT("ui.no_test_questions_available_5053cbef")}</Text>
           <TouchableOpacity
             style={[styles.errorButton, { backgroundColor: theme.secondary }]}
             onPress={() => router.back()}
           >
-            <Text style={styles.errorButtonText}>Go Back</Text>
+            <Text style={styles.errorButtonText}>{uiT("ui.go_back_b8d99df1")}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

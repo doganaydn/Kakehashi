@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../interface-language/runtime";
 import { SettingsRowIcon } from "../../../ui/settings/settings-row-icon";
 import { SettingsSectionSurface } from "../../../ui/settings/settings-section-surface";
 import { SettingsLabel } from "../../../ui/settings/settings-search";
@@ -11,6 +12,7 @@ import { useSettingsControllerContext } from "../SettingsControllerContext";
 import { styles } from "../styles";
 
 export function NotesSection() {
+  useInterfaceLanguage();
   const advancedNoteEditorEnabled = useSettingsStore(
     (state) => state.advancedNoteEditorEnabled,
   );
@@ -38,8 +40,7 @@ export function NotesSection() {
           { color: theme.textColor, borderBottomColor: theme.border },
         ]}
       >
-        Notes
-      </Text>
+        {uiT("ui.notes_8a7525b1")} </Text>
 
       <View style={[styles.settingItem, { borderBottomColor: "transparent" }]}>
 
@@ -48,15 +49,12 @@ export function NotesSection() {
           <SettingsLabel
             style={[styles.settingText, { color: theme.textColor }]}
           >
-            Advanced note editor
-          </SettingsLabel>
+            {uiT("ui.advanced_note_editor_cf326221")} </SettingsLabel>
           <Text style={[styles.settingSubtext, { color: theme.textSecondary }]}>
-            Use formatting and subject links in study notes. Existing formatted
-            notes keep the advanced editor.
-          </Text>
+            {uiT("ui.use_formatting_and_subject_links_in_study_notes_existing_formatte_b06a6f4f")} </Text>
         </View>
         <Switch
-          accessibilityLabel="Advanced note editor"
+          accessibilityLabel={uiT("ui.advanced_note_editor_cf326221")}
           value={advancedNoteEditorEnabled}
           onValueChange={setAdvancedNoteEditorEnabled}
           trackColor={{ false: "#767577", true: theme.primary }}

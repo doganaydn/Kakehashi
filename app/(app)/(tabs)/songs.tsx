@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -62,7 +63,7 @@ function logMusicError(
 ) {
   const error = failure instanceof Error
     ? failure
-    : new Error(typeof failure === "string" ? failure : `Music ${operation} request failed`);
+    : new Error(typeof failure === "string" ? failure : uiT("ui.dynamic_43bd618d3a40", {value1: (operation)}));
   const status = error.message.match(/\b(?:error:\s*|request failed\s*\()(\d{3})\b/i);
   void errorService.logError(error, {
     extra: {
@@ -79,6 +80,7 @@ function logMusicError(
 }
 
 export default function SongsTab() {
+  useInterfaceLanguage();
   useActivityTracking("songs", { mode: "focus" });
   const { theme } = useTheme();
   const inputRef = useRef<TextInput>(null);
@@ -124,22 +126,22 @@ export default function SongsTab() {
 
   // Music sections
   const [newReleases, setNewReleases] = useState<MusicSection>({
-    title: "New Japanese Releases",
-    subtitle: "Fresh tracks from Japan",
+    title: uiT("ui.new_japanese_releases_0d8185f3"),
+    subtitle: uiT("ui.fresh_tracks_from_japan_a5d20080"),
     data: [],
     loading: true,
     error: null,
   });
   const [popularSongs, setPopularSongs] = useState<MusicSection>({
-    title: "Popular J-Pop",
-    subtitle: "Trending Japanese music",
+    title: uiT("ui.popular_j_pop_ad3ad928"),
+    subtitle: uiT("ui.trending_japanese_music_cf13c0f9"),
     data: [],
     loading: true,
     error: null,
   });
   const [animeSongs, setAnimeSongs] = useState<MusicSection>({
-    title: "Anime Openings & Endings",
-    subtitle: "Your favorite anime soundtracks",
+    title: uiT("ui.anime_openings_endings_62e6a103"),
+    subtitle: uiT("ui.your_favorite_anime_soundtracks_25f9e6d8"),
     data: [],
     loading: true,
     error: null,
@@ -319,17 +321,17 @@ export default function SongsTab() {
       console.log("🗑️ Cleared song history");
     } catch (error) {
       console.error("Error clearing song history:", error);
-      Alert.alert("Failed to clear history", "Please try again.");
+      Alert.alert(uiT("ui.failed_to_clear_history_00a9c07f"), uiT("ui.please_try_again_eea4fb33"));
     }
   }, []);
 
   const handleConfirmClearHistory = useCallback(() => {
     Alert.alert(
-      "Clear listening history?",
-      "This will remove your recently played songs from this device.",
+      uiT("ui.clear_listening_history_76efecea"),
+      uiT("ui.this_will_remove_your_recently_played_songs_from_this_device_f294e395"),
       [
-        { text: "Cancel", style: "cancel" },
-        { text: "Clear", style: "destructive", onPress: clearSongHistory },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
+        { text: uiT("ui.clear_83b12c22"), style: "destructive", onPress: clearSongHistory },
       ],
     );
   }, [clearSongHistory]);
@@ -365,7 +367,7 @@ export default function SongsTab() {
         logMusicError(loadError, selectedMusicSource, "discovery", key);
         setSection((prev) => ({
           ...prev, loading: false,
-          error: `Could not load songs from ${musicSourceLabel}. Please try again.`,
+          error: uiT("ui.dynamic_19ab29f1689f", {value1: (musicSourceLabel)}),
         }));
       }
     }
@@ -535,7 +537,7 @@ export default function SongsTab() {
         !spotifyService.hasClientCredentials()
       ) {
         setError(
-          "Spotify song search is unavailable in this build. Please try again after updating Kakehashi.",
+          uiT("ui.message_babeeaa7eef3"),
         );
         return;
       }
@@ -545,7 +547,7 @@ export default function SongsTab() {
         appleMusicAuthStatus !== "authorized"
       ) {
         setError(
-          "Authorize Apple Music in Settings first, then try searching again.",
+          uiT("ui.message_3d0943a08d3a"),
         );
         return;
       }
@@ -563,7 +565,7 @@ export default function SongsTab() {
         console.error("Error searching songs:", err);
         logMusicError(err, selectedMusicSource, "search");
         setError(
-          `Failed to search ${musicSourceLabel} songs. Please try again.`,
+          uiT("ui.dynamic_a12727927367", {value1: (musicSourceLabel)}),
         );
         setSearchResults([]);
       } finally {
@@ -616,7 +618,7 @@ export default function SongsTab() {
   const handlePlaylistPress = useCallback(
     (playlist: MusicPlaylist) => {
       if (playlist.source === "spotify" && spotifyAuthStatus !== "authorized") {
-        setError("Connect Spotify in Settings first, then import playlists.");
+        setError(uiT("ui.message_c65f50ed59ed"));
         return;
       }
 
@@ -625,7 +627,7 @@ export default function SongsTab() {
         appleMusicAuthStatus !== "authorized"
       ) {
         setError(
-          "Authorize Apple Music in Settings first, then import playlists.",
+          uiT("ui.message_df1c0862d4fd"),
         );
         return;
       }
@@ -734,14 +736,14 @@ export default function SongsTab() {
             ]}
           >
             <Text style={styles.playlistSourceText}>
-              {item.source === "spotify" ? "Spotify" : "Apple"}
+              {item.source === "spotify" ? "Spotify" : uiT("ui.apple_f223faa9")}
             </Text>
           </View>
           <Text
             style={[styles.playlistSubtitle, { color: theme.textSecondary }]}
             numberOfLines={1}
           >
-            {item.trackCount} song{item.trackCount === 1 ? "" : "s"}
+            {item.trackCount} {uiT("ui.song_63f75c89")}{uiPluralSuffix(item.trackCount === 1 ? "" : "s")}
           </Text>
         </View>
       </View>
@@ -834,24 +836,21 @@ export default function SongsTab() {
         <View style={styles.centerContent}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.centerText, { color: theme.textSecondary }]}>
-            {`Searching ${musicSourceLabel}...`}
+            {uiT("ui.searching_value_3091122c", {value1: (musicSourceLabel)})}
           </Text>
         </View>
       ) : searchResults.length === 0 ? (
         <View style={styles.centerContent}>
           <Ionicons name="search-outline" size={64} color={theme.textLight} />
           <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-            No Songs Found
-          </Text>
+            {uiT("ui.no_songs_found_df007a49")} </Text>
           <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-            Try a different search term
-          </Text>
+            {uiT("ui.try_a_different_search_term_3becd866")} </Text>
         </View>
       ) : (
         <View style={styles.resultsList}>
           <Text style={[styles.resultsCount, { color: theme.textSecondary }]}>
-            Found {searchResults.length} song
-            {searchResults.length !== 1 ? "s" : ""}
+            {uiT("ui.found_b0ee315f")} {searchResults.length} {uiT("ui.song_63f75c89")} {uiPluralSuffix(searchResults.length !== 1 ? "s" : "")}
           </Text>
           <FlashList
             data={searchResults}
@@ -876,10 +875,10 @@ export default function SongsTab() {
       />
       <Text style={[styles.offlineText, { color: theme.textSecondary }]}>
         {appleMusicNeedsAuthorization
-          ? "Authorize Apple Music in Settings to load songs"
+          ? uiT("ui.authorize_apple_music_in_settings_to_load_songs_23abeb54")
           : spotifyCatalogUnavailable
-            ? "Spotify song search is unavailable in this build"
-            : section.error || "No songs found. Try searching for an artist or song."}
+            ? uiT("ui.spotify_song_search_is_unavailable_in_this_build_fc29f3ed")
+            : section.error || uiT("ui.no_songs_found_try_searching_for_an_artist_or_song_b1756f49")}
       </Text>
       {section.error && !appleMusicNeedsAuthorization && !spotifyCatalogUnavailable && (
         <TouchableOpacity
@@ -889,7 +888,7 @@ export default function SongsTab() {
           style={styles.sectionActionButton}
           activeOpacity={0.7}
         >
-          <Text style={[styles.sectionActionText, { color: theme.primary }]}>Try again</Text>
+          <Text style={[styles.sectionActionText, { color: theme.primary }]}>{uiT("ui.try_again_d8b8392e")}</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -910,13 +909,11 @@ export default function SongsTab() {
           <View style={styles.sectionHeader}>
             <View>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Recently Played
-              </Text>
+                {uiT("ui.recently_played_2344da54")} </Text>
               <Text
                 style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
               >
-                Your listening history
-              </Text>
+                {uiT("ui.your_listening_history_f317b06b")} </Text>
             </View>
             <TouchableOpacity
               onPress={handleConfirmClearHistory}
@@ -934,8 +931,7 @@ export default function SongsTab() {
                   { color: theme.textSecondary },
                 ]}
               >
-                Clear
-              </Text>
+                {uiT("ui.clear_83b12c22")} </Text>
             </TouchableOpacity>
           </View>
           <ScrollView
@@ -960,13 +956,11 @@ export default function SongsTab() {
           <View style={styles.sectionHeader}>
             <View>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Your {musicSourceLabel} Playlists
-              </Text>
+                {uiT("ui.your_a2049432")} {musicSourceLabel} {uiT("ui.playlists_dcd0a4d2")} </Text>
               <Text
                 style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
               >
-                Import tracks into lyrics practice
-              </Text>
+                {uiT("ui.import_tracks_into_lyrics_practice_07fe579b")} </Text>
             </View>
           </View>
           {isLoadingPlaylists ? (
@@ -1000,10 +994,10 @@ export default function SongsTab() {
                 style={[styles.offlineText, { color: theme.textSecondary }]}
               >
                 {appleMusicNeedsAuthorization
-                  ? "Authorize Apple Music in Settings to import playlists"
+                  ? uiT("ui.authorize_apple_music_in_settings_to_import_playlists_5d63974a")
                   : spotifyAccountNeedsAuthorization
-                    ? "Connect Spotify in Settings to import playlists"
-                    : "No playlists found"}
+                    ? uiT("ui.connect_spotify_in_settings_to_import_playlists_1d328d26")
+                    : uiT("ui.no_playlists_found_180a0a86")}
               </Text>
             </View>
           )}
@@ -1152,8 +1146,7 @@ export default function SongsTab() {
         ]}
       >
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Music
-        </Text>
+          {uiT("ui.music_6eb00b4b")} </Text>
         {__DEV__ && (
           <TouchableOpacity
             onPress={handleClearLyricsCache}
@@ -1219,8 +1212,7 @@ export default function SongsTab() {
               color={theme.error}
             />
             <Text style={[styles.emptyTitle, { color: theme.error }]}>
-              Error
-            </Text>
+              {uiT("ui.error_54a0e8c1")} </Text>
             <Text
               style={[styles.emptySubtitle, { color: theme.textSecondary }]}
             >

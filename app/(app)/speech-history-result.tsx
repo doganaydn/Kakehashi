@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -27,6 +28,7 @@ import { useTheme } from "../../src/utils/theme";
 import { type SpeechHistoryItem, formatHistoryTimestamp } from '../../src/utils/searchHistory';
 
 export default function SpeechHistoryResultScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const kanjiTextColor = getReadableTextColor(subjectColors.kanji);
@@ -156,7 +158,7 @@ export default function SpeechHistoryResultScreen() {
               <Text
                 style={[styles.vocabularyLevel, { color: theme.textLight }]}
               >
-                Level {item.level}
+                {uiT("ui.level_1709305c")} {item.level}
               </Text>
             </View>
             {item.readings && item.readings.length > 0 && (
@@ -191,8 +193,7 @@ export default function SpeechHistoryResultScreen() {
                   <Text
                     style={[styles.moreReadings, { color: theme.textLight }]}
                   >
-                    +{item.readings.length - 2} more
-                  </Text>
+                    +{item.readings.length - 2} {uiT("ui.more_187897ce")} </Text>
                 )}
               </View>
             )}
@@ -255,7 +256,7 @@ export default function SpeechHistoryResultScreen() {
               <Text
                 style={[styles.vocabularyLevel, { color: theme.textLight }]}
               >
-                Level {item.level}
+                {uiT("ui.level_1709305c")} {item.level}
               </Text>
             </View>
             {item.readings && item.readings.length > 0 && (
@@ -290,8 +291,7 @@ export default function SpeechHistoryResultScreen() {
                   <Text
                     style={[styles.moreReadings, { color: theme.textLight }]}
                   >
-                    +{item.readings.length - 2} more
-                  </Text>
+                    +{item.readings.length - 2} {uiT("ui.more_187897ce")} </Text>
                 )}
               </View>
             )}
@@ -452,7 +452,7 @@ export default function SpeechHistoryResultScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>History Result</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.history_result_4daffe46")}</Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
             style={styles.headerButton}
@@ -482,7 +482,7 @@ export default function SpeechHistoryResultScreen() {
             <View style={styles.timestampContent}>
               <Ionicons name="time-outline" size={20} color={theme.textSecondary} />
               <Text style={[styles.timestampText, { color: theme.textSecondary }]}>
-                Searched {formatHistoryTimestamp(timestamp)}
+                {uiT("ui.searched_9fc7f116")} {formatHistoryTimestamp(timestamp)}
               </Text>
             </View>
           </View>
@@ -492,8 +492,7 @@ export default function SpeechHistoryResultScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Detected Text
-            </Text>
+              {uiT("ui.detected_text_13b4198b")} </Text>
           </View>
           
           <View style={[styles.recognizedTextCard, { backgroundColor: theme.cardBackground }]}>
@@ -502,8 +501,7 @@ export default function SpeechHistoryResultScreen() {
                 {/* Show English original first */}
                 <View style={styles.originalLanguageWrapper}>
                   <Text style={[styles.languageLabel, { color: theme.textSecondary }]}>
-                    English:
-                  </Text>
+                    {uiT("ui.english_95779ac5")} </Text>
                   <Text
                     style={[
                       styles.originalLanguageText,
@@ -518,8 +516,7 @@ export default function SpeechHistoryResultScreen() {
                 <View style={styles.lineWithAudio}>
                   <View style={styles.lineTextContainer}>
                     <Text style={[styles.languageLabel, { color: theme.textSecondary }]}>
-                      Japanese Translation:
-                    </Text>
+                      {uiT("ui.japanese_translation_e65cc453")} </Text>
                     <Text
                       style={[
                         styles.recognizedText,
@@ -598,8 +595,7 @@ export default function SpeechHistoryResultScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Vocabulary Matches
-            </Text>
+              {uiT("ui.vocabulary_matches_e1a18c03")} </Text>
             {vocabularyMatches.length > 0 && (
               <View
                 style={[
@@ -629,11 +625,9 @@ export default function SpeechHistoryResultScreen() {
                 color={theme.textLight}
               />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                No vocabulary matches found
-              </Text>
+                {uiT("ui.no_vocabulary_matches_found_70e11543")} </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                Try speaking more clearly or different words
-              </Text>
+                {uiT("ui.try_speaking_more_clearly_or_different_words_7297eafe")} </Text>
             </View>
           ) : (
             <View style={styles.vocabularyList}>
@@ -654,8 +648,7 @@ export default function SpeechHistoryResultScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Kanji Matches
-            </Text>
+              {uiT("ui.kanji_matches_35ac7b70")} </Text>
             {kanjiMatches.length > 0 && (
               <View
                 style={[
@@ -683,11 +676,9 @@ export default function SpeechHistoryResultScreen() {
                 color={theme.textLight}
               />
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                No kanji matches found
-              </Text>
+                {uiT("ui.no_kanji_matches_found_2365630e")} </Text>
               <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-                Individual kanji that are not part of vocabulary words
-              </Text>
+                {uiT("ui.individual_kanji_that_are_not_part_of_vocabulary_words_b0e63d5e")} </Text>
             </View>
           ) : (
             <View style={styles.vocabularyList}>

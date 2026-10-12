@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Slider from "@react-native-community/slider";
@@ -187,6 +188,7 @@ const sanitizeConfig = (rawConfig: Partial<Config>, userLevel: number): Config =
 };
 
 export default function ContextSentencePracticeConfigScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { userData } = useAuthStore();
   const {
@@ -257,7 +259,7 @@ export default function ContextSentencePracticeConfigScreen() {
       const hasJapaneseKeyboard = await KeyboardManager.hasJapaneseKeyboard();
       if (!hasJapaneseKeyboard) {
         Alert.alert(
-          "No Japanese Keyboard",
+          uiT("ui.no_japanese_keyboard_ffbd52b8"),
           JAPANESE_KEYBOARD_SETUP_INSTRUCTIONS,
         );
         return;
@@ -426,12 +428,12 @@ export default function ContextSentencePracticeConfigScreen() {
         promptedResumableSessionKeyRef.current =
           contextSentencePracticeSessionKey;
         Alert.alert(
-          "Resume Context Sentence Practice?",
-          "You have a context sentence practice session in progress.",
+          uiT("ui.resume_context_sentence_practice_0ce91f3c"),
+          uiT("ui.you_have_a_context_sentence_practice_session_in_progress_192ca667"),
           [
-            { text: "Not Now", style: "cancel" },
+            { text: uiT("ui.not_now_ccb4c324"), style: "cancel" },
             {
-              text: "Discard",
+              text: uiT("ui.discard_eb1a70e3"),
               style: "destructive",
               onPress: () => {
                 promptedResumableSessionKeyRef.current = null;
@@ -441,7 +443,7 @@ export default function ContextSentencePracticeConfigScreen() {
               },
             },
             {
-              text: "Resume",
+              text: uiT("ui.resume_d640c742"),
               onPress: () => {
                 router.push({
                   pathname: "/context-sentence-practice-session",
@@ -512,7 +514,7 @@ export default function ContextSentencePracticeConfigScreen() {
         >
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Context Sentences</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.context_sentences_0461dd8f")}</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
@@ -523,9 +525,9 @@ export default function ContextSentencePracticeConfigScreen() {
               size={18}
               color={theme.textSecondary}
             />
-            <Text style={[styles.sectionHeaderText, { color: theme.textSecondary }]}>Sentence Cloze Practice</Text>
+            <Text style={[styles.sectionHeaderText, { color: theme.textSecondary }]}>{uiT("ui.sentence_cloze_practice_c483d54a")}</Text>
           </View>
-          <Text style={[styles.overviewTitle, { color: theme.textColor }]}>Choose subject types</Text>
+          <Text style={[styles.overviewTitle, { color: theme.textColor }]}>{uiT("ui.choose_subject_types_6d56c1e3")}</Text>
           <View style={styles.overviewChipsRow}>
             <TouchableOpacity
               style={[
@@ -559,8 +561,7 @@ export default function ContextSentencePracticeConfigScreen() {
                   },
                 ]}
               >
-                Vocabulary
-              </Text>
+                {uiT("ui.vocabulary_eebd90a0")} </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -601,8 +602,7 @@ export default function ContextSentencePracticeConfigScreen() {
                   },
                 ]}
               >
-                Kana Vocab
-              </Text>
+                {uiT("ui.kana_vocab_597d8c17")} </Text>
             </TouchableOpacity>
           </View>
           <View
@@ -618,8 +618,7 @@ export default function ContextSentencePracticeConfigScreen() {
                   { color: theme.textColor },
                 ]}
               >
-                Only my sentences
-              </Text>
+                {uiT("ui.only_my_sentences_6d34fe15")} </Text>
               <Text
                 style={[
                   styles.personalSentenceToggleDescription,
@@ -627,10 +626,10 @@ export default function ContextSentencePracticeConfigScreen() {
                 ]}
               >
                 {customSentenceCount === null
-                  ? "Checking sentences saved on this device…"
+                  ? uiT("ui.checking_sentences_saved_on_this_device_e29868c9")
                   : customSentenceCount === 0
-                    ? "Add one from a vocabulary’s Context tab first."
-                    : `Review ${customSentenceCount} sentence${customSentenceCount === 1 ? "" : "s"} saved on this device.`}
+                    ? uiT("ui.add_one_from_a_vocabulary_s_context_tab_first_ba16e99f")
+                    : uiT("ui.review_value_sentencevalue_saved_on_this_device_72b2a148", {value1: (customSentenceCount), value2: (customSentenceCount === 1 ? "" : "s")})}
               </Text>
             </View>
             <Switch
@@ -645,7 +644,7 @@ export default function ContextSentencePracticeConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Number of Questions</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.number_of_questions_e69db859")}</Text>
           <View style={styles.sliderContainer}>
             <Text style={[styles.sliderCount, { color: theme.textColor }]}>
               {config.numberOfQuestions}
@@ -671,17 +670,14 @@ export default function ContextSentencePracticeConfigScreen() {
             style={[styles.section, { backgroundColor: theme.cardBackground }]}
           >
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Dev Question Picker
-            </Text>
+              {uiT("ui.dev_question_picker_b1ecc510")} </Text>
             <Text
               style={[
                 styles.sectionDescription,
                 { color: theme.textSecondary, marginBottom: 10 },
               ]}
             >
-              Enter comma-separated WaniKani subject IDs. In dev builds, only
-              those questions are asked in this order.
-            </Text>
+              {uiT("ui.enter_comma_separated_wanikani_subject_ids_in_dev_builds_only_tho_a8e3fe96")} </Text>
             <TextInput
               value={devSelectedSubjectIdsInput}
               onChangeText={(value) => {
@@ -691,7 +687,7 @@ export default function ContextSentencePracticeConfigScreen() {
                   parseDevSelectedSubjectIds(value),
                 );
               }}
-              placeholder="e.g. 246, 12345, 67890"
+              placeholder={uiT("ui.e_g_246_12345_67890_fd8649d6")}
               placeholderTextColor={theme.textSecondary}
               keyboardType="numbers-and-punctuation"
               autoCapitalize="none"
@@ -707,15 +703,15 @@ export default function ContextSentencePracticeConfigScreen() {
             />
             <Text style={[styles.devHint, { color: theme.textSecondary }]}>
               {devSelectedSubjectIdsPreview.length > 0
-                ? `${devSelectedSubjectIdsPreview.length} question${devSelectedSubjectIdsPreview.length === 1 ? "" : "s"} selected`
-                : "Leave empty to use random question selection."}
+                ? uiT("ui.value_questionvalue_selected_960888b9", {value1: (devSelectedSubjectIdsPreview.length), value2: (devSelectedSubjectIdsPreview.length === 1 ? "" : "s")})
+                : uiT("ui.leave_empty_to_use_random_question_selection_352e5df3")}
             </Text>
           </View>
         )}
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Answer Mode</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Choose whether you answer with multiple choice or by typing the missing word.</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.answer_mode_c7728f17")}</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.choose_whether_you_answer_with_multiple_choice_or_by_typing_the_m_687a3f39")}</Text>
 
           <View style={styles.modeSelectorRow}>
             <TouchableOpacity
@@ -755,8 +751,7 @@ export default function ContextSentencePracticeConfigScreen() {
                   },
                 ]}
               >
-                Multiple Choice
-              </Text>
+                {uiT("ui.multiple_choice_987caef5")} </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -796,8 +791,7 @@ export default function ContextSentencePracticeConfigScreen() {
                   },
                 ]}
               >
-                Writing
-              </Text>
+                {uiT("ui.writing_a8bfae3e")} </Text>
             </TouchableOpacity>
           </View>
 
@@ -816,7 +810,7 @@ export default function ContextSentencePracticeConfigScreen() {
                     },
                   ]}
                 >
-                  <Text style={[styles.toggleText, { color: theme.textColor }]}>Switch to Japanese Keyboard</Text>
+                  <Text style={[styles.toggleText, { color: theme.textColor }]}>{uiT("ui.switch_to_japanese_keyboard_3d31738e")}</Text>
                   <View style={{ flex: 1 }} />
                   <Switch
                     value={autoSwitchKeyboard}
@@ -827,21 +821,18 @@ export default function ContextSentencePracticeConfigScreen() {
                 </View>
               )}
               <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>
-                Writing mode accepts kanji or hiragana answers. Keyboard auto-switch is optional.
-              </Text>
+                {uiT("ui.writing_mode_accepts_kanji_or_hiragana_answers_keyboard_auto_swit_ae87d9cb")} </Text>
             </>
           )}
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Sentence Assist
-          </Text>
+            {uiT("ui.sentence_assist_e964f56a")} </Text>
           <Text
             style={[styles.sectionDescription, { color: theme.textSecondary }]}
           >
-            Configure in-question sentence audio and translation reveal behavior.
-          </Text>
+            {uiT("ui.configure_in_question_sentence_audio_and_translation_reveal_behav_f7130176")} </Text>
 
           <View
             style={[
@@ -865,16 +856,14 @@ export default function ContextSentencePracticeConfigScreen() {
               <Text
                 style={[styles.assistToggleMainText, { color: theme.textColor }]}
               >
-                Sentence Audio (TTS)
-              </Text>
+                {uiT("ui.sentence_audio_tts_65635438")} </Text>
               <Text
                 style={[
                   styles.assistToggleSubtext,
                   { color: theme.textSecondary },
                 ]}
               >
-                Plays the Japanese sentence after a correct answer and adds a replay button.
-              </Text>
+                {uiT("ui.plays_the_japanese_sentence_after_a_correct_answer_and_adds_a_rep_65d22664")} </Text>
             </View>
             <Switch
               value={config.enableSentenceAudio}
@@ -914,16 +903,14 @@ export default function ContextSentencePracticeConfigScreen() {
                     { color: theme.textColor },
                   ]}
                 >
-                  Auto-play Sentence Audio
-                </Text>
+                  {uiT("ui.auto_play_sentence_audio_174d7f7e")} </Text>
                 <Text
                   style={[
                     styles.assistToggleSubtext,
                     { color: theme.textSecondary },
                   ]}
                 >
-                  Automatically plays sentence audio when each question starts.
-                </Text>
+                  {uiT("ui.automatically_plays_sentence_audio_when_each_question_starts_5414e6ea")} </Text>
               </View>
               <Switch
                 value={config.autoPlaySentenceAudio}
@@ -960,16 +947,14 @@ export default function ContextSentencePracticeConfigScreen() {
               <Text
                 style={[styles.assistToggleMainText, { color: theme.textColor }]}
               >
-                Hide Translation Until Tap
-              </Text>
+                {uiT("ui.hide_translation_until_tap_83146dcc")} </Text>
               <Text
                 style={[
                   styles.assistToggleSubtext,
                   { color: theme.textSecondary },
                 ]}
               >
-                Blurs the English translation until you tap to reveal it.
-              </Text>
+                {uiT("ui.blurs_the_english_translation_until_you_tap_to_reveal_it_c85a6547")} </Text>
             </View>
             <Switch
               value={config.hideTranslationUntilTap}
@@ -1007,16 +992,14 @@ export default function ContextSentencePracticeConfigScreen() {
               <Text
                 style={[styles.assistToggleMainText, { color: theme.textColor }]}
               >
-                JPDB Sentence Breakdown
-              </Text>
+                {uiT("ui.jpdb_sentence_breakdown_b69053a7")} </Text>
               <Text
                 style={[
                   styles.assistToggleSubtext,
                   { color: theme.textSecondary },
                 ]}
               >
-                Tap grammar and vocabulary inside the sentence to see details in a tooltip.
-              </Text>
+                {uiT("ui.tap_grammar_and_vocabulary_inside_the_sentence_to_see_details_in_3ec1f049")} </Text>
             </View>
             <Switch
               value={config.enableJpdbSentenceBreakdown}
@@ -1051,16 +1034,14 @@ export default function ContextSentencePracticeConfigScreen() {
               <Text
                 style={[styles.assistToggleMainText, { color: theme.textColor }]}
               >
-                Stop After Answer
-              </Text>
+                {uiT("ui.stop_after_answer_ecf7398a")} </Text>
               <Text
                 style={[
                   styles.assistToggleSubtext,
                   { color: theme.textSecondary },
                 ]}
               >
-                Shows result first, then waits for you to continue to the next question.
-              </Text>
+                {uiT("ui.shows_result_first_then_waits_for_you_to_continue_to_the_next_que_bd599413")} </Text>
             </View>
             <Switch
               value={config.stopAfterAnswer}
@@ -1072,8 +1053,8 @@ export default function ContextSentencePracticeConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Include SRS Stages</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Choose which progression stages to include</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.include_srs_stages_eb382d10")}</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.choose_which_progression_stages_to_include_983f6d5c")}</Text>
           <View style={styles.chipsContainer}>
             {srsChips.map(({ key, label }) => {
               const selected = config.srsGroups[key as keyof Config["srsGroups"]];
@@ -1125,8 +1106,8 @@ export default function ContextSentencePracticeConfigScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: theme.cardBackground }]}> 
-          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>Levels</Text>
-          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>Without a subject list, includes levels 1 to your level ({userLevel}). Selected lists can include any level. Enable a custom range to restrict.</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textColor }]}>{uiT("ui.levels_b1482131")}</Text>
+          <Text style={[styles.sectionDescription, { color: theme.textSecondary }]}>{uiT("ui.without_a_subject_list_includes_levels_1_to_your_level_0da23a7f")}{userLevel}{uiT("ui.selected_lists_can_include_any_level_enable_a_custom_range_to_re_3c17f945")}</Text>
           <View
             style={[
               styles.toggleRow,
@@ -1140,7 +1121,7 @@ export default function ContextSentencePracticeConfigScreen() {
               },
             ]}
           >
-            <Text style={[styles.toggleText, { color: theme.textColor }]}>Use custom level range</Text>
+            <Text style={[styles.toggleText, { color: theme.textColor }]}>{uiT("ui.use_custom_level_range_fdb84cae")}</Text>
             <View style={{ flex: 1 }} />
             <Switch
               value={config.useCustomLevelRange}
@@ -1162,7 +1143,7 @@ export default function ContextSentencePracticeConfigScreen() {
           >
             <View>
               <View style={styles.levelSliderRow}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Min Level</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.min_level_4986a2df")}</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.minLevel}</Text>
               </View>
               <Slider
@@ -1179,7 +1160,7 @@ export default function ContextSentencePracticeConfigScreen() {
                 thumbTintColor={theme.secondary}
               />
               <View style={[styles.levelSliderRow, { marginTop: 12 }]}>
-                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>Max Level</Text>
+                <Text style={[styles.levelLabel, { color: theme.textSecondary }]}>{uiT("ui.max_level_2833a212")}</Text>
                 <Text style={[styles.levelValue, { color: theme.textColor }]}>{config.maxLevel}</Text>
               </View>
               <Slider
@@ -1209,8 +1190,8 @@ export default function ContextSentencePracticeConfigScreen() {
                 style={[styles.levelSummaryText, { color: theme.textSecondary }]}
               >
                 {(config.selectedListIds || []).length > 0
-                  ? "All levels in selected lists"
-                  : `Levels 1 - ${userLevel}`}
+                  ? uiT("ui.all_levels_in_selected_lists_426ef1c8")
+                  : uiT("ui.levels_1_value_97fc00a2", {value1: (userLevel)})}
               </Text>
             </View>
           )}
@@ -1220,7 +1201,7 @@ export default function ContextSentencePracticeConfigScreen() {
           selectedListIds={config.selectedListIds || []}
           onChange={(ids) => updateConfig("selectedListIds", ids)}
           subjectTypes={listCountTypes}
-          description="Optional: only include subjects from these saved lists."
+          description={uiT("ui.optional_only_include_subjects_from_these_saved_lists_1d5ef2d9")}
         />
 
         <View style={{ height: 80 }} />
@@ -1245,7 +1226,7 @@ export default function ContextSentencePracticeConfigScreen() {
           activeOpacity={0.8}
         >
           <Ionicons name="play" size={24} color="white" style={{ marginRight: 8 }} />
-          <Text style={styles.startButtonText}>Start Context Sentence Practice</Text>
+          <Text style={styles.startButtonText}>{uiT("ui.start_context_sentence_practice_3a9c6d97")}</Text>
         </TouchableOpacity>
       </View>
     </View>

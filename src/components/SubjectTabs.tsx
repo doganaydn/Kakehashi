@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Audio, type AudioSound } from "@/src/utils/expoAvCompat";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -44,6 +45,7 @@ const SubjectComponent = ({
   subjectColors: SubjectColors;
   styles: ReturnType<typeof createStyles>;
 }) => {
+  useInterfaceLanguage();
   // Different background colors based on subject type
   const getBackgroundColor = () => {
     // Get type from the actual subject data if available
@@ -95,7 +97,7 @@ const SubjectComponent = ({
       <Text style={[styles.relatedItemCharacter, fontStyles.japaneseText]}>
         {id}
       </Text>
-      <Text style={styles.relatedItemMeaning}>Loading...</Text>
+      <Text style={styles.relatedItemMeaning}>{uiT("ui.loading_47d2a515")}</Text>
     </View>
   );
 };
@@ -107,6 +109,7 @@ export default function SubjectTabs({
   onTabChange,
   relatedSubjects = {},
 }: SubjectTabsProps) {
+  useInterfaceLanguage();
   const subjectColors = useSubjectColors();
   const styles = useMemo(
     () => createStyles(subjectColors),
@@ -290,7 +293,7 @@ export default function SubjectTabs({
         return renderVocabularyTabContent(tabIndex);
       default:
         return (
-          <Text style={styles.noContentText}>No information available</Text>
+          <Text style={styles.noContentText}>{uiT("ui.no_information_available_55918015")}</Text>
         );
     }
   };
@@ -348,19 +351,19 @@ export default function SubjectTabs({
           </View>
 
           <View style={styles.infoSection}>
-            <Text style={styles.sectionTitle}>Meaning</Text>
+            <Text style={styles.sectionTitle}>{uiT("ui.meaning_1f5d64b9")}</Text>
             <Text style={styles.meaningText}>
               {subject.data.meanings.find((m: any) => m.primary)?.meaning ||
                 subject.data.meanings[0]?.meaning ||
-                "No meaning available"}
+                uiT("ui.no_meaning_available_f9f990c1")}
             </Text>
           </View>
 
           <View style={styles.infoSection}>
-            <Text style={styles.sectionTitle}>Mnemonic</Text>
+            <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
             <Text style={styles.mnemonicText}>
               {cleanMnemonicText(subject.data.meaning_mnemonic) ||
-                "No mnemonic available"}
+                uiT("ui.no_mnemonic_available_f13433f3")}
             </Text>
           </View>
         </View>
@@ -369,14 +372,13 @@ export default function SubjectTabs({
       // Found in Kanji tab
       return (
         <View style={styles.tabContent}>
-          <Text style={styles.sectionTitle}>Found in Kanji</Text>
+          <Text style={styles.sectionTitle}>{uiT("ui.found_in_kanji_08aaea31")}</Text>
 
           {subject.data.amalgamation_subject_ids &&
           subject.data.amalgamation_subject_ids.length > 0 ? (
             <>
               <Text style={styles.noteText}>
-                This radical is used in the following kanji:
-              </Text>
+                {uiT("ui.this_radical_is_used_in_the_following_kanji_49b29f59")} </Text>
               <View style={styles.relatedItemsGrid}>
                 {renderAmalgamationSubjects(
                   subject.data.amalgamation_subject_ids.slice(0, 10)
@@ -385,8 +387,7 @@ export default function SubjectTabs({
             </>
           ) : (
             <Text style={styles.noteText}>
-              This radical is not used in any kanji yet.
-            </Text>
+              {uiT("ui.this_radical_is_not_used_in_any_kanji_yet_a04b3cfc")} </Text>
           )}
         </View>
       );
@@ -408,14 +409,13 @@ export default function SubjectTabs({
             </View>
 
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Radicals</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.radicals_80608601")}</Text>
 
               {subject.data.component_subject_ids &&
               subject.data.component_subject_ids.length > 0 ? (
                 <>
                   <Text style={styles.noteText}>
-                    This kanji is composed of the following radicals:
-                  </Text>
+                    {uiT("ui.this_kanji_is_composed_of_the_following_radicals_6ca60b74")} </Text>
                   <View style={styles.relatedItemsGrid}>
                     {renderComponentSubjects(
                       subject.data.component_subject_ids
@@ -424,8 +424,7 @@ export default function SubjectTabs({
                 </>
               ) : (
                 <Text style={styles.noteText}>
-                  This kanji is not composed of any radicals.
-                </Text>
+                  {uiT("ui.this_kanji_is_not_composed_of_any_radicals_65922d6f")} </Text>
               )}
             </View>
           </View>
@@ -435,18 +434,17 @@ export default function SubjectTabs({
         return (
           <View style={styles.tabContent}>
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Meaning</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.meaning_1f5d64b9")}</Text>
               <Text style={styles.meaningText}>
                 {subject.data.meanings.find((m: any) => m.primary)?.meaning ||
                   subject.data.meanings[0]?.meaning ||
-                  "No meaning available"}
+                  uiT("ui.no_meaning_available_f9f990c1")}
               </Text>
 
               {subject.data.meanings.length > 1 && (
                 <View style={styles.alternativeMeanings}>
                   <Text style={styles.altMeaningsLabel}>
-                    Alternative Meanings:
-                  </Text>
+                    {uiT("ui.alternative_meanings_efd80313")} </Text>
                   <Text style={styles.altMeaningsText}>
                     {subject.data.meanings
                       .filter((m: any) => !m.primary)
@@ -458,10 +456,10 @@ export default function SubjectTabs({
             </View>
 
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Mnemonic</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
               <Text style={styles.mnemonicText}>
                 {cleanMnemonicText(subject.data.meaning_mnemonic) ||
-                  "No mnemonic available"}
+                  uiT("ui.no_mnemonic_available_f13433f3")}
               </Text>
             </View>
           </View>
@@ -471,12 +469,12 @@ export default function SubjectTabs({
         return (
           <View style={styles.tabContent}>
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Readings</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.readings_f3a97d44")}</Text>
 
               {subject.data.readings && subject.data.readings.length > 0 ? (
                 <>
                   <View style={styles.readingsContainer}>
-                    <Text style={styles.readingTypeLabel}>On&apos;yomi:</Text>
+                    <Text style={styles.readingTypeLabel}>{uiT("ui.on_yomi_608f12c8")}</Text>
                     <View style={styles.readingBadges}>
                       {subject.data.readings
                         .filter((r: any) => r.type === "onyomi")
@@ -505,7 +503,7 @@ export default function SubjectTabs({
                   </View>
 
                   <View style={styles.readingsContainer}>
-                    <Text style={styles.readingTypeLabel}>Kun&apos;yomi:</Text>
+                    <Text style={styles.readingTypeLabel}>{uiT("ui.kun_yomi_a9369b56")}</Text>
                     <View style={styles.readingBadges}>
                       {subject.data.readings
                         .filter((r: any) => r.type === "kunyomi")
@@ -533,16 +531,15 @@ export default function SubjectTabs({
                 </>
               ) : (
                 <Text style={styles.noteText}>
-                  No readings available for this kanji.
-                </Text>
+                  {uiT("ui.no_readings_available_for_this_kanji_e35e3ad8")} </Text>
               )}
             </View>
 
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Reading Mnemonic</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.reading_mnemonic_a4df534e")}</Text>
               <Text style={styles.mnemonicText}>
                 {cleanMnemonicText(subject.data.reading_mnemonic) ||
-                  "No reading mnemonic available"}
+                  uiT("ui.no_reading_mnemonic_available_46e20ab8")}
               </Text>
             </View>
           </View>
@@ -551,14 +548,13 @@ export default function SubjectTabs({
       case 3: // Examples tab
         return (
           <View style={styles.tabContent}>
-            <Text style={styles.sectionTitle}>Vocabulary Examples</Text>
+            <Text style={styles.sectionTitle}>{uiT("ui.vocabulary_examples_f9e788ab")}</Text>
 
             {subject.data.amalgamation_subject_ids &&
             subject.data.amalgamation_subject_ids.length > 0 ? (
               <>
                 <Text style={styles.noteText}>
-                  This kanji is used in the following vocabulary:
-                </Text>
+                  {uiT("ui.this_kanji_is_used_in_the_following_vocabulary_40244270")} </Text>
                 <View style={styles.relatedItemsGrid}>
                   {renderVocabularySubjects(
                     subject.data.amalgamation_subject_ids.slice(0, 15)
@@ -567,8 +563,7 @@ export default function SubjectTabs({
               </>
             ) : (
               <Text style={styles.noteText}>
-                No vocabulary examples available for this kanji yet.
-              </Text>
+                {uiT("ui.no_vocabulary_examples_available_for_this_kanji_yet_8111cb9f")} </Text>
             )}
           </View>
         );
@@ -593,14 +588,13 @@ export default function SubjectTabs({
             </View>
 
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Composition</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.composition_47fca483")}</Text>
 
               {subject.data.component_subject_ids &&
               subject.data.component_subject_ids.length > 0 ? (
                 <>
                   <Text style={styles.noteText}>
-                    This vocabulary is composed of the following kanji:
-                  </Text>
+                    {uiT("ui.this_vocabulary_is_composed_of_the_following_kanji_1115b71b")} </Text>
                   <View style={styles.relatedItemsGrid}>
                     {renderComponentSubjects(
                       subject.data.component_subject_ids
@@ -609,8 +603,7 @@ export default function SubjectTabs({
                 </>
               ) : (
                 <Text style={styles.noteText}>
-                  This vocabulary is not composed of any separate kanji.
-                </Text>
+                  {uiT("ui.this_vocabulary_is_not_composed_of_any_separate_kanji_42880ab2")} </Text>
               )}
             </View>
           </View>
@@ -620,18 +613,17 @@ export default function SubjectTabs({
         return (
           <View style={styles.tabContent}>
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Meaning</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.meaning_1f5d64b9")}</Text>
               <Text style={styles.meaningText}>
                 {subject.data.meanings.find((m: any) => m.primary)?.meaning ||
                   subject.data.meanings[0]?.meaning ||
-                  "No meaning available"}
+                  uiT("ui.no_meaning_available_f9f990c1")}
               </Text>
 
               {subject.data.meanings.length > 1 && (
                 <View style={styles.alternativeMeanings}>
                   <Text style={styles.altMeaningsLabel}>
-                    Alternative Meanings:
-                  </Text>
+                    {uiT("ui.alternative_meanings_efd80313")} </Text>
                   <Text style={styles.altMeaningsText}>
                     {subject.data.meanings
                       .filter((m: any) => !m.primary)
@@ -644,7 +636,7 @@ export default function SubjectTabs({
               {subject.data.parts_of_speech &&
                 subject.data.parts_of_speech.length > 0 && (
                   <View style={styles.partsOfSpeech}>
-                    <Text style={styles.posLabel}>Part of Speech:</Text>
+                    <Text style={styles.posLabel}>{uiT("ui.part_of_speech_f1ac96c2")}</Text>
                     <Text style={styles.posText}>
                       {subject.data.parts_of_speech.join(", ")}
                     </Text>
@@ -653,10 +645,10 @@ export default function SubjectTabs({
             </View>
 
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Mnemonic</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
               <Text style={styles.mnemonicText}>
                 {cleanMnemonicText(subject.data.meaning_mnemonic) ||
-                  "No mnemonic available"}
+                  uiT("ui.no_mnemonic_available_f13433f3")}
               </Text>
             </View>
           </View>
@@ -666,7 +658,7 @@ export default function SubjectTabs({
         return (
           <View style={styles.tabContent}>
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Reading</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.reading_463816d0")}</Text>
 
               {subject.data.readings && subject.data.readings.length > 0 ? (
                 <>
@@ -702,23 +694,22 @@ export default function SubjectTabs({
                         disabled={isPlayingAudio}
                       >
                         <Text style={styles.audioButtonText}>
-                          {isPlayingAudio ? "Playing Audio..." : "Play Audio"}
+                          {isPlayingAudio ? uiT("ui.playing_audio_bf7a0bb3") : uiT("ui.play_audio_8957f34e")}
                         </Text>
                       </TouchableOpacity>
                     )}
                 </>
               ) : (
                 <Text style={styles.noteText}>
-                  No readings available for this vocabulary.
-                </Text>
+                  {uiT("ui.no_readings_available_for_this_vocabulary_6647fa0c")} </Text>
               )}
             </View>
 
             <View style={styles.infoSection}>
-              <Text style={styles.sectionTitle}>Reading Mnemonic</Text>
+              <Text style={styles.sectionTitle}>{uiT("ui.reading_mnemonic_a4df534e")}</Text>
               <Text style={styles.mnemonicText}>
                 {cleanMnemonicText(subject.data.reading_mnemonic) ||
-                  "No reading mnemonic available"}
+                  uiT("ui.no_reading_mnemonic_available_46e20ab8")}
               </Text>
             </View>
           </View>
@@ -727,7 +718,7 @@ export default function SubjectTabs({
       case 3: // Context tab
         return (
           <View style={styles.tabContent}>
-            <Text style={styles.sectionTitle}>Context Sentences</Text>
+            <Text style={styles.sectionTitle}>{uiT("ui.context_sentences_0461dd8f")}</Text>
 
             {subject.data.context_sentences &&
             subject.data.context_sentences.length > 0 ? (
@@ -743,8 +734,7 @@ export default function SubjectTabs({
               </View>
             ) : (
               <Text style={styles.noteText}>
-                No context sentences available for this vocabulary.
-              </Text>
+                {uiT("ui.no_context_sentences_available_for_this_vocabulary_95dea292")} </Text>
             )}
           </View>
         );

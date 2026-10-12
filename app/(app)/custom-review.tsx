@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { router, useLocalSearchParams } from "expo-router";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -101,6 +102,7 @@ const CUSTOM_REVIEW_SESSION_KEY =
   EXTRA_STUDY_SESSION_STORAGE_KEYS.CUSTOM_REVIEW;
 
 export default function CustomReviewScreen() {
+  useInterfaceLanguage();
   useActivityTracking("custom_review");
   const { apiToken } = useAuthStore();
   const { theme } = useTheme();
@@ -345,9 +347,9 @@ export default function CustomReviewScreen() {
 
       if (subjectIds.length === 0) {
         Alert.alert(
-          "No Subjects Found",
-          "Could not load the selected subjects.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_subjects_found_4e19ea6d"),
+          uiT("ui.could_not_load_the_selected_subjects_f9bc8fed"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -394,9 +396,9 @@ export default function CustomReviewScreen() {
 
       if (loadedSubjects.length === 0) {
         Alert.alert(
-          "No Subjects Found",
-          "Could not load the selected subjects.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_subjects_found_4e19ea6d"),
+          uiT("ui.could_not_load_the_selected_subjects_f9bc8fed"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -503,20 +505,7 @@ export default function CustomReviewScreen() {
     } finally {
       setIsLoading(false);
     }
-  }, [
-    apiToken,
-    params.resume,
-    params.subjectIds,
-    effectiveAnkiGrouping,
-    acceptUserSynonymsAsAnswers,
-    customReviewOrder,
-    backToBackQuestions,
-    reviewQuestionOrderEnabled,
-    preferredQuestionType,
-    clearSavedCustomReviewSession,
-    navigateToDashboard,
-    restoreSavedCustomReviewSession,
-  ]);
+  }, [apiToken, params.resume, params.subjectIds, effectiveAnkiGrouping, acceptUserSynonymsAsAnswers, customReviewOrder, backToBackQuestions, reviewQuestionOrderEnabled, preferredQuestionType, clearSavedCustomReviewSession, navigateToDashboard, restoreSavedCustomReviewSession, ]);
 
   useEffect(() => {
     loadCustomReview();
@@ -873,18 +862,18 @@ export default function CustomReviewScreen() {
         onSkip={handleSkip}
         onExit={() => {
           Alert.alert(
-            "Exit Review",
-            "Want to continue this custom review later?",
+            uiT("ui.exit_review_382230e4"),
+            uiT("ui.want_to_continue_this_custom_review_later_875b06de"),
             [
-              { text: "Cancel", style: "cancel" },
+              { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
               {
-                text: "Continue Later",
+                text: uiT("ui.continue_later_ba247ab0"),
                 onPress: async () => {
                   const wasSaved = await saveCustomReviewSessionForLater();
                   if (!wasSaved) {
                     Alert.alert(
-                      "Couldn't Save Progress",
-                      "Please try again in a moment.",
+                      uiT("ui.couldn_t_save_progress_7bbcd471"),
+                      uiT("ui.please_try_again_in_a_moment_7ba353b0"),
                     );
                     return;
                   }
@@ -892,7 +881,7 @@ export default function CustomReviewScreen() {
                 },
               },
               {
-                text: "Exit",
+                text: uiT("ui.exit_d17d84a6"),
                 style: "destructive",
                 onPress: async () => {
                   await clearSavedCustomReviewSession();
@@ -927,8 +916,7 @@ export default function CustomReviewScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.secondary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            Loading custom review...
-          </Text>
+            {uiT("ui.loading_custom_review_853849fa")} </Text>
         </View>
       </View>
     );
@@ -941,22 +929,20 @@ export default function CustomReviewScreen() {
         <View style={styles.loadingContainer}>
           <Ionicons name="cloud-offline-outline" size={64} color={theme.textLight} />
           <Text style={[styles.offlineTitle, { color: theme.textColor }]}>
-            Unable to Load Review
-          </Text>
+            {uiT("ui.unable_to_load_review_623cd70f")} </Text>
           <Text style={[styles.offlineText, { color: theme.textSecondary }]}>
-            Connect to WiFi to start your custom review
-          </Text>
+            {uiT("ui.connect_to_wifi_to_start_your_custom_review_970a5d13")} </Text>
           <TouchableOpacity
             style={[styles.retryButton, { backgroundColor: theme.primary }]}
             onPress={loadCustomReview}
           >
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.backButton, { borderColor: theme.textLight }]}
             onPress={() => router.back()}
           >
-            <Text style={[styles.backButtonText, { color: theme.textColor }]}>Go Back</Text>
+            <Text style={[styles.backButtonText, { color: theme.textColor }]}>{uiT("ui.go_back_b8d99df1")}</Text>
           </TouchableOpacity>
         </View>
       </View>

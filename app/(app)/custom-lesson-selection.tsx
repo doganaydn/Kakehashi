@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -53,6 +54,7 @@ import { useTheme } from "../../src/utils/theme";
 import { matchesVocabularyTypes } from "../../src/utils/vocabularyTypeFilter";
 
 export default function CustomLessonSelectionScreen() {
+  useInterfaceLanguage();
   const { apiToken } = useAuthStore();
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
@@ -200,7 +202,7 @@ export default function CustomLessonSelectionScreen() {
       );
     } catch (err) {
       console.error("Error loading subjects:", err);
-      setError("Failed to load subjects. Please try again.");
+      setError(uiT("ui.message_bc27ff0fe4ed"));
       setIsCacheMissing(true);
     } finally {
       setIsLoadingSubjects(false);
@@ -265,7 +267,7 @@ export default function CustomLessonSelectionScreen() {
     } catch (err) {
       console.error("Error rebuilding cache:", err);
       setError(
-        "Failed to rebuild cache. Please check your internet connection and try again.",
+        uiT("ui.message_6ebf4e6e4367"),
       );
       setIsRebuildingCache(false);
       setCacheRebuildProgress(0);
@@ -434,6 +436,7 @@ export default function CustomLessonSelectionScreen() {
 
   // Render radical character with SVG fallback (Subject variant)
   const SubjectRadicalCharacter = ({ item }: { item: Subject }) => {
+  useInterfaceLanguage();
     const bestImg = pickBestImage(item.data.character_images || undefined);
     const svgUrl = bestImg?.type === "svg" ? bestImg.url : null;
     const svgXml = useRemoteSvg(svgUrl, "#ffffff");
@@ -553,8 +556,7 @@ export default function CustomLessonSelectionScreen() {
           style={[styles.headerTitle, { color: theme.textColor }]}
           onLongPress={handleDebugLongPress}
         >
-          Custom Lessons
-        </Text>
+          {uiT("ui.custom_lessons_d4dcbb33")} </Text>
       </View>
 
       <View style={styles.searchRow}>
@@ -567,7 +569,7 @@ export default function CustomLessonSelectionScreen() {
           <Ionicons name="search" size={20} color={theme.textSecondary} />
           <TextInput
             style={[styles.searchInput, { color: theme.textColor }]}
-            placeholder="Search by character, meaning, or reading..."
+            placeholder={uiT("ui.search_by_character_meaning_or_reading_8042ae36")}
             placeholderTextColor={theme.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -636,11 +638,11 @@ export default function CustomLessonSelectionScreen() {
           <Text style={[styles.bulkActionText, { color: theme.textSecondary }]}>
             {allMatchingSelected
               ? hasActiveFilters
-                ? "Deselect Filtered"
-                : "Deselect All"
+                ? uiT("ui.deselect_filtered_a8aa8ae5")
+                : uiT("ui.deselect_all_5cd261bc")
               : hasActiveFilters
-                ? "Select Filtered"
-                : "Select All"}
+                ? uiT("ui.select_filtered_082e1daa")
+                : uiT("ui.select_all_d1ec69e6")}
           </Text>
         </TouchableOpacity>
 
@@ -660,8 +662,7 @@ export default function CustomLessonSelectionScreen() {
             color={theme.textSecondary}
           />
           <Text style={[styles.bulkActionText, { color: theme.textSecondary }]}>
-            Clear Selection
-          </Text>
+            {uiT("ui.clear_selection_c52ff5ea")} </Text>
         </TouchableOpacity>
       </View>
 
@@ -670,8 +671,7 @@ export default function CustomLessonSelectionScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textSecondary }]}>
-            Loading subjects...
-          </Text>
+            {uiT("ui.loading_subjects_b7f62111")} </Text>
         </View>
       ) : isCacheMissing && !isRebuildingCache ? (
         <View style={styles.cacheErrorContainer}>
@@ -681,13 +681,11 @@ export default function CustomLessonSelectionScreen() {
             color={theme.textSecondary}
           />
           <Text style={[styles.cacheErrorTitle, { color: theme.textColor }]}>
-            Data Missing
-          </Text>
+            {uiT("ui.data_missing_c8d62ff7")} </Text>
           <Text
             style={[styles.cacheErrorMessage, { color: theme.textSecondary }]}
           >
-            Subject data is missing. Download it to continue.
-          </Text>
+            {uiT("ui.subject_data_is_missing_download_it_to_continue_68a5d127")} </Text>
           <TouchableOpacity
             style={[styles.rebuildButton, { backgroundColor: theme.primary }]}
             onPress={rebuildCache}
@@ -699,15 +697,14 @@ export default function CustomLessonSelectionScreen() {
               color="white"
               style={{ marginRight: 8 }}
             />
-            <Text style={styles.rebuildButtonText}>Download Data</Text>
+            <Text style={styles.rebuildButtonText}>{uiT("ui.download_data_1e7cba22")}</Text>
           </TouchableOpacity>
         </View>
       ) : isRebuildingCache ? (
         <View style={styles.cacheRebuildContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.cacheRebuildTitle, { color: theme.textColor }]}>
-            Downloading Data
-          </Text>
+            {uiT("ui.downloading_data_9b8966c0")} </Text>
           <View
             style={[
               styles.progressBarContainer,
@@ -730,8 +727,7 @@ export default function CustomLessonSelectionScreen() {
               { color: theme.textSecondary },
             ]}
           >
-            {cacheRebuildProgress}% Complete
-          </Text>
+            {cacheRebuildProgress}{uiT("ui.complete_b8985e8d")} </Text>
         </View>
       ) : (
         <FlatList
@@ -753,8 +749,8 @@ export default function CustomLessonSelectionScreen() {
                 filters.types.size < 4 ||
                 filters.vocabularyTypes.length > 0 ||
                 filters.srsStages.size < ALL_SEARCH_SRS_STAGES.length
-                  ? "No subjects found matching your search and filters"
-                  : "No subjects available"}
+                  ? uiT("ui.no_subjects_found_matching_your_search_and_filters_0f10e500")
+                  : uiT("ui.no_subjects_available_c23b6dd4")}
               </Text>
             </View>
           }
@@ -770,8 +766,7 @@ export default function CustomLessonSelectionScreen() {
         >
           <Ionicons name="school" size={24} color="white" />
           <Text style={styles.startButtonText}>
-            Start Lessons ({selectedSubjectIds.size} item
-            {selectedSubjectIds.size !== 1 ? "s" : ""})
+            {uiT("ui.start_lessons_b3b2fee3")}{selectedSubjectIds.size} {uiT("ui.item_4a33eacd")} {uiPluralSuffix(selectedSubjectIds.size !== 1 ? "s" : "")})
           </Text>
         </TouchableOpacity>
       )}
@@ -794,8 +789,7 @@ export default function CustomLessonSelectionScreen() {
           >
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-                Filter by Lists
-              </Text>
+                {uiT("ui.filter_by_lists_0e805fb9")} </Text>
               <TouchableOpacity onPress={() => setShowListFilterModal(false)}>
                 <Ionicons name="close" size={22} color={theme.textSecondary} />
               </TouchableOpacity>
@@ -804,8 +798,7 @@ export default function CustomLessonSelectionScreen() {
               <Text
                 style={[styles.modalStateText, { color: theme.textSecondary }]}
               >
-                Loading lists...
-              </Text>
+                {uiT("ui.loading_lists_ab8a0c9b")} </Text>
             ) : availableLists.length === 0 ? (
               <View style={styles.modalEmptyState}>
                 <Text
@@ -814,8 +807,7 @@ export default function CustomLessonSelectionScreen() {
                     { color: theme.textSecondary },
                   ]}
                 >
-                  No lists yet. Create one from Manage.
-                </Text>
+                  {uiT("ui.no_lists_yet_create_one_from_manage_bdc3ab25")} </Text>
                 <TouchableOpacity
                   style={[
                     styles.manageListsButton,
@@ -833,8 +825,7 @@ export default function CustomLessonSelectionScreen() {
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Manage Lists
-                  </Text>
+                    {uiT("ui.manage_lists_c261d28c")} </Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -885,8 +876,7 @@ export default function CustomLessonSelectionScreen() {
                               { color: theme.textSecondary },
                             ]}
                           >
-                            {list.subjectIds.length} subjects
-                          </Text>
+                            {list.subjectIds.length} {uiT("ui.subjects_e223d8ec")} </Text>
                         </View>
                       </TouchableOpacity>
                     );
@@ -900,10 +890,8 @@ export default function CustomLessonSelectionScreen() {
                     ]}
                   >
                     {selectedListIds.length === 0
-                      ? "Using all matching subjects."
-                      : `${selectedListIds.length} list${
-                          selectedListIds.length === 1 ? "" : "s"
-                        } selected • ${selectedListSubjectCount} unique subjects.`}
+                      ? uiT("ui.using_all_matching_subjects_39e72270")
+                      : uiT("ui.value_listvalue_selected_value_unique_subjects_6498ea48", {value1: (selectedListIds.length), value2: (selectedListIds.length === 1 ? "" : "s"), value3: (selectedListSubjectCount)})}
                   </Text>
                   <View style={styles.modalFooterButtons}>
                     <TouchableOpacity
@@ -922,8 +910,7 @@ export default function CustomLessonSelectionScreen() {
                           { color: theme.textSecondary },
                         ]}
                       >
-                        Manage
-                      </Text>
+                        {uiT("ui.manage_5a234448")} </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
@@ -934,8 +921,7 @@ export default function CustomLessonSelectionScreen() {
                       onPress={() => setShowListFilterModal(false)}
                     >
                       <Text style={styles.modalFooterPrimaryButtonText}>
-                        Done
-                      </Text>
+                        {uiT("ui.done_11a6767d")} </Text>
                     </TouchableOpacity>
                   </View>
                 </View>

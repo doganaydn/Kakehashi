@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -15,6 +16,7 @@ import { muxService, MuxVideo } from "../../../src/services/muxService";
 import { useTheme } from "../../../src/utils/theme";
 
 export default function MuxVideosScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -32,7 +34,7 @@ export default function MuxVideosScreen() {
       setVideos(fetchedVideos);
     } catch (err) {
       console.error("Error loading MUX videos:", err);
-      setError("Failed to load videos. Please try again.");
+      setError(uiT("ui.message_e37413586585"));
     } finally {
       setIsLoading(false);
     }
@@ -79,8 +81,7 @@ export default function MuxVideosScreen() {
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.statusText, { color: theme.textSecondary }]}>
-            Loading videos...
-          </Text>
+            {uiT("ui.loading_videos_267ed816")} </Text>
         </View>
       );
     }
@@ -94,7 +95,7 @@ export default function MuxVideosScreen() {
             style={[styles.retryButton, { backgroundColor: theme.primary }]}
             onPress={loadVideos}
           >
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -104,11 +105,9 @@ export default function MuxVideosScreen() {
       <View style={styles.centerContainer}>
         <Ionicons name="videocam-off-outline" size={48} color={theme.textLight} />
         <Text style={[styles.statusText, { color: theme.textSecondary }]}>
-          No videos available
-        </Text>
+          {uiT("ui.no_videos_available_99af637c")} </Text>
         <Text style={[styles.subText, { color: theme.textLight }]}>
-          Add videos to your Supabase mux_videos table
-        </Text>
+          {uiT("ui.add_videos_to_your_supabase_mux_videos_table_8527a0fe")} </Text>
       </View>
     );
   };
@@ -135,8 +134,7 @@ export default function MuxVideosScreen() {
         <View style={styles.headerTitleContainer}>
           <Ionicons name="play-circle" size={24} color="#E50914" />
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Secret Videos
-          </Text>
+            {uiT("ui.secret_videos_7f0887da")} </Text>
         </View>
         <View style={styles.headerSpacer} />
       </View>

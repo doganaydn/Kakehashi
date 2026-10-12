@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -93,6 +94,7 @@ function readScreenData(range: StudyTimeRangeId): ScreenData {
 }
 
 export default function StudyTimeScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const userId = normalizeStudyTimeUserId(
@@ -145,14 +147,12 @@ export default function StudyTimeScreen() {
 
     const accountLabel = username ? `@${username}` : `account ${userId}`;
     Alert.alert(
-      "Add saved study history?",
-      `Kakehashi found ${legacyRecoveryStatus.dayCount} saved ${
-        legacyRecoveryStatus.dayCount === 1 ? "day" : "days"
-      } from before study-time sync was account-scoped. The saved data has no account name. Only add it if it belongs to ${accountLabel}. The original on-device copy will be kept.`,
+      uiT("ui.add_saved_study_history_fddc02e7"),
+      uiT("ui.kakehashi_found_value_saved_value_from_before_study_time_sync_was_6299e164", {value1: (legacyRecoveryStatus.dayCount), value2: (legacyRecoveryStatus.dayCount === 1 ? "day" : "days"), value3: (accountLabel)}),
       [
-        { text: "Not now", style: "cancel" },
+        { text: uiT("ui.not_now_a0e63d7c"), style: "cancel" },
         {
-          text: "Add to this account",
+          text: uiT("ui.add_to_this_account_2b97ffa7"),
           onPress: () => {
             const accepted =
               timeTrackingService.acceptLegacyHistoryForCurrentUser(
@@ -161,15 +161,15 @@ export default function StudyTimeScreen() {
               );
             if (!accepted) {
               Alert.alert(
-                "History wasn't added",
-                "The saved history is no longer available for this account.",
+                uiT("ui.history_wasn_t_added_85ec268d"),
+                uiT("ui.the_saved_history_is_no_longer_available_for_this_account_454129ee"),
               );
               return;
             }
 
             Alert.alert(
-              "Saved history added",
-              "It is now included in this account's totals. The original on-device copy is still preserved, and cloud sync will continue in the background.",
+              uiT("ui.saved_history_added_85e8eef8"),
+              uiT("ui.it_is_now_included_in_this_account_s_totals_the_original_on_devic_0e3ad249"),
             );
             setData(readScreenData(range));
             void maybeSyncStudyTime({ force: true }).finally(() => {
@@ -179,14 +179,7 @@ export default function StudyTimeScreen() {
         },
       ],
     );
-  }, [
-    apiToken,
-    deviceId,
-    legacyRecoveryStatus.dayCount,
-    range,
-    userId,
-    username,
-  ]);
+  }, [apiToken, deviceId, legacyRecoveryStatus.dayCount, range, userId, username, ]);
 
   const activeCategories = useMemo(
     () =>
@@ -220,11 +213,9 @@ export default function StudyTimeScreen() {
         />
         <View style={styles.headerTextGroup}>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Study Time
-          </Text>
+            {uiT("ui.study_time_697f7732")} </Text>
           <Text style={[styles.headerMeta, { color: theme.textSecondary }]}>
-            Combined across all your devices
-          </Text>
+            {uiT("ui.combined_across_all_your_devices_5c06fb02")} </Text>
         </View>
         <View style={styles.backButtonSpacer} />
       </View>
@@ -253,8 +244,7 @@ export default function StudyTimeScreen() {
                     { color: theme.textColor },
                   ]}
                 >
-                  Saved study history found
-                </Text>
+                  {uiT("ui.saved_study_history_found_b3641f22")} </Text>
               </View>
             </View>
             <Text
@@ -264,18 +254,17 @@ export default function StudyTimeScreen() {
                 { color: theme.textSecondary },
               ]}
             >
-              {legacyRecoveryStatus.dayCount} saved{" "}
-              {legacyRecoveryStatus.dayCount === 1 ? "day is" : "days are"}{" "}
-              waiting for you to confirm which account owns them.
-            </Text>
+              {legacyRecoveryStatus.dayCount} {uiT("ui.saved_d81c55f4")}{" "}
+              {legacyRecoveryStatus.dayCount === 1 ? uiT("ui.day_is_cd1326bb") : uiT("ui.days_are_583f279d")}{" "}
+              {uiT("ui.waiting_for_you_to_confirm_which_account_owns_them_3e9c45e0")} </Text>
             <TouchableOpacity
               style={[styles.recoveryButton, { backgroundColor: theme.primary }]}
               onPress={confirmLegacyHistoryRecovery}
               activeOpacity={0.85}
               accessibilityRole="button"
-              accessibilityLabel="Add saved study history to this account"
+              accessibilityLabel={uiT("ui.add_saved_study_history_to_this_account_654ee0fb")}
             >
-              <Text style={styles.syncNowButtonText}>Review and add history</Text>
+              <Text style={styles.syncNowButtonText}>{uiT("ui.review_and_add_history_c154b7e5")}</Text>
             </TouchableOpacity>
           </Animated.View>
         )}
@@ -298,8 +287,7 @@ export default function StudyTimeScreen() {
         {/* Total for the selected range */}
         <Animated.View style={cardStyle} layout={cardLayout}>
           <Text style={[styles.heroLabel, { color: theme.textSecondary }]}>
-            Total study time
-          </Text>
+            {uiT("ui.total_study_time_792865b0")} </Text>
           <RollingNumberText
             text={formatDurationMs(summary.studyMs)}
             style={[styles.heroValue, { color: theme.textColor }]}
@@ -318,8 +306,7 @@ export default function StudyTimeScreen() {
                   style={[styles.heroMetaValue, { color: theme.textColor }]}
                 />
                 <Text style={[styles.heroMetaLabel, { color: theme.textSecondary }]}>
-                  avg / day
-                </Text>
+                  {uiT("ui.avg_day_ccd80e0b")} </Text>
               </View>
               <View style={styles.heroMetaItem}>
                 <RollingNumberText
@@ -327,8 +314,7 @@ export default function StudyTimeScreen() {
                   style={[styles.heroMetaValue, { color: theme.textColor }]}
                 />
                 <Text style={[styles.heroMetaLabel, { color: theme.textSecondary }]}>
-                  active days
-                </Text>
+                  {uiT("ui.active_days_8b82ba33")} </Text>
               </View>
               <View style={styles.heroMetaItem}>
                 <RollingNumberText
@@ -340,8 +326,7 @@ export default function StudyTimeScreen() {
                   style={[styles.heroMetaValue, { color: theme.textColor }]}
                 />
                 <Text style={[styles.heroMetaLabel, { color: theme.textSecondary }]}>
-                  avg / active day
-                </Text>
+                  {uiT("ui.avg_active_day_74fdfd14")} </Text>
               </View>
             </Animated.View>
           )}
@@ -350,16 +335,14 @@ export default function StudyTimeScreen() {
         {/* Per-category breakdown */}
         <Animated.View style={cardStyle} layout={cardLayout}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Breakdown
-          </Text>
+            {uiT("ui.breakdown_3ffe201a")} </Text>
           {activeCategories.length === 0 ? (
             <Animated.Text
               entering={sectionEntering}
               exiting={sectionExiting}
               style={[styles.emptyText, { color: theme.textSecondary }]}
             >
-              Nothing tracked in this period yet.
-            </Animated.Text>
+              {uiT("ui.nothing_tracked_in_this_period_yet_e2495a3e")} </Animated.Text>
           ) : (
             activeCategories.map((category) => {
               const meta = STUDY_TIME_CATEGORY_META[category];
@@ -421,7 +404,7 @@ export default function StudyTimeScreen() {
                 },
               ]}
               accessibilityRole="switch"
-              accessibilityLabel="Color bars by category"
+              accessibilityLabel={uiT("ui.color_bars_by_category_c82e568b")}
               accessibilityState={{ checked: showChartBreakdown }}
               activeOpacity={0.85}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -507,8 +490,8 @@ export default function StudyTimeScreen() {
           </View>
           <Text style={[styles.chartCaption, { color: theme.textSecondary }]}>
             {selectedBucket
-              ? `${selectedBucket.accessibilityLabel} — ${formatDurationMs(selectedBucket.studyMs)}`
-              : `Tap a ${chartUnit} bar to see that period's total`}
+              ? uiT("ui.value_value_b5ae9572", {value1: (selectedBucket.accessibilityLabel), value2: (formatDurationMs(selectedBucket.studyMs))})
+              : uiT("ui.tap_a_value_bar_to_see_that_period_s_total_b5e57236", {value1: (chartUnit)})}
           </Text>
         </Animated.View>
 
@@ -518,8 +501,7 @@ export default function StudyTimeScreen() {
             <View style={styles.categoryLabelGroup}>
               <Ionicons name="phone-portrait-outline" size={16} color={theme.textSecondary} />
               <Text style={[styles.categoryLabel, { color: theme.textColor }]}>
-                Total time in Kakehashi
-              </Text>
+                {uiT("ui.total_time_in_kakehashi_1a75b009")} </Text>
             </View>
             <RollingNumberText
               text={formatDurationMs(summary.appTotalMs)}
@@ -527,9 +509,7 @@ export default function StudyTimeScreen() {
             />
           </View>
           <Text style={[styles.footnote, { color: theme.textSecondary }]}>
-            Includes everything you do in Kakehashi across your devices, not
-            just study screens. Time counts while Kakehashi is in the foreground.
-          </Text>
+            {uiT("ui.includes_everything_you_do_in_kakehashi_across_your_devices_not_j_006e8540")} </Text>
         </Animated.View>
 
         {/* Sync status — visible so device testers can debug without a console */}
@@ -542,8 +522,7 @@ export default function StudyTimeScreen() {
                 color={theme.textSecondary}
               />
               <Text style={[styles.categoryLabel, { color: theme.textColor }]}>
-                Sync
-              </Text>
+                {uiT("ui.sync_8d261a37")} </Text>
             </View>
             <TouchableOpacity
               style={[styles.syncNowButton, { backgroundColor: theme.primary }]}
@@ -555,7 +534,7 @@ export default function StudyTimeScreen() {
               }}
               activeOpacity={0.85}
             >
-              <Text style={styles.syncNowButtonText}>Sync now</Text>
+              <Text style={styles.syncNowButtonText}>{uiT("ui.sync_now_885e8f48")}</Text>
             </TouchableOpacity>
           </View>
           <Text
@@ -572,24 +551,23 @@ export default function StudyTimeScreen() {
             ]}
           >
             {syncStatus.detail}
-            {syncStatus.at ? ` (${formatTimeAgo(syncStatus.at)})` : ""}
+            {syncStatus.at ? uiT("ui.value_ec422465", {value1: (formatTimeAgo(syncStatus.at))}) : ""}
           </Text>
           <Text style={[styles.footnote, { color: theme.textSecondary }]}>
-            This device uploads its local ledger; combined totals refresh from
-            your other devices. Last successful push:{" "}
+            {uiT("ui.this_device_uploads_its_local_ledger_combined_totals_refresh_from_89546a5f")}{" "}
             {formatTimeAgo(syncStatus.lastSuccessAt)}
           </Text>
           <Text
             style={[styles.footnote, { color: theme.textSecondary }]}
             selectable
           >
-            Device ID: {getDeviceId()}
+            {uiT("ui.device_id_d45583bf")} {getDeviceId()}
           </Text>
           <Text
             style={[styles.footnote, { color: theme.textSecondary }]}
             selectable
           >
-            Project: {getSupabaseHost()}
+            {uiT("ui.project_5917f323")} {getSupabaseHost()}
           </Text>
         </Animated.View>
       </ScrollView>

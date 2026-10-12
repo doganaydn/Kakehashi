@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
@@ -225,6 +226,7 @@ const LessonItemCharacter = React.memo(
     theme: any;
     sizing: SubjectIconSizing;
   }) => {
+  useInterfaceLanguage();
     const isRadical = item.subject.object === "radical";
 
     // For radicals, try SVG fallback if no characters
@@ -308,6 +310,7 @@ const LessonItem = React.memo(
     onToggle: (id: number) => void;
     sizing: SubjectIconSizing;
   }) => {
+  useInterfaceLanguage();
     const { theme } = useTheme();
     const typeColor = getTypeColor(item.subject.object, theme);
 
@@ -350,6 +353,7 @@ const SectionHeader = React.memo(
     isAllSelected: boolean;
     onToggleSection: () => void;
   }) => {
+  useInterfaceLanguage();
     const { theme } = useTheme();
 
     return (
@@ -370,7 +374,7 @@ const SectionHeader = React.memo(
               { color: getSubjectTypeColor("radical") },
             ]}
           >
-            {isAllSelected ? "Deselect All" : "Select All"}
+            {isAllSelected ? uiT("ui.deselect_all_5cd261bc") : uiT("ui.select_all_d1ec69e6")}
           </Text>
         </TouchableOpacity>
       </View>
@@ -398,6 +402,7 @@ const LessonGroup = React.memo(
     isLast: boolean;
     sizing: SubjectIconSizing;
   }) => {
+  useInterfaceLanguage();
     const { theme } = useTheme();
 
     const handleToggleSection = useCallback(
@@ -453,17 +458,18 @@ const LevelSection = React.memo(
     onToggleSection: (items: LessonPickerItem[]) => void;
     sizing: SubjectIconSizing;
   }) => {
+  useInterfaceLanguage();
     const { theme } = useTheme();
     const sections = [
-      { title: "Radicals", items: section.radicals },
-      { title: "Kanji", items: section.kanji },
-      { title: "Vocabulary", items: section.vocabulary },
+      { title: uiT("ui.radicals_80608601"), items: section.radicals },
+      { title: uiT("ui.kanji_45f62a35"), items: section.kanji },
+      { title: uiT("ui.vocabulary_eebd90a0"), items: section.vocabulary },
     ].filter((s) => s.items.length > 0);
 
     return (
       <View style={styles.levelSection}>
         <Text style={[styles.levelTitle, { color: theme.textSecondary }]}>
-          Level {section.level}
+          {uiT("ui.level_1709305c")} {section.level}
         </Text>
         <View
           style={[
@@ -499,6 +505,7 @@ export default function LessonPicker({
   onStart,
   onCancel,
 }: LessonPickerProps) {
+  useInterfaceLanguage();
   const contentDisplay = useLearningDisplay();
   const { theme } = useTheme();
   const lessonPickerViewMode = useSettingsStore(
@@ -804,7 +811,7 @@ export default function LessonPicker({
     } catch (error) {
       console.error("Failed to load lesson picker subject lists:", error);
       setAvailableLists([]);
-      setListLoadError("Failed to load your lists.");
+      setListLoadError(uiT("ui.message_db742932781c"));
     } finally {
       setIsLoadingLists(false);
     }
@@ -1019,12 +1026,12 @@ export default function LessonPicker({
                 color={theme.textSecondary}
               />
               <Text style={[styles.listLevelTitle, { color: theme.textColor }]}>
-                Level {item.level}
+                {uiT("ui.level_1709305c")} {item.level}
               </Text>
               <Text
                 style={[styles.listLevelMeta, { color: theme.textSecondary }]}
               >
-                {item.lessons.length} lesson{item.lessons.length === 1 ? "" : "s"}
+                {item.lessons.length} {uiT("ui.lesson_b78e5875")}{uiPluralSuffix(item.lessons.length === 1 ? "" : "s")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1041,7 +1048,7 @@ export default function LessonPicker({
                   { color: getSubjectTypeColor("radical") },
                 ]}
               >
-                {isAllSelected ? "Deselect All" : "Select All"}
+                {isAllSelected ? uiT("ui.deselect_all_5cd261bc") : uiT("ui.select_all_d1ec69e6")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1091,7 +1098,7 @@ export default function LessonPicker({
             <View style={styles.listLessonMetaRow}>
               <Text style={[styles.listLessonType, { color: theme.textSecondary }]}>
                 {lesson.subject.object === "kana_vocabulary"
-                  ? "Kana Vocab"
+                  ? uiT("ui.kana_vocab_597d8c17")
                   : lesson.subject.object.charAt(0).toUpperCase() +
                     lesson.subject.object.slice(1)}
               </Text>
@@ -1115,15 +1122,7 @@ export default function LessonPicker({
         </TouchableOpacity>
       );
     },
-    [
-      contentDisplay,
-      collapsedLevels,
-      selectedItems,
-      theme,
-      toggleItem,
-      toggleLevelCollapsed,
-      toggleSection,
-    ]
+    [contentDisplay, collapsedLevels, selectedItems, theme, toggleItem, toggleLevelCollapsed, toggleSection, ]
   );
 
   return (
@@ -1146,8 +1145,7 @@ export default function LessonPicker({
             <Ionicons name="chevron-back" size={24} color={theme.headerText} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            Choose Lessons
-          </Text>
+            {uiT("ui.choose_lessons_cfa20a80")} </Text>
           <View style={styles.headerActions}>
             <TouchableOpacity
               style={[
@@ -1185,8 +1183,8 @@ export default function LessonPicker({
               >
                 {filteredLessons.length > 0 &&
                 filteredLessons.every((lesson) => selectedItems.has(lesson.id))
-                  ? "Deselect"
-                  : "Select All"}
+                  ? uiT("ui.deselect_142174c1")
+                  : uiT("ui.select_all_d1ec69e6")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1206,7 +1204,7 @@ export default function LessonPicker({
           />
           <TextInput
             style={[styles.searchInput, { color: theme.headerText }]}
-            placeholder="Search by meaning or characters..."
+            placeholder={uiT("ui.search_by_meaning_or_characters_fe7016d6")}
             placeholderTextColor="rgba(255, 255, 255, 0.7)"
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -1238,7 +1236,7 @@ export default function LessonPicker({
           onPress={() => setShowLessonFilters(true)}
           activeOpacity={0.75}
           accessibilityRole="button"
-          accessibilityLabel={`Lesson filters, ${vocabularyTypes.length} vocabulary types selected`}
+          accessibilityLabel={uiT("ui.dynamic_3f419c1f2690", {value1: (vocabularyTypes.length)})}
         >
           <Ionicons
             name={hasActiveFrequencyFilter || vocabularyTypes.length > 0 ? "funnel" : "funnel-outline"}
@@ -1248,8 +1246,8 @@ export default function LessonPicker({
           <Text
             style={[styles.frequencyFilterText, { color: theme.headerText }]}
           >
-            Filters{vocabularyTypes.length > 0 ? ` · ${vocabularyTypes.length} vocab type${vocabularyTypes.length === 1 ? "" : "s"}` : ""}
-            {hasActiveFrequencyFilter ? ` · ${getLessonFrequencyFilterLabel(frequencyFilter)}` : ""}
+            {uiT("ui.filters_546ebb8e")}{vocabularyTypes.length > 0 ? uiT("ui.value_vocab_typevalue_51235fc2", {value1: (vocabularyTypes.length), value2: (vocabularyTypes.length === 1 ? "" : "s")}) : ""}
+            {hasActiveFrequencyFilter ? uiT("ui.value_25b1fe3f", {value1: (getLessonFrequencyFilterLabel(frequencyFilter))}) : ""}
           </Text>
           {isLoadingFrequencyRanks && hasActiveFrequencyFilter ? (
             <Text
@@ -1283,8 +1281,7 @@ export default function LessonPicker({
                 <Text
                   style={[styles.emptyLessonsText, { color: theme.textSecondary }]}
                 >
-                  No lessons match the current filters.
-                </Text>
+                  {uiT("ui.no_lessons_match_the_current_filters_f72e34b3")} </Text>
               </View>
             }
           />
@@ -1300,8 +1297,7 @@ export default function LessonPicker({
                 <Text
                   style={[styles.emptyLessonsText, { color: theme.textSecondary }]}
                 >
-                  No lessons match the current filters.
-                </Text>
+                  {uiT("ui.no_lessons_match_the_current_filters_f72e34b3")} </Text>
               </View>
             }
           />
@@ -1323,7 +1319,7 @@ export default function LessonPicker({
             disabled={selectedItems.size === 0}
             activeOpacity={0.75}
             accessibilityRole="button"
-            accessibilityLabel="Bookmark selected lessons"
+            accessibilityLabel={uiT("ui.bookmark_selected_lessons_af63783c")}
           >
             <Ionicons
               name="bookmark-outline"
@@ -1355,8 +1351,7 @@ export default function LessonPicker({
               adjustsFontSizeToFit
               minimumFontScale={0.82}
             >
-              Start {selectedItems.size} Lesson
-              {selectedItems.size !== 1 ? "s" : ""}
+              {uiT("lesson_picker.start", { count: selectedItems.size })}
             </Text>
             <Ionicons name="chevron-forward" size={16} color="white" />
           </TouchableOpacity>
@@ -1381,8 +1376,7 @@ export default function LessonPicker({
           >
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-                Load Subject List
-              </Text>
+                {uiT("ui.load_subject_list_4b450068")} </Text>
               <TouchableOpacity
                 onPress={() => setShowListPickerModal(false)}
                 style={styles.modalCloseButton}
@@ -1403,8 +1397,7 @@ export default function LessonPicker({
               <Text
                 style={[styles.modalStateText, { color: theme.textSecondary }]}
               >
-                No subject lists yet.
-              </Text>
+                {uiT("ui.no_subject_lists_yet_0d338fa0")} </Text>
             ) : (
               <ScrollView style={styles.modalList}>
                 {availableLists.map((list) => {
@@ -1448,8 +1441,7 @@ export default function LessonPicker({
                             { color: theme.textSecondary },
                           ]}
                         >
-                          {availableLessonCount} available lesson
-                          {availableLessonCount === 1 ? "" : "s"}
+                          {availableLessonCount} {uiT("ui.available_lesson_557b6e45")} {uiPluralSuffix(availableLessonCount === 1 ? "" : "s")}
                         </Text>
                       </View>
                     </TouchableOpacity>
@@ -1463,10 +1455,8 @@ export default function LessonPicker({
                 style={[styles.modalFooterText, { color: theme.textSecondary }]}
               >
                 {selectedListIds.length === 0
-                  ? "No subject list selected."
-                  : `${selectedListIds.length} list${
-                      selectedListIds.length === 1 ? "" : "s"
-                    } selected • ${selectedListLessonCount} lessons selected.`}
+                  ? uiT("ui.no_subject_list_selected_633488ee")
+                  : uiT("ui.value_listvalue_selected_value_lessons_selected_bc39cb32", {value1: (selectedListIds.length), value2: (selectedListIds.length === 1 ? "" : "s"), value3: (selectedListLessonCount)})}
               </Text>
               <TouchableOpacity
                 style={[
@@ -1475,7 +1465,7 @@ export default function LessonPicker({
                 ]}
                 onPress={() => setShowListPickerModal(false)}
               >
-                <Text style={styles.modalDoneButtonText}>Done</Text>
+                <Text style={styles.modalDoneButtonText}>{uiT("ui.done_11a6767d")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1485,7 +1475,7 @@ export default function LessonPicker({
       <CommonFilterModal
         visible={showLessonFilters}
         onClose={() => setShowLessonFilters(false)}
-        title="Lesson Filters"
+        title={uiT("ui.lesson_filters_9f8c4da0")}
         applyButtonLabel="Apply"
         currentValues={{ frequency: frequencyFilter, vocabularyTypes }}
         showVocabularyTypes
@@ -1493,7 +1483,7 @@ export default function LessonPicker({
         sections={showVocabularyFrequency ? [
           {
             id: "frequency",
-            title: "Frequency rank (lower is more common)",
+            title: uiT("ui.frequency_rank_lower_is_more_common_efaefef3"),
             options: LESSON_FREQUENCY_FILTER_OPTIONS.map((option) => ({
               ...option,
             })),
@@ -1515,7 +1505,7 @@ export default function LessonPicker({
       <AddToSubjectListsModal
         visible={isBookmarkModalVisible}
         subjectIds={selectedLessonSubjectIds}
-        subjectLabel={`${selectedItems.size} selected lessons`}
+        subjectLabel={uiT("ui.dynamic_c6700ec9cff7", {value1: (selectedItems.size)})}
         onClose={() => setIsBookmarkModalVisible(false)}
       />
     </View>

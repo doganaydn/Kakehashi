@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -151,6 +152,7 @@ const orderLessonAssignments = (
 };
 
 export default function LessonsScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const { apiToken, userData, setUserData } = useAuthStore();
@@ -587,15 +589,15 @@ export default function LessonsScreen() {
             const { completedItems, totalItems } = sessionState.progress;
             const shouldResume = await new Promise<boolean>((resolve) => {
               Alert.alert(
-                "Resume Lessons?",
-                `You have a saved lesson session (${completedItems} of ${totalItems} completed). Resume it, or discard it and start fresh?`,
+                uiT("ui.resume_lessons_50624e9a"),
+                uiT("ui.you_have_a_saved_lesson_session_value_of_value_completed_resume_i_745bfcef", {value1: (completedItems), value2: (totalItems)}),
                 [
                   {
-                    text: "Start Fresh",
+                    text: uiT("ui.start_fresh_4abc2647"),
                     style: "destructive",
                     onPress: () => resolve(false),
                   },
-                  { text: "Resume", onPress: () => resolve(true) },
+                  { text: uiT("ui.resume_d640c742"), onPress: () => resolve(true) },
                 ],
                 { cancelable: false }
               );
@@ -632,9 +634,9 @@ export default function LessonsScreen() {
 
       if (lessonsResponse.data.length === 0) {
         Alert.alert(
-          "No Lessons Available",
-          "You don't have any lessons available right now.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_lessons_available_3ea7844b"),
+          uiT("ui.you_don_t_have_any_lessons_available_right_now_4399b03c"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -653,9 +655,9 @@ export default function LessonsScreen() {
 
         if (remainingDailyLessonSlots <= 0) {
           Alert.alert(
-            "Daily Lesson Limit Reached",
-            "You've reached your daily lesson limit. Come back tomorrow for more lessons.",
-            [{ text: "OK", onPress: () => router.back() }]
+            uiT("ui.daily_lesson_limit_reached_dff6be4f"),
+            uiT("ui.you_ve_reached_your_daily_lesson_limit_come_back_tomorrow_for_mor_9d82366c"),
+            [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
           );
           return;
         }
@@ -675,9 +677,9 @@ export default function LessonsScreen() {
 
       if (availableLessonAssignments.length === 0) {
         Alert.alert(
-          "No Lessons Available",
-          "There are no lessons available within your current daily limit.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_lessons_available_3ea7844b"),
+          uiT("ui.there_are_no_lessons_available_within_your_current_daily_limit_aee421c5"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -738,9 +740,9 @@ export default function LessonsScreen() {
 
       if (filteredAssignments.length === 0) {
         Alert.alert(
-          "No Lessons Available",
-          "No lessons are available after applying your kana vocabulary filter.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_lessons_available_3ea7844b"),
+          uiT("ui.no_lessons_are_available_after_applying_your_kana_vocabulary_filt_813167d3"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -767,9 +769,9 @@ export default function LessonsScreen() {
 
       if (cappedAssignments.length === 0) {
         Alert.alert(
-          "No Lessons Available",
-          "There are no lessons available within your current daily limit.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.no_lessons_available_3ea7844b"),
+          uiT("ui.there_are_no_lessons_available_within_your_current_daily_limit_aee421c5"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
         return;
       }
@@ -821,8 +823,8 @@ export default function LessonsScreen() {
       });
 
       if (items.length === 0) {
-        Alert.alert("Error", "Failed to prepare lesson items.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_prepare_lesson_items_320bea5e"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
         return;
       }
@@ -929,13 +931,13 @@ export default function LessonsScreen() {
 
       if (isRateLimitError(error)) {
         Alert.alert(
-          "Too Many Requests",
-          "You've made too many requests to WaniKani. The rate limit resets every minute. Please wait a moment and try again.",
-          [{ text: "OK", onPress: () => router.back() }]
+          uiT("ui.too_many_requests_3850dfdb"),
+          uiT("ui.you_ve_made_too_many_requests_to_wanikani_the_rate_limit_resets_e_fe1671a3"),
+          [{ text: uiT("ui.ok_565339bc"), onPress: () => router.back() }]
         );
       } else {
-        Alert.alert("Error", "Failed to load lessons. Please try again.", [
-          { text: "OK", onPress: () => router.back() },
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_load_lessons_please_try_again_ba45f7c0"), [
+          { text: uiT("ui.ok_565339bc"), onPress: () => router.back() },
         ]);
       }
     } finally {
@@ -1397,9 +1399,9 @@ export default function LessonsScreen() {
 
         if (queueResult.failure?.isPermissionError) {
           Alert.alert(
-            "Permission Error",
-            "Your API token doesn't have write permissions. Please update your token in WaniKani settings to allow starting assignments.",
-            [{ text: "OK" }]
+            uiT("ui.permission_error_b6cb358e"),
+            uiT("ui.your_api_token_doesn_t_have_write_permissions_please_update_your_56401a13"),
+            [{ text: uiT("ui.ok_565339bc") }]
           );
         }
       } catch (error) {
@@ -1410,9 +1412,9 @@ export default function LessonsScreen() {
         // Show appropriate error message based on error type
         if (isUnauthorizedError(error)) {
           Alert.alert(
-            "Permission Error",
-            "Your API token doesn't have write permissions. Please update your token in WaniKani settings to allow starting assignments.",
-            [{ text: "OK" }]
+            uiT("ui.permission_error_b6cb358e"),
+            uiT("ui.your_api_token_doesn_t_have_write_permissions_please_update_your_56401a13"),
+            [{ text: uiT("ui.ok_565339bc") }]
           );
         }
       } finally {
@@ -1438,9 +1440,7 @@ export default function LessonsScreen() {
           ]}
         >
           <Text style={[styles.pendingSyncBadgeText, { color: theme.textColor }]}>
-            {pendingLessonCount} lesson sync
-            {pendingLessonCount === 1 ? "" : "s"} pending
-          </Text>
+            {pendingLessonCount} {uiT("ui.lesson_sync_7d4eae9c")} {uiPluralSuffix(pendingLessonCount === 1 ? "" : "s")} {uiT("ui.pending_62a2fed3")} </Text>
         </View>
       </View>
     );
@@ -1455,8 +1455,7 @@ export default function LessonsScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            Loading lessons...
-          </Text>
+            {uiT("ui.loading_lessons_d19eb1da")} </Text>
         </View>
         {renderPendingLessonSyncBadge()}
       </View>
@@ -1486,8 +1485,7 @@ export default function LessonsScreen() {
               { color: theme.textColor },
             ]}
           >
-            User synonyms unavailable
-          </Text>
+            {uiT("ui.user_synonyms_unavailable_da6eb7d0")} </Text>
           <Text
             style={[
               styles.loadingText,
@@ -1495,9 +1493,7 @@ export default function LessonsScreen() {
               { color: theme.textSecondary },
             ]}
           >
-            Retry loading your user synonyms, or continue this lesson review
-            without accepting them.
-          </Text>
+            {uiT("ui.retry_loading_your_user_synonyms_or_continue_this_lesson_review_w_28c57f87")} </Text>
           <TouchableOpacity
             style={[
               styles.buttonContainer,
@@ -1505,7 +1501,7 @@ export default function LessonsScreen() {
             ]}
             onPress={() => setStudyMaterialsRetryNonce((value) => value + 1)}
           >
-            <Text style={styles.buttonText}>Retry</Text>
+            <Text style={styles.buttonText}>{uiT("ui.retry_942087cc")}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -1520,8 +1516,7 @@ export default function LessonsScreen() {
             }}
           >
             <Text style={[styles.buttonText, { color: theme.textColor }]}>
-              Continue without synonyms
-            </Text>
+              {uiT("ui.continue_without_synonyms_aae81b67")} </Text>
           </TouchableOpacity>
         </View>
         {renderPendingLessonSyncBadge()}
@@ -1543,8 +1538,7 @@ export default function LessonsScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.loadingText, { color: theme.textColor }]}>
-            Loading accepted answers...
-          </Text>
+            {uiT("ui.loading_accepted_answers_593ea0fd")} </Text>
         </View>
         {renderPendingLessonSyncBadge()}
       </View>
@@ -1573,12 +1567,12 @@ export default function LessonsScreen() {
             }}
             onExit={() => {
               Alert.alert(
-                "Exit Lessons",
-                "Are you sure you want to exit? Your progress will be saved, but incomplete lessons won't count.",
+                uiT("ui.exit_lessons_7d365e33"),
+                uiT("ui.are_you_sure_you_want_to_exit_your_progress_will_be_saved_but_inc_adba3928"),
                 [
-                  { text: "Cancel", style: "cancel" },
+                  { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
                   {
-                    text: "Exit",
+                    text: uiT("ui.exit_d17d84a6"),
                     onPress: () => navigateBackToDashboard(),
                   },
                 ]
@@ -1645,8 +1639,7 @@ export default function LessonsScreen() {
           />
           <View style={styles.loadingContainer}>
             <Text style={[styles.errorText, { color: theme.textSecondary }]}>
-              Error loading question
-            </Text>
+              {uiT("ui.error_loading_question_2c8347e0")} </Text>
           </View>
         </View>
       );
@@ -1680,12 +1673,12 @@ export default function LessonsScreen() {
           onSkip={handleSkip}
           onExit={() => {
             Alert.alert(
-              "Exit Lessons",
-              "Are you sure you want to exit? Your progress will be saved, but incomplete lessons won't count.",
+              uiT("ui.exit_lessons_7d365e33"),
+              uiT("ui.are_you_sure_you_want_to_exit_your_progress_will_be_saved_but_inc_adba3928"),
               [
-                { text: "Cancel", style: "cancel" },
+                { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
                 {
-                  text: "Exit",
+                  text: uiT("ui.exit_d17d84a6"),
                   onPress: () => navigateBackToDashboard(),
                 },
               ]
@@ -1753,7 +1746,7 @@ export default function LessonsScreen() {
               <Text
                 style={[styles.batchCompleteTitle, { color: theme.textColor }]}
               >
-                {isFinalBatchComplete ? "Lessons Complete!" : "Batch Complete!"}
+                {isFinalBatchComplete ? uiT("ui.lessons_complete_9711795f") : uiT("ui.batch_complete_c559bc78")}
               </Text>
               <Text
                 style={[
@@ -1762,8 +1755,8 @@ export default function LessonsScreen() {
                 ]}
               >
                 {isFinalBatchComplete
-                  ? "Amazing work! You finished all lessons in this session."
-                  : `Great job! You've completed batch ${completedBatchStats.batchNumber} of ${lessonBatches.length}`}
+                  ? uiT("ui.amazing_work_you_finished_all_lessons_in_this_session_dd47835c")
+                  : uiT("ui.great_job_you_ve_completed_batch_value_of_value_f00cc019", {value1: (completedBatchStats.batchNumber), value2: (lessonBatches.length)})}
               </Text>
             </View>
 
@@ -1771,8 +1764,7 @@ export default function LessonsScreen() {
               <Text
                 style={[styles.batchStatsTitle, { color: theme.textColor }]}
               >
-                Items Learned:
-              </Text>
+                {uiT("ui.items_learned_b6144187")} </Text>
               <View style={styles.batchStatsGrid}>
                 {completedBatchStats.typeCounts.radical > 0 && (
                   <View
@@ -1785,8 +1777,7 @@ export default function LessonsScreen() {
                       {completedBatchStats.typeCounts.radical}
                     </Text>
                     <Text style={styles.batchStatLabel}>
-                      Radical
-                      {completedBatchStats.typeCounts.radical !== 1 ? "s" : ""}
+                      {uiT("ui.radical_af294da6")} {uiPluralSuffix(completedBatchStats.typeCounts.radical !== 1 ? "s" : "")}
                     </Text>
                   </View>
                 )}
@@ -1800,7 +1791,7 @@ export default function LessonsScreen() {
                     <Text style={styles.batchStatNumber}>
                       {completedBatchStats.typeCounts.kanji}
                     </Text>
-                    <Text style={styles.batchStatLabel}>Kanji</Text>
+                    <Text style={styles.batchStatLabel}>{uiT("ui.kanji_45f62a35")}</Text>
                   </View>
                 )}
                 {completedBatchStats.typeCounts.vocabulary > 0 && (
@@ -1814,17 +1805,15 @@ export default function LessonsScreen() {
                       {completedBatchStats.typeCounts.vocabulary}
                     </Text>
                     <Text style={styles.batchStatLabel}>
-                      Vocabular
-                      {completedBatchStats.typeCounts.vocabulary !== 1
-                        ? "ies"
+                      {uiT("ui.vocabular_a0f17cbe")} {completedBatchStats.typeCounts.vocabulary !== 1
+                        ? uiT("ui.ies_388f91ea")
                         : "y"}
                     </Text>
                   </View>
                 )}
               </View>
               <Text style={[styles.batchTotalText, { color: theme.textColor }]}>
-                Total: {completedBatchStats.itemCount} item
-                {completedBatchStats.itemCount !== 1 ? "s" : ""}
+                {uiT("ui.total_18e872be")} {completedBatchStats.itemCount} {uiT("ui.item_4a33eacd")} {uiPluralSuffix(completedBatchStats.itemCount !== 1 ? "s" : "")}
               </Text>
             </View>
 
@@ -1835,9 +1824,7 @@ export default function LessonsScreen() {
                   { color: theme.textSecondary },
                 ]}
               >
-                {progress.completedItems} of {progress.totalItems} items
-                completed
-              </Text>
+                {progress.completedItems} {uiT("ui.of_28391d3b")} {progress.totalItems} {uiT("ui.items_completed_2b6ad5db")} </Text>
               <View
                 style={[
                   styles.batchProgressBar,
@@ -1877,7 +1864,7 @@ export default function LessonsScreen() {
                   { color: theme.textColor },
                 ]}
               >
-                Save current lessons to list ({currentLessonSubjectIds.length})
+                {uiT("ui.save_current_lessons_to_list_28251941")}{currentLessonSubjectIds.length})
               </Text>
             </TouchableOpacity>
 
@@ -1910,7 +1897,7 @@ export default function LessonsScreen() {
                 }
               >
                 <Text style={styles.batchContinueButtonText}>
-                  {isFinalBatchComplete ? "Finish" : "Next batch"}
+                  {isFinalBatchComplete ? uiT("ui.finish_a6c7a84b") : uiT("ui.next_batch_be7d204c")}
                 </Text>
                 <Ionicons
                   name={isFinalBatchComplete ? "checkmark" : "chevron-forward"}
@@ -1925,7 +1912,7 @@ export default function LessonsScreen() {
         <AddToSubjectListsModal
           visible={showSaveCurrentLessonsModal}
           subjectIds={currentLessonSubjectIds}
-          subjectLabel={`Current lessons (${currentLessonSubjectIds.length})`}
+          subjectLabel={uiT("ui.dynamic_68c4383b9e91", {value1: (currentLessonSubjectIds.length)})}
           onClose={() => setShowSaveCurrentLessonsModal(false)}
           onSaved={reloadSubjectLists}
         />
@@ -1942,8 +1929,7 @@ export default function LessonsScreen() {
       <StatusBar barStyle={theme.isDark ? "light-content" : "dark-content"} />
       <View style={styles.loadingContainer}>
         <Text style={[styles.errorText, { color: theme.textSecondary }]}>
-          No lessons available
-        </Text>
+          {uiT("ui.no_lessons_available_89b13e13")} </Text>
         <TouchableOpacity
           style={[
             styles.buttonContainer,
@@ -1951,7 +1937,7 @@ export default function LessonsScreen() {
           ]}
           onPress={() => handleGoToDashboard()}
         >
-          <Text style={styles.buttonText}>Back to Dashboard</Text>
+          <Text style={styles.buttonText}>{uiT("ui.back_to_dashboard_97ba1d39")}</Text>
         </TouchableOpacity>
       </View>
       {renderPendingLessonSyncBadge()}

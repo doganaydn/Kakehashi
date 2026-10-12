@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
 import { Image } from "expo-image";
@@ -44,6 +45,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   disablePress = false,
   showSourceBadge = false,
 }) => {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const readProgress = useSharedValue(isRead ? 1 : 0);
 
@@ -123,7 +125,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
 
     return (
       <View style={[styles.badge, { backgroundColor: badgeColor }]}>
-        <Text style={styles.badgeText}>{knownKanjiPercentage}% Known</Text>
+        <Text style={styles.badgeText}>{knownKanjiPercentage}{uiT("ui.known_13bc3b38")}</Text>
       </View>
     );
   };
@@ -149,7 +151,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             { color: onImage ? "#fff" : theme.textSecondary },
           ]}
         >
-          {item.source === "regular" ? "Standard" : "Easy"}
+          {item.source === "regular" ? uiT("ui.standard_ef669154") : uiT("ui.easy_d6915875")}
         </Text>
       </View>
     );

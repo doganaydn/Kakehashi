@@ -11,6 +11,14 @@ import org.json.JSONObject
 class HomeWidgetModule : Module() {
   override fun definition() = ModuleDefinition {
     Name("KakehashiHomeWidget")
+    Function("getInterfaceLocale") {
+      InterfaceLocale.language(requireNotNull(appContext.reactContext))
+    }
+    Function("setInterfaceLocale") { locale: String ->
+      val context = requireNotNull(appContext.reactContext)
+      InterfaceLocale.set(context, locale)
+      HomeWidgetStore.refresh(context)
+    }
     Function("updateSnapshot") { json: String ->
       val context = requireNotNull(appContext.reactContext)
       HomeWidgetStore.saveSnapshot(context, JSONObject(json))

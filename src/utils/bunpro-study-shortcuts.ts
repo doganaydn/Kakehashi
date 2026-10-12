@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 export const DEFAULT_STUDY_SHORTCUTS = {
   progress: "Enter", replayAudio: "r", markCorrect: "2", markIncorrect: "1",
   details: "d", skip: "k", addSynonym: "s", hint: "h", alternatives: "a", undo: "u",
@@ -6,7 +7,7 @@ export type StudyShortcutAction = keyof typeof DEFAULT_STUDY_SHORTCUTS;
 export type StudyShortcuts = Record<StudyShortcutAction, string>;
 export const STUDY_SHORTCUT_LABELS: Record<StudyShortcutAction, string> = {
   progress: "Reveal / continue", replayAudio: "Replay audio", markCorrect: "Mark correct", markIncorrect: "Mark incorrect",
-  details: "Toggle details", skip: "Skip item", addSynonym: "Add synonym", hint: "Bunpro hint", alternatives: "Bunpro alternate answers", undo: "Bunpro undo answer",
+  details: "Toggle details", skip: "Skip item", addSynonym: "Add synonym", get hint() { return uiT("ui.bunpro_hint_32af34fe"); }, alternatives: "Bunpro alternate answers", undo: "Bunpro undo answer",
 };
 export function validShortcutKey(key: string) {
   return key.length === 1 || ["Enter", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(key);

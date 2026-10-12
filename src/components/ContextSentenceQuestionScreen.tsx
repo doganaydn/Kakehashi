@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { BlurView } from "expo-blur";
@@ -84,7 +85,7 @@ function buildGrammarTooltipItem(token: JpdbParsedTokenAnnotation): VocabularyMa
   const meaningText = token.meaning?.trim() || "Grammar point";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
 
   return {
@@ -108,7 +109,7 @@ function buildJpdbFallbackTooltipItem(
   const meaningText = token.meaning?.trim() || "Detected by JPDB parser.";
   const partsOfSpeechSummary = token.partsOfSpeech.filter(Boolean).join(", ");
   const details = partsOfSpeechSummary
-    ? `${meaningText}\nPart of Speech: ${partsOfSpeechSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (partsOfSpeechSummary)})
     : meaningText;
   const displayText = token.spelling || token.surface || token.reading || "Vocabulary";
   const hasKanji = /[\u3400-\u9FFF々]/.test(displayText);
@@ -203,6 +204,7 @@ export default function ContextSentenceQuestionScreen({
   correctAnswersCount,
   accuracyPercent,
 }: ContextSentenceQuestionScreenProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const insets = useSafeAreaInsets();
@@ -1458,8 +1460,7 @@ export default function ContextSentenceQuestionScreen({
               { color: theme.textSecondary },
             ]}
           >
-            Tap to reveal translation
-          </Text>
+            {uiT("ui.tap_to_reveal_translation_e4cc1c85")} </Text>
         </View>
       </TouchableOpacity>
     );
@@ -1584,7 +1585,7 @@ export default function ContextSentenceQuestionScreen({
                     },
                   ]}
                 >
-                  {isSentenceAudioPlaying ? "Stop audio" : answerSubmittedRef.current ? "Replay audio" : "Play audio"}
+                  {isSentenceAudioPlaying ? uiT("ui.stop_audio_d69657bc") : answerSubmittedRef.current ? uiT("ui.replay_audio_8e8fcf4c") : uiT("ui.play_audio_33b31bc6")}
                 </Text>
               </TouchableOpacity>
 
@@ -1678,8 +1679,7 @@ export default function ContextSentenceQuestionScreen({
                         { color: theme.primary },
                       ]}
                     >
-                      Reset
-                    </Text>
+                      {uiT("ui.reset_daee7606")} </Text>
                   </TouchableOpacity>
                   <Text
                     style={[
@@ -1783,8 +1783,7 @@ export default function ContextSentenceQuestionScreen({
 
           <View style={styles.translationCenterContainer}>
             <Text style={[styles.translationLabel, { color: theme.textSecondary }]}>
-              Translation
-            </Text>
+              {uiT("ui.translation_6fbd766b")} </Text>
             {renderTranslation()}
           </View>
 
@@ -1801,8 +1800,7 @@ export default function ContextSentenceQuestionScreen({
               >
                 <Ionicons name="information-circle-outline" size={17} color={theme.textColor} />
                 <Text style={[styles.resultActionButtonText, { color: theme.textColor }]}>
-                  Show Details
-                </Text>
+                  {uiT("ui.show_details_a525be98")} </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.86}
@@ -1826,7 +1824,7 @@ export default function ContextSentenceQuestionScreen({
                     },
                   ]}
                 >
-                  {showExpectedAnswer ? "Hide Answer" : "Show Answer"}
+                  {showExpectedAnswer ? uiT("ui.hide_answer_dcabe6d1") : uiT("ui.show_answer_b3f97e40")}
                 </Text>
               </TouchableOpacity>
               <AnkiDroidExportButton
@@ -1849,8 +1847,7 @@ export default function ContextSentenceQuestionScreen({
         >
           <View style={styles.questionSection}>
             <Text style={[styles.questionPrompt, { color: theme.textColor }]}>
-              Which word completes the sentence?
-            </Text>
+              {uiT("ui.which_word_completes_the_sentence_49c9e754")} </Text>
             <MultipleChoiceKeyboard
               style={styles.choicesGrid}
               questionKey={String(question.id)}
@@ -1958,7 +1955,7 @@ export default function ContextSentenceQuestionScreen({
                 resetSignal={`${question.id}-answer`}
                 autoCorrect={false}
                 autoCapitalize="none"
-                placeholder="Type your answer..."
+                placeholder={uiT("ui.type_your_answer_9ffeb431")}
                 placeholderTextColor={theme.textSecondary}
                 style={[
                   styles.writingBottomInput,

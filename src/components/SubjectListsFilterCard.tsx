@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { router } from "expo-router";
@@ -61,6 +62,7 @@ export default function SubjectListsFilterCard({
   allowEmptySelection = true,
   subjectTypes,
 }: SubjectListsFilterCardProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [lists, setLists] = useState<SubjectList[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -223,19 +225,16 @@ export default function SubjectListsFilterCard({
         >
           <Ionicons name="list" size={16} color={theme.textSecondary} />
           <Text style={[styles.manageButtonText, { color: theme.textSecondary }]}>
-            Manage
-          </Text>
+            {uiT("ui.manage_5a234448")} </Text>
         </TouchableOpacity>
       </View>
 
       {isLoading ? (
         <Text style={[styles.stateText, { color: theme.textSecondary }]}>
-          Loading lists...
-        </Text>
+          {uiT("ui.loading_lists_ab8a0c9b")} </Text>
       ) : lists.length === 0 ? (
         <Text style={[styles.stateText, { color: theme.textSecondary }]}>
-          No lists yet. Create one from Manage.
-        </Text>
+          {uiT("ui.no_lists_yet_create_one_from_manage_bdc3ab25")} </Text>
       ) : (
         <View style={styles.optionsColumn}>
           {lists.map((list) => {
@@ -301,12 +300,8 @@ export default function SubjectListsFilterCard({
 
       <Text style={[styles.footerText, { color: theme.textSecondary }]}>
         {selectedSet.size === 0
-          ? "Using all matching subjects."
-          : `${selectedSet.size} list${
-              selectedSet.size === 1 ? "" : "s"
-            } selected • ${selectedSubjectCount} unique ${
-              selectedSubjectCount === 1 ? countUnit.singular : countUnit.plural
-            }.`}
+          ? uiT("ui.using_all_matching_subjects_39e72270")
+          : uiT("ui.value_listvalue_selected_value_unique_value_457257cc", {value1: (selectedSet.size), value2: (selectedSet.size === 1 ? "" : "s"), value3: (selectedSubjectCount), value4: (selectedSubjectCount === 1 ? countUnit.singular : countUnit.plural)})}
       </Text>
     </View>
   );

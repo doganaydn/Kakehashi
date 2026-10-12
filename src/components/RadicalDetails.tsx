@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { MeaningRows } from "../features/turkish-content/MeaningRows";
@@ -131,6 +132,7 @@ export default function RadicalDetails({
   onSynonymsChange,
   embedded = false,
 }: RadicalDetailsProps) {
+  useInterfaceLanguage();
   const navigation = useNavigation();
   const [processedImageUrl, setProcessedImageUrl] = useState<string | null>(
     null
@@ -577,8 +579,7 @@ export default function RadicalDetails({
         {/* Name Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Name
-          </Text>
+            {uiT("ui.name_dcd1d522")} </Text>
           <View
             style={[styles.infoBox, { backgroundColor: theme.cardBackground }]}
           >
@@ -588,8 +589,7 @@ export default function RadicalDetails({
                   rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
             <View style={[styles.row, { marginBottom: 8 }]}>
               <Text style={[styles.label, { color: theme.textSecondary }]}>
-                Primary
-              </Text>
+                {uiT("ui.primary_efe10c80")} </Text>
               <Text style={[styles.value, { color: theme.textColor }]}>
                 {primaryMeaning}
               </Text>
@@ -599,8 +599,7 @@ export default function RadicalDetails({
 
             <View style={styles.row}>
               <Text style={[styles.label, { color: theme.textSecondary }]}>
-                User Synonyms
-              </Text>
+                {uiT("ui.user_synonyms_4eacfc42")} </Text>
               <View style={styles.synonymsValueContainer}>
                 <Text
                   style={[
@@ -615,7 +614,7 @@ export default function RadicalDetails({
                 >
                   {radical.userSynonyms?.length
                     ? radical.userSynonyms.join(", ")
-                    : "None"}
+                    : uiT("ui.none_dc937b59")}
                 </Text>
                 <TouchableOpacity
                   style={[
@@ -630,8 +629,7 @@ export default function RadicalDetails({
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Manage
-                  </Text>
+                    {uiT("ui.manage_5a234448")} </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -641,8 +639,7 @@ export default function RadicalDetails({
         {/* Mnemonic Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Mnemonic
-          </Text>
+            {uiT("ui.mnemonic_761a18b8")} </Text>
           <View
             style={[styles.infoBox, { backgroundColor: theme.cardBackground }]}
           >
@@ -672,8 +669,7 @@ export default function RadicalDetails({
         {/* Notes Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Notes
-          </Text>
+            {uiT("ui.notes_8a7525b1")} </Text>
           {radical.meaningNote ? (
             <NoteFieldContainer
               addAccessibilityLabel="Add meaning note"
@@ -687,10 +683,9 @@ export default function RadicalDetails({
               <View style={styles.noteContainer}>
                 <View style={styles.noteHeader}>
                   <Text style={[styles.noteTitle, { color: theme.textColor }]}>
-                    Meaning Note
-                  </Text>
+                    {uiT("ui.meaning_note_2991d09a")} </Text>
                   <TouchableOpacity
-                    accessibilityLabel="Edit meaning note"
+                    accessibilityLabel={uiT("ui.edit_meaning_note_2f42b615")}
                     accessibilityRole="button"
                     hitSlop={8}
                     onPress={(event) => {
@@ -725,8 +720,7 @@ export default function RadicalDetails({
               onAdd={radical.onEditNote}
             >
               <Text style={[styles.noteText, { color: theme.textLight }]}>
-                Click to add note
-              </Text>
+                {uiT("ui.click_to_add_note_2b0974da")} </Text>
             </NoteFieldContainer>
           )}
         </View>
@@ -736,8 +730,7 @@ export default function RadicalDetails({
           radical.amalgamationSubjects.length > 0 && (
             <View style={styles.section}>
               <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-                Found In Kanji
-              </Text>
+                {uiT("ui.found_in_kanji_46a7278a")} </Text>
               <View
                 style={[
                   styles.infoBox,
@@ -832,11 +825,9 @@ export default function RadicalDetails({
                         ]}
                       >
                         {showAllKanji
-                          ? "Show Less"
-                          : `Show ${
-                              sortedAmalgamationSubjects.length -
-                              maxInitialKanjiItems
-                            } More`}
+                          ? uiT("ui.show_less_0264d7b0")
+                          : uiT("ui.show_value_more_07bba10f", {value1: (sortedAmalgamationSubjects.length -
+                              maxInitialKanjiItems)})}
                       </Text>
                       <Ionicons
                         name={showAllKanji ? "chevron-up" : "chevron-down"}
@@ -853,8 +844,7 @@ export default function RadicalDetails({
         {/* Your Progression Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Your Progression
-          </Text>
+            {uiT("ui.your_progression_064bccbc")} </Text>
           <View
             style={[styles.infoBox, { backgroundColor: theme.cardBackground }]}
           >
@@ -866,8 +856,7 @@ export default function RadicalDetails({
                   <Text
                     style={[styles.loadingText, { color: theme.textSecondary }]}
                   >
-                    Loading progression...
-                  </Text>
+                    {uiT("ui.loading_progression_ace1a0ad")} </Text>
                 </View>
               ) : progressionStatus === "offline" ? (
                 /* Offline State */
@@ -876,16 +865,14 @@ export default function RadicalDetails({
                     <Ionicons name="cloud-offline" size={28} color="#fff" />
                   </View>
                   <Text style={[styles.srsName, { color: theme.textColor }]}>
-                    Offline
-                  </Text>
+                    {uiT("ui.offline_a1794783")} </Text>
                   <Text
                     style={[
                       styles.notStartedText,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Cannot determine progression while offline
-                  </Text>
+                    {uiT("ui.cannot_determine_progression_while_offline_49a777ed")} </Text>
                 </View>
               ) : radical.srsStage === undefined ||
                 radical.srsStage === null ||
@@ -896,7 +883,7 @@ export default function RadicalDetails({
                     <Ionicons name="lock-closed" size={28} color="#fff" />
                   </View>
                   <Text style={[styles.srsName, { color: theme.textColor }]}>
-                    {radical.srsStage === 0 ? "Initiate" : "Not Started"}
+                    {radical.srsStage === 0 ? uiT("ui.initiate_505d1ad3") : uiT("ui.not_started_6d54f9ec")}
                   </Text>
                   <Text
                     style={[
@@ -904,8 +891,7 @@ export default function RadicalDetails({
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Complete the lesson to start tracking progress
-                  </Text>
+                    {uiT("ui.complete_the_lesson_to_start_tracking_progress_513c5cc1")} </Text>
                 </View>
               ) : (
                 /* Started State */
@@ -930,7 +916,7 @@ export default function RadicalDetails({
                           { color: theme.textSecondary },
                         ]}
                       >
-                        Next review:{" "}
+                        {uiT("ui.next_review_2ba0a1df")}{" "}
                         <Text
                           style={{ fontWeight: "600", color: theme.textColor }}
                         >
@@ -947,8 +933,7 @@ export default function RadicalDetails({
                             { color: theme.textColor },
                           ]}
                         >
-                          {Math.round(radical.percentageCorrect)}% Accuracy
-                        </Text>
+                          {Math.round(radical.percentageCorrect)}{uiT("ui.accuracy_39f874d5")} </Text>
                       </View>
                     )}
                   </View>
@@ -962,8 +947,7 @@ export default function RadicalDetails({
                       <Text
                         style={[styles.statTitle, { color: theme.textColor }]}
                       >
-                        Meaning Stats
-                      </Text>
+                        {uiT("ui.meaning_stats_08742341")} </Text>
 
                       <View style={styles.streakContainer}>
                         <View style={styles.streakItem}>
@@ -973,8 +957,7 @@ export default function RadicalDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            Streak
-                          </Text>
+                            {uiT("ui.streak_41db983f")} </Text>
                           <Text
                             style={[
                               styles.streakValue,
@@ -991,8 +974,7 @@ export default function RadicalDetails({
                               { color: theme.textSecondary },
                             ]}
                           >
-                            Longest
-                          </Text>
+                            {uiT("ui.longest_802803c7")} </Text>
                           <Text
                             style={[
                               styles.streakValue,

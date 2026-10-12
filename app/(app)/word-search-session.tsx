@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, router, useLocalSearchParams } from "expo-router";
@@ -221,6 +222,7 @@ function WordSearchResults({
   elapsedMs: number;
   onPlayAgain: () => void;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
 
   return (
@@ -234,10 +236,9 @@ function WordSearchResults({
         <Ionicons name="checkmark" size={30} color={SUCCESS_COLOR} />
       </View>
       <View style={styles.resultHeading}>
-        <Text style={[styles.resultTitle, { color: theme.textColor }]}>Found them all</Text>
+        <Text style={[styles.resultTitle, { color: theme.textColor }]}>{uiT("ui.found_them_all_402ea4de")}</Text>
         <Text style={[styles.resultSubtitle, { color: theme.textSecondary }]}>
-          Nice work connecting each clue to its Japanese form.
-        </Text>
+          {uiT("ui.nice_work_connecting_each_clue_to_its_japanese_form_48e82806")} </Text>
       </View>
 
       <View style={styles.statsRow}>
@@ -250,7 +251,7 @@ function WordSearchResults({
           <Text style={[styles.statValue, { color: theme.textColor }]}>
             {puzzle.entries.length}
           </Text>
-          <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Words</Text>
+          <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{uiT("ui.words_0a8be89a")}</Text>
         </View>
         <View
           style={[
@@ -261,7 +262,7 @@ function WordSearchResults({
           <Text style={[styles.statValue, { color: theme.textColor }]}>
             {mistakes}
           </Text>
-          <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Misses</Text>
+          <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{uiT("ui.misses_350cf2c3")}</Text>
         </View>
         <View
           style={[
@@ -272,12 +273,12 @@ function WordSearchResults({
           <Text style={[styles.statValue, { color: theme.textColor }]}>
             {formatElapsed(elapsedMs)}
           </Text>
-          <Text style={[styles.statLabel, { color: theme.textSecondary }]}>Time</Text>
+          <Text style={[styles.statLabel, { color: theme.textSecondary }]}>{uiT("ui.time_33b93476")}</Text>
         </View>
       </View>
 
       <View style={styles.reviewSection}>
-        <Text style={[styles.reviewTitle, { color: theme.textColor }]}>Puzzle review</Text>
+        <Text style={[styles.reviewTitle, { color: theme.textColor }]}>{uiT("ui.puzzle_review_95e00a68")}</Text>
         {puzzle.entries.map((entry) => (
           <View
             key={entry.id}
@@ -319,7 +320,7 @@ function WordSearchResults({
         style={[styles.primaryButton, { backgroundColor: theme.primary }]}
       >
         <Ionicons name="refresh" size={20} color="#FFFFFF" />
-        <Text style={styles.primaryButtonText}>New Puzzle</Text>
+        <Text style={styles.primaryButtonText}>{uiT("ui.new_puzzle_847af11c")}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         accessibilityRole="button"
@@ -327,14 +328,14 @@ function WordSearchResults({
         style={[styles.secondaryButton, { borderColor: theme.border }]}
       >
         <Text style={[styles.secondaryButtonText, { color: theme.textColor }]}>
-          Change Settings
-        </Text>
+          {uiT("ui.change_settings_081290d4")} </Text>
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
 function WordSearchSessionContent() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const { apiToken, userData } = useAuthStore();
   const userLevel = userData?.level ?? 60;
@@ -605,7 +606,7 @@ function WordSearchSessionContent() {
     }
     setHintedEntryIds((current) => [...current, activeEntry.id]);
     setStatusMessage(
-      `Hint: ${activeEntry.answer.charAt(0)} is highlighted on the board.`,
+      uiT("ui.dynamic_d7cc596108f2", {value1: (activeEntry.answer.charAt(0))}),
     );
     void Haptics.selectionAsync();
   };
@@ -615,10 +616,10 @@ function WordSearchSessionContent() {
       router.back();
       return;
     }
-    Alert.alert("Leave Word Search?", "Your progress will be saved.", [
-      { text: "Keep Playing", style: "cancel" },
+    Alert.alert(uiT("ui.leave_word_search_e4e66b46"), uiT("ui.your_progress_will_be_saved_acb1edc3"), [
+      { text: uiT("ui.keep_playing_83a87a71"), style: "cancel" },
       {
-        text: "Save & Leave",
+        text: uiT("ui.save_leave_78b0905a"),
         onPress: () => {
           void persistSession().finally(() => router.back());
         },
@@ -628,7 +629,7 @@ function WordSearchSessionContent() {
 
   const headerOptions = {
     headerShown: true,
-    title: "Word Search",
+    title: uiT("ui.word_search_2a17a96d"),
     headerBackVisible: false,
     headerTintColor: theme.textColor,
     headerStyle: { backgroundColor: theme.backgroundColor },
@@ -636,7 +637,7 @@ function WordSearchSessionContent() {
     headerLeft: () => (
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Back"
+        accessibilityLabel={uiT("ui.back_76900f1b")}
         hitSlop={12}
         onPress={requestExit}
         style={({ pressed }) => ({ opacity: pressed ? 0.55 : 1 })}
@@ -653,11 +654,9 @@ function WordSearchSessionContent() {
         <StatusBar style={theme.statusBarStyle} />
         <ActivityIndicator size="large" color={theme.primary} />
         <Text style={[styles.loadingTitle, { color: theme.textColor }]}>
-          Building your puzzle…
-        </Text>
+          {uiT("ui.building_your_puzzle_77295ae9")} </Text>
         <Text style={[styles.loadingSubtitle, { color: theme.textSecondary }]}>
-          Choosing learned words that fit comfortably on screen.
-        </Text>
+          {uiT("ui.choosing_learned_words_that_fit_comfortably_on_screen_f2817079")} </Text>
       </View>
     );
   }
@@ -671,16 +670,15 @@ function WordSearchSessionContent() {
           <Ionicons name="alert-circle-outline" size={30} color={theme.error} />
         </View>
         <Text style={[styles.loadingTitle, { color: theme.textColor }]}>
-          Couldn&apos;t build this puzzle
-        </Text>
+          {uiT("ui.couldn_t_build_this_puzzle_a9dd6835")} </Text>
         <Text selectable style={[styles.loadingSubtitle, { color: theme.textSecondary }]}>
-          {errorMessage ?? "Please change the filters and try again."}
+          {errorMessage ?? uiT("ui.please_change_the_filters_and_try_again_8cb27921")}
         </Text>
         <TouchableOpacity
           onPress={() => router.replace("/word-search-config" as any)}
           style={[styles.primaryButton, { backgroundColor: theme.primary }]}
         >
-          <Text style={styles.primaryButtonText}>Change Settings</Text>
+          <Text style={styles.primaryButtonText}>{uiT("ui.change_settings_081290d4")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -717,10 +715,9 @@ function WordSearchSessionContent() {
       >
         <View style={styles.progressHeader}>
           <Text style={[styles.progressText, { color: theme.textSecondary }]}>
-            {foundEntryIds.length} of {puzzle.entries.length} found
-          </Text>
+            {foundEntryIds.length} {uiT("ui.of_28391d3b")} {puzzle.entries.length} {uiT("ui.found_bcc649cf")} </Text>
           <Text style={[styles.progressText, { color: theme.textSecondary }]}>
-            {config.direction === "kanji-to-kana" ? "Find kana" : "Find kanji"}
+            {config.direction === "kanji-to-kana" ? uiT("ui.find_kana_357856c9") : uiT("ui.find_kanji_de853257")}
           </Text>
         </View>
         <View style={[styles.progressTrack, { backgroundColor: theme.border }]}>
@@ -742,8 +739,8 @@ function WordSearchSessionContent() {
             <View style={styles.activeClueCopy}>
               <Text style={[styles.eyebrow, { color: theme.textSecondary }]}>
                 {config.direction === "kanji-to-kana"
-                  ? "FIND THE READING"
-                  : "FIND THE WRITTEN WORD"}
+                  ? uiT("ui.find_the_reading_fb14a93f")
+                  : uiT("ui.find_the_written_word_ad296eed")}
               </Text>
               <Text
                 selectable
@@ -761,7 +758,7 @@ function WordSearchSessionContent() {
             </View>
             <TouchableOpacity
               accessibilityRole="button"
-              accessibilityLabel="Reveal first letter hint"
+              accessibilityLabel={uiT("ui.reveal_first_letter_hint_f56ebca4")}
               disabled={hintedIdSet.has(activeEntry.id)}
               onPress={useHint}
               style={[
@@ -804,10 +801,9 @@ function WordSearchSessionContent() {
         </Text>
 
         <View style={styles.clueSectionHeader}>
-          <Text style={[styles.clueSectionTitle, { color: theme.textColor }]}>Clues</Text>
+          <Text style={[styles.clueSectionTitle, { color: theme.textColor }]}>{uiT("ui.clues_86aa514b")}</Text>
           <Text style={[styles.clueSectionHint, { color: theme.textSecondary }]}>
-            Tap to focus
-          </Text>
+            {uiT("ui.tap_to_focus_6888f5c1")} </Text>
         </View>
         <ScrollView
           horizontal
@@ -876,7 +872,7 @@ function WordSearchSessionContent() {
         <View style={styles.mistakeRow}>
           <Ionicons name="flag-outline" size={15} color={theme.textSecondary} />
           <Text style={[styles.mistakeText, { color: theme.textSecondary }]}>
-            {mistakes} {mistakes === 1 ? "miss" : "misses"}
+            {mistakes} {mistakes === 1 ? uiT("ui.miss_80688fc3") : uiT("ui.misses_b36708c7")}
           </Text>
         </View>
       </ScrollView>
@@ -885,6 +881,7 @@ function WordSearchSessionContent() {
 }
 
 export default function WordSearchSessionScreen() {
+  useInterfaceLanguage();
   return <WordSearchSessionContent />;
 }
 

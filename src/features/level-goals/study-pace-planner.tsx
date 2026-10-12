@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import Slider from "@react-native-community/slider";
@@ -41,6 +42,7 @@ type Props = {
 };
 
 export function StudyPacePlanner(props: Props) {
+  useInterfaceLanguage();
   const username = useAuthStore((state) => state.userData?.username);
   const enabled = useSettingsStore(
     (state) => state.homeStudyPacePlannerEnabled,
@@ -52,7 +54,7 @@ export function StudyPacePlanner(props: Props) {
     <View style={[styles.planner, { borderColor: theme.border }]}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Plan your pace"
+        accessibilityLabel={uiT("ui.plan_your_pace_bbf6480c")}
         accessibilityState={{ expanded: open }}
         onPress={() => {
           setOpen((value) => !value);
@@ -62,8 +64,7 @@ export function StudyPacePlanner(props: Props) {
       >
         <Ionicons name="options-outline" size={18} color={theme.primary} />
         <Text style={[styles.toggleText, { color: theme.textColor }]}>
-          Plan your pace
-        </Text>
+          {uiT("ui.plan_your_pace_bbf6480c")} </Text>
         <Ionicons
           name={open ? "chevron-up" : "chevron-down"}
           size={16}
@@ -73,8 +74,7 @@ export function StudyPacePlanner(props: Props) {
       {open ? (
         props.loading ? (
           <Text style={[styles.note, { color: theme.textSecondary }]}>
-            Loading your study data…
-          </Text>
+            {uiT("ui.loading_your_study_data_200cbb31")} </Text>
         ) : (
           <PlanEditor {...props} />
         )
@@ -84,6 +84,7 @@ export function StudyPacePlanner(props: Props) {
 }
 
 export function StudyPacePlannerSetting() {
+  useInterfaceLanguage();
   const username = useAuthStore((state) => state.userData?.username);
   const enabled = useSettingsStore(
     (state) => state.homeStudyPacePlannerEnabled,
@@ -106,14 +107,12 @@ export function StudyPacePlannerSetting() {
         <Text
           style={{ color: theme.textColor, fontSize: 14, fontWeight: "600" }}
         >
-          Plan your pace
-        </Text>
+          {uiT("ui.plan_your_pace_bbf6480c")} </Text>
         <Text style={{ color: theme.textSecondary, fontSize: 12 }}>
-          Show the pace planner inside Review forecast.
-        </Text>
+          {uiT("ui.show_the_pace_planner_inside_review_forecast_6f21b78a")} </Text>
       </View>
       <Switch
-        accessibilityLabel="Plan your pace"
+        accessibilityLabel={uiT("ui.plan_your_pace_bbf6480c")}
         value={enabled === true}
         onValueChange={setEnabled}
         trackColor={{ true: theme.primary }}
@@ -130,6 +129,7 @@ function PlanEditor({
   paused = false,
   progressions = [],
 }: Props) {
+  useInterfaceLanguage();
   const goals = useLevelGoals();
   const { theme } = useTheme();
   const reduced = useReducedMotion();
@@ -211,7 +211,7 @@ function PlanEditor({
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } catch {
       goals.update((state) => ({ ...state, studyPlan: previous, studyPlanAnchor: previousAnchor }));
-      setError("Your study settings could not be saved. Please try again.");
+      setError(uiT("ui.message_ee0e6ddec6df"));
     }
   };
   const useDate = () => {
@@ -275,22 +275,20 @@ function PlanEditor({
     >
       {paused ? (
         <Text style={[styles.note, note]}>
-          Planning is paused while you’re on vacation.
-        </Text>
+          {uiT("ui.planning_is_paused_while_you_re_on_vacation_ddc8fe33")} </Text>
       ) : null}
       <View style={styles.row}>
         <View>
-          <Text style={[styles.note, note]}>Target pace</Text>
+          <Text style={[styles.note, note]}>{uiT("ui.target_pace_90ff5ec2")}</Text>
           <Text style={[styles.pace, { color: theme.textColor }]}>
             {plan.daysPerLevel}
-            <Text style={styles.unit}> days / level</Text>
+            <Text style={styles.unit}> {uiT("ui.days_level_da5af76e")}</Text>
           </Text>
         </View>
         {currentLevel < 60 ? (
           <View style={styles.destination}>
             <Text style={[styles.note, note]}>
-              Reach level {target} · pace estimate
-            </Text>
+              {uiT("ui.reach_level_d56d335b")} {target} {uiT("ui.pace_estimate_8c674310")} </Text>
             <Text style={[styles.amount, { color: theme.textColor }]}>
               {shortGoalDate(deadline)}
             </Text>
@@ -299,13 +297,11 @@ function PlanEditor({
       </View>
       {currentLevel < 60 ? (
         <Pressable accessibilityRole="button" onPress={() => router.push("/(app)/level-goal")}>
-          <Text style={{ color: theme.primary, paddingVertical: 8 }}>Set a level goal</Text>
+          <Text style={{ color: theme.primary, paddingVertical: 8 }}>{uiT("ui.set_a_level_goal_35a5d703")}</Text>
         </Pressable>
       ) : null}
       <Text style={[styles.note, note]}>
-        Reaching level {target} means unlocking the start of that level. The pace
-        estimate is anchored to {shortGoalDate(anchor.date)}; it is a target, not a guaranteed level-up date.
-      </Text>
+        {uiT("ui.reaching_level_785af16c")} {target} {uiT("ui.means_unlocking_the_start_of_that_level_the_pace_estimate_is_anch_f63344f1")} {shortGoalDate(anchor.date)}{uiT("ui.it_is_a_target_not_a_guaranteed_level_up_date_93693fcf")} </Text>
       <View style={styles.presets}>
         {[7, 14, 30].map((value) => (
           <Pressable
@@ -336,7 +332,7 @@ function PlanEditor({
                     : theme.textSecondary,
               }}
             >
-              {value === 7 ? "A week" : value === 14 ? "Two weeks" : "A month"}
+              {value === 7 ? uiT("ui.a_week_a2f81034") : value === 14 ? uiT("ui.two_weeks_1f6f5a8c") : uiT("ui.a_month_c46731af")}
             </Text>
           </Pressable>
         ))}
@@ -371,10 +367,10 @@ function PlanEditor({
       )}
       <Text style={[styles.note, note]}>
         {count
-          ? `About ${count} subjects / level · ${Math.ceil(count / plan.dailyLessons)} days to cover at this lesson pace.`
+          ? uiT("ui.about_value_subjects_level_value_days_to_cover_at_this_lesson_pac_87e31edb", {value1: (count), value2: (Math.ceil(count / plan.dailyLessons))})
           : loading
-            ? "Loading your level subjects…"
-            : "Level subjects are unavailable. Workload preview is still available; linked pace needs your catalog."}
+            ? uiT("ui.loading_your_level_subjects_ad9be55a")
+            : uiT("ui.level_subjects_are_unavailable_workload_preview_is_still_availabl_caf3d48e")}
       </Text>
       <View accessibilityLiveRegion="polite">
         <Text
@@ -382,18 +378,17 @@ function PlanEditor({
           style={[styles.workload, { color: theme.textColor }]}
         >
           ~{dailyReviews}
-          <Text style={styles.unit}> reviews / day</Text>
+          <Text style={styles.unit}> {uiT("ui.reviews_day_16577c1c")}</Text>
         </Text>
         <Text style={[styles.note, note]}>
-          ~{Math.ceil(dailyReviews / plan.reviewBatch)} sessions · next 7 days
-        </Text>
+          ~{Math.ceil(dailyReviews / plan.reviewBatch)} {uiT("ui.sessions_next_7_days_a073d8d3")} </Text>
       </View>
       <View style={styles.chart}>
         {days.map((day, i) => (
           <View
             key={day.date}
             accessible
-            accessibilityLabel={`${shortGoalDate(day.date)}: ${day.total} estimated reviews, ${day.known} already scheduled`}
+            accessibilityLabel={uiT("ui.dynamic_63048be455c8", {value1: (shortGoalDate(day.date)), value2: (day.total), value3: (day.known)})}
             style={styles.column}
           >
             <View style={styles.bar}>
@@ -414,18 +409,17 @@ function PlanEditor({
               />
             </View>
             <Text style={[styles.axis, note]}>
-              {i === 0 ? "Today" : i === 6 ? "7d" : i === 13 ? "14d" : ""}
+              {i === 0 ? uiT("ui.today_2b065c7c") : i === 6 ? uiT("ui.7d_a7c74264") : i === 13 ? uiT("ui.14d_b87aba7e") : ""}
             </Text>
           </View>
         ))}
       </View>
       <View style={styles.legend}>
         <Text style={[styles.note, { color: theme.primary }]}>
-          Existing items
-        </Text>
-        <Text style={[styles.note, note]}>New lessons</Text>
+          {uiT("ui.existing_items_248bb2f0")} </Text>
+        <Text style={[styles.note, note]}>{uiT("ui.new_lessons_15fa3bc1")}</Text>
         <Text style={[styles.note, note]}>
-          Peak {Math.max(...days.map((day) => day.total))}
+          {uiT("ui.peak_a57feec7")} {Math.max(...days.map((day) => day.total))}
         </Text>
       </View>
       <Pressable
@@ -435,16 +429,12 @@ function PlanEditor({
         style={styles.method}
       >
         <Text style={[styles.note, note]}>
-          How estimates work {method ? "−" : "+"}
+          {uiT("ui.how_estimates_work_95ffd4ca")} {method ? "−" : "+"}
         </Text>
       </Pressable>
       {method ? (
         <Text style={[styles.note, note]}>
-          Assumes correct, on-time reviews and enough unlocked lessons each day.
-          Unlocks and accuracy can change your level-up date. Smaller sessions
-          split due reviews; they don’t make them arrive sooner. Your actual
-          Review forecast stays above.
-        </Text>
+          {uiT("ui.assumes_correct_on_time_reviews_and_enough_unlocked_lessons_each_bf02ced0")} </Text>
       ) : null}
       <Pressable
         accessibilityRole="button"
@@ -460,7 +450,7 @@ function PlanEditor({
         ]}
       >
         <Text style={styles.applyText}>
-          {applied ? "Plan applied ✓" : "Apply daily plan →"}
+          {applied ? uiT("ui.plan_applied_3b26e52d") : uiT("ui.apply_daily_plan_4c626bee")}
         </Text>
       </Pressable>
       {currentLevel < 60 ? (
@@ -472,15 +462,12 @@ function PlanEditor({
           style={styles.dateAction}
         >
           <Text style={{ color: theme.primary }}>
-            {goalSaved ? "Goal date updated" : "Use date for my goal"}
+            {goalSaved ? uiT("ui.goal_date_updated_0e7b2b63") : uiT("ui.use_date_for_my_goal_9fe216ff")}
           </Text>
         </Pressable>
       ) : null}
       <Text style={[styles.note, note]}>
-        Apply sets your daily lesson limit and review session size. Scheduled reviews
-        above keep their WaniKani SRS dates. The plan preview includes estimated
-        reviews from new lessons; your actual level-up estimate follows kanji progress.
-      </Text>
+        {uiT("ui.apply_sets_your_daily_lesson_limit_and_review_session_size_schedu_1be564ce")} </Text>
       {goals.error || error ? (
         <Text accessibilityRole="alert" style={{ color: theme.error }}>
           {error || goals.error}

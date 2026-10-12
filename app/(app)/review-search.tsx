@@ -1,8 +1,10 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Stack, useRouter } from "expo-router";
 import SubjectSearchScreen from "../../src/screens/SubjectSearchScreen";
 import { supportsNativeTabs } from "../../src/utils/nativeTabs";
 
 export default function ReviewSearchScreen() {
+  useInterfaceLanguage();
   const router = useRouter();
   const showNativeSearchBar = supportsNativeTabs();
 
@@ -19,7 +21,7 @@ export default function ReviewSearchScreen() {
           headerSearchBarOptions: showNativeSearchBar
             ? {
                 placement: "automatic",
-                placeholder: "Search kanji, vocabulary, or meanings...",
+                placeholder: uiT("ui.search_kanji_vocabulary_or_meanings_d720abb2"),
                 autoFocus: true,
                 hideNavigationBar: false,
                 onChangeText: (

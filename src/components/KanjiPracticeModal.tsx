@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useState } from "react";
 import {
@@ -29,6 +30,7 @@ export default function KanjiPracticeModal({
   meaning,
   reading,
 }: KanjiPracticeModalProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { strokeLeniency } = useSettingsStore();
@@ -82,8 +84,7 @@ export default function KanjiPracticeModal({
             <Ionicons name="close" size={24} color={theme.textColor} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-            Practice Writing
-          </Text>
+            {uiT("ui.practice_writing_f0911467")} </Text>
           <View style={{ width: 40 }} />
         </View>
 
@@ -117,14 +118,14 @@ export default function KanjiPracticeModal({
                   color={totalMistakes === 0 ? "#ffc107" : "#4caf50"}
                 />
                 <Text style={[styles.resultTitle, { color: theme.textColor }]}>
-                  {totalMistakes === 0 ? "Perfect!" : "Complete!"}
+                  {totalMistakes === 0 ? uiT("ui.perfect_bd57f3b9") : uiT("ui.complete_d0957425")}
                 </Text>
                 <Text
                   style={[styles.resultSubtitle, { color: theme.textSecondary }]}
                 >
                   {totalMistakes === 0
-                    ? "No mistakes!"
-                    : `${totalMistakes} mistake${totalMistakes !== 1 ? "s" : ""}`}
+                    ? uiT("ui.no_mistakes_88ef4b7f")
+                    : uiT("ui.value_mistakevalue_bcc4d0ca", {value1: (totalMistakes), value2: (totalMistakes !== 1 ? "s" : "")})}
                 </Text>
 
                 <View style={styles.resultButtons}>
@@ -136,7 +137,7 @@ export default function KanjiPracticeModal({
                     onPress={handlePracticeAgain}
                   >
                     <Ionicons name="refresh" size={20} color="#fff" />
-                    <Text style={styles.practiceAgainText}>Practice Again</Text>
+                    <Text style={styles.practiceAgainText}>{uiT("ui.practice_again_7842287f")}</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -152,8 +153,7 @@ export default function KanjiPracticeModal({
                     <Text
                       style={[styles.doneButtonText, { color: theme.textColor }]}
                     >
-                      Done
-                    </Text>
+                      {uiT("ui.done_11a6767d")} </Text>
                   </TouchableOpacity>
                 </View>
               </View>

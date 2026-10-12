@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -31,6 +32,7 @@ function SubjectStat({
   guru: number;
   total: number;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const subjectColors = useSubjectColors();
   const color =
@@ -72,6 +74,7 @@ function CompactLevelCard({
   levelData: LevelProgress;
   isCurrent?: boolean;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
 
   const handlePress = () => {
@@ -154,6 +157,7 @@ export default function IncompleteLevelsProgress({
   assignments,
   currentLevel,
 }: IncompleteLevelsProgressProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [levelProgressData, setLevelProgressData] = useState<LevelProgress[]>(
     []
@@ -202,11 +206,9 @@ export default function IncompleteLevelsProgress({
       >
         <Ionicons name="checkmark-circle" size={48} color="#38a169" />
         <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-          All Previous Levels Complete!
-        </Text>
+          {uiT("ui.all_previous_levels_complete_ea4a7c16")} </Text>
         <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
-          You&apos;ve reached Guru+ on all subjects from previous levels.
-        </Text>
+          {uiT("ui.you_ve_reached_guru_on_all_subjects_from_previous_levels_fa0eb4fa")} </Text>
       </View>
     );
   }
@@ -224,8 +226,7 @@ export default function IncompleteLevelsProgress({
       {currentLevelData && (
         <View style={styles.section}>
           <Text style={[styles.sectionHeader, { color: theme.textSecondary }]}>
-            CURRENT LEVEL
-          </Text>
+            {uiT("ui.current_level_61343f7f")} </Text>
           <CompactLevelCard levelData={currentLevelData} isCurrent={true} />
         </View>
       )}
@@ -234,8 +235,7 @@ export default function IncompleteLevelsProgress({
       {incompletePreviousLevels.length > 0 && (
         <View style={styles.section}>
           <Text style={[styles.sectionHeader, { color: theme.textSecondary }]}>
-            PREVIOUS LEVELS
-          </Text>
+            {uiT("ui.previous_levels_7d43c2d5")} </Text>
           {incompletePreviousLevels.map((levelData) => (
             <CompactLevelCard key={levelData.level} levelData={levelData} />
           ))}

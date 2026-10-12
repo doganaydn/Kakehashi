@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -29,6 +30,7 @@ export function VocabularyTypeFilter({
   onSearchFocus,
   initiallyExpanded = false,
 }: VocabularyTypeFilterProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [expanded, setExpanded] = useState(initiallyExpanded);
   const [query, setQuery] = useState("");
@@ -57,8 +59,8 @@ export function VocabularyTypeFilter({
         onPress={() => setExpanded((value) => !value)}
         activeOpacity={0.7}
         accessibilityRole="button"
-        accessibilityLabel={`Vocab type: ${summary}`}
-        accessibilityHint="Choose parts of speech for vocabulary results"
+        accessibilityLabel={uiT("ui.dynamic_ff589dde560e", {value1: (summary)})}
+        accessibilityHint={uiT("ui.choose_parts_of_speech_for_vocabulary_results_3f00ab2d")}
         accessibilityState={{ expanded }}
         style={{
           minHeight: 44,
@@ -68,8 +70,7 @@ export function VocabularyTypeFilter({
         }}
       >
         <Text style={{ color: theme.textColor, fontSize: 15, fontWeight: "600" }}>
-          Vocab type
-        </Text>
+          {uiT("ui.vocab_type_7a69f5a4")} </Text>
         <Text
           numberOfLines={1}
           style={{
@@ -91,15 +92,14 @@ export function VocabularyTypeFilter({
       {expanded ? (
         <View style={{ gap: 4 }}>
           <Text style={{ color: theme.textSecondary, fontSize: 13, marginBottom: 8 }}>
-            Match any selected type. Only vocabulary is included.
-          </Text>
+            {uiT("ui.match_any_selected_type_only_vocabulary_is_included_e5279e9f")} </Text>
           <TextInput
             value={query}
             onChangeText={setQuery}
             onFocus={onSearchFocus}
-            placeholder="Find a vocab type…"
+            placeholder={uiT("ui.find_a_vocab_type_31e6805b")}
             placeholderTextColor={theme.textLight}
-            accessibilityLabel="Find a vocabulary type"
+            accessibilityLabel={uiT("ui.find_a_vocabulary_type_bad9c5ae")}
             autoCapitalize="none"
             autoCorrect={false}
             clearButtonMode="while-editing"
@@ -118,10 +118,10 @@ export function VocabularyTypeFilter({
             <TouchableOpacity
               onPress={() => onChange([])}
               accessibilityRole="button"
-              accessibilityLabel="Clear vocabulary types"
+              accessibilityLabel={uiT("ui.clear_vocabulary_types_f41d7076")}
               style={{ minHeight: 44, justifyContent: "center", alignSelf: "flex-end" }}
             >
-              <Text style={{ color: theme.primary, fontSize: 14 }}>Clear</Text>
+              <Text style={{ color: theme.primary, fontSize: 14 }}>{uiT("ui.clear_83b12c22")}</Text>
             </TouchableOpacity>
           ) : null}
           {visibleOptions.map((option) => {
@@ -138,7 +138,7 @@ export function VocabularyTypeFilter({
                 }
                 activeOpacity={0.7}
                 accessibilityRole="checkbox"
-                accessibilityLabel={`${option.label} vocabulary type`}
+                accessibilityLabel={uiT("ui.dynamic_0a0abc5ead1b", {value1: (option.label)})}
                 accessibilityState={{ checked }}
                 style={{ minHeight: 44, flexDirection: "row", alignItems: "center", gap: 10 }}
               >
@@ -155,8 +155,7 @@ export function VocabularyTypeFilter({
           })}
           {visibleOptions.length === 0 ? (
             <Text selectable style={{ color: theme.textSecondary, paddingVertical: 12 }}>
-              No matching vocabulary types
-            </Text>
+              {uiT("ui.no_matching_vocabulary_types_36b1a8b2")} </Text>
           ) : null}
         </View>
       ) : null}

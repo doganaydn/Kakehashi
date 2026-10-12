@@ -1,3 +1,4 @@
+import { uiMessage, uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { Ionicons } from "@expo/vector-icons";
 import { Audio, type AudioSound } from "@/src/utils/expoAvCompat";
@@ -161,7 +162,7 @@ function getQuestionTypeDisplayLabel(
   questionType: QuestionType,
 ): "Name" | "Meaning" | "Reading" {
   if (subject.object === "radical" && questionType === "meaning") {
-    return "Name";
+    return uiT("ui.name_dcd1d522");
   }
 
   return questionType === "meaning" ? "Meaning" : "Reading";
@@ -558,17 +559,17 @@ function getSrsStageDisplayInfo(
 ): { label: string; iconLevel: SrsLevelName } {
   switch (stage) {
     case 1:
-      return { label: "Apprentice I", iconLevel: "Apprentice I" };
+      return { label: uiT("ui.apprentice_i_9b147e79"), iconLevel: "Apprentice I" };
     case 2:
-      return { label: "Apprentice II", iconLevel: "Apprentice II" };
+      return { label: uiT("ui.apprentice_ii_17ea8522"), iconLevel: "Apprentice II" };
     case 3:
-      return { label: "Apprentice III", iconLevel: "Apprentice III" };
+      return { label: uiT("ui.apprentice_iii_f60e604d"), iconLevel: "Apprentice III" };
     case 4:
-      return { label: "Apprentice IV", iconLevel: "Apprentice IV" };
+      return { label: uiT("ui.apprentice_iv_a58cb527"), iconLevel: "Apprentice IV" };
     case 5:
-      return { label: "Guru I", iconLevel: "Guru I" };
+      return { label: uiT("ui.guru_i_c0e7845c"), iconLevel: "Guru I" };
     case 6:
-      return { label: "Guru II", iconLevel: "Guru II" };
+      return { label: uiT("ui.guru_ii_99fc38e2"), iconLevel: "Guru II" };
     case 7:
       return { label: "Master", iconLevel: "Master" };
     case 8:
@@ -577,7 +578,7 @@ function getSrsStageDisplayInfo(
       if (stage >= 9) {
         return { label: "Burned", iconLevel: "Burned" };
       }
-      return { label: "Lesson", iconLevel: "Apprentice I" };
+      return { label: uiT("ui.lesson_6e2b26d9"), iconLevel: "Apprentice I" };
   }
 }
 
@@ -940,6 +941,7 @@ const AnsweredItemCharacterDisplay = React.memo(function AnsweredItemCharacterDi
   subject: WKSubject;
   fallbackText: string;
 }) {
+  useInterfaceLanguage();
   const isRadical = subject.object === "radical";
   const bestImg =
     isRadical && subject.data.character_images?.length
@@ -1035,6 +1037,7 @@ export default function ReviewQuestionScreen({
   reviewPermissionWarning,
   onDismissReviewPermissionWarning,
 }: ReviewQuestionProps) {
+  useInterfaceLanguage();
   // Kana has no reading question; reveal its pronunciation only after the meaning answer.
   const isCustomKanaAudioQuestion = item.subject.id < 0 && item.subject.object === "kana_vocabulary";
   const isPronunciationAnswerQuestion = questionType === "reading" || isCustomKanaAudioQuestion;
@@ -2094,7 +2097,7 @@ export default function ReviewQuestionScreen({
     try {
       const available = await ExpoSpeechRecognitionModule.isRecognitionAvailable();
       if (!available) {
-        setVoiceError("Speech recognition is not available on this device.");
+        setVoiceError(uiT("ui.message_dc6cbc309fb4"));
         return false;
       }
 
@@ -2110,7 +2113,7 @@ export default function ReviewQuestionScreen({
       return true;
     } catch (error) {
       console.error("Error checking speech permissions:", error);
-      setVoiceError("Unable to check speech permissions.");
+      setVoiceError(uiT("ui.message_2ba0b0ddb0b0"));
       return false;
     }
   }, [shouldUseOnDeviceVoiceRecognition]);
@@ -2122,14 +2125,14 @@ export default function ReviewQuestionScreen({
         ? await ExpoSpeechRecognitionModule.requestMicrophonePermissionsAsync()
         : await ExpoSpeechRecognitionModule.requestPermissionsAsync();
       if (!result.granted) {
-        setVoiceError("Microphone permission is required for voice answers.");
+        setVoiceError(uiT("ui.message_fddd98d335b8"));
       } else {
         setVoiceError(null);
       }
       return result.granted;
     } catch (error) {
       console.error("Error requesting speech permissions:", error);
-      setVoiceError("Unable to request speech permissions.");
+      setVoiceError(uiT("ui.message_41fda311c413"));
       return false;
     }
   }, [shouldUseOnDeviceVoiceRecognition]);
@@ -2198,7 +2201,7 @@ export default function ReviewQuestionScreen({
         nativeVoiceStateRef.current = "inactive";
         stopVoiceRecognition();
         console.error("Error starting speech recognition:", error);
-        setVoiceError("Failed to start voice recognition.");
+        setVoiceError(uiT("ui.message_23982c63c6d8"));
       }
     };
 
@@ -3655,18 +3658,18 @@ export default function ReviewQuestionScreen({
       }
 
       setEditingStudyMaterialNoteText(currentNoteText);
-      Alert.alert("Discard note changes?", "Your changes will not be saved.", [
-        { text: "Keep editing", style: "cancel" },
+      Alert.alert(uiT("ui.discard_note_changes_be6f883a"), uiT("ui.your_changes_will_not_be_saved_7a5bc1d7"), [
+        { text: uiT("ui.keep_editing_e76fd2ad"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => setStudyMaterialNoteModalVisible(false),
         },
       ]);
     } catch {
       Alert.alert(
-        "Unable to close note",
-        "Please try again. Your changes are still here.",
+        uiT("ui.unable_to_close_note_08fcec44"),
+        uiT("ui.please_try_again_your_changes_are_still_here_78a1e9b5"),
       );
     } finally {
       checkingNoteChangesRef.current = false;
@@ -3744,23 +3747,13 @@ export default function ReviewQuestionScreen({
     } catch (error) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert(
-        "Error",
-        `Failed to save note: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
+        uiT("ui.error_54a0e8c1"),
+        uiT("ui.failed_to_save_note_value_f35ce596", {value1: (error instanceof Error ? error.message : "Unknown error")}),
       );
     } finally {
       setIsSavingStudyMaterialNote(false);
     }
-  }, [
-    apiToken,
-    editingStudyMaterialNoteText,
-    editingStudyMaterialNoteType,
-    isSavingStudyMaterialNote,
-    item.subject.id,
-    onStudyMaterialNoteUpdated,
-    studyMaterials,
-  ]);
+  }, [apiToken, editingStudyMaterialNoteText, editingStudyMaterialNoteType, isSavingStudyMaterialNote, item.subject.id, onStudyMaterialNoteUpdated, studyMaterials, ]);
 
   const renderPausedSubjectDetails = () => {
     const subject =
@@ -3982,19 +3975,19 @@ export default function ReviewQuestionScreen({
     if (isPausedOnWrong) {
       buttons.push(
         renderPausedDetailsActionButton({
-          label: "Mark Wrong",
+          label: uiT("ui.mark_wrong_b8919ee3"),
           iconName: "close",
           color: "#f44336",
           onPress: handleProgressAsWrong,
         }),
         renderPausedDetailsActionButton({
-          label: "Skip",
+          label: uiT("ui.skip_28d03596"),
           iconName: "play-skip-forward",
           color: "#2196F3",
           onPress: handlePausedSkip,
         }),
         renderPausedDetailsActionButton({
-          label: "Mark Correct",
+          label: uiT("ui.mark_correct_32d7e0f6"),
           iconName: "checkmark",
           color: "#4caf50",
           onPress: handleMarkCorrect,
@@ -4003,13 +3996,13 @@ export default function ReviewQuestionScreen({
     } else if (isPausedOnCloseAnswer) {
       buttons.push(
         renderPausedDetailsActionButton({
-          label: "Mark Wrong",
+          label: uiT("ui.mark_wrong_b8919ee3"),
           iconName: "close",
           color: "#f44336",
           onPress: handleProgressAsWrong,
         }),
         renderPausedDetailsActionButton({
-          label: "Mark Correct",
+          label: uiT("ui.mark_correct_32d7e0f6"),
           iconName: "checkmark",
           color: "#4caf50",
           onPress: handleProgressAsCorrect,
@@ -4018,7 +4011,7 @@ export default function ReviewQuestionScreen({
     } else if (isPausedOnCorrect) {
       buttons.push(
         renderPausedDetailsActionButton({
-          label: "Continue",
+          label: uiT("ui.continue_31fbef16"),
           iconName: "chevron-forward",
           color: "#4caf50",
           onPress: handleProgressAsCorrect,
@@ -4108,7 +4101,7 @@ export default function ReviewQuestionScreen({
           </Text>
           {renderAudioAnswerReading("details")}
           {display.resolveMeaning(subject) && <Text selectable style={{color: theme.textSecondary, marginTop: 6}}>
-            Meaning translation: {display.meaning(subject)}
+            {uiT("ui.meaning_translation_dda75d13")} {display.meaning(subject)}
           </Text>}
         </View>
       </View>
@@ -4149,15 +4142,15 @@ export default function ReviewQuestionScreen({
               ]}
             >
               {editingStudyMaterialNoteType === "meaning"
-                ? "Meaning Note"
-                : "Reading Note"}
+                ? uiT("ui.meaning_note_2991d09a")
+                : uiT("ui.reading_note_72ec4fc8")}
             </Text>
             <TouchableOpacity
               style={styles.studyMaterialNoteModalCloseButton}
               onPress={closeStudyMaterialNoteModal}
               disabled={isSavingStudyMaterialNote}
               accessibilityRole="button"
-              accessibilityLabel="Close note editor"
+              accessibilityLabel={uiT("ui.close_note_editor_61a1c88c")}
             >
               <Ionicons name="close" size={22} color={theme.textColor} />
             </TouchableOpacity>
@@ -4181,12 +4174,10 @@ export default function ReviewQuestionScreen({
             value={editingStudyMaterialNoteText}
             onChangeText={setEditingStudyMaterialNoteText}
             onFocus={syncAndroidKeyboardMetrics}
-            accessibilityLabel={`${
-              editingStudyMaterialNoteType === "meaning"
-                ? "Meaning"
-                : "Reading"
-            } note text`}
-            placeholder={`Add your ${editingStudyMaterialNoteType} note here...`}
+            accessibilityLabel={uiT("ui.dynamic_07ededdab2cc", {value1: (editingStudyMaterialNoteType === "meaning"
+                ? uiT("ui.meaning_1f5d64b9")
+                : uiT("ui.reading_463816d0"))})}
+            placeholder={uiT("ui.dynamic_34710e02ac08", {value1: (uiMessage(editingStudyMaterialNoteType))})}
             placeholderTextColor={theme.textLight}
           />
 
@@ -4208,8 +4199,7 @@ export default function ReviewQuestionScreen({
                   { color: theme.textColor },
                 ]}
               >
-                Cancel
-              </Text>
+                {uiT("ui.cancel_19766ed6")} </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -4226,7 +4216,7 @@ export default function ReviewQuestionScreen({
                   { color: "#ffffff" },
                 ]}
               >
-                {isSavingStudyMaterialNote ? "Saving..." : "Save"}
+                {isSavingStudyMaterialNote ? uiT("ui.saving_dc85af8f") : uiT("ui.save_1509f561")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -5184,7 +5174,7 @@ export default function ReviewQuestionScreen({
 
         rows.push({
           key: "pitch-accent",
-          label: "Pitch accent",
+          label: uiT("ui.pitch_accent_41fdcf30"),
           values: shouldShowPitchAccentText
             ? ankiPitchAccentDisplayValues
             : undefined,
@@ -5207,14 +5197,14 @@ export default function ReviewQuestionScreen({
         if (shouldShowAcceptedAnswersAndSynonyms && otherAcceptedMeaningAnswers.length > 0) {
           rows.push({
             key: "other-accepted-meanings",
-            label: `Other ${meaningAnswerDisplayLabel} answers`,
+            label: uiT("ui.other_value_answers_1099ec1c", {value1: (meaningAnswerDisplayLabel)}),
             values: otherAcceptedMeaningAnswers,
           });
         }
         if (shouldShowAcceptedAnswersAndSynonyms && otherAcceptedReadingAnswers.length > 0) {
           rows.push({
             key: "other-accepted-readings",
-            label: "Other reading answers",
+            label: uiT("ui.other_reading_answers_2b34273d"),
             values: otherAcceptedReadingAnswers,
             japanese: true,
           });
@@ -5223,14 +5213,14 @@ export default function ReviewQuestionScreen({
         if (shouldShowPartOfSpeech) {
           rows.push({
             key: "wanikani-part-of-speech",
-            label: "Part of speech",
+            label: uiT("ui.part_of_speech_2584e4aa"),
             values: ankiPartOfSpeechValues,
           });
         }
         if (shouldShowAcceptedAnswersAndSynonyms && userSynonymsForAnki.length > 0) {
           rows.push({
             key: "user-synonyms",
-            label: "User synonyms",
+            label: uiT("ui.user_synonyms_d1bf6a7e"),
             values: userSynonymsForAnki,
           });
         }
@@ -5252,14 +5242,14 @@ export default function ReviewQuestionScreen({
         if (shouldShowPartOfSpeech) {
           rows.push({
             key: "wanikani-part-of-speech",
-            label: "Part of speech",
+            label: uiT("ui.part_of_speech_2584e4aa"),
             values: ankiPartOfSpeechValues,
           });
         }
         if (shouldShowAcceptedAnswersAndSynonyms && userSynonymsForAnki.length > 0) {
           rows.push({
             key: "user-synonyms",
-            label: "User synonyms",
+            label: uiT("ui.user_synonyms_d1bf6a7e"),
             values: userSynonymsForAnki,
           });
         }
@@ -5269,7 +5259,7 @@ export default function ReviewQuestionScreen({
       if (shouldShowAcceptedAnswersAndSynonyms && otherAcceptedReadingAnswers.length > 0) {
         rows.push({
           key: "other-accepted-readings",
-          label: "Other accepted answers",
+          label: uiT("ui.other_accepted_answers_3da24298"),
           values: otherAcceptedReadingAnswers,
           japanese: true,
         });
@@ -5278,7 +5268,7 @@ export default function ReviewQuestionScreen({
       if (shouldShowPartOfSpeech) {
         rows.push({
           key: "wanikani-part-of-speech",
-          label: "Part of speech",
+          label: uiT("ui.part_of_speech_2584e4aa"),
           values: ankiPartOfSpeechValues,
         });
       }
@@ -5299,7 +5289,7 @@ export default function ReviewQuestionScreen({
       otherAcceptedReadingAnswers,
       questionType,
       userSynonymsForAnki,
-    ],
+    , interfaceLocale()],
   );
 
   const pausedCorrectAnswerText =
@@ -5592,7 +5582,7 @@ export default function ReviewQuestionScreen({
         <JLPTLevelChip level={subjectJLPTLevel} />
         {showLevelAndSrs && reviewSubjectLevel !== null && <View style={styles.reviewMetadataPill}>
           <Ionicons name="school-outline" size={13} color="white" />
-          <Text style={styles.reviewMetadataText}>{`Level ${reviewSubjectLevel}${subject.id <= 0 ? "+" : ""}`}</Text>
+          <Text style={styles.reviewMetadataText}>{uiT("ui.level_valuevalue_65db29a0", {value1: (reviewSubjectLevel), value2: (subject.id <= 0 ? "+" : "")})}</Text>
         </View>}
         {showLevelAndSrs && reviewSrsStageInfo && <View style={styles.reviewMetadataPill}>
           <View style={styles.reviewMetadataSrsIcon}>
@@ -5666,7 +5656,7 @@ export default function ReviewQuestionScreen({
         {!isLessonFlow && (
           <View
             style={styles.statItem}
-            accessibilityLabel={`${accuracyPercent}% answer accuracy`}
+            accessibilityLabel={uiT("ui.dynamic_413bb4c6583d", {value1: (accuracyPercent)})}
           >
             <Ionicons name="pie-chart" size={24} color="white" />
             <Text style={styles.statText}>{accuracyPercent}%</Text>
@@ -5675,7 +5665,7 @@ export default function ReviewQuestionScreen({
 
         <View
           style={[styles.statItem, { marginHorizontal: 20 }]}
-          accessibilityLabel={`${completedCount} items completed`}
+          accessibilityLabel={uiT("ui.dynamic_d4c5bb5ba43e", {value1: (completedCount)})}
         >
           <Ionicons name="checkmark-done" size={24} color="white" />
           <Text style={styles.statText}>{completedCount}</Text>
@@ -5683,7 +5673,7 @@ export default function ReviewQuestionScreen({
 
         <View
           style={styles.statItem}
-          accessibilityLabel={`${totalItems} total items`}
+          accessibilityLabel={uiT("ui.dynamic_dca40774a60d", {value1: (totalItems)})}
         >
           <Ionicons name="folder-open" size={24} color="white" />
           <Text style={styles.statText}>{totalItems - completedCount}</Text>
@@ -5726,7 +5716,7 @@ export default function ReviewQuestionScreen({
             <TouchableOpacity
               onPress={onDismissReviewPermissionWarning}
               style={styles.permissionWarningDismiss}
-              accessibilityLabel="Dismiss permission warning"
+              accessibilityLabel={uiT("ui.dismiss_permission_warning_de64f65d")}
             >
               <Ionicons
                 name="close"
@@ -5743,11 +5733,11 @@ export default function ReviewQuestionScreen({
         <TouchableOpacity
           style={styles.floatingWrapUpButton}
           onPress={onWrapUp}
-          accessibilityLabel={`Wrap up after ${wrapUpTargetSubjects} more subjects. ${remainingSubjectsCount} subjects remaining.`}
+          accessibilityLabel={uiT("ui.dynamic_5b9e0751d686", {value1: (wrapUpTargetSubjects), value2: (remainingSubjectsCount)})}
         >
           <View style={styles.floatingWrapUpButtonInner} />
           <Ionicons name="flag" size={18} color="white" />
-          <Text style={styles.floatingWrapUpButtonText}>Wrap Up</Text>
+          <Text style={styles.floatingWrapUpButtonText}>{uiT("ui.wrap_up_5c82fce0")}</Text>
         </TouchableOpacity>
       )}
 
@@ -5758,7 +5748,7 @@ export default function ReviewQuestionScreen({
             { top: floatingSearchButtonTop, right: floatingSearchButtonRight },
           ]}
           onPress={handleOpenReviewSearch}
-          accessibilityLabel="Open search"
+          accessibilityLabel={uiT("ui.open_search_50ce48b9")}
         >
           <View style={styles.floatingReviewToolButtonInner} />
           <Ionicons name="search" size={18} color="white" />
@@ -5773,13 +5763,12 @@ export default function ReviewQuestionScreen({
           disabled={!onWrapUp}
           activeOpacity={0.75}
           accessibilityRole="button"
-          accessibilityLabel={`Exit wrap up mode. ${remainingSubjectsCount} subjects remaining.`}
+          accessibilityLabel={uiT("ui.dynamic_67a0cbd084ea", {value1: (remainingSubjectsCount)})}
         >
           <View style={styles.floatingWrapUpIndicatorInner} />
           <Ionicons name="flag" size={18} color="#ffd700" />
           <Text style={styles.floatingWrapUpIndicatorText}>
-            Wrapping Up ({remainingSubjectsCount} left)
-          </Text>
+            {uiT("ui.wrapping_up_69b8e3c3")}{remainingSubjectsCount} {uiT("ui.left_e93586a4")} </Text>
         </TouchableOpacity>
       )}
 
@@ -5853,7 +5842,7 @@ export default function ReviewQuestionScreen({
                 </View>
                 <Text style={[styles.srsNextReview, styles.srsNextReviewCompact]} numberOfLines={1}>
                   {srsProgression.newStage >= 9
-                    ? "🔥 Burned!"
+                    ? uiT("ui.burned_fd61392e")
                     : srsProgression.nextReviewInterval}
                 </Text>
               </View>
@@ -6083,7 +6072,7 @@ export default function ReviewQuestionScreen({
                         color="rgba(255, 255, 255, 0.8)"
                       />
                       <Text style={styles.contextHintButtonText}>
-                        {showContextHint ? "Hide Hint" : "Show Context Hint"}
+                        {showContextHint ? uiT("ui.hide_hint_d43b1e69") : uiT("ui.show_context_hint_c1ec5723")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -6107,8 +6096,8 @@ export default function ReviewQuestionScreen({
                       />
                       <Text style={styles.contextHintButtonText}>
                         {showContextHintTranslations
-                          ? "Hide Translation"
-                          : "Translate"}
+                          ? uiT("ui.hide_translation_a678f39c")
+                          : uiT("ui.translate_8fe14769")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -6208,7 +6197,7 @@ export default function ReviewQuestionScreen({
                     ]}
                     onPress={handleAnkiSkipButton}
                     activeOpacity={0.85}
-                    accessibilityLabel="Skip this card"
+                    accessibilityLabel={uiT("ui.skip_this_card_ab460047")}
                   >
                     <Ionicons
                       name="play-skip-forward"
@@ -6221,8 +6210,7 @@ export default function ReviewQuestionScreen({
                         { color: theme.isDark ? "#D1D5DB" : "#334155" },
                       ]}
                     >
-                      Skip
-                    </Text>
+                      {uiT("ui.skip_28d03596")} </Text>
                   </TouchableOpacity>
                 )}
                 {shouldShowSrsProgressionCard &&
@@ -6271,8 +6259,8 @@ export default function ReviewQuestionScreen({
                           </View>
                           <Text style={styles.srsNextReview}>
                             {srsProgression.newStage >= 9
-                              ? "🔥 Burned!"
-                              : `Next: ${srsProgression.nextReviewInterval}`}
+                              ? uiT("ui.burned_fd61392e")
+                              : uiT("ui.next_value_12d7c17a", {value1: (srsProgression.nextReviewInterval)})}
                           </Text>
                         </View>
                       </View>
@@ -6442,8 +6430,7 @@ export default function ReviewQuestionScreen({
                               theme.isDark && { color: "rgba(255, 255, 255, 0.62)" },
                             ]}
                           >
-                            Kanji Composition
-                          </Text>
+                            {uiT("ui.kanji_composition_c6a067f9")} </Text>
                           <View style={styles.ankiKanjiComposition}>
                             {currentAnkiKanjiComposition.map((component) => (
                               <TouchableOpacity
@@ -6463,7 +6450,7 @@ export default function ReviewQuestionScreen({
                                 disabled={navigatingToDetail}
                                 activeOpacity={0.7}
                                 accessibilityRole="button"
-                                accessibilityLabel={`View kanji ${component.characters}: ${component.meaning}`}
+                                accessibilityLabel={uiT("ui.dynamic_dfa582d1123c", {value1: (component.characters), value2: (component.meaning)})}
                               >
                                 <Text
                                   style={styles.ankiKanjiCharacter}
@@ -6516,8 +6503,7 @@ export default function ReviewQuestionScreen({
                       color={theme.isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)"}
                     />
                     <Text style={[styles.ankiTapToReveal, theme.isDark && { color: "rgba(255,255,255,0.6)" }]}>
-                      Tap anywhere to see the answer
-                    </Text>
+                      {uiT("ui.tap_anywhere_to_see_the_answer_3c3b672d")} </Text>
                   </View>
                 )}
               </ScrollView>
@@ -6536,7 +6522,7 @@ export default function ReviewQuestionScreen({
                     }}
                     activeOpacity={0.75}
                     disabled={isReplayingAudio}
-                    accessibilityLabel="Replay vocabulary audio"
+                    accessibilityLabel={uiT("ui.replay_vocabulary_audio_d8771914")}
                   >
                     <Ionicons
                       name={isReplayingAudio ? "sync" : "volume-high"}
@@ -6549,7 +6535,7 @@ export default function ReviewQuestionScreen({
                         { color: theme.isDark ? "#DDD6FE" : "#6D28D9" },
                       ]}
                     >
-                      {isReplayingAudio ? "Replaying..." : "Replay"}
+                      {isReplayingAudio ? uiT("ui.replaying_1f78c9a4") : uiT("ui.replay_c8dae637")}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -6565,12 +6551,12 @@ export default function ReviewQuestionScreen({
                   nestedScrollEnabled
                   bounces={false}
                 >
-                  <Text accessibilityRole="header" accessibilityLabel={`What was incorrect for ${subject.data.characters || subject.data.meanings?.[0]?.meaning || "this card"}?`} style={[styles.ankiWrongTitle, { color: theme.textColor }]}>What was incorrect?</Text>
+                  <Text accessibilityRole="header" accessibilityLabel={uiT("ui.dynamic_e8916993966d", {value1: (subject.data.characters || subject.data.meanings?.[0]?.meaning || "this card")})} style={[styles.ankiWrongTitle, { color: theme.textColor }]}>{uiT("ui.what_was_incorrect_16bd8911")}</Text>
                   <View style={styles.ankiWrongRows}>
                     {([
-                      { part: "meaning", label: "Meaning", icon: "book-outline" },
-                      { part: "reading", label: "Reading", icon: "volume-medium-outline" },
-                      { part: "both", label: "Both", icon: "layers-outline" },
+                      { part: "meaning", label: uiT("ui.meaning_1f5d64b9"), icon: "book-outline" },
+                      { part: "reading", label: uiT("ui.reading_463816d0"), icon: "volume-medium-outline" },
+                      { part: "both", label: uiT("ui.both_b6c1d862"), icon: "layers-outline" },
                     ] as const).map(({ part, label, icon }) => (
                       <TouchableOpacity
                         key={part}
@@ -6589,11 +6575,11 @@ export default function ReviewQuestionScreen({
                 </ScrollView>
                   <TouchableOpacity
                     accessibilityRole="button"
-                    accessibilityLabel="Cancel mistake selection"
+                    accessibilityLabel={uiT("ui.cancel_mistake_selection_5109c6ff")}
                     onPress={() => setAnkiWrongOptionsVisible(false)}
                     style={styles.ankiWrongCancel}
                   >
-                    <Text style={{ color: theme.textSecondary, fontSize: 14 }}>Cancel</Text>
+                    <Text style={{ color: theme.textSecondary, fontSize: 14 }}>{uiT("ui.cancel_19766ed6")}</Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -6609,15 +6595,14 @@ export default function ReviewQuestionScreen({
                     ]}
                     onPress={handleAnkiWrongButton}
                     accessibilityRole="button"
-                    accessibilityLabel="Wrong"
+                    accessibilityLabel={uiT("ui.wrong_a633bed8")}
                     activeOpacity={0.7}
                   >
                     <View style={styles.ankiButtonIconContainer}>
                       <Ionicons name="close" size={24} color="#D92C2C" />
                     </View>
                     <Text style={[styles.ankiButtonText, { color: "#D92C2C" }]}>
-                      Wrong
-                    </Text>
+                      {uiT("ui.wrong_a633bed8")} </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -6628,7 +6613,7 @@ export default function ReviewQuestionScreen({
                     ]}
                     onPress={handleAnkiDetailsButton}
                     accessibilityRole="button"
-                    accessibilityLabel="Details"
+                    accessibilityLabel={uiT("ui.details_45989de4")}
                     activeOpacity={0.7}
                   >
                     <View style={styles.ankiButtonIconContainer}>
@@ -6639,8 +6624,7 @@ export default function ReviewQuestionScreen({
                       />
                     </View>
                     <Text style={[styles.ankiButtonText, { color: "#0096FF" }]}>
-                      Details
-                    </Text>
+                      {uiT("ui.details_45989de4")} </Text>
                   </TouchableOpacity>
 
                   {allowSkippingReviews && onSkip && (
@@ -6652,7 +6636,7 @@ export default function ReviewQuestionScreen({
                       ]}
                       onPress={handleAnkiSkipButton}
                       accessibilityRole="button"
-                      accessibilityLabel="Skip"
+                      accessibilityLabel={uiT("ui.skip_28d03596")}
                       activeOpacity={0.7}
                     >
                       <View style={styles.ankiButtonIconContainer}>
@@ -6668,8 +6652,7 @@ export default function ReviewQuestionScreen({
                           { color: theme.isDark ? "#CBD5E1" : "#4A5568" },
                         ]}
                       >
-                        Skip
-                      </Text>
+                        {uiT("ui.skip_28d03596")} </Text>
                     </TouchableOpacity>
                   )}
 
@@ -6681,15 +6664,14 @@ export default function ReviewQuestionScreen({
                     ]}
                     onPress={() => handleAnkiAnswerButton(true)}
                     accessibilityRole="button"
-                    accessibilityLabel="Correct"
+                    accessibilityLabel={uiT("ui.correct_aca01a1a")}
                     activeOpacity={0.7}
                   >
                     <View style={styles.ankiButtonIconContainer}>
                       <Ionicons name="checkmark" size={24} color="#00B300" />
                     </View>
                     <Text style={[styles.ankiButtonText, { color: "#00B300" }]}>
-                      Correct
-                    </Text>
+                      {uiT("ui.correct_aca01a1a")} </Text>
                   </TouchableOpacity>
                 </Animated.View>
               )}
@@ -6765,8 +6747,8 @@ export default function ReviewQuestionScreen({
                     </View>
                     <Text style={styles.srsNextReview}>
                       {srsProgression.newStage >= 9
-                        ? "🔥 Burned!"
-                        : `Next: ${srsProgression.nextReviewInterval}`}
+                        ? uiT("ui.burned_fd61392e")
+                        : uiT("ui.next_value_12d7c17a", {value1: (srsProgression.nextReviewInterval)})}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -6784,11 +6766,11 @@ export default function ReviewQuestionScreen({
                   <View style={styles.pausedCardIconContainer}>
                     <Ionicons name="close-circle" size={24} color="#f44336" />
                   </View>
-                  <Text style={styles.pausedCardTitle}>Incorrect</Text>
+                  <Text style={styles.pausedCardTitle}>{uiT("ui.incorrect_a8a57dbc")}</Text>
                 </View>
 
                 <View style={styles.correctAnswerSection}>
-                  <Text style={styles.correctAnswerLabel}>Correct answer:</Text>
+                  <Text style={styles.correctAnswerLabel}>{uiT("ui.correct_answer_4d659fb1")}</Text>
                   <Text
                     style={[
                       styles.correctAnswerText,
@@ -6807,8 +6789,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="close" size={18} color="#f44336" />
                     <Text style={[styles.pausedActionButtonText, { color: "#f44336" }]}>
-                      Mark Incorrect
-                    </Text>
+                      {uiT("ui.mark_incorrect_fc9e459b")} </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -6817,8 +6798,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="play-skip-forward" size={18} color="#2196F3" />
                     <Text style={[styles.pausedActionButtonText, { color: "#2196F3" }]}>
-                      Skip
-                    </Text>
+                      {uiT("ui.skip_28d03596")} </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -6827,8 +6807,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="checkmark" size={18} color="#4caf50" />
                     <Text style={[styles.pausedActionButtonText, { color: "#4caf50" }]}>
-                      Mark Correct
-                    </Text>
+                      {uiT("ui.mark_correct_32d7e0f6")} </Text>
                   </TouchableOpacity>
                 </View>
 
@@ -6857,8 +6836,8 @@ export default function ReviewQuestionScreen({
                         ]}
                       >
                         {isReplayingAudio
-                          ? "Replaying..."
-                          : `Replay`}
+                          ? uiT("ui.replaying_1f78c9a4")
+                          : uiT("ui.replay_c8dae637")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -6869,8 +6848,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="information-circle" size={16} color="#9E9E9E" />
                     <Text style={[styles.pausedSecondaryActionText, { color: "#9E9E9E" }]}>
-                      Details
-                    </Text>
+                      {uiT("ui.details_45989de4")} </Text>
                   </TouchableOpacity>
 
                   {item.subject.id > 0 && showAddSynonymButton && questionType === "meaning" && (
@@ -6881,7 +6859,7 @@ export default function ReviewQuestionScreen({
                     >
                       <Ionicons name="add-circle" size={16} color="#ff9800" />
                       <Text style={[styles.pausedSecondaryActionText, { color: "#ff9800" }]}>
-                        {isAddingSynonym ? "Adding..." : "Synonym"}
+                        {isAddingSynonym ? uiT("ui.adding_913a8849") : uiT("ui.synonym_efc322f0")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -6903,12 +6881,11 @@ export default function ReviewQuestionScreen({
                   <Text
                     style={[styles.pausedCardTitle, styles.pausedCardTitleClose]}
                   >
-                    Close Match
-                  </Text>
+                    {uiT("ui.close_match_166b517d")} </Text>
                 </View>
 
                 <View style={styles.correctAnswerSection}>
-                  <Text style={styles.correctAnswerLabel}>Accepted answers:</Text>
+                  <Text style={styles.correctAnswerLabel}>{uiT("ui.accepted_answers_91eece09")}</Text>
                   <Text
                     style={[
                       styles.correctAnswerText,
@@ -6928,8 +6905,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="close" size={18} color="#f44336" />
                     <Text style={[styles.pausedActionButtonText, { color: "#f44336" }]}>
-                      Mark Incorrect
-                    </Text>
+                      {uiT("ui.mark_incorrect_fc9e459b")} </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -6938,8 +6914,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="checkmark" size={18} color="#4caf50" />
                     <Text style={[styles.pausedActionButtonText, { color: "#4caf50" }]}>
-                      Mark Correct
-                    </Text>
+                      {uiT("ui.mark_correct_32d7e0f6")} </Text>
                   </TouchableOpacity>
                 </View>
 
@@ -6968,8 +6943,8 @@ export default function ReviewQuestionScreen({
                         ]}
                       >
                         {isReplayingAudio
-                          ? "Replaying..."
-                          : `Replay`}
+                          ? uiT("ui.replaying_1f78c9a4")
+                          : uiT("ui.replay_c8dae637")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -6980,8 +6955,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="information-circle" size={16} color="#9E9E9E" />
                     <Text style={[styles.pausedSecondaryActionText, { color: "#9E9E9E" }]}>
-                      Details
-                    </Text>
+                      {uiT("ui.details_45989de4")} </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -7001,12 +6975,11 @@ export default function ReviewQuestionScreen({
                   <Text
                     style={[styles.pausedCardTitle, styles.pausedCardTitleCorrect]}
                   >
-                    Correct
-                  </Text>
+                    {uiT("ui.correct_aca01a1a")} </Text>
                 </View>
 
                 <View style={styles.correctAnswerSection}>
-                  <Text style={styles.correctAnswerLabel}>Accepted answers:</Text>
+                  <Text style={styles.correctAnswerLabel}>{uiT("ui.accepted_answers_91eece09")}</Text>
                   <Text
                     style={[
                       styles.correctAnswerText,
@@ -7043,8 +7016,8 @@ export default function ReviewQuestionScreen({
                         ]}
                       >
                         {isReplayingAudio
-                          ? "Replaying..."
-                          : `Replay`}
+                          ? uiT("ui.replaying_1f78c9a4")
+                          : uiT("ui.replay_c8dae637")}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -7055,8 +7028,7 @@ export default function ReviewQuestionScreen({
                   >
                     <Ionicons name="information-circle" size={16} color="#9E9E9E" />
                     <Text style={[styles.pausedSecondaryActionText, { color: "#9E9E9E" }]}>
-                      Details
-                    </Text>
+                      {uiT("ui.details_45989de4")} </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -7116,8 +7088,7 @@ export default function ReviewQuestionScreen({
                   >
                     {isLoadingChoices ? (
                       <Text style={{ padding: 20, textAlign: "center", color: theme.textSecondary }}>
-                        Preparing choices…
-                      </Text>
+                        {uiT("ui.preparing_choices_f7cf2305")} </Text>
                     ) : (
                       <ReviewAnswerChoices
                         questionKey={currentQuestionKey}
@@ -7226,7 +7197,7 @@ export default function ReviewQuestionScreen({
                           style={styles.voiceRetryButtonInside}
                           onPress={handleRetryVoiceRecognition}
                           accessibilityRole="button"
-                          accessibilityLabel="Retry voice answer"
+                          accessibilityLabel={uiT("ui.retry_voice_answer_b261a502")}
                           disabled={navigatingToDetail || isPausedOnAnswer || answered}
                         >
                           <Ionicons
@@ -7263,8 +7234,7 @@ export default function ReviewQuestionScreen({
               </Animated.View>
               {usesMultipleChoice && !isLoadingChoices && !showMultipleChoiceAnswers && !isPausedOnAnswer && (
                 <Text style={{ paddingTop: 8, color: showBackgroundColor ? "white" : theme.textSecondary, fontSize: 13, textAlign: "center" }}>
-                  Not enough distinct choices for this question. Type your answer.
-                </Text>
+                  {uiT("ui.not_enough_distinct_choices_for_this_question_type_your_answer_d680f793")} </Text>
               )}
 
               {shouldShowPausedSubjectDetails && renderPausedDetailsCorrectAnswer()}

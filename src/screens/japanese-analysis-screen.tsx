@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -230,7 +231,7 @@ function formatReadableTimestamp(rawTimestamp: string | null): string | null {
   }
 
   try {
-    return new Intl.DateTimeFormat(undefined, {
+    return new Intl.DateTimeFormat(interfaceLocale(), {
       dateStyle: "medium",
       timeStyle: "short",
     }).format(parsedDate);
@@ -321,19 +322,19 @@ function formatJpdbPartOfSpeechCode(code: string): string {
   }
 
   if (normalizedCode.startsWith("v1")) {
-    return `Ichidan Verb (${normalizedCode})`;
+    return uiT("ui.dynamic_73ee289daa22", {value1: (normalizedCode)});
   }
   if (normalizedCode.startsWith("v5")) {
-    return `Godan Verb (${normalizedCode})`;
+    return uiT("ui.dynamic_8319a1365d76", {value1: (normalizedCode)});
   }
   if (normalizedCode.startsWith("v2")) {
-    return `Nidan Verb (${normalizedCode})`;
+    return uiT("ui.dynamic_2becefa6cec2", {value1: (normalizedCode)});
   }
   if (normalizedCode.startsWith("v4")) {
-    return `Yodan Verb (${normalizedCode})`;
+    return uiT("ui.dynamic_68fe874799ec", {value1: (normalizedCode)});
   }
   if (normalizedCode.startsWith("vs")) {
-    return `Suru Verb (${normalizedCode})`;
+    return uiT("ui.dynamic_da1aa150bebd", {value1: (normalizedCode)});
   }
   if (normalizedCode.startsWith("adj")) {
     return `Adjective (${normalizedCode})`;
@@ -365,7 +366,7 @@ function buildGrammarTooltipItem(token: JpdbParsedTokenAnnotation): VocabularyMa
   const posSummary = buildReadableJpdbPartOfSpeechSummary(token.partsOfSpeech);
   const meaningText = token.meaning?.trim() || "Grammar point";
   const details = posSummary
-    ? `${meaningText}\nPart of Speech: ${posSummary}`
+    ? uiT("ui.dynamic_d55e241ccabb", {value1: (meaningText), value2: (posSummary)})
     : meaningText;
 
   return {
@@ -385,6 +386,7 @@ function buildGrammarTooltipItem(token: JpdbParsedTokenAnnotation): VocabularyMa
 export default function JapaneseAnalysisScreen({
   readerMode = "url",
 }: JapaneseAnalysisScreenProps) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const { userData } = useAuthStore();
@@ -952,7 +954,7 @@ export default function JapaneseAnalysisScreen({
   const handleLoadUrl = useCallback(async (urlOverride?: string) => {
     const trimmedUrl = (urlOverride ?? urlInput).trim();
     if (!trimmedUrl) {
-      setError("Enter a URL to fetch.");
+      setError(uiT("ui.message_85c2b2e99d54"));
       return;
     }
 
@@ -1018,7 +1020,7 @@ export default function JapaneseAnalysisScreen({
   const handleAnalyzeText = useCallback((textOverride?: string) => {
     const trimmedText = (textOverride ?? textInput).trim().slice(0, 5000);
     if (!trimmedText) {
-      setError("Paste or enter some Japanese text to analyze.");
+      setError(uiT("ui.message_95d8e52e94e0"));
       return;
     }
 
@@ -1096,7 +1098,7 @@ export default function JapaneseAnalysisScreen({
     } catch (translationFailure) {
       console.error("Failed to translate analyzed text:", translationFailure);
       if (translationRequestIdRef.current === requestId) {
-        setTranslationError("Could not translate this text. Please try again.");
+        setTranslationError(uiT("ui.message_5ab071b1658f"));
       }
     } finally {
       if (translationRequestIdRef.current === requestId) {
@@ -1144,7 +1146,7 @@ export default function JapaneseAnalysisScreen({
         typeof clipboardValue === "string" ? clipboardValue.trim() : "";
 
       if (!trimmedClipboardValue) {
-        setError("Clipboard is empty.");
+        setError(uiT("ui.message_c295a53012ad"));
         return;
       }
 
@@ -1152,7 +1154,7 @@ export default function JapaneseAnalysisScreen({
       await handleLoadUrl(trimmedClipboardValue);
     } catch (clipboardError) {
       console.error("Failed to read clipboard:", clipboardError);
-      setError("Could not read clipboard.");
+      setError(uiT("ui.message_4ec6a1d754a6"));
     }
   }, [handleLoadUrl]);
 
@@ -1172,7 +1174,7 @@ export default function JapaneseAnalysisScreen({
         typeof clipboardValue === "string" ? clipboardValue.trim() : "";
 
       if (!clipboardText) {
-        setError("Clipboard is empty.");
+        setError(uiT("ui.message_c295a53012ad"));
         return;
       }
 
@@ -1181,7 +1183,7 @@ export default function JapaneseAnalysisScreen({
       handleAnalyzeText(textToAnalyze);
     } catch (clipboardError) {
       console.error("Failed to read clipboard:", clipboardError);
-      setError("Could not read clipboard.");
+      setError(uiT("ui.message_4ec6a1d754a6"));
     }
   }, [handleAnalyzeText]);
 
@@ -1298,7 +1300,7 @@ export default function JapaneseAnalysisScreen({
                   ) : null}
                   {showJpdbBadge ? (
                     <View style={[styles.levelBadgeChip, styles.jpdbBadgeChip]}>
-                      <Text style={styles.levelBadgeText}>JP</Text>
+                      <Text style={styles.levelBadgeText}>{uiT("ui.jp_569ec613")}</Text>
                     </View>
                   ) : null}
                 </View>
@@ -1308,15 +1310,7 @@ export default function JapaneseAnalysisScreen({
         </View>
       );
     },
-    [
-      allMatches,
-      handleHoverTokenLeave,
-      handleVocabularyPress,
-      hoverPreviewEnabled,
-      renderPlainText,
-      theme.textColor,
-      userLevel,
-    ]
+    [allMatches, handleHoverTokenLeave, handleVocabularyPress, hoverPreviewEnabled, renderPlainText, theme.textColor, userLevel, ]
   );
 
   const renderParsedText = useCallback(
@@ -1574,7 +1568,7 @@ export default function JapaneseAnalysisScreen({
             style={[styles.headerTitle, { color: theme.headerText }]}
             numberOfLines={1}
           >
-            {isTextReader ? "Analyze Text" : "URL Reader"}
+            {isTextReader ? uiT("ui.analyze_text_fd6a390a") : uiT("ui.url_reader_c96a1a5e")}
           </Text>
         </View>
         <View
@@ -1615,14 +1609,14 @@ export default function JapaneseAnalysisScreen({
                 }
               >
                 <SwiftUI.Button
-                  label="No WK study mode"
+                  label={uiT("ui.no_wk_study_mode_21414435")}
                   systemImage={
                     studyMode === "none" ? "checkmark.circle.fill" : "circle"
                   }
                   onPress={() => handleSelectStudyMode("none")}
                 />
                 <SwiftUI.Button
-                  label="WK study mode"
+                  label={uiT("ui.wk_study_mode_3fd6fdff")}
                   systemImage={
                     studyMode === "wk" ? "checkmark.circle.fill" : "circle"
                   }
@@ -1689,7 +1683,7 @@ export default function JapaneseAnalysisScreen({
               ref={textInputRef}
               value={textInput}
               onChangeText={handleTextInputChange}
-              placeholder="Paste Japanese text here…"
+              placeholder={uiT("ui.paste_japanese_text_here_d291e8b5")}
               placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
@@ -1716,10 +1710,10 @@ export default function JapaneseAnalysisScreen({
                   onPress={() => void handlePasteText()}
                   activeOpacity={0.75}
                   accessibilityRole="button"
-                  accessibilityLabel="Paste Japanese text and analyze"
+                  accessibilityLabel={uiT("ui.paste_japanese_text_and_analyze_97cf62bf")}
                 >
                   <Ionicons name="clipboard-outline" size={17} color={theme.textColor} />
-                  <Text style={[styles.textActionLabel, { color: theme.textColor }]}>Paste</Text>
+                  <Text style={[styles.textActionLabel, { color: theme.textColor }]}>{uiT("ui.paste_f3380f7b")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
@@ -1731,14 +1725,14 @@ export default function JapaneseAnalysisScreen({
                   activeOpacity={0.8}
                   disabled={!textInput.trim() || isAnalyzing}
                   accessibilityRole="button"
-                  accessibilityLabel="Analyze Japanese text"
+                  accessibilityLabel={uiT("ui.analyze_japanese_text_b1804d4d")}
                 >
                   {isAnalyzing ? (
                     <ActivityIndicator size="small" color="#ffffff" />
                   ) : (
                     <Ionicons name="sparkles-outline" size={17} color="#ffffff" />
                   )}
-                  <Text style={[styles.textActionLabel, styles.analyzeTextLabel]}>Analyze</Text>
+                  <Text style={[styles.textActionLabel, styles.analyzeTextLabel]}>{uiT("ui.analyze_cad5bf29")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -1844,8 +1838,8 @@ export default function JapaneseAnalysisScreen({
             />
             <Text style={[styles.stateText, { color: theme.textSecondary }]}>
               {isTextReader
-                ? "Paste Japanese text to identify grammar, verbs, vocabulary, and kanji."
-                : "Load an X post URL to parse tweet text with the JPDB-first highlighter."}
+                ? uiT("ui.paste_japanese_text_to_identify_grammar_verbs_vocabulary_and_kanj_e6cd64da")
+                : uiT("ui.load_an_x_post_url_to_parse_tweet_text_with_the_jpdb_first_highli_51ff4f07")}
             </Text>
           </View>
         ) : null}
@@ -1891,7 +1885,7 @@ export default function JapaneseAnalysisScreen({
                     ]}
                     numberOfLines={1}
                   >
-                    {tweetData.authorName || articleTitle || "Unknown"}
+                    {tweetData.authorName || articleTitle || uiT("ui.unknown_b764cdc0")}
                   </Text>
                   {tweetData.authorHandle ? (
                     <Text
@@ -1908,7 +1902,7 @@ export default function JapaneseAnalysisScreen({
               </View>
             ) : contentKind !== "text" ? (
               <Text style={[styles.articleTitle, { color: theme.textColor }]}>
-                {articleTitle || "Untitled"}
+                {articleTitle || uiT("ui.untitled_f59ab8d1")}
               </Text>
             ) : null}
 
@@ -1917,8 +1911,7 @@ export default function JapaneseAnalysisScreen({
                 <View style={styles.analyzingWrap}>
                   <ActivityIndicator size="small" color={theme.primary} />
                   <Text style={[styles.articleMetaText, { color: theme.textSecondary }]}>
-                    Parsing...
-                  </Text>
+                    {uiT("ui.parsing_3f1a8036")} </Text>
                 </View>
               </View>
             ) : null}
@@ -1952,8 +1945,7 @@ export default function JapaneseAnalysisScreen({
                     { color: theme.textSecondary },
                   ]}
                 >
-                  English translation
-                </Text>
+                  {uiT("ui.english_translation_3c1709ce")} </Text>
                 {isTranslating ? (
                   <View style={styles.translationLoadingRow}>
                     <ActivityIndicator size="small" color={theme.primary} />
@@ -1963,8 +1955,7 @@ export default function JapaneseAnalysisScreen({
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Translating…
-                    </Text>
+                      {uiT("ui.translating_e72799b8")} </Text>
                   </View>
                 ) : translationError ? (
                   <Text
@@ -2037,7 +2028,7 @@ export default function JapaneseAnalysisScreen({
                                 { color: theme.textSecondary },
                               ]}
                             >
-                              {mediaItem.type === "video" ? "Video attached" : "Media attached"}
+                              {mediaItem.type === "video" ? uiT("ui.video_attached_a7b561b9") : uiT("ui.media_attached_350fce63")}
                             </Text>
                           </View>
                         )}
@@ -2103,8 +2094,7 @@ export default function JapaneseAnalysisScreen({
                   ]}
                 >
                   <Text style={[styles.settingsModalTitle, { color: theme.textColor }]}>
-                    Study Mode
-                  </Text>
+                    {uiT("ui.study_mode_a590241b")} </Text>
 
                   <TouchableOpacity
                     style={styles.settingsModeOption}
@@ -2112,8 +2102,7 @@ export default function JapaneseAnalysisScreen({
                     activeOpacity={0.8}
                   >
                     <Text style={[styles.settingsModeLabel, { color: theme.textColor }]}>
-                      No WK study mode
-                    </Text>
+                      {uiT("ui.no_wk_study_mode_21414435")} </Text>
                     {studyMode === "none" ? (
                       <Ionicons name="checkmark-circle" size={20} color={theme.primary} />
                     ) : null}
@@ -2125,8 +2114,7 @@ export default function JapaneseAnalysisScreen({
                     activeOpacity={0.8}
                   >
                     <Text style={[styles.settingsModeLabel, { color: theme.textColor }]}>
-                      WK study mode
-                    </Text>
+                      {uiT("ui.wk_study_mode_3fd6fdff")} </Text>
                     {wkModeEnabled ? (
                       <Ionicons name="checkmark-circle" size={20} color={theme.primary} />
                     ) : null}
@@ -2151,8 +2139,7 @@ export default function JapaneseAnalysisScreen({
                           },
                         ]}
                       >
-                        Full grammar study mode
-                      </Text>
+                        {uiT("ui.full_grammar_study_mode_9de9a594")} </Text>
                       {!hasStoredJpdbApiKey ? (
                         <Text
                           style={[
@@ -2160,8 +2147,7 @@ export default function JapaneseAnalysisScreen({
                             { color: theme.textSecondary },
                           ]}
                         >
-                          Requires JPDB API key
-                        </Text>
+                          {uiT("ui.requires_jpdb_api_key_08183d22")} </Text>
                       ) : null}
                     </View>
                     {fullModeEnabled ? (
@@ -2234,8 +2220,7 @@ export default function JapaneseAnalysisScreen({
                         { color: theme.textSecondary },
                       ]}
                     >
-                      Close
-                    </Text>
+                      {uiT("ui.close_7d9eb7ac")} </Text>
                   </TouchableOpacity>
                 </View>
               </TouchableWithoutFeedback>

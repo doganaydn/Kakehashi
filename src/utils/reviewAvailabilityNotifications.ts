@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import * as Notifications from 'expo-notifications';
 
 export const REVIEW_AVAILABILITY_NOTIFICATION_IDENTIFIER = 'review-available';
@@ -103,7 +104,7 @@ export async function presentCombinedReviewAvailabilityNotification({
   await Notifications.scheduleNotificationAsync({
     identifier: REVIEW_AVAILABILITY_NOTIFICATION_IDENTIFIER,
     content: {
-      title: 'New Reviews Available! 📚',
+      title: uiT("ui.new_reviews_available_f0742128"),
       body: `You have ${reviewCount} review${reviewCount === 1 ? '' : 's'} waiting. Time to study!`,
       categoryIdentifier: REVIEW_AVAILABILITY_NOTIFICATION_CATEGORY,
       data: {

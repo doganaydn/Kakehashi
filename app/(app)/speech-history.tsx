@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import {
 } from '../../src/utils/searchHistory';
 
 export default function SpeechHistoryScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const router = useRouter();
   const [history, setHistory] = useState<SpeechHistoryItem[]>([]);
@@ -78,11 +80,11 @@ export default function SpeechHistoryScreen() {
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color={theme.textColor} />
           </TouchableOpacity>
-          <Text style={[styles.headerTitle, { color: theme.textColor }]}>Speech History</Text>
+          <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.speech_history_8c623be3")}</Text>
         </View>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
-          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>Loading history...</Text>
+          <Text style={[styles.loadingText, { color: theme.textSecondary }]}>{uiT("ui.loading_history_9a0b6655")}</Text>
         </View>
       </View>
     );
@@ -95,10 +97,10 @@ export default function SpeechHistoryScreen() {
         <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={theme.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.textColor }]}>Speech History</Text>
+        <Text style={[styles.headerTitle, { color: theme.textColor }]}>{uiT("ui.speech_history_8c623be3")}</Text>
         {history.length > 0 && (
           <TouchableOpacity onPress={handleClearHistory} style={styles.clearButton}>
-            <Text style={[styles.clearButtonText, { color: theme.error }]}>Clear All</Text>
+            <Text style={[styles.clearButtonText, { color: theme.error }]}>{uiT("ui.clear_all_ddceb7ad")}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -107,10 +109,9 @@ export default function SpeechHistoryScreen() {
       {history.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Ionicons name="mic-outline" size={64} color={theme.textSecondary} />
-          <Text style={[styles.emptyText, { color: theme.textSecondary }]}>No speech history yet</Text>
+          <Text style={[styles.emptyText, { color: theme.textSecondary }]}>{uiT("ui.no_speech_history_yet_d4e1e2ec")}</Text>
           <Text style={[styles.emptySubtext, { color: theme.textSecondary }]}>
-            Your voice searches will appear here
-          </Text>
+            {uiT("ui.your_voice_searches_will_appear_here_2ce872fe")} </Text>
         </View>
       ) : (
         <FlatList
@@ -125,7 +126,7 @@ export default function SpeechHistoryScreen() {
               <View style={styles.historyContent}>
                 {/* Speech/Translation indicator */}
                 <View style={[styles.modeIndicator, { backgroundColor: item.isEnglishMode ? '#007AFF' : '#34C759' }]}>
-                  <Text style={styles.modeIndicatorText}>{item.isEnglishMode ? 'EN→JA' : 'JA'}</Text>
+                  <Text style={styles.modeIndicatorText}>{item.isEnglishMode ? uiT("ui.en_ja_ee020b31") : uiT("ui.ja_2c245768")}</Text>
                 </View>
                 
                 <View style={styles.historyText}>
@@ -135,19 +136,18 @@ export default function SpeechHistoryScreen() {
                   
                   {item.originalText !== item.recognizedText && (
                     <Text style={[styles.historyOriginal, { color: theme.textSecondary }]} numberOfLines={1}>
-                      Original: {item.originalText}
+                      {uiT("ui.original_71cd5f2d")} {item.originalText}
                     </Text>
                   )}
                   
                   {item.translation && (
                     <Text style={[styles.historyTranslation, { color: theme.textSecondary }]} numberOfLines={1}>
-                      Translation: {item.translation}
+                      {uiT("ui.translation_3dca6555")} {item.translation}
                     </Text>
                   )}
                   
                   <Text style={[styles.historyMatches, { color: theme.primary }]}>
-                    {item.vocabularyMatchCount} vocab, {item.kanjiMatchCount} kanji
-                  </Text>
+                    {item.vocabularyMatchCount} {uiT("ui.vocab_67259885")} {item.kanjiMatchCount} {uiT("ui.kanji_7faabe85")} </Text>
                 </View>
                 
                 <View style={styles.historyMeta}>

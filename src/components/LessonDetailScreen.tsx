@@ -1,3 +1,4 @@
+import { uiMessage, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { useLearningDisplay } from "../features/turkish-content/display";
 import { MeaningRows } from "../features/turkish-content/MeaningRows";
 import { SentenceExplanation } from "../features/turkish-content/SentenceExplanation";
@@ -321,6 +322,7 @@ const SubjectImageFallbackGlyph = ({
   fallbackTextStyle?: StyleProp<TextStyle>;
   fallbackText?: string;
 }) => {
+  useInterfaceLanguage();
   const characterImages = subject?.data?.character_images;
   const hasImages = Array.isArray(characterImages) && characterImages.length > 0;
   const bestImage = hasImages ? pickBestImage(characterImages) : null;
@@ -386,6 +388,7 @@ const SubjectContent = ({
   subjectTypeColor: string;
   showAllSections?: boolean;
 }) => {
+  useInterfaceLanguage();
   const display = useLearningDisplay();
   const scrollViewRef = useRef<ScrollView>(null);
   const customContextSentencesRef =
@@ -448,8 +451,8 @@ const SubjectContent = ({
       <TouchableOpacity
         key={key}
         accessibilityRole="button"
-        accessibilityLabel={`Speak Japanese pronunciation ${displayReading}`}
-        accessibilityHint="Plays this kanji reading using your device voice"
+        accessibilityLabel={uiT("ui.dynamic_982551ce4339", {value1: (displayReading)})}
+        accessibilityHint={uiT("ui.plays_this_kanji_reading_using_your_device_voice_6969b8e4")}
         activeOpacity={0.7}
         onPress={() => {
           void speakKanjiReading(reading.reading);
@@ -1332,18 +1335,18 @@ const SubjectContent = ({
       }
 
       setEditingNoteText(currentNoteText);
-      Alert.alert("Discard note changes?", "Your changes will not be saved.", [
-        { text: "Keep editing", style: "cancel" },
+      Alert.alert(uiT("ui.discard_note_changes_be6f883a"), uiT("ui.your_changes_will_not_be_saved_7a5bc1d7"), [
+        { text: uiT("ui.keep_editing_e76fd2ad"), style: "cancel" },
         {
-          text: "Discard",
+          text: uiT("ui.discard_eb1a70e3"),
           style: "destructive",
           onPress: () => setNoteModalVisible(false),
         },
       ]);
     } catch {
       Alert.alert(
-        "Unable to close note",
-        "Please try again. Your changes are still here.",
+        uiT("ui.unable_to_close_note_08fcec44"),
+        uiT("ui.please_try_again_your_changes_are_still_here_78a1e9b5"),
       );
     } finally {
       checkingNoteChangesRef.current = false;
@@ -1371,10 +1374,8 @@ const SubjectContent = ({
     } catch (error) {
       console.error("[LessonDetail] Failed to save note:", error);
       Alert.alert(
-        "Error",
-        `Failed to save note: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
+        uiT("ui.error_54a0e8c1"),
+        uiT("ui.failed_to_save_note_value_f35ce596", {value1: (error instanceof Error ? error.message : "Unknown error")})
       );
     } finally {
       setIsSavingNote(false);
@@ -1733,8 +1734,7 @@ const SubjectContent = ({
                     { color: theme.primary },
                   ]}
                 >
-                  Reset
-                </Text>
+                  {uiT("ui.reset_daee7606")} </Text>
               </TouchableOpacity>
               <Text
                 style={[
@@ -1803,8 +1803,7 @@ const SubjectContent = ({
               { color: theme.textSecondary },
             ]}
           >
-            Tap to reveal translation
-          </Text>
+            {uiT("ui.tap_to_reveal_translation_e4cc1c85")} </Text>
         </View>
       </TouchableOpacity>
     );
@@ -1976,6 +1975,7 @@ const SubjectContent = ({
     color?: string;
     size?: number;
   }) => {
+  useInterfaceLanguage();
     // Prepare data first
     const isRadical = subj?.object === "radical";
     const characterImages = (subj?.data as any)?.character_images;
@@ -2034,7 +2034,7 @@ const SubjectContent = ({
 
     return (
       <View style={styles.infoSection}>
-        <Text style={styles.sectionTitle}>Visually Similar Kanji</Text>
+        <Text style={styles.sectionTitle}>{uiT("ui.visually_similar_kanji_28370798")}</Text>
         <View style={styles.relatedItemsGrid}>
           {similarKanjiToShow.slice(0, 8).map((kanjiSubject: any) => (
             <TouchableOpacity
@@ -2047,7 +2047,7 @@ const SubjectContent = ({
               </Text>
               <Text style={styles.relatedItemMeaning}>
                 {getSimilarKanjiSubjectPrimaryMeaning(kanjiSubject) ||
-                  "Loading..."}
+                  uiT("ui.loading_47d2a515")}
               </Text>
             </TouchableOpacity>
           ))}
@@ -2067,7 +2067,7 @@ const SubjectContent = ({
 
     return (
       <View style={styles.infoSection}>
-        <Text style={styles.sectionTitle}>Visually Similar Kanji</Text>
+        <Text style={styles.sectionTitle}>{uiT("ui.visually_similar_kanji_28370798")}</Text>
         <View style={styles.relatedItemsGrid}>
           {singleKanjiVocabularySimilarKanji
             .slice(0, 8)
@@ -2086,7 +2086,7 @@ const SubjectContent = ({
                 </Text>
                 <Text style={styles.relatedItemMeaning}>
                   {getSimilarKanjiSubjectPrimaryMeaning(kanjiSubject) ||
-                    "Loading..."}
+                    uiT("ui.loading_47d2a515")}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -2134,7 +2134,7 @@ const SubjectContent = ({
                   {displayCharacters}
                 </Text>
                 <Text style={styles.relatedItemMeaning}>
-                  {item.primaryMeaning || "Loading..."}
+                  {item.primaryMeaning || uiT("ui.loading_47d2a515")}
                 </Text>
               </TouchableOpacity>
             );
@@ -2148,8 +2148,8 @@ const SubjectContent = ({
           >
             <Text style={styles.similarVocabShowMoreText}>
               {showAll
-                ? "Show Less"
-                : `Show ${matches.length - MAX_INITIAL_SIMILAR_VOCAB_ITEMS} More`}
+                ? uiT("ui.show_less_0264d7b0")
+                : uiT("ui.show_value_more_07bba10f", {value1: (matches.length - MAX_INITIAL_SIMILAR_VOCAB_ITEMS)})}
             </Text>
             <Ionicons
               name={showAll ? "chevron-up" : "chevron-down"}
@@ -2215,7 +2215,7 @@ const SubjectContent = ({
           <FormattedNoteText text={noteValue} style={styles.noteCardBody} />
         ) : (
           <Text style={[styles.noteCardBody, styles.noteCardBodyEmpty]}>
-            {`Tap to add ${type} note`}
+            {uiT("ui.tap_to_add_value_note_a3b3b224", {value1: (type)})}
           </Text>
         )}
       </NoteFieldContainer>
@@ -2229,10 +2229,9 @@ const SubjectContent = ({
 
     return (
       <View style={styles.infoSection}>
-        <Text style={styles.sectionTitle}>Patterns of Use</Text>
+        <Text style={styles.sectionTitle}>{uiT("ui.patterns_of_use_19a9469c")}</Text>
         <Text style={styles.patternSelectorHint}>
-          Select a pattern to view example contexts.
-        </Text>
+          {uiT("ui.select_a_pattern_to_view_example_contexts_475c2f7d")} </Text>
         <View style={styles.patternPillsContainer}>
           {usagePatterns.map((patternGroup, index) => {
             const isSelected = index === selectedUsagePatternIndex;
@@ -2343,11 +2342,10 @@ const SubjectContent = ({
   const renderContextSentencesHeader = () => (
     <View style={styles.contextSentencesHeader}>
       <Text style={[styles.sectionTitle, styles.contextSentencesTitle]}>
-        Context Sentences
-      </Text>
+        {uiT("ui.context_sentences_0461dd8f")} </Text>
       {subject.id > 0 && <TouchableOpacity
         accessibilityRole="button"
-        accessibilityLabel="Add context sentence"
+        accessibilityLabel={uiT("ui.add_context_sentence_8fbfbb17")}
         activeOpacity={0.55}
         hitSlop={8}
         onPress={() => customContextSentencesRef.current?.openNewEditor()}
@@ -2365,7 +2363,7 @@ const SubjectContent = ({
     // Helper to render user synonyms section
     const renderUserSynonyms = () => subject.id > 0 ? (
       <View style={styles.infoSection}>
-        <Text style={styles.sectionTitle}>User Synonyms</Text>
+        <Text style={styles.sectionTitle}>{uiT("ui.user_synonyms_4eacfc42")}</Text>
         <View style={styles.synonymsRow}>
           <Text
             style={[
@@ -2374,13 +2372,13 @@ const SubjectContent = ({
             ]}
             numberOfLines={2}
           >
-            {userSynonyms.length ? userSynonyms.join(", ") : "None"}
+            {userSynonyms.length ? userSynonyms.join(", ") : uiT("ui.none_dc937b59")}
           </Text>
           <TouchableOpacity
             style={styles.manageSynonymsButton}
             onPress={() => setSynonymsModalVisible(true)}
           >
-            <Text style={styles.manageSynonymsText}>Manage</Text>
+            <Text style={styles.manageSynonymsText}>{uiT("ui.manage_5a234448")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -2456,8 +2454,7 @@ const SubjectContent = ({
             </View>
           ) : (
             <Text style={styles.noteText}>
-              No context sentences available for this vocabulary.
-            </Text>
+              {uiT("ui.no_context_sentences_available_for_this_vocabulary_95dea292")} </Text>
           )}
           {renderCustomContextSentences()}
         </View>
@@ -2469,14 +2466,13 @@ const SubjectContent = ({
       if (!showMediaContextSentences) return null;
       return (
         <View style={styles.infoSection}>
-          <Text style={styles.sectionTitle}>Media Context Sentences</Text>
+          <Text style={styles.sectionTitle}>{uiT("ui.media_context_sentences_e683aa86")}</Text>
           {loadingMediaSentences && validMediaSentences.length === 0 && (
-            <Text style={styles.noteText}>Loading examples...</Text>
+            <Text style={styles.noteText}>{uiT("ui.loading_examples_7166f2a0")}</Text>
           )}
           {!loadingMediaSentences && validMediaSentences.length === 0 && (
             <Text style={styles.noteText}>
-              No media examples found for this vocabulary.
-            </Text>
+              {uiT("ui.no_media_examples_found_for_this_vocabulary_c0686191")} </Text>
           )}
           {validMediaSentences.length > 0 && (
             <View style={{ marginTop: 8 }}>
@@ -2600,8 +2596,7 @@ const SubjectContent = ({
                     />
                   ) : (
                     <Text style={styles.mediaLoadMoreText}>
-                      Load More
-                    </Text>
+                      {uiT("ui.load_more_3f06cd33")} </Text>
                   )}
                   {!loadingMediaSentences && (
                     <Ionicons
@@ -2625,11 +2620,11 @@ const SubjectContent = ({
             <View style={styles.tabContent}>
               {/* Mnemonic Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Mnemonic</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
                 {subject.data.meaning_mnemonic ? (
                   formatMnemonic(subject.data.meaning_mnemonic)
                 ) : (
-                  <Text style={styles.mnemonicText}>No mnemonic available</Text>
+                  <Text style={styles.mnemonicText}>{uiT("ui.no_mnemonic_available_f13433f3")}</Text>
                 )}
                 {showMnemonicIllustrations && radicalMnemonicImageUrl ? (
                   radicalMnemonicImageKind === "svg" &&
@@ -2662,7 +2657,7 @@ const SubjectContent = ({
 
               {/* Found in Kanji Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Found in Kanji</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.found_in_kanji_08aaea31")}</Text>
                 {subject.data.amalgamation_subject_ids &&
                 subject.data.amalgamation_subject_ids.length > 0 ? (
                   (() => {
@@ -2674,9 +2669,7 @@ const SubjectContent = ({
                     if (kanjiIds.length === 0) {
                       return (
                         <Text style={styles.noteText}>
-                          No kanji using this radical are available at your
-                          current level.
-                        </Text>
+                          {uiT("ui.no_kanji_using_this_radical_are_available_at_your_current_level_43ffea4a")} </Text>
                       );
                     }
                     return (
@@ -2694,7 +2687,7 @@ const SubjectContent = ({
                               {relatedSubjects[id]?.data.characters || id}
                             </Text>
                             <Text style={styles.relatedItemMeaning}>
-                              {display.meaning(relatedSubjects[id], "Loading...")}
+                              {display.meaning(relatedSubjects[id], uiT("ui.loading_47d2a515"))}
                             </Text>
                           </TouchableOpacity>
                         ))}
@@ -2703,8 +2696,7 @@ const SubjectContent = ({
                   })()
                 ) : (
                   <Text style={styles.noteText}>
-                    No kanji using this radical are available yet.
-                  </Text>
+                    {uiT("ui.no_kanji_using_this_radical_are_available_yet_cc8933c3")} </Text>
                 )}
               </View>
             </View>
@@ -2724,7 +2716,7 @@ const SubjectContent = ({
               </View>}
               {/* Radicals Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Radicals</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.radicals_80608601")}</Text>
                 {subject.data.component_subject_ids &&
                 subject.data.component_subject_ids.length > 0 ? (
                   <View style={styles.relatedItemsGrid}>
@@ -2739,15 +2731,14 @@ const SubjectContent = ({
                       >
                         <RelatedSubjectCharacter subj={relatedSubjects[id]} />
                         <Text style={styles.relatedItemMeaning}>
-                          {display.meaning(relatedSubjects[id], "Loading...")}
+                          {display.meaning(relatedSubjects[id], uiT("ui.loading_47d2a515"))}
                         </Text>
                       </TouchableOpacity>
                     ))}
                   </View>
                 ) : (
                   <Text style={styles.noteText}>
-                    This kanji is not composed of any radicals.
-                  </Text>
+                    {uiT("ui.this_kanji_is_not_composed_of_any_radicals_65922d6f")} </Text>
                 )}
               </View>
 
@@ -2756,7 +2747,7 @@ const SubjectContent = ({
               {/* Stroke Order Section */}
               {showStrokeOrder && (
                 <View style={styles.infoSection}>
-                  <Text style={styles.sectionTitle}>Stroke Order</Text>
+                  <Text style={styles.sectionTitle}>{uiT("ui.stroke_order_22225282")}</Text>
                   <StrokeOrderAnimation
                     character={subject.data.characters}
                     onPractice={() => setPracticeModalVisible(true)}
@@ -2768,11 +2759,11 @@ const SubjectContent = ({
 
               {/* Meaning Mnemonic Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Meaning Mnemonic</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.meaning_mnemonic_fe8b93c9")}</Text>
                 {subject.data.meaning_mnemonic ? (
                   formatMnemonic(subject.data.meaning_mnemonic)
                 ) : (
-                  <Text style={styles.mnemonicText}>No mnemonic available</Text>
+                  <Text style={styles.mnemonicText}>{uiT("ui.no_mnemonic_available_f13433f3")}</Text>
                 )}
               </View>
 
@@ -2787,7 +2778,7 @@ const SubjectContent = ({
 
               {/* Readings Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Readings</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.readings_f3a97d44")}</Text>
                 {subject.data.readings && subject.data.readings.length > 0 ? (
                   <View>
                     {subject.data.readings.filter(
@@ -2795,8 +2786,7 @@ const SubjectContent = ({
                     ).length > 0 && (
                       <View style={styles.readingsContainer}>
                         <Text style={styles.readingTypeLabel}>
-                          On&apos;yomi:
-                        </Text>
+                          {uiT("ui.on_yomi_608f12c8")} </Text>
                         <View style={styles.readingBadges}>
                           {subject.data.readings
                             .filter((r: any) => r.type === "onyomi")
@@ -2817,8 +2807,7 @@ const SubjectContent = ({
                     ).length > 0 && (
                       <View style={styles.readingsContainer}>
                         <Text style={styles.readingTypeLabel}>
-                          Kun&apos;yomi:
-                        </Text>
+                          {uiT("ui.kun_yomi_a9369b56")} </Text>
                         <View style={styles.readingBadges}>
                           {subject.data.readings
                             .filter((r: any) => r.type === "kunyomi")
@@ -2832,7 +2821,7 @@ const SubjectContent = ({
                       (r: any) => r.type === "nanori"
                     ).length > 0 && (
                       <View style={styles.readingsContainer}>
-                        <Text style={styles.readingTypeLabel}>Nanori:</Text>
+                        <Text style={styles.readingTypeLabel}>{uiT("ui.nanori_2d744f63")}</Text>
                         <View style={styles.readingBadges}>
                           {subject.data.readings
                             .filter((r: any) => r.type === "nanori")
@@ -2844,21 +2833,18 @@ const SubjectContent = ({
                     )}
                     <View style={styles.mnemonicSection}>
                       <Text style={styles.mnemonicSectionTitle}>
-                        Reading Mnemonic
-                      </Text>
+                        {uiT("ui.reading_mnemonic_a4df534e")} </Text>
                       {subject.data.reading_mnemonic ? (
                         formatMnemonic(subject.data.reading_mnemonic)
                       ) : (
                         <Text style={styles.mnemonicText}>
-                          No reading mnemonic available
-                        </Text>
+                          {uiT("ui.no_reading_mnemonic_available_46e20ab8")} </Text>
                       )}
                     </View>
                   </View>
                 ) : (
                   <Text style={styles.noteText}>
-                    No readings available for this kanji.
-                  </Text>
+                    {uiT("ui.no_readings_available_for_this_kanji_e35e3ad8")} </Text>
                 )}
               </View>
 
@@ -2870,8 +2856,8 @@ const SubjectContent = ({
               <View style={styles.infoSection}>
                 <Text style={styles.sectionTitle}>
                   {groupKanjiVocabularyExamplesByReading
-                    ? "Examples by Reading"
-                    : "Vocabulary Examples"}
+                    ? uiT("ui.examples_by_reading_142b38e9")
+                    : uiT("ui.vocabulary_examples_f9e788ab")}
                 </Text>
                 <KanjiReadingExamples
                   key={`${subject.id}-${groupKanjiVocabularyExamplesByReading}`}
@@ -2900,7 +2886,7 @@ const SubjectContent = ({
               </View>}
               {/* Kanji Composition Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Kanji Composition</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.kanji_composition_c6a067f9")}</Text>
                 {orderedVocabularyComponentSubjectIds.length > 0 ? (
                   <View style={styles.relatedItemsGrid}>
                     {orderedVocabularyComponentSubjectIds.map((id: number) => (
@@ -2916,16 +2902,14 @@ const SubjectContent = ({
                           {relatedSubjects[id]?.data.characters || id}
                         </Text>
                         <Text style={styles.relatedItemMeaning}>
-                          {display.meaning(relatedSubjects[id], "Loading...")}
+                          {display.meaning(relatedSubjects[id], uiT("ui.loading_47d2a515"))}
                         </Text>
                       </TouchableOpacity>
                     ))}
                   </View>
                 ) : (
                   <Text style={styles.noteText}>
-                    This vocabulary doesn&apos;t use any kanji from your current
-                    level.
-                  </Text>
+                    {uiT("ui.this_vocabulary_doesn_t_use_any_kanji_from_your_current_level_94a67e4b")} </Text>
                 )}
               </View>
 
@@ -2953,8 +2937,7 @@ const SubjectContent = ({
                   {!display.resolveMeaning(subject) && subject.data.meanings.length > 1 && (
                     <View style={styles.alternativeMeaningsNoDiv}>
                       <Text style={styles.altMeaningsLabel}>
-                        Alternative Meanings:
-                      </Text>
+                        {uiT("ui.alternative_meanings_efd80313")} </Text>
                       <Text style={styles.altMeaningsText}>
                         {subject.data.meanings
                           .filter((m: any) => !m.primary)
@@ -2972,7 +2955,7 @@ const SubjectContent = ({
                             styles.partsOfSpeechNoDivider,
                         ]}
                       >
-                        <Text style={styles.posLabel}>Part of Speech:</Text>
+                        <Text style={styles.posLabel}>{uiT("ui.part_of_speech_f1ac96c2")}</Text>
                         <Text style={styles.posText}>
                           {subject.data.parts_of_speech.join(", ")}
                         </Text>
@@ -2984,11 +2967,11 @@ const SubjectContent = ({
               {renderUserSynonyms()}
 
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Meaning Mnemonic</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.meaning_mnemonic_fe8b93c9")}</Text>
                 {subject.data.meaning_mnemonic ? (
                   formatMnemonic(subject.data.meaning_mnemonic)
                 ) : (
-                  <Text style={styles.mnemonicText}>No mnemonic available</Text>
+                  <Text style={styles.mnemonicText}>{uiT("ui.no_mnemonic_available_f13433f3")}</Text>
                 )}
               </View>
 
@@ -2998,7 +2981,7 @@ const SubjectContent = ({
 
               {/* Reading Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Reading</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.reading_463816d0")}</Text>
                 {subject.data.readings && subject.data.readings.length > 0 ? (
                   <View style={styles.readingsContainer}>
                     <View style={styles.readingBadges}>
@@ -3025,15 +3008,14 @@ const SubjectContent = ({
                   </View>
                 ) : (
                   <Text style={styles.noteText}>
-                    No reading available for this vocabulary.
-                  </Text>
+                    {uiT("ui.no_reading_available_for_this_vocabulary_0a55eaf3")} </Text>
                 )}
                 {renderPitchAccent(
                   orderedPronunciationAudios.length > 0
                 )}
                 {orderedPronunciationAudios.length > 0 && (
                     <View style={styles.audioContainer}>
-                      <Text style={styles.audioSectionTitle}>Audio</Text>
+                      <Text style={styles.audioSectionTitle}>{uiT("ui.audio_bc1b8890")}</Text>
                       <View style={styles.audioButtonsContainer}>
                         {orderedPronunciationAudios.map(
                           (audio: any, idx: number) => {
@@ -3066,9 +3048,9 @@ const SubjectContent = ({
                                   />
                                 )}
                                 <Text style={styles.audioButtonText}>
-                                  {audio.metadata?.voice_actor_name || "Audio"}
-                                  {subject.id < 0 ? " · AI-generated" : audio.metadata?.gender
-                                    ? ` (${audio.metadata.gender})`
+                                  {audio.metadata?.voice_actor_name || uiT("ui.audio_bc1b8890")}
+                                  {subject.id < 0 ? uiT("ui.ai_generated_a8d0ccf0") : audio.metadata?.gender
+                                    ? uiT("ui.value_ec422465", {value1: (audio.metadata.gender)})
                                     : ""}
                                 </Text>
                               </TouchableOpacity>
@@ -3080,14 +3062,12 @@ const SubjectContent = ({
                   )}
                 <View style={styles.mnemonicSection}>
                   <Text style={styles.mnemonicSectionTitle}>
-                    Reading Mnemonic
-                  </Text>
+                    {uiT("ui.reading_mnemonic_a4df534e")} </Text>
                   {subject.data.reading_mnemonic ? (
                     formatMnemonic(subject.data.reading_mnemonic)
                   ) : (
                     <Text style={styles.mnemonicText}>
-                      No reading mnemonic available
-                    </Text>
+                      {uiT("ui.no_reading_mnemonic_available_46e20ab8")} </Text>
                   )}
                 </View>
               </View>
@@ -3123,8 +3103,7 @@ const SubjectContent = ({
                   {!display.resolveMeaning(subject) && subject.data.meanings.length > 1 && (
                     <View style={styles.alternativeMeaningsNoDiv}>
                       <Text style={styles.altMeaningsLabel}>
-                        Alternative Meanings:
-                      </Text>
+                        {uiT("ui.alternative_meanings_efd80313")} </Text>
                       <Text style={styles.altMeaningsText}>
                         {subject.data.meanings
                           .filter((m: any) => !m.primary)
@@ -3142,7 +3121,7 @@ const SubjectContent = ({
                             styles.partsOfSpeechNoDivider,
                         ]}
                       >
-                        <Text style={styles.posLabel}>Part of Speech:</Text>
+                        <Text style={styles.posLabel}>{uiT("ui.part_of_speech_f1ac96c2")}</Text>
                         <Text style={styles.posText}>
                           {subject.data.parts_of_speech.join(", ")}
                         </Text>
@@ -3153,7 +3132,7 @@ const SubjectContent = ({
 
               {/* Pronunciation Section */}
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Pronunciation</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.pronunciation_75cb1e13")}</Text>
                 {orderedPronunciationAudios.length > 0 && (
                     <View style={[styles.audioContainer, { marginTop: 0 }]}>
                       <View style={styles.audioButtonsContainer}>
@@ -3188,9 +3167,9 @@ const SubjectContent = ({
                                   />
                                 )}
                                 <Text style={styles.audioButtonText}>
-                                  {audio.metadata?.voice_actor_name || "Audio"}
-                                  {subject.id < 0 ? " · AI-generated" : audio.metadata?.gender
-                                    ? ` (${audio.metadata.gender})`
+                                  {audio.metadata?.voice_actor_name || uiT("ui.audio_bc1b8890")}
+                                  {subject.id < 0 ? uiT("ui.ai_generated_a8d0ccf0") : audio.metadata?.gender
+                                    ? uiT("ui.value_ec422465", {value1: (audio.metadata.gender)})
                                     : ""}
                                 </Text>
                               </TouchableOpacity>
@@ -3204,11 +3183,11 @@ const SubjectContent = ({
               </View>
 
               <View style={styles.infoSection}>
-                <Text style={styles.sectionTitle}>Mnemonic</Text>
+                <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
                 {subject.data.meaning_mnemonic ? (
                   formatMnemonic(subject.data.meaning_mnemonic)
                 ) : (
-                  <Text style={styles.mnemonicText}>No mnemonic available</Text>
+                  <Text style={styles.mnemonicText}>{uiT("ui.no_mnemonic_available_f13433f3")}</Text>
                 )}
               </View>
 
@@ -3229,7 +3208,7 @@ const SubjectContent = ({
 
       default:
         return (
-          <Text style={styles.noContentText}>No information available</Text>
+          <Text style={styles.noContentText}>{uiT("ui.no_information_available_55918015")}</Text>
         );
     }
   };
@@ -3247,13 +3226,12 @@ const SubjectContent = ({
                 // Name & Mnemonic tab
                 <View>
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Mnemonic</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
                     {subject.data.meaning_mnemonic ? (
                       formatMnemonic(subject.data.meaning_mnemonic)
                     ) : (
                       <Text style={styles.mnemonicText}>
-                        No mnemonic available
-                      </Text>
+                        {uiT("ui.no_mnemonic_available_f13433f3")} </Text>
                     )}
                     {showMnemonicIllustrations && radicalMnemonicImageUrl ? (
                       radicalMnemonicImageKind === "svg" &&
@@ -3287,7 +3265,7 @@ const SubjectContent = ({
 
                   {/* User Synonyms */}
                   <View style={[styles.infoSection, subject.id <= 0 && { display: "none" }]}>
-                    <Text style={styles.sectionTitle}>User Synonyms</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.user_synonyms_4eacfc42")}</Text>
                     <View style={styles.synonymsRow}>
                       <Text
                         style={[
@@ -3298,13 +3276,13 @@ const SubjectContent = ({
                       >
                         {userSynonyms.length
                           ? userSynonyms.join(", ")
-                          : "None"}
+                          : uiT("ui.none_dc937b59")}
                       </Text>
                       <TouchableOpacity
                         style={styles.manageSynonymsButton}
                         onPress={() => setSynonymsModalVisible(true)}
                       >
-                        <Text style={styles.manageSynonymsText}>Manage</Text>
+                        <Text style={styles.manageSynonymsText}>{uiT("ui.manage_5a234448")}</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -3313,7 +3291,7 @@ const SubjectContent = ({
                 // Found in Kanji tab
                 <View>
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Found in Kanji</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.found_in_kanji_08aaea31")}</Text>
 
                     {subject.data.amalgamation_subject_ids &&
                     subject.data.amalgamation_subject_ids.length > 0 ? (
@@ -3328,9 +3306,7 @@ const SubjectContent = ({
                         if (kanjiIds.length === 0) {
                           return (
                             <Text style={styles.noteText}>
-                              No kanji using this radical are available at your
-                              current level.
-                            </Text>
+                              {uiT("ui.no_kanji_using_this_radical_are_available_at_your_current_level_43ffea4a")} </Text>
                           );
                         }
 
@@ -3349,7 +3325,7 @@ const SubjectContent = ({
                                   {relatedSubjects[id]?.data.characters || id}
                                 </Text>
                                 <Text style={styles.relatedItemMeaning}>
-                                  {display.meaning(relatedSubjects[id], "Loading...")}
+                                  {display.meaning(relatedSubjects[id], uiT("ui.loading_47d2a515"))}
                                 </Text>
                               </TouchableOpacity>
                             ))}
@@ -3358,8 +3334,7 @@ const SubjectContent = ({
                       })()
                     ) : (
                       <Text style={styles.noteText}>
-                        No kanji using this radical are available yet.
-                      </Text>
+                        {uiT("ui.no_kanji_using_this_radical_are_available_yet_cc8933c3")} </Text>
                     )}
                   </View>
                 </View>
@@ -3376,7 +3351,7 @@ const SubjectContent = ({
                 // Radicals tab
                 <View>
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Radicals</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.radicals_80608601")}</Text>
 
                     {subject.data.component_subject_ids &&
                     subject.data.component_subject_ids.length > 0 ? (
@@ -3396,7 +3371,7 @@ const SubjectContent = ({
                                   subj={relatedSubjects[id]}
                                 />
                                 <Text style={styles.relatedItemMeaning}>
-                                  {display.meaning(relatedSubjects[id], "Loading...")}
+                                  {display.meaning(relatedSubjects[id], uiT("ui.loading_47d2a515"))}
                                 </Text>
                               </TouchableOpacity>
                             )
@@ -3405,8 +3380,7 @@ const SubjectContent = ({
                       </View>
                     ) : (
                       <Text style={styles.noteText}>
-                        This kanji is not composed of any radicals.
-                      </Text>
+                        {uiT("ui.this_kanji_is_not_composed_of_any_radicals_65922d6f")} </Text>
                     )}
                   </View>
 
@@ -3414,7 +3388,7 @@ const SubjectContent = ({
 
                   {showStrokeOrder && (
                     <View style={styles.infoSection}>
-                      <Text style={styles.sectionTitle}>Stroke Order</Text>
+                      <Text style={styles.sectionTitle}>{uiT("ui.stroke_order_22225282")}</Text>
                       <StrokeOrderAnimation
                         character={subject.data.characters}
                         onPractice={() => setPracticeModalVisible(true)}
@@ -3433,13 +3407,12 @@ const SubjectContent = ({
                   englishAlternatives={subject.data.meanings.filter((m: any) => !m.primary).map((m: any) => m.meaning)} />
               </View>}
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Mnemonic</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
                     {subject.data.meaning_mnemonic ? (
                       formatMnemonic(subject.data.meaning_mnemonic)
                     ) : (
                       <Text style={styles.mnemonicText}>
-                        No mnemonic available
-                      </Text>
+                        {uiT("ui.no_mnemonic_available_f13433f3")} </Text>
                     )}
                   </View>
 
@@ -3454,7 +3427,7 @@ const SubjectContent = ({
 
                   {/* User Synonyms */}
                   <View style={[styles.infoSection, subject.id <= 0 && { display: "none" }]}>
-                    <Text style={styles.sectionTitle}>User Synonyms</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.user_synonyms_4eacfc42")}</Text>
                     <View style={styles.synonymsRow}>
                       <Text
                         style={[
@@ -3465,13 +3438,13 @@ const SubjectContent = ({
                       >
                         {userSynonyms.length
                           ? userSynonyms.join(", ")
-                          : "None"}
+                          : uiT("ui.none_dc937b59")}
                       </Text>
                       <TouchableOpacity
                         style={styles.manageSynonymsButton}
                         onPress={() => setSynonymsModalVisible(true)}
                       >
-                        <Text style={styles.manageSynonymsText}>Manage</Text>
+                        <Text style={styles.manageSynonymsText}>{uiT("ui.manage_5a234448")}</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -3480,7 +3453,7 @@ const SubjectContent = ({
                 // Readings tab
                 <View>
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Readings</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.readings_f3a97d44")}</Text>
 
                     {subject.data.readings &&
                     subject.data.readings.length > 0 ? (
@@ -3490,8 +3463,7 @@ const SubjectContent = ({
                         ).length > 0 && (
                           <View style={styles.readingsContainer}>
                             <Text style={styles.readingTypeLabel}>
-                              On&apos;yomi:
-                            </Text>
+                              {uiT("ui.on_yomi_608f12c8")} </Text>
                             <View style={styles.readingBadges}>
                               {subject.data.readings
                                 .filter((r: any) => r.type === "onyomi")
@@ -3513,8 +3485,7 @@ const SubjectContent = ({
                         ).length > 0 && (
                           <View style={styles.readingsContainer}>
                             <Text style={styles.readingTypeLabel}>
-                              Kun&apos;yomi:
-                            </Text>
+                              {uiT("ui.kun_yomi_a9369b56")} </Text>
                             <View style={styles.readingBadges}>
                               {subject.data.readings
                                 .filter((r: any) => r.type === "kunyomi")
@@ -3529,7 +3500,7 @@ const SubjectContent = ({
                           (r: any) => r.type === "nanori"
                         ).length > 0 && (
                           <View style={styles.readingsContainer}>
-                            <Text style={styles.readingTypeLabel}>Nanori:</Text>
+                            <Text style={styles.readingTypeLabel}>{uiT("ui.nanori_2d744f63")}</Text>
                             <View style={styles.readingBadges}>
                               {subject.data.readings
                                 .filter((r: any) => r.type === "nanori")
@@ -3545,21 +3516,18 @@ const SubjectContent = ({
 
                         <View style={styles.mnemonicSection}>
                           <Text style={styles.mnemonicSectionTitle}>
-                            Reading Mnemonic
-                          </Text>
+                            {uiT("ui.reading_mnemonic_a4df534e")} </Text>
                           {subject.data.reading_mnemonic ? (
                             formatMnemonic(subject.data.reading_mnemonic)
                           ) : (
                             <Text style={styles.mnemonicText}>
-                              No reading mnemonic available
-                            </Text>
+                              {uiT("ui.no_reading_mnemonic_available_46e20ab8")} </Text>
                           )}
                         </View>
                       </View>
                     ) : (
                       <Text style={styles.noteText}>
-                        No readings available for this kanji.
-                      </Text>
+                        {uiT("ui.no_readings_available_for_this_kanji_e35e3ad8")} </Text>
                     )}
                   </View>
 
@@ -3573,8 +3541,8 @@ const SubjectContent = ({
                   <View style={styles.infoSection}>
                     <Text style={styles.sectionTitle}>
                       {groupKanjiVocabularyExamplesByReading
-                        ? "Examples by Reading"
-                        : "Vocabulary Examples"}
+                        ? uiT("ui.examples_by_reading_142b38e9")
+                        : uiT("ui.vocabulary_examples_f9e788ab")}
                     </Text>
                     <KanjiReadingExamples
                       key={`${subject.id}-${groupKanjiVocabularyExamplesByReading}`}
@@ -3600,7 +3568,7 @@ const SubjectContent = ({
                 // Kanji tab
                 <View>
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Kanji Composition</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.kanji_composition_c6a067f9")}</Text>
 
                     {orderedVocabularyComponentSubjectIds.length > 0 ? (
                       <View>
@@ -3619,7 +3587,7 @@ const SubjectContent = ({
                                   {relatedSubjects[id]?.data.characters || id}
                                 </Text>
                                 <Text style={styles.relatedItemMeaning}>
-                                  {display.meaning(relatedSubjects[id], "Loading...")}
+                                  {display.meaning(relatedSubjects[id], uiT("ui.loading_47d2a515"))}
                                 </Text>
                               </TouchableOpacity>
                             )
@@ -3628,9 +3596,7 @@ const SubjectContent = ({
                       </View>
                     ) : (
                       <Text style={styles.noteText}>
-                        This vocabulary doesn&apos;t use any kanji from your
-                        current level.
-                      </Text>
+                        {uiT("ui.this_vocabulary_doesn_t_use_any_kanji_from_your_current_level_94a67e4b")} </Text>
                     )}
                   </View>
                   {renderSingleKanjiVocabularySimilarKanjiSection()}
@@ -3652,8 +3618,7 @@ const SubjectContent = ({
                       {!display.resolveMeaning(subject) && subject.data.meanings.length > 1 && (
                         <View style={styles.alternativeMeaningsNoDiv}>
                           <Text style={styles.altMeaningsLabel}>
-                            Alternative Meanings:
-                          </Text>
+                            {uiT("ui.alternative_meanings_efd80313")} </Text>
                           <Text style={styles.altMeaningsText}>
                             {subject.data.meanings
                               .filter((m: any) => !m.primary)
@@ -3672,7 +3637,7 @@ const SubjectContent = ({
                                 styles.partsOfSpeechNoDivider,
                             ]}
                           >
-                            <Text style={styles.posLabel}>Part of Speech:</Text>
+                            <Text style={styles.posLabel}>{uiT("ui.part_of_speech_f1ac96c2")}</Text>
                             <Text style={styles.posText}>
                               {subject.data.parts_of_speech.join(", ")}
                             </Text>
@@ -3682,13 +3647,12 @@ const SubjectContent = ({
                   )}
 
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Mnemonic</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
                     {subject.data.meaning_mnemonic ? (
                       formatMnemonic(subject.data.meaning_mnemonic)
                     ) : (
                       <Text style={styles.mnemonicText}>
-                        No mnemonic available
-                      </Text>
+                        {uiT("ui.no_mnemonic_available_f13433f3")} </Text>
                     )}
                   </View>
 
@@ -3698,7 +3662,7 @@ const SubjectContent = ({
 
                   {/* User Synonyms */}
                   <View style={[styles.infoSection, subject.id <= 0 && { display: "none" }]}>
-                    <Text style={styles.sectionTitle}>User Synonyms</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.user_synonyms_4eacfc42")}</Text>
                     <View style={styles.synonymsRow}>
                       <Text
                         style={[
@@ -3709,13 +3673,13 @@ const SubjectContent = ({
                       >
                         {userSynonyms.length
                           ? userSynonyms.join(", ")
-                          : "None"}
+                          : uiT("ui.none_dc937b59")}
                       </Text>
                       <TouchableOpacity
                         style={styles.manageSynonymsButton}
                         onPress={() => setSynonymsModalVisible(true)}
                       >
-                        <Text style={styles.manageSynonymsText}>Manage</Text>
+                        <Text style={styles.manageSynonymsText}>{uiT("ui.manage_5a234448")}</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -3731,7 +3695,7 @@ const SubjectContent = ({
                 // Reading tab
                 <View>
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Reading</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.reading_463816d0")}</Text>
 
                     {subject.data.readings &&
                     subject.data.readings.length > 0 ? (
@@ -3764,8 +3728,7 @@ const SubjectContent = ({
                       </View>
                     ) : (
                       <Text style={styles.noteText}>
-                        No reading available for this vocabulary.
-                      </Text>
+                        {uiT("ui.no_reading_available_for_this_vocabulary_0a55eaf3")} </Text>
                     )}
                     {renderPitchAccent(
                       orderedPronunciationAudios.length > 0
@@ -3773,7 +3736,7 @@ const SubjectContent = ({
 
                     {orderedPronunciationAudios.length > 0 && (
                         <View style={styles.audioContainer}>
-                          <Text style={styles.audioSectionTitle}>Audio</Text>
+                          <Text style={styles.audioSectionTitle}>{uiT("ui.audio_bc1b8890")}</Text>
                           <View style={styles.audioButtonsContainer}>
                             {orderedPronunciationAudios.map(
                               (audio: any, index: number) => {
@@ -3810,9 +3773,9 @@ const SubjectContent = ({
                                     )}
                                     <Text style={styles.audioButtonText}>
                                       {audio.metadata?.voice_actor_name ||
-                                        "Audio"}
-                                      {subject.id < 0 ? " · AI-generated" : audio.metadata?.gender
-                                        ? ` (${audio.metadata.gender})`
+                                        uiT("ui.audio_bc1b8890")}
+                                      {subject.id < 0 ? uiT("ui.ai_generated_a8d0ccf0") : audio.metadata?.gender
+                                        ? uiT("ui.value_ec422465", {value1: (audio.metadata.gender)})
                                         : ""}
                                     </Text>
                                   </TouchableOpacity>
@@ -3825,14 +3788,12 @@ const SubjectContent = ({
 
                     <View style={styles.mnemonicSection}>
                       <Text style={styles.mnemonicSectionTitle}>
-                        Reading Mnemonic
-                      </Text>
+                        {uiT("ui.reading_mnemonic_a4df534e")} </Text>
                       {subject.data.reading_mnemonic ? (
                         formatMnemonic(subject.data.reading_mnemonic)
                       ) : (
                         <Text style={styles.mnemonicText}>
-                          No reading mnemonic available
-                        </Text>
+                          {uiT("ui.no_reading_mnemonic_available_46e20ab8")} </Text>
                       )}
                     </View>
                   </View>
@@ -3919,8 +3880,7 @@ const SubjectContent = ({
                     </View>
                   ) : (
                     <Text style={styles.noteText}>
-                      No context sentences available for this vocabulary.
-                    </Text>
+                      {uiT("ui.no_context_sentences_available_for_this_vocabulary_95dea292")} </Text>
                   )}
 
                   {renderCustomContextSentences()}
@@ -3929,18 +3889,16 @@ const SubjectContent = ({
                   {showMediaContextSentences && (
                     <>
                       <Text style={[styles.sectionTitle, { marginTop: 24 }]}>
-                        Media Context Sentences
-                      </Text>
+                        {uiT("ui.media_context_sentences_e683aa86")} </Text>
 
                       {loadingMediaSentences && validMediaSentences.length === 0 && (
-                        <Text style={styles.noteText}>Loading examples...</Text>
+                        <Text style={styles.noteText}>{uiT("ui.loading_examples_7166f2a0")}</Text>
                       )}
 
                       {!loadingMediaSentences &&
                         validMediaSentences.length === 0 && (
                           <Text style={styles.noteText}>
-                            No media examples found for this vocabulary.
-                          </Text>
+                            {uiT("ui.no_media_examples_found_for_this_vocabulary_c0686191")} </Text>
                         )}
 
                       {validMediaSentences.length > 0 && (
@@ -4097,8 +4055,7 @@ const SubjectContent = ({
                                   />
                                 ) : (
                                   <Text style={styles.mediaLoadMoreText}>
-                                    Load More
-                                  </Text>
+                                    {uiT("ui.load_more_3f06cd33")} </Text>
                                 )}
                                 {!loadingMediaSentences && (
                                   <Ionicons
@@ -4140,8 +4097,7 @@ const SubjectContent = ({
                       {!display.resolveMeaning(subject) && subject.data.meanings.length > 1 && (
                         <View style={styles.alternativeMeaningsNoDiv}>
                           <Text style={styles.altMeaningsLabel}>
-                            Alternative Meanings:
-                          </Text>
+                            {uiT("ui.alternative_meanings_efd80313")} </Text>
                           <Text style={styles.altMeaningsText}>
                             {subject.data.meanings
                               .filter((m: any) => !m.primary)
@@ -4160,7 +4116,7 @@ const SubjectContent = ({
                                 styles.partsOfSpeechNoDivider,
                             ]}
                           >
-                            <Text style={styles.posLabel}>Part of Speech:</Text>
+                            <Text style={styles.posLabel}>{uiT("ui.part_of_speech_f1ac96c2")}</Text>
                             <Text style={styles.posText}>
                               {subject.data.parts_of_speech.join(", ")}
                             </Text>
@@ -4170,7 +4126,7 @@ const SubjectContent = ({
                   )}
 
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Pronunciation</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.pronunciation_75cb1e13")}</Text>
                     {orderedPronunciationAudios.length > 0 && (
                         <View style={[styles.audioContainer, { marginTop: 0 }]}>
                           <View style={styles.audioButtonsContainer}>
@@ -4209,9 +4165,9 @@ const SubjectContent = ({
                                     )}
                                     <Text style={styles.audioButtonText}>
                                       {audio.metadata?.voice_actor_name ||
-                                        "Audio"}
-                                      {subject.id < 0 ? " · AI-generated" : audio.metadata?.gender
-                                        ? ` (${audio.metadata.gender})`
+                                        uiT("ui.audio_bc1b8890")}
+                                      {subject.id < 0 ? uiT("ui.ai_generated_a8d0ccf0") : audio.metadata?.gender
+                                        ? uiT("ui.value_ec422465", {value1: (audio.metadata.gender)})
                                         : ""}
                                     </Text>
                                   </TouchableOpacity>
@@ -4225,13 +4181,12 @@ const SubjectContent = ({
                   </View>
 
                   <View style={styles.infoSection}>
-                    <Text style={styles.sectionTitle}>Mnemonic</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.mnemonic_761a18b8")}</Text>
                     {subject.data.meaning_mnemonic ? (
                       formatMnemonic(subject.data.meaning_mnemonic)
                     ) : (
                       <Text style={styles.mnemonicText}>
-                        No mnemonic available
-                      </Text>
+                        {uiT("ui.no_mnemonic_available_f13433f3")} </Text>
                     )}
                   </View>
 
@@ -4240,7 +4195,7 @@ const SubjectContent = ({
 
                   {/* User Synonyms */}
                   <View style={[styles.infoSection, subject.id <= 0 && { display: "none" }]}>
-                    <Text style={styles.sectionTitle}>User Synonyms</Text>
+                    <Text style={styles.sectionTitle}>{uiT("ui.user_synonyms_4eacfc42")}</Text>
                     <View style={styles.synonymsRow}>
                       <Text
                         style={[
@@ -4251,13 +4206,13 @@ const SubjectContent = ({
                       >
                         {userSynonyms.length
                           ? userSynonyms.join(", ")
-                          : "None"}
+                          : uiT("ui.none_dc937b59")}
                       </Text>
                       <TouchableOpacity
                         style={styles.manageSynonymsButton}
                         onPress={() => setSynonymsModalVisible(true)}
                       >
-                        <Text style={styles.manageSynonymsText}>Manage</Text>
+                        <Text style={styles.manageSynonymsText}>{uiT("ui.manage_5a234448")}</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -4334,8 +4289,7 @@ const SubjectContent = ({
                     </View>
                   ) : (
                     <Text style={styles.noteText}>
-                      No context sentences available for this vocabulary.
-                    </Text>
+                      {uiT("ui.no_context_sentences_available_for_this_vocabulary_95dea292")} </Text>
                   )}
 
                   {renderCustomContextSentences()}
@@ -4344,18 +4298,16 @@ const SubjectContent = ({
                   {showMediaContextSentences && (
                     <>
                       <Text style={[styles.sectionTitle, { marginTop: 24 }]}>
-                        Media Context Sentences
-                      </Text>
+                        {uiT("ui.media_context_sentences_e683aa86")} </Text>
 
                       {loadingMediaSentences && validMediaSentences.length === 0 && (
-                        <Text style={styles.noteText}>Loading examples...</Text>
+                        <Text style={styles.noteText}>{uiT("ui.loading_examples_7166f2a0")}</Text>
                       )}
 
                       {!loadingMediaSentences &&
                         validMediaSentences.length === 0 && (
                           <Text style={styles.noteText}>
-                            No media examples found for this vocabulary.
-                          </Text>
+                            {uiT("ui.no_media_examples_found_for_this_vocabulary_c0686191")} </Text>
                         )}
 
                       {validMediaSentences.length > 0 && (
@@ -4512,8 +4464,7 @@ const SubjectContent = ({
                                   />
                                 ) : (
                                   <Text style={styles.mediaLoadMoreText}>
-                                    Load More
-                                  </Text>
+                                    {uiT("ui.load_more_3f06cd33")} </Text>
                                 )}
                                 {!loadingMediaSentences && (
                                   <Ionicons
@@ -4536,7 +4487,7 @@ const SubjectContent = ({
 
       default:
         return (
-          <Text style={styles.noContentText}>No information available</Text>
+          <Text style={styles.noContentText}>{uiT("ui.no_information_available_55918015")}</Text>
         );
     }
   };
@@ -4611,7 +4562,7 @@ const SubjectContent = ({
         >
           <View style={styles.noteModalContent}>
             <Text style={styles.noteModalTitle}>
-              {editingNoteType === "meaning" ? "Meaning Note" : "Reading Note"}
+              {editingNoteType === "meaning" ? uiT("ui.meaning_note_2991d09a") : uiT("ui.reading_note_72ec4fc8")}
             </Text>
             <FormattedNoteEditor
               ref={noteEditorRef}
@@ -4621,10 +4572,8 @@ const SubjectContent = ({
               value={editingNoteText}
               onChangeText={setEditingNoteText}
               onFocus={syncAndroidKeyboardMetrics}
-              accessibilityLabel={`${
-                editingNoteType === "meaning" ? "Meaning" : "Reading"
-              } note text`}
-              placeholder={`Add your ${editingNoteType} note here...`}
+              accessibilityLabel={uiT("ui.dynamic_07ededdab2cc", {value1: (editingNoteType === "meaning" ? uiT("ui.meaning_1f5d64b9") : uiT("ui.reading_463816d0"))})}
+              placeholder={uiT("ui.dynamic_34710e02ac08", {value1: (uiMessage(editingNoteType))})}
               placeholderTextColor={theme.textLight}
             />
             <View style={styles.noteModalButtons}>
@@ -4633,7 +4582,7 @@ const SubjectContent = ({
                 onPress={handleCloseNote}
                 disabled={isSavingNote}
               >
-                <Text style={styles.noteModalButtonText}>Cancel</Text>
+                <Text style={styles.noteModalButtonText}>{uiT("ui.cancel_19766ed6")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -4650,8 +4599,7 @@ const SubjectContent = ({
                   <Text
                     style={[styles.noteModalButtonText, { color: "#ffffff" }]}
                   >
-                    Save
-                  </Text>
+                    {uiT("ui.save_1509f561")} </Text>
                 )}
               </TouchableOpacity>
             </View>
@@ -4687,6 +4635,7 @@ export default function LessonDetailScreen({
   onAddSubjectToList,
   bookmarkedSubjectIds = EMPTY_BOOKMARKED_SUBJECT_IDS,
 }: LessonDetailScreenProps) {
+  useInterfaceLanguage();
   const display = useLearningDisplay();
   const { theme } = useTheme();
   const isScreenFocused = useOptionalScreenIsFocused();
@@ -5171,27 +5120,27 @@ export default function LessonDetailScreen({
 
     switch (subjectType) {
       case "radical":
-        subjectRoutes.push({ key: "name", title: "Name & Mnemonic" });
-        subjectRoutes.push({ key: "kanji", title: "Found in Kanji" });
+        subjectRoutes.push({ key: "name", title: uiT("ui.name_mnemonic_9501382f") });
+        subjectRoutes.push({ key: "kanji", title: uiT("ui.found_in_kanji_08aaea31") });
         break;
       case "kanji":
-        subjectRoutes.push({ key: "radicals", title: "Radicals" });
-        subjectRoutes.push({ key: "meaning", title: "Meaning" });
-        subjectRoutes.push({ key: "readings", title: "Readings" });
-        subjectRoutes.push({ key: "examples", title: "Examples" });
+        subjectRoutes.push({ key: "radicals", title: uiT("ui.radicals_80608601") });
+        subjectRoutes.push({ key: "meaning", title: uiT("ui.meaning_1f5d64b9") });
+        subjectRoutes.push({ key: "readings", title: uiT("ui.readings_f3a97d44") });
+        subjectRoutes.push({ key: "examples", title: uiT("ui.examples_e68ee04d") });
         break;
       case "vocabulary":
-        subjectRoutes.push({ key: "kanji", title: "Kanji" });
-        subjectRoutes.push({ key: "meaning", title: "Meaning" });
-        subjectRoutes.push({ key: "reading", title: "Reading" });
-        subjectRoutes.push({ key: "context", title: "Context" });
+        subjectRoutes.push({ key: "kanji", title: uiT("ui.kanji_45f62a35") });
+        subjectRoutes.push({ key: "meaning", title: uiT("ui.meaning_1f5d64b9") });
+        subjectRoutes.push({ key: "reading", title: uiT("ui.reading_463816d0") });
+        subjectRoutes.push({ key: "context", title: uiT("ui.context_a6e600a1") });
         break;
       case "kana_vocabulary":
-        subjectRoutes.push({ key: "meaning", title: "Meaning" });
-        subjectRoutes.push({ key: "context", title: "Context" });
+        subjectRoutes.push({ key: "meaning", title: uiT("ui.meaning_1f5d64b9") });
+        subjectRoutes.push({ key: "context", title: uiT("ui.context_a6e600a1") });
         break;
       default:
-        subjectRoutes.push({ key: "info", title: "Info" });
+        subjectRoutes.push({ key: "info", title: uiT("ui.info_170322a3") });
     }
 
     return subjectRoutes;
@@ -5414,8 +5363,8 @@ export default function LessonDetailScreen({
                     onPress={handleOpenLessonSearch}
                     hitSlop={CLOSE_BUTTON_HIT_SLOP}
                     accessibilityRole="button"
-                    accessibilityLabel="Open search"
-                    accessibilityHint="Look up subjects, then go back to continue this lesson"
+                    accessibilityLabel={uiT("ui.open_search_50ce48b9")}
+                    accessibilityHint={uiT("ui.look_up_subjects_then_go_back_to_continue_this_lesson_c16b51ff")}
                   >
                     <Ionicons name="search" size={20} color="#fff" />
                   </TouchableOpacity>

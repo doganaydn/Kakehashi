@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -36,6 +37,7 @@ function gradeColor(
 }
 
 function PerformanceRow({ slice }: { slice: JlptPerformanceSlice }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const color = gradeColor(slice.percent, theme);
   return (
@@ -48,7 +50,7 @@ function PerformanceRow({ slice }: { slice: JlptPerformanceSlice }) {
           <Text
             style={[styles.performanceCount, { color: theme.textSecondary }]}
           >
-            {slice.correct} of {slice.total}
+            {slice.correct} {uiT("ui.of_28391d3b")} {slice.total}
           </Text>
         </View>
         <Text style={[styles.performancePercent, { color }]}>
@@ -80,6 +82,7 @@ export function JlptResults({
   onPracticeWeakAreas: (skills: JlptSkill[]) => void;
   onReturn: () => void;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [openReviewId, setOpenReviewId] = useState<string | null>(null);
   const [wkInsight, setWkInsight] = useState<WaniKaniInsight | null>(null);
@@ -150,8 +153,8 @@ export function JlptResults({
   }, [questions, session]);
 
   const sampleNotice = isMock
-    ? `${result.total} representative questions. This is raw accuracy—not an official JLPT score or pass prediction, because the real test uses scaled scores.`
-    : `${result.total} questions are a directional sample. Use this result to guide study, not as a verdict on your JLPT level.`;
+    ? uiT("ui.dynamic_4930321c1dfc", {value1: (result.total)})
+    : uiT("ui.dynamic_740540f55bd2", {value1: (result.total)});
   const coverage = wkInsight?.tested
     ? Math.round((wkInsight.guru / wkInsight.tested) * 100)
     : 0;
@@ -177,8 +180,7 @@ export function JlptResults({
       >
         <Ionicons name="arrow-back" size={17} color={theme.textSecondary} />
         <Text style={[styles.backText, { color: theme.textSecondary }]}>
-          JLPT home
-        </Text>
+          {uiT("ui.jlpt_home_d22c8ab4")} </Text>
       </Pressable>
 
       <View style={styles.summary}>
@@ -192,7 +194,7 @@ export function JlptResults({
               { color: withAlpha(theme.backgroundColor, 0.78) },
             ]}
           >
-            {isMock ? "estimated mock accuracy" : "practice accuracy"}
+            {isMock ? uiT("ui.estimated_mock_accuracy_4840a8a0") : uiT("ui.practice_accuracy_99b5f22e")}
           </Text>
           <Text
             style={[
@@ -200,20 +202,19 @@ export function JlptResults({
               { color: withAlpha(theme.backgroundColor, 0.78) },
             ]}
           >
-            {result.correct} of {result.total} correct
-          </Text>
+            {result.correct} {uiT("ui.of_28391d3b")} {result.total} {uiT("ui.correct_15a596e3")} </Text>
         </View>
         <View style={styles.summaryCopy}>
           <Text style={[styles.context, { color: theme.primary }]}>
             {session.level} ·{" "}
             {session.mode === "mock"
-              ? "REPRESENTATIVE MOCK"
+              ? uiT("ui.representative_mock_bf43b65d")
               : session.mode === "weak"
-                ? "WEAK-AREA PRACTICE"
-                : "QUICK QUIZ"}
+                ? uiT("ui.weak_area_practice_bfcaae92")
+                : uiT("ui.quick_quiz_e7ad6d6a")}
           </Text>
           <Text style={[styles.title, { color: theme.textColor }]}>
-            {isMock ? "Estimated mock performance" : "Quiz results"}
+            {isMock ? uiT("ui.estimated_mock_performance_f2d11fec") : uiT("ui.quiz_results_9c6d36a4")}
           </Text>
           <Text style={[styles.outcome, { color: theme.textSecondary }]}>
             {outcome(result.percent)}
@@ -257,7 +258,7 @@ export function JlptResults({
           ]}
         >
           <Ionicons name="barbell-outline" size={18} color="#fff" />
-          <Text style={styles.primaryButtonText}>Practice weak areas</Text>
+          <Text style={styles.primaryButtonText}>{uiT("ui.practice_weak_areas_399bdd53")}</Text>
         </Pressable>
         <Pressable
           accessibilityRole="button"
@@ -270,15 +271,13 @@ export function JlptResults({
           <Text
             style={[styles.secondaryButtonText, { color: theme.textColor }]}
           >
-            Another test
-          </Text>
+            {uiT("ui.another_test_626cd0f0")} </Text>
         </Pressable>
       </View>
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          What to do next
-        </Text>
+          {uiT("ui.what_to_do_next_6164ad73")} </Text>
         <View
           style={[
             styles.priority,
@@ -291,21 +290,17 @@ export function JlptResults({
           <Ionicons name="locate-outline" size={22} color={theme.error} />
           <View style={styles.priorityCopy}>
             <Text style={[styles.priorityKicker, { color: theme.error }]}>
-              FIRST PRIORITY
-            </Text>
+              {uiT("ui.first_priority_b6880703")} </Text>
             <Text style={[styles.priorityTitle, { color: theme.textColor }]}>
               {result.weakest
-                ? `${result.weakest.label} has the most room to improve`
-                : "Take another quiz for a clearer signal"}
+                ? uiT("ui.value_has_the_most_room_to_improve_e2a9a706", {value1: (result.weakest.label)})
+                : uiT("ui.take_another_quiz_for_a_clearer_signal_19937d06")}
             </Text>
             {result.weakest ? (
               <Text
                 style={[styles.priorityText, { color: theme.textSecondary }]}
               >
-                {result.weakest.correct} of {result.weakest.total} correct (
-                {result.weakest.percent}%). A focused set will revisit this
-                skill first.
-              </Text>
+                {result.weakest.correct} {uiT("ui.of_28391d3b")} {result.weakest.total} {uiT("ui.correct_94700887")} {result.weakest.percent}{uiT("ui.a_focused_set_will_revisit_this_skill_first_f6ec9be4")} </Text>
             ) : null}
           </View>
         </View>
@@ -322,17 +317,13 @@ export function JlptResults({
             <Ionicons name="trending-up-outline" size={22} color="#20A464" />
             <View style={styles.priorityCopy}>
               <Text style={[styles.priorityKicker, { color: "#20A464" }]}>
-                STRONGEST AREA
-              </Text>
+                {uiT("ui.strongest_area_11ea3c62")} </Text>
               <Text style={[styles.priorityTitle, { color: theme.textColor }]}>
-                {result.strongest.label} led this session
-              </Text>
+                {result.strongest.label} {uiT("ui.led_this_session_70de51bc")} </Text>
               <Text
                 style={[styles.priorityText, { color: theme.textSecondary }]}
               >
-                {result.strongest.correct} of {result.strongest.total} correct (
-                {result.strongest.percent}%). Keep it in rotation.
-              </Text>
+                {result.strongest.correct} {uiT("ui.of_28391d3b")} {result.strongest.total} {uiT("ui.correct_94700887")} {result.strongest.percent}{uiT("ui.keep_it_in_rotation_fc980c20")} </Text>
             </View>
           </View>
         ) : null}
@@ -340,8 +331,7 @@ export function JlptResults({
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Skills
-        </Text>
+          {uiT("ui.skills_66d0f523")} </Text>
         <View
           style={[
             styles.panel,
@@ -359,8 +349,7 @@ export function JlptResults({
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          JLPT scoring sections
-        </Text>
+          {uiT("ui.jlpt_scoring_sections_5f9c5876")} </Text>
         <View
           style={[
             styles.panel,
@@ -379,9 +368,7 @@ export function JlptResults({
               { color: theme.textSecondary, borderTopColor: theme.border },
             ]}
           >
-            Official pass marks cannot be applied to raw accuracy because JLPT
-            section scores are scaled.
-          </Text>
+            {uiT("ui.official_pass_marks_cannot_be_applied_to_raw_accuracy_because_jlp_508a4304")} </Text>
         </View>
       </View>
 
@@ -401,16 +388,14 @@ export function JlptResults({
           <Ionicons name="link-outline" size={22} color={theme.primary} />
           <View style={styles.wkInsightCopy}>
             <Text style={[styles.wkTitle, { color: theme.textColor }]}>
-              WaniKani context
-            </Text>
+              {uiT("ui.wanikani_context_77aa29dc")} </Text>
             <Text style={[styles.wkText, { color: theme.textSecondary }]}>
               {wkInterpretation}
             </Text>
             <Text style={[styles.wkStat, { color: theme.textColor }]}>
-              {wkInsight.guru}/{wkInsight.tested} tested kanji are Guru+
-              {wkInsight.quizPercent === null
+              {wkInsight.guru}/{wkInsight.tested} {uiT("ui.tested_kanji_are_guru_058f18de")} {wkInsight.quizPercent === null
                 ? ""
-                : ` · ${wkInsight.quizPercent}% on kanji questions`}
+                : uiT("ui.value_on_kanji_questions_86d19ff1", {value1: (wkInsight.quizPercent)})}
             </Text>
           </View>
         </View>
@@ -418,11 +403,9 @@ export function JlptResults({
 
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-          Question types
-        </Text>
+          {uiT("ui.question_types_6a328bd1")} </Text>
         <Text style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
-          Lowest accuracy first
-        </Text>
+          {uiT("ui.lowest_accuracy_first_5e731b8a")} </Text>
         <View
           style={[
             styles.panel,
@@ -442,18 +425,16 @@ export function JlptResults({
         <View style={styles.reviewHeading}>
           <View style={styles.reviewHeadingCopy}>
             <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-              Missed question review
-            </Text>
+              {uiT("ui.missed_question_review_c8bd05c9")} </Text>
             <Text
               style={[styles.sectionSubtitle, { color: theme.textSecondary }]}
             >
-              Compare your answer and read why the correct choice fits.
-            </Text>
+              {uiT("ui.compare_your_answer_and_read_why_the_correct_choice_fits_2f6c5ea1")} </Text>
           </View>
           <Text style={[styles.reviewCount, { color: theme.error }]}>
             {result.missedQuestionIds.length
-              ? `${result.missedQuestionIds.length} missed`
-              : "No misses"}
+              ? uiT("ui.value_missed_9f99afb0", {value1: (result.missedQuestionIds.length)})
+              : uiT("ui.no_misses_aa2aea59")}
           </Text>
         </View>
 
@@ -509,7 +490,7 @@ export function JlptResults({
                 >
                   <View style={styles.reviewSummaryCopy}>
                     <Text style={[styles.reviewNumber, { color: theme.error }]}>
-                      QUESTION {questionNumberById.get(id) ?? index + 1}
+                      {uiT("ui.question_1c5cb992")} {questionNumberById.get(id) ?? index + 1}
                     </Text>
                     <Text
                       numberOfLines={open ? undefined : 2}
@@ -589,8 +570,7 @@ export function JlptResults({
                             { color: theme.textSecondary },
                           ]}
                         >
-                          LISTENING TRANSCRIPT
-                        </Text>
+                          {uiT("ui.listening_transcript_34174386")} </Text>
                         <Text
                           selectable
                           style={[
@@ -616,8 +596,7 @@ export function JlptResults({
                         <Text
                           style={[styles.answerLabel, { color: theme.error }]}
                         >
-                          YOUR ANSWER
-                        </Text>
+                          {uiT("ui.your_answer_c03e0a83")} </Text>
                         <Text
                           selectable
                           style={[
@@ -626,7 +605,7 @@ export function JlptResults({
                             { color: theme.textColor },
                           ]}
                         >
-                          {selectedLabel || "No answer"}
+                          {selectedLabel || uiT("ui.no_answer_7e49c68d")}
                         </Text>
                       </View>
                       <View
@@ -641,8 +620,7 @@ export function JlptResults({
                         <Text
                           style={[styles.answerLabel, { color: "#20A464" }]}
                         >
-                          CORRECT ANSWER
-                        </Text>
+                          {uiT("ui.correct_answer_a3b04077")} </Text>
                         <Text
                           selectable
                           style={[
@@ -667,8 +645,7 @@ export function JlptResults({
                           { color: theme.textColor },
                         ]}
                       >
-                        Why this is correct
-                      </Text>
+                        {uiT("ui.why_this_is_correct_3d173758")} </Text>
                       <Text
                         style={[
                           styles.explanationText,
@@ -695,8 +672,7 @@ export function JlptResults({
           >
             <Ionicons name="checkmark-circle" size={24} color="#20A464" />
             <Text style={[styles.perfectText, { color: theme.textColor }]}>
-              Every answer was correct.
-            </Text>
+              {uiT("ui.every_answer_was_correct_88aef5a6")} </Text>
           </View>
         )}
       </View>

@@ -1,3 +1,4 @@
+import { uiMessage, uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export function EpubSavedPassagesSheet({ visible, annotations, isSaving, error, onClose, onOpen, onDelete }: Props) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const [kind, setKind] = useState<EpubAnnotation["kind"]>("bookmark");
@@ -24,11 +26,11 @@ export function EpubSavedPassagesSheet({ visible, annotations, isSaving, error, 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose} statusBarTranslucent>
       <View style={styles.root}>
-        <Pressable style={styles.backdrop} onPress={onClose} accessibilityLabel="Close saved passages" />
+        <Pressable style={styles.backdrop} onPress={onClose} accessibilityLabel={uiT("ui.close_saved_passages_68e9024d")} />
         <View style={[styles.sheet, { backgroundColor: theme.cardBackground, paddingBottom: Math.max(insets.bottom, 16) }]}>
           <View style={styles.header}>
-            <Text style={[styles.title, { color: theme.textColor }]}>Saved passages</Text>
-            <Pressable accessibilityRole="button" accessibilityLabel="Close saved passages" onPress={onClose} style={styles.iconButton}>
+            <Text style={[styles.title, { color: theme.textColor }]}>{uiT("ui.saved_passages_0769b51d")}</Text>
+            <Pressable accessibilityRole="button" accessibilityLabel={uiT("ui.close_saved_passages_68e9024d")} onPress={onClose} style={styles.iconButton}>
               <Ionicons name="close" size={22} color={theme.textSecondary} />
             </Pressable>
           </View>
@@ -37,7 +39,7 @@ export function EpubSavedPassagesSheet({ visible, annotations, isSaving, error, 
               <Pressable key={tab} onPress={() => setKind(tab)} accessibilityRole="tab" accessibilityState={{ selected: kind === tab }}
                 style={[styles.tab, { borderBottomColor: kind === tab ? theme.primary : "transparent" }]}>
                 <Text style={[styles.tabText, { color: kind === tab ? theme.textColor : theme.textSecondary }]}>
-                  {tab === "bookmark" ? "Bookmarks" : "Highlights"}
+                  {tab === "bookmark" ? uiT("ui.bookmarks_96316f0f") : uiT("ui.highlights_6e517828")}
                 </Text>
               </Pressable>
             ))}
@@ -47,24 +49,24 @@ export function EpubSavedPassagesSheet({ visible, annotations, isSaving, error, 
             {entries.length === 0 ? (
               <View style={styles.empty}>
                 <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-                  {kind === "bookmark" ? "No bookmarks yet" : "No highlights yet"}
+                  {kind === "bookmark" ? uiT("ui.no_bookmarks_yet_dac0e576") : uiT("ui.no_highlights_yet_bd3a1592")}
                 </Text>
                 <Text style={[styles.emptyHint, { color: theme.textSecondary }]}>
-                  {kind === "bookmark" ? "Tap the bookmark icon in the reader to save a page." : "Select a passage in the book, then tap Highlight."}
+                  {kind === "bookmark" ? uiT("ui.tap_the_bookmark_icon_in_the_reader_to_save_a_page_c0eb5d92") : uiT("ui.select_a_passage_in_the_book_then_tap_highlight_3cd6271e")}
                 </Text>
               </View>
             ) : entries.map((entry) => (
               <View key={entry.id} style={[styles.row, { borderBottomColor: theme.border }]}>
                 <Pressable style={styles.passage} onPress={() => onOpen(entry)} accessibilityRole="button"
-                  accessibilityLabel={`Go to ${entry.kind} on page ${entry.page}. ${entry.text}`}>
+                  accessibilityLabel={uiT("ui.dynamic_6a16dc66370f", {value1: (uiMessage(entry.kind)), value2: (entry.page), value3: (entry.text)})}>
                   <View style={styles.pageLabel}>
                     <Ionicons name={entry.kind === "bookmark" ? "bookmark-outline" : "pencil-outline"} size={16} color={theme.textSecondary} />
-                    <Text style={[styles.pageText, { color: theme.textSecondary }]}>Page {entry.page}</Text>
+                    <Text style={[styles.pageText, { color: theme.textSecondary }]}>{uiT("ui.page_0a30a815")} {entry.page}</Text>
                   </View>
                   {entry.text ? <Text numberOfLines={3} style={[styles.excerpt, { color: theme.textColor }]}>{entry.text}</Text> : null}
                 </Pressable>
                 <Pressable onPress={() => onDelete(entry)} disabled={isSaving} accessibilityRole="button"
-                  accessibilityLabel={`Delete ${entry.kind} on page ${entry.page}`} style={styles.iconButton}>
+                  accessibilityLabel={uiT("ui.dynamic_2531d9879f76", {value1: (uiMessage(entry.kind)), value2: (entry.page)})} style={styles.iconButton}>
                   <Ionicons name="trash-outline" size={19} color={theme.textSecondary} />
                 </Pressable>
               </View>

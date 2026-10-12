@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { SettingsLabel } from "../../ui/settings/settings-search";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +10,7 @@ import { packageSummary, type TranslationPackage } from "./resolver";
 import { selectTranslationPackage } from "./import-file";
 
 export function ContentLanguageSetting() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const language = useLearningContentStore(s => s.language);
   const setLanguage = useLearningContentStore(s => s.setLanguage);
@@ -32,11 +34,11 @@ export function ContentLanguageSetting() {
   };
   const summaryText = (packet: TranslationPackage) => {
     const count = packageSummary(packet);
-    return `${count.radical + count.kanji + count.vocabulary + count.kana_vocabulary} items · ${count.sentences} sentences · Levels ${levelRanges(count.levels)}`;
+    return uiT("ui.dynamic_3512ec7b365b", {value1: (count.radical + count.kanji + count.vocabulary + count.kana_vocabulary), value2: (count.sentences), value3: (levelRanges(count.levels))});
   };
   const detailsText = (packet: TranslationPackage) => {
     const count = packageSummary(packet);
-    return `${packet.name}\n${count.radical} radicals · ${count.kanji} kanji · ${count.vocabulary + count.kana_vocabulary} vocabulary\n${packet.schemaVersion === 3 && packet.scope === "display-and-synonyms" ? "Includes explicit synonym answers for account transfer." : "Display only. Import a format v3 file to transfer synonyms."}`;
+    return uiT("ui.dynamic_24e1a0f34959", {value1: (packet.name), value2: (count.radical), value3: (count.kanji), value4: (count.vocabulary + count.kana_vocabulary), value5: (packet.schemaVersion === 3 && packet.scope === "display-and-synonyms" ? uiT("ui.dynamic_15cc235e5ae8") : uiT("ui.dynamic_4472f08dfd9a"))});
   };
   async function pick() {
     setBusy(true); setError(null);
@@ -48,13 +50,13 @@ export function ContentLanguageSetting() {
     if (!candidate) return;
     setBusy(true); setError(null);
     try { await packageManager.activate(candidate); setLanguage("tr"); setCandidate(null); }
-    catch { setError("Could not save the package. Your current content is unchanged. Please try again."); }
+    catch { setError(uiT("ui.message_6b9d734fa20e")); }
     finally { setBusy(false); }
   }
   async function reset() {
     setBusy(true); setError(null);
     try { await packageManager.reset(); setCandidate(null); }
-    catch { setError("Could not remove the translation package. Your current package is unchanged."); }
+    catch { setError(uiT("ui.message_a946f90d21bc")); }
     finally { setBusy(false); }
   }
   const disabled = busy || !hydrated;
@@ -67,31 +69,31 @@ export function ContentLanguageSetting() {
     <View style={styles.settingItem}>
       <Ionicons name="language-outline" size={24} color={theme.primary} style={styles.settingIcon} />
       <View style={styles.settingTextContainer}>
-        <SettingsLabel style={[styles.settingText, {color: theme.textColor}]}>Optional translation package</SettingsLabel>
-        <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Load meanings and example sentences from a file.</Text>
+        <SettingsLabel style={[styles.settingText, {color: theme.textColor}]}>{uiT("ui.optional_translation_package_be086037")}</SettingsLabel>
+        <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{uiT("ui.load_meanings_and_example_sentences_from_a_file_e421fd23")}</Text>
       </View>
-      <Switch accessibilityLabel="Use translation package" value={language === "tr"}
+      <Switch accessibilityLabel={uiT("ui.use_translation_package_a98d10c0")} value={language === "tr"}
         trackColor={{true: theme.primary}} style={{flexShrink: 0}}
         onValueChange={enabled => setLanguage(enabled ? "tr" : "en")} />
     </View>
     <View style={styles.packageArea}>
-      <Text style={{color: theme.textColor, fontWeight: "600"}}>{imported ? "Imported package" : "No translation package loaded"}</Text>
-      {active && <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Turkish · v{active.version}{"\n"}{summaryText(active)}</Text>}
+      <Text style={{color: theme.textColor, fontWeight: "600"}}>{imported ? uiT("ui.imported_package_d0004193") : uiT("ui.no_translation_package_loaded_ff554ee1")}</Text>
+      {active && <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{uiT("ui.turkish_v_80b75c3c")}{active.version}{"\n"}{summaryText(active)}</Text>}
       {active && button(showDetails ? "Hide package details" : "Package details", () => setShowDetails(value => !value))}
       {active && showDetails && <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{detailsText(active)}</Text>}
       {button(busy ? "Processing…" : "Import translation file", () => {void pick();})}
       {candidate && <View style={[styles.preview, {borderColor: theme.border}]}>
-        <Text style={{color: theme.textColor, fontWeight: "600"}}>Language: Turkish (tr) · {candidate.name} · v{candidate.version}</Text>
-        <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{summaryText(candidate)}{"\n"}{candidate.schemaVersion === 3 && candidate.scope === "display-and-synonyms" ? "Display + synonym suggestions" : "Display only"}</Text>
-        <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Replaces the current package. Format checked; translation accuracy is not verified.</Text>
+        <Text style={{color: theme.textColor, fontWeight: "600"}}>{uiT("ui.language_turkish_tr_bab7338b")} {candidate.name} {uiT("ui.v_0bb917d8")}{candidate.version}</Text>
+        <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{summaryText(candidate)}{"\n"}{candidate.schemaVersion === 3 && candidate.scope === "display-and-synonyms" ? uiT("ui.display_synonym_suggestions_af6d8305") : uiT("ui.display_only_2a6230a4")}</Text>
+        <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{uiT("ui.replaces_the_current_package_format_checked_translation_accuracy_d9d5f68a")}</Text>
         {button("Use this package", () => {void activate();})}
         {button("Cancel", () => setCandidate(null))}
       </View>}
       {imported && button("Remove translation package", () => Alert.alert(
-        "Remove translation package?", "Translations will use the original English. Your account and study progress will stay the same.",
-        [{text: "Cancel", style: "cancel"}, {text: "Remove", onPress: () => {void reset();}}]))}
+        uiT("ui.remove_translation_package_2cb0ef8b"), uiT("ui.translations_will_use_the_original_english_your_account_and_study_55bf2be1"),
+        [{text: uiT("ui.cancel_19766ed6"), style: "cancel"}, {text: uiT("ui.remove_c3812fc4"), onPress: () => {void reset();}}]))}
       {(error || storageError) && <Text accessibilityRole="alert" style={[styles.settingSubtext, {color: theme.textColor}]}>{error || storageError}</Text>}
-      <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>Stored on this device. Missing translations use English.</Text>
+      <Text style={[styles.settingSubtext, {color: theme.textSecondary}]}>{uiT("ui.stored_on_this_device_missing_translations_use_english_db33175a")}</Text>
     </View>
   </View>;
 }

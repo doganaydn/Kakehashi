@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../../../src/features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
@@ -32,6 +33,7 @@ import { useTheme } from "../../../src/utils/theme";
 const MAX_MEDIA_SIZE_MB = ISSUE_MEDIA_MAX_BYTES / (1024 * 1024);
 
 export default function NewIssueScreen() {
+  useInterfaceLanguage();
   const router = useRouter();
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
@@ -83,8 +85,8 @@ export default function NewIssueScreen() {
 
         if (typeof sizeBytes === "number" && sizeBytes > ISSUE_MEDIA_MAX_BYTES) {
           Alert.alert(
-            "File Too Large",
-            `This file is too large. The maximum upload size is ${MAX_MEDIA_SIZE_MB}MB.`
+            uiT("ui.file_too_large_0d74a4e2"),
+            uiT("ui.this_file_is_too_large_the_maximum_upload_size_is_valuemb_f1f3cdc1", {value1: (MAX_MEDIA_SIZE_MB)})
           );
           return;
         }
@@ -107,24 +109,24 @@ export default function NewIssueScreen() {
     } catch (error) {
       if (isIssueMediaTooLargeError(error)) {
         Alert.alert(
-          "File Too Large",
-          `This file is too large. The maximum upload size is ${MAX_MEDIA_SIZE_MB}MB.`
+          uiT("ui.file_too_large_0d74a4e2"),
+          uiT("ui.this_file_is_too_large_the_maximum_upload_size_is_valuemb_f1f3cdc1", {value1: (MAX_MEDIA_SIZE_MB)})
         );
         return;
       }
 
       if (isIssueMediaBucketNotFoundError(error)) {
         Alert.alert(
-          "Upload Not Configured",
-          "Issue media storage is not configured in Supabase yet. Create the `issue-media` storage bucket or set EXPO_PUBLIC_SUPABASE_ISSUE_MEDIA_BUCKET to an existing bucket."
+          uiT("ui.upload_not_configured_b34d7a3a"),
+          uiT("ui.issue_media_storage_is_not_configured_in_supabase_yet_create_the_81e2ecdb")
         );
         return;
       }
 
       console.error("Media upload failed", error);
       Alert.alert(
-        "Upload Failed",
-        "Could not upload this file. Please try again."
+        uiT("ui.upload_failed_16544909"),
+        uiT("ui.could_not_upload_this_file_please_try_again_e7210aa7")
       );
     } finally {
       setIsUploading(false);
@@ -133,12 +135,12 @@ export default function NewIssueScreen() {
 
   const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
-      Alert.alert("Error", "Please provide a title and description.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.please_provide_a_title_and_description_8491b297"));
       return;
     }
 
     if (!apiToken || !userData) {
-      Alert.alert("Error", "You must be logged in to create an issue.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.you_must_be_logged_in_to_create_an_issue_ccc02815"));
       return;
     }
 
@@ -155,7 +157,7 @@ export default function NewIssueScreen() {
       router.back();
     } catch (error) {
       console.error("Create issue failed", error);
-      Alert.alert("Error", "Failed to create issue. Please try again.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_create_issue_please_try_again_5dd66f23"));
     } finally {
       setIsSubmitting(false);
     }
@@ -185,8 +187,7 @@ export default function NewIssueScreen() {
           </TouchableOpacity>
 
           <Text style={[styles.headerTitle, { color: theme.headerText }]}>
-            New Issue
-          </Text>
+            {uiT("ui.new_issue_03a81df6")} </Text>
 
           <TouchableOpacity
             onPress={handleSubmit}
@@ -211,8 +212,7 @@ export default function NewIssueScreen() {
                   fontSize: 16,
                 }}
               >
-                Submit
-              </Text>
+                {uiT("ui.submit_155f816c")} </Text>
             )}
           </TouchableOpacity>
         </View>
@@ -240,8 +240,7 @@ export default function NewIssueScreen() {
               fontWeight: "600",
             }}
           >
-            Write
-          </Text>
+            {uiT("ui.write_3f00927a")} </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -260,8 +259,7 @@ export default function NewIssueScreen() {
               fontWeight: "600",
             }}
           >
-            Preview
-          </Text>
+            {uiT("ui.preview_324b134f")} </Text>
         </TouchableOpacity>
       </View>
 
@@ -282,7 +280,7 @@ export default function NewIssueScreen() {
                   borderColor: theme.border,
                 },
               ]}
-              placeholder="Title"
+              placeholder={uiT("ui.title_7e8cd205")}
               placeholderTextColor={theme.textSecondary}
               value={title}
               onChangeText={setTitle}
@@ -300,7 +298,7 @@ export default function NewIssueScreen() {
             >
               <TextInput
                 style={[styles.inputBody, { color: theme.textColor }]}
-                placeholder="Leave a comment"
+                placeholder={uiT("ui.leave_a_comment_875e978a")}
                 placeholderTextColor={theme.textSecondary}
                 value={content}
                 onChangeText={setContent}
@@ -346,7 +344,7 @@ export default function NewIssueScreen() {
             ]}
           >
             <Text style={[styles.previewTitle, { color: theme.textColor }]}>
-              {title || "No Title"}
+              {title || uiT("ui.no_title_a81d00a2")}
             </Text>
             <View
               style={{
@@ -462,6 +460,7 @@ const markdownStyles = (theme: any) => ({
 });
 
 const MarkdownImage = ({ src, style }: { src: string; style: any }) => {
+  useInterfaceLanguage();
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   useEffect(() => {
@@ -497,6 +496,7 @@ function isVideoMarkdownAsset(src: string, altText?: string): boolean {
 }
 
 const MarkdownVideo = ({ src, style }: { src: string; style: any }) => {
+  useInterfaceLanguage();
   const player = useVideoPlayer(src, (videoPlayer) => {
     videoPlayer.loop = false;
     videoPlayer.currentTime = 0;

@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../../../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import { File as FSFile, Paths } from "expo-file-system";
 import { LinearGradient } from "expo-linear-gradient";
@@ -63,6 +64,7 @@ function ConfettiParticle({
   color: string;
   startX: number;
 }) {
+  useInterfaceLanguage();
   const translateY = useSharedValue(-20);
   const translateX = useSharedValue(startX);
   const rotate = useSharedValue(0);
@@ -141,7 +143,7 @@ function formatDateRange(
 ): string {
   const fmt = (d: string | null) => {
     if (!d) return "";
-    return new Date(d).toLocaleDateString("en-US", {
+    return new Date(d).toLocaleDateString(interfaceLocale(), {
       month: "short",
       day: "numeric",
     });
@@ -182,7 +184,7 @@ function buildShareText(data: WrappedData): string {
 
   if (data.starPerformer) {
     lines.push(
-      `Star performer: ${data.starPerformer.characters} (${data.starPerformer.primaryMeaning})`,
+      uiT("ui.dynamic_a8e3550304c4", {value1: (data.starPerformer.characters), value2: (data.starPerformer.primaryMeaning)}),
     );
   }
 
@@ -200,6 +202,7 @@ function buildShareText(data: WrappedData): string {
 
 /* ──── Character badge (uniform size for all sections) ──── */
 function CharBadge({ character, type }: { character: string; type: string }) {
+  useInterfaceLanguage();
   const color = getSubjectColor(type);
   return (
     <View
@@ -223,6 +226,7 @@ interface SummarySlideProps {
 }
 
 export function SummarySlide({ data }: SummarySlideProps) {
+  useInterfaceLanguage();
   const isAndroid = Platform.OS === "android";
   const appTextSizeScale = useSettingsStore((state) => state.appTextSizeScale);
   const { fontScale } = useWindowDimensions();
@@ -435,9 +439,9 @@ export function SummarySlide({ data }: SummarySlideProps) {
             {/* ── Hero header ── */}
             <View style={styles.hero}>
               <View style={styles.accentLine} />
-              <Text style={styles.levelLabel}>LEVEL</Text>
+              <Text style={styles.levelLabel}>{uiT("ui.level_d81674b2")}</Text>
               <Text style={styles.levelNumber}>{data.level}</Text>
-              <Text style={styles.summaryLabel}>SUMMARY</Text>
+              <Text style={styles.summaryLabel}>{uiT("ui.summary_6997c676")}</Text>
               <View style={styles.accentLine} />
               {(data.username || dateRange) && (
                 <Text style={styles.metaText}>
@@ -469,7 +473,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                 />
                 <View style={styles.statCol}>
                   <Text style={styles.statValue}>{data.overallAccuracy}%</Text>
-                  <Text style={styles.statLabel}>ACCURACY</Text>
+                  <Text style={styles.statLabel}>{uiT("ui.accuracy_ed2bc21b")}</Text>
                 </View>
                 <View
                   style={[
@@ -481,7 +485,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                   <Text style={styles.statValue}>
                     {data.totalReviews.toLocaleString()}
                   </Text>
-                  <Text style={styles.statLabel}>REVIEWS</Text>
+                  <Text style={styles.statLabel}>{uiT("ui.reviews_62dae7e9")}</Text>
                 </View>
               </View>
 
@@ -492,7 +496,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                 <View style={styles.highlightBlock}>
                   <View style={styles.highlightTitleRow}>
                     <Ionicons name="alert-circle" size={10} color="#f87171" />
-                    <Text style={styles.highlightTitle}>TOUGHEST</Text>
+                    <Text style={styles.highlightTitle}>{uiT("ui.toughest_08318a27")}</Text>
                   </View>
                   {topMissed.map((s, i) => (
                     <View
@@ -519,8 +523,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                           {s.primaryMeaning}
                         </Text>
                         <Text style={styles.highlightStat}>
-                          {s.percentageCorrect}% accuracy
-                        </Text>
+                          {s.percentageCorrect}{uiT("ui.accuracy_1af3f08b")} </Text>
                       </View>
                     </View>
                   ))}
@@ -532,7 +535,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                 <View style={styles.highlightBlock}>
                   <View style={styles.highlightTitleRow}>
                     <Ionicons name="star" size={10} color="#fbbf24" />
-                    <Text style={styles.highlightTitle}>STAR PERFORMER</Text>
+                    <Text style={styles.highlightTitle}>{uiT("ui.star_performer_c065e9db")}</Text>
                   </View>
                   <View
                     style={[
@@ -558,8 +561,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                       </Text>
                       <Text style={styles.highlightStat}>
                         {data.starPerformer.percentageCorrect}% ·{" "}
-                        {data.starPerformer.maxStreak} streak
-                      </Text>
+                        {data.starPerformer.maxStreak} {uiT("ui.streak_3fbf0de2")} </Text>
                     </View>
                   </View>
                 </View>
@@ -570,7 +572,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                 <View style={styles.highlightBlock}>
                   <View style={styles.highlightTitleRow}>
                     <Ionicons name="flash" size={10} color="#34d399" />
-                    <Text style={styles.highlightTitle}>FASTEST TO GURU</Text>
+                    <Text style={styles.highlightTitle}>{uiT("ui.fastest_to_guru_36a57fda")}</Text>
                   </View>
                   <View
                     style={[
@@ -606,7 +608,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
             {/* ── Branding footer ── */}
             <View style={styles.brandingRow}>
               <View style={styles.brandLine} />
-              <Text style={styles.brandText}>KAKEHASHI</Text>
+              <Text style={styles.brandText}>{uiT("ui.kakehashi_28840ba9")}</Text>
               <View style={styles.brandLine} />
             </View>
           </LinearGradient>
@@ -626,7 +628,7 @@ export function SummarySlide({ data }: SummarySlideProps) {
                 <Ionicons name="share-outline" size={20} color="#fff" />
               )}
               <Text style={styles.shareBtnText}>
-                {isCapturing ? "Generating…" : "Share"}
+                {isCapturing ? uiT("ui.generating_d20a4476") : uiT("ui.share_29887a5f")}
               </Text>
             </TouchableOpacity>
           </Animated.View>

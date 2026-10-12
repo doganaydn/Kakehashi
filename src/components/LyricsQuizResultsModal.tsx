@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactElement } from "react";
 import { useMemo } from "react";
@@ -40,6 +41,7 @@ export function LyricsQuizResultsModal({
   onRestart,
   onOpenItem,
 }: LyricsQuizResultsModalProps): ReactElement {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const summary = useMemo(() => {
     let answeredCount = 0;
@@ -94,11 +96,10 @@ export function LyricsQuizResultsModal({
             style={[styles.headerTitle, { color: theme.textColor }]}
             numberOfLines={1}
           >
-            Song quiz results
-          </Text>
+            {uiT("ui.song_quiz_results_6e0e14fe")} </Text>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Close song quiz results"
+            accessibilityLabel={uiT("ui.close_song_quiz_results_a7460eb2")}
             onPress={onClose}
             style={({ pressed }) => [
               styles.closeButton,
@@ -120,7 +121,7 @@ export function LyricsQuizResultsModal({
               style={[styles.songTitle, { color: theme.textColor }]}
               numberOfLines={1}
             >
-              {songTitle || "Song quiz"}
+              {songTitle || uiT("ui.song_quiz_a35d3cd1")}
             </Text>
             {artist ? (
               <Text
@@ -141,26 +142,21 @@ export function LyricsQuizResultsModal({
                   {summary.accuracy}%
                 </Text>
                 <Text style={[styles.accuracyLabel, { color: theme.textSecondary }]}>
-                  Response accuracy
-                </Text>
+                  {uiT("ui.response_accuracy_fd30fcf7")} </Text>
               </View>
               <View style={styles.summaryStats}>
                 <Text style={[styles.summaryStat, { color: theme.textColor }]}>
-                  {summary.answeredCount}/{questions.length} answered
-                </Text>
+                  {summary.answeredCount}/{questions.length} {uiT("ui.answered_68c780cd")} </Text>
                 <Text style={[styles.summaryStat, { color: theme.textColor }]}>
-                  {summary.firstTryCount} first try
-                </Text>
+                  {summary.firstTryCount} {uiT("ui.first_try_c6d81def")} </Text>
                 <Text style={[styles.summaryStat, { color: theme.textColor }]}>
-                  {summary.mistakeCount} mistakes
-                </Text>
+                  {summary.mistakeCount} {uiT("ui.mistakes_6294ed26")} </Text>
               </View>
             </View>
           </View>
 
           <Text style={[styles.sectionTitle, { color: theme.textColor }]}>
-            Responses
-          </Text>
+            {uiT("ui.responses_9b4c6d73")} </Text>
           <View style={[styles.responseList, { borderTopColor: theme.border }]}>
             {questions.map((question) => {
               const questionAttempts = attempts[question.lineIndex] ?? [];
@@ -202,7 +198,7 @@ export function LyricsQuizResultsModal({
                   accessibilityRole={canOpenDetails ? "button" : undefined}
                   accessibilityLabel={
                     canOpenDetails
-                      ? `View details for ${question.answer}`
+                      ? uiT("ui.dynamic_7c827f65655c", {value1: (question.answer)})
                       : undefined
                   }
                   disabled={!canOpenDetails}
@@ -249,7 +245,7 @@ export function LyricsQuizResultsModal({
                             { color: theme.textSecondary },
                           ]}
                         >
-                          Lv {question.answerItem.level}
+                          {uiT("ui.lv_ab6378f0")} {question.answerItem.level}
                         </Text>
                       ) : null}
                     </View>
@@ -263,11 +259,11 @@ export function LyricsQuizResultsModal({
                     >
                       {isCorrect
                         ? primaryReading
-                          ? `${primaryReading} · ${question.answerItem.meaning}`
+                          ? uiT("ui.value_value_939adcc9", {value1: (primaryReading), value2: (question.answerItem.meaning)})
                           : question.answerItem.meaning
                         : latestResponse
-                          ? "Latest response"
-                          : "No response yet"}
+                          ? uiT("ui.latest_response_cb7b195a")
+                          : uiT("ui.no_response_yet_c818615c")}
                     </Text>
                     <Text style={[styles.responseStatus, { color: statusColor }]}>
                       {statusText}
@@ -297,7 +293,7 @@ export function LyricsQuizResultsModal({
         >
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Restart song quiz"
+            accessibilityLabel={uiT("ui.restart_song_quiz_fafedfe1")}
             onPress={onRestart}
             style={({ pressed }) => [
               styles.footerButton,
@@ -306,12 +302,11 @@ export function LyricsQuizResultsModal({
           >
             <Ionicons name="refresh" size={17} color={theme.textColor} />
             <Text style={[styles.footerButtonText, { color: theme.textColor }]}>
-              Restart
-            </Text>
+              {uiT("ui.restart_6b983a81")} </Text>
           </Pressable>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Close results and continue listening"
+            accessibilityLabel={uiT("ui.close_results_and_continue_listening_da55a7b6")}
             onPress={onClose}
             style={({ pressed }) => [
               styles.footerButton,
@@ -323,8 +318,7 @@ export function LyricsQuizResultsModal({
             ]}
           >
             <Text style={[styles.footerButtonText, styles.primaryButtonText]}>
-              Continue listening
-            </Text>
+              {uiT("ui.continue_listening_7d9d5852")} </Text>
           </Pressable>
         </View>
       </SafeAreaView>

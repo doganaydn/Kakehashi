@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../interface-language/runtime";
 import { Ionicons } from "@expo/vector-icons";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { router, Stack, useLocalSearchParams } from "expo-router";
@@ -28,17 +29,18 @@ const PACK_FILTERS = ["All packs", "My packs", "Kana", "Kanji"];
 const STAGE_NAMES = ["New lesson", "Apprentice I", "Apprentice II", "Apprentice III", "Apprentice IV", "Guru I", "Guru II", "Master", "Enlightened", "Burned"];
 
 export function customVocabularyPackLabel(pack: CustomVocabularyPack) {
-  if (pack.levelRange) return `Kanji · Levels ${pack.levelRange.min}–${pack.levelRange.max}`;
+  if (pack.levelRange) return uiT("ui.kanji_levels_value_value_a7ab66bb", {value1: (pack.levelRange.min), value2: (pack.levelRange.max)});
   return pack.script === "hiragana" ? "Hiragana" : pack.script === "katakana" ? "Katakana" : "Kana";
 }
 
 function assignmentLabel(assignment?: CustomSrsAssignment) {
   if (!assignment) return "";
-  if (assignment.stage > 0 && assignment.stage < 9 && assignment.availableAt && Date.parse(assignment.availableAt) <= Date.now()) return "Review due";
+  if (assignment.stage > 0 && assignment.stage < 9 && assignment.availableAt && Date.parse(assignment.availableAt) <= Date.now()) return uiT("ui.review_due_382406a5");
   return STAGE_NAMES[assignment.stage];
 }
 
 export default function CustomVocabularyHub({ packId }: { packId?: string } = {}) {
+  useInterfaceLanguage();
   const params = useLocalSearchParams<{ packId?: string }>();
   const selectedPackId = packId ?? params.packId;
   const selectedPack = selectedPackId ? getCustomVocabularyPack(selectedPackId) : undefined;
@@ -141,27 +143,27 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
         <View style={[styles.packSummary, { backgroundColor: theme.cardBackground }]}>
           <View style={styles.cardHeading}>
             <Ionicons name="albums-outline" size={20} color={colors.vocabulary} />
-            <Text selectable style={[styles.summaryMeta, { color: theme.textColor }]}>{customVocabularyPackLabel(selectedPack)} · {selectedPack.words.length} words</Text>
-            {isEnrolled ? <Ionicons name="checkmark-circle" size={19} color={colors.vocabulary} accessibilityLabel="Added to my packs" /> : null}
+            <Text selectable style={[styles.summaryMeta, { color: theme.textColor }]}>{customVocabularyPackLabel(selectedPack)} · {selectedPack.words.length} {uiT("ui.words_dba36bff")}</Text>
+            {isEnrolled ? <Ionicons name="checkmark-circle" size={19} color={colors.vocabulary} accessibilityLabel={uiT("ui.added_to_my_packs_aa5e7445")} /> : null}
           </View>
           <Text selectable style={[styles.description, { color: theme.textSecondary }]}>{selectedPack.description}</Text>
           {isEnrolled && progress ? <View style={styles.packProgress}>
-            <Text selectable style={[styles.meta, { color: theme.textSecondary }]}>{progress.total - progress.lessons} of {progress.total} learned{progress.burned ? ` · ${progress.burned} burned` : ""}</Text>
-            <View accessibilityRole="progressbar" accessibilityLabel="Pack learning progress" accessibilityValue={{ min: 0, max: progress.total, now: progress.total - progress.lessons }} style={[styles.progressTrack, { backgroundColor: withAlpha(colors.vocabulary, 0.14) }]}>
+            <Text selectable style={[styles.meta, { color: theme.textSecondary }]}>{progress.total - progress.lessons} {uiT("ui.of_28391d3b")} {progress.total} {uiT("ui.learned_d78e3c38")}{progress.burned ? uiT("ui.value_burned_777b7ed6", {value1: (progress.burned)}) : ""}</Text>
+            <View accessibilityRole="progressbar" accessibilityLabel={uiT("ui.pack_learning_progress_54ecdd52")} accessibilityValue={{ min: 0, max: progress.total, now: progress.total - progress.lessons }} style={[styles.progressTrack, { backgroundColor: withAlpha(colors.vocabulary, 0.14) }]}>
               <View style={[styles.progressFill, { backgroundColor: colors.vocabulary, width: `${100 * (progress.total - progress.lessons) / Math.max(progress.total, 1)}%` }]} />
             </View>
           </View> : null}
         </View>
           {!isEnrolled ? <Pressable
             accessibilityRole="button"
-            accessibilityLabel={`Add ${selectedPack.title} to my packs`}
+            accessibilityLabel={uiT("ui.dynamic_c173bb6d551e", {value1: (selectedPack.title)})}
             accessibilityState={{ disabled: enrolling || customSrs.loading }}
             disabled={enrolling || customSrs.loading}
             onPress={() => void enroll()}
             style={({ pressed }) => [styles.primaryButton, { backgroundColor: colors.vocabulary, opacity: pressed || enrolling || customSrs.loading ? 0.65 : 1 }]}
           >
             {enrolling ? <ActivityIndicator color={vocabularyInk} /> : <Ionicons name="add" size={20} color={vocabularyInk} />}
-            <Text style={[styles.primaryButtonText, { color: vocabularyInk }]}>{enrolling ? "Adding pack…" : "Add to my packs"}</Text>
+            <Text style={[styles.primaryButtonText, { color: vocabularyInk }]}>{enrolling ? uiT("ui.adding_pack_14b3fe1c") : uiT("ui.add_to_my_packs_898c8679")}</Text>
           </Pressable> : <View style={[styles.studyGroup, { backgroundColor: theme.cardBackground }]}>
             {studyRow("lessons", progress?.lessons ?? 0)}
             {studyRow("reviews", progress?.due ?? 0)}
@@ -175,16 +177,16 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
       {error ? <View style={[styles.error, { borderColor: theme.error }]}>
         <Text selectable accessibilityRole="alert" style={[styles.errorText, { color: theme.error }]}>{error}</Text>
         <Pressable accessibilityRole="button" onPress={() => { setActionError(null); void customSrs.refresh().catch(() => {}); }} style={styles.retry}>
-          <Text style={[styles.buttonText, { color: theme.textColor }]}>Retry sync</Text>
+          <Text style={[styles.buttonText, { color: theme.textColor }]}>{uiT("ui.retry_sync_b6d7d34f")}</Text>
         </Pressable>
       </View> : null}
       {search}
       {!selectedPack ? <SegmentedControl values={PACK_FILTERS} selectedIndex={filter} onChange={(event) => setFilter(event.nativeEvent.selectedSegmentIndex)} appearance={theme.isDark ? "dark" : "light"} style={styles.filters} /> : null}
       <View style={styles.sectionHeading}>
-        <Text accessibilityRole="header" style={[styles.sectionTitle, { color: theme.textColor }]}>{selectedPack ? "Vocabulary" : PACK_FILTERS[filter]}</Text>
-        <Text selectable style={[styles.meta, { color: theme.textSecondary }]}>{selectedPack ? `${words.length} words` : normalizedQuery || filter > 0 ? `${packs.length} packs` : `${CUSTOM_VOCABULARY_PACKS.length} packs · ${CUSTOM_VOCABULARY_WORDS.length} words`}</Text>
+        <Text accessibilityRole="header" style={[styles.sectionTitle, { color: theme.textColor }]}>{selectedPack ? uiT("ui.vocabulary_eebd90a0") : PACK_FILTERS[filter]}</Text>
+        <Text selectable style={[styles.meta, { color: theme.textSecondary }]}>{selectedPack ? uiT("ui.value_words_af1828ea", {value1: (words.length)}) : normalizedQuery || filter > 0 ? uiT("ui.value_packs_0cb02cbb", {value1: (packs.length)}) : uiT("ui.value_packs_value_words_c4cabbf3", {value1: (CUSTOM_VOCABULARY_PACKS.length), value2: (CUSTOM_VOCABULARY_WORDS.length)})}</Text>
       </View>
-      {customSrs.loading ? <ActivityIndicator accessibilityLabel="Loading cloud progress" color={colors.vocabulary} /> : null}
+      {customSrs.loading ? <ActivityIndicator accessibilityLabel={uiT("ui.loading_cloud_progress_260db7fc")} color={colors.vocabulary} /> : null}
     </View>
   );
 
@@ -194,14 +196,14 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
     return <Pressable
       accessibilityRole="button"
       accessibilityLabel={`${pack.title}, ${pack.words.length} words${enrolled ? ", added to my packs" : ""}`}
-      accessibilityHint={`${customVocabularyPackLabel(pack)}.${enrolled ? ` ${packProgress.total - packProgress.lessons} of ${packProgress.total} learned. ${packProgress.due} reviews due.` : ""} Opens pack details.`}
+      accessibilityHint={uiT("ui.dynamic_a3093dc1e992", {value1: (customVocabularyPackLabel(pack)), value2: (enrolled ? uiT("ui.dynamic_0c895c3812bc", {value1: (packProgress.total - packProgress.lessons), value2: (packProgress.total), value3: (packProgress.due)}) : "")})}
       onPress={() => { void Haptics.selectionAsync(); router.push({ pathname: "/custom-vocabulary", params: { packId: pack.id } } as never); }}
       style={({ pressed }) => [styles.packCard, { backgroundColor: theme.cardBackground, opacity: pressed ? 0.7 : 1 }]}
     >
       <View style={styles.cardHeading}>
         <View style={styles.cardCopy}>
           <Text style={[styles.packTitle, { color: theme.textColor }]}>{pack.title}</Text>
-          <Text style={[styles.meta, { color: theme.textSecondary }]}>{customVocabularyPackLabel(pack)} · {pack.words.length} words</Text>
+          <Text style={[styles.meta, { color: theme.textSecondary }]}>{customVocabularyPackLabel(pack)} · {pack.words.length} {uiT("ui.words_dba36bff")}</Text>
         </View>
         {enrolled ? <Ionicons name="checkmark-circle" size={20} color={colors.vocabulary} /> : null}
         <Ionicons name="chevron-forward" size={18} color={theme.textLight} />
@@ -213,8 +215,8 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
         {pack.words.length > 3 ? <Text style={[styles.previewRemaining, { color: theme.textSecondary }]}>+{pack.words.length - 3}</Text> : null}
       </View>
       {enrolled ? <View style={styles.cardProgress}>
-        <Text style={[styles.meta, { color: theme.textSecondary }]}>{packProgress.total - packProgress.lessons}/{packProgress.total} learned</Text>
-        {packProgress.due > 0 ? <Text style={[styles.dueLabel, { color: theme.textColor }]}>{packProgress.due} due</Text> : null}
+        <Text style={[styles.meta, { color: theme.textSecondary }]}>{packProgress.total - packProgress.lessons}/{packProgress.total} {uiT("ui.learned_d78e3c38")}</Text>
+        {packProgress.due > 0 ? <Text style={[styles.dueLabel, { color: theme.textColor }]}>{packProgress.due} {uiT("ui.due_458a4770")}</Text> : null}
       </View> : null}
     </Pressable>;
   }
@@ -235,11 +237,11 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
   }
 
   if (selectedPackId && !selectedPack) return <View style={[styles.screen, { backgroundColor: theme.backgroundColor }]}>
-    <Stack.Screen options={{ headerShown: false, title: "Vocabulary packs" }} />
-    <CustomVocabularyHeader title="Vocabulary packs" onBack={goBack} />
+    <Stack.Screen options={{ headerShown: false, title: uiT("ui.vocabulary_packs_465f8484") }} />
+    <CustomVocabularyHeader title={uiT("ui.vocabulary_packs_465f8484")} onBack={goBack} />
     <View style={styles.empty}>
-      <Text selectable style={[styles.description, { color: theme.textColor }]}>This pack could not be found.</Text>
-      <Pressable accessibilityRole="button" onPress={() => router.replace("/custom-vocabulary" as never)} style={styles.retry}><Text style={{ color: colors.vocabulary }}>Explore packs</Text></Pressable>
+      <Text selectable style={[styles.description, { color: theme.textColor }]}>{uiT("ui.this_pack_could_not_be_found_9d702f95")}</Text>
+      <Pressable accessibilityRole="button" onPress={() => router.replace("/custom-vocabulary" as never)} style={styles.retry}><Text style={{ color: colors.vocabulary }}>{uiT("ui.explore_packs_88f52bc1")}</Text></Pressable>
     </View>
   </View>;
 
@@ -250,7 +252,7 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
     style: { backgroundColor: theme.backgroundColor },
     contentContainerStyle: { paddingHorizontal: 16, paddingBottom: insets.bottom + 24, flexGrow: 1 },
     ListHeaderComponent: header,
-    ListEmptyComponent: <View style={styles.empty}><Text selectable style={[styles.description, { color: theme.textSecondary }]}>{normalizedQuery ? "No matches. Try another word or meaning." : filter === 1 ? "Choose a pack from All packs to start learning." : "No words to show."}</Text></View>,
+    ListEmptyComponent: <View style={styles.empty}><Text selectable style={[styles.description, { color: theme.textSecondary }]}>{normalizedQuery ? uiT("ui.no_matches_try_another_word_or_meaning_48dcea69") : filter === 1 ? uiT("ui.choose_a_pack_from_all_packs_to_start_learning_b1ec24d6") : uiT("ui.no_words_to_show_489209e8")}</Text></View>,
     refreshControl: <RefreshControl refreshing={pullRefreshing} onRefresh={() => { void pullToRefresh(); }} tintColor={colors.vocabulary} />,
   };
 
@@ -262,7 +264,8 @@ export default function CustomVocabularyHub({ packId }: { packId?: string } = {}
   </View>;
 }
 
-function PackSeparator() { return <View style={styles.packSeparator} />; }
+function PackSeparator() {
+  useInterfaceLanguage(); return <View style={styles.packSeparator} />; }
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },

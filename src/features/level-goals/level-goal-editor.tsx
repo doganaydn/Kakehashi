@@ -1,3 +1,4 @@
+import { uiT, interfaceLocale, useInterfaceLanguage } from "../interface-language/runtime";
 import React, { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -41,6 +42,7 @@ export function LevelGoalEditor({
   onClose: () => void;
   onRemove?: () => boolean;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const reduced = useReducedMotion();
   const pace = goalPace(progressions, currentLevel);
@@ -118,7 +120,7 @@ export function LevelGoalEditor({
         Haptics.notificationAsync(
           Haptics.NotificationFeedbackType.Success,
         ).catch(() => {});
-      } else setError("Your goal could not be saved. Please try again.");
+      } else setError(uiT("ui.message_a5063f7085b2"));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Check your goal.");
     }
@@ -169,7 +171,7 @@ export function LevelGoalEditor({
     </Pressable>
   );
   const title = saved
-    ? `Level ${target}. Let’s get there.`
+    ? uiT("ui.dynamic_9fceaf9cd09c", {value1: (target)})
     : step === 0
       ? "Make your next\nlevel count."
       : step === 1
@@ -193,8 +195,7 @@ export function LevelGoalEditor({
           letterSpacing: 1.5,
         }}
       >
-        TARGET LEVEL
-      </Text>
+        {uiT("ui.target_level_8bf28613")} </Text>
       <View
         style={{
           width: 200,
@@ -228,7 +229,7 @@ export function LevelGoalEditor({
           entering={reduced ? undefined : ZoomIn.duration(140)}
         >
           <Text
-            accessibilityLabel={`Target level ${target}`}
+            accessibilityLabel={uiT("ui.dynamic_1f274b87ca73", {value1: (target)})}
             adjustsFontSizeToFit
             minimumFontScale={0.7}
             numberOfLines={1}
@@ -273,8 +274,7 @@ export function LevelGoalEditor({
       </View>
       <Text style={{ color, fontWeight: "600", fontSize: 13 }}>
         +{target - currentLevel}{" "}
-        {target - currentLevel === 1 ? "level" : "levels"} from here
-      </Text>
+        {target - currentLevel === 1 ? uiT("ui.level_0081779c") : uiT("ui.levels_7d50f208")} {uiT("ui.from_here_e46fea12")} </Text>
     </View>
   );
   return (
@@ -309,7 +309,7 @@ export function LevelGoalEditor({
                     fontWeight: "600",
                   }}
                 >
-                  {`0${i + 1}`} {label}
+                  {uiT("ui.0value_20faee1a", {value1: (i + 1)})} {label}
                 </Text>
               </View>
             ))}
@@ -353,8 +353,8 @@ export function LevelGoalEditor({
               </Animated.View>
               <Text style={{ color: muted, fontSize: 16 }}>
                 {effectiveDeadline
-                  ? `Your target: ${shortGoalDate(effectiveDeadline)}.`
-                  : "One level at a time."}
+                  ? uiT("ui.your_target_value_aeb7dcaf", {value1: (shortGoalDate(effectiveDeadline))})
+                  : uiT("ui.one_level_at_a_time_1742f321")}
               </Text>
               {button("Keep going", onClose, true)}
             </View>
@@ -385,8 +385,7 @@ export function LevelGoalEditor({
                       width: 52,
                     }}
                   >
-                    YOU ARE HERE
-                  </Text>
+                    {uiT("ui.you_are_here_f93e69e3")} </Text>
                   <Text
                     style={{
                       color: "#FFFFFF",
@@ -395,7 +394,7 @@ export function LevelGoalEditor({
                       letterSpacing: -1,
                     }}
                   >
-                    Level {currentLevel}
+                    {uiT("ui.level_1709305c")} {currentLevel}
                   </Text>
                 </View>
                 <View
@@ -412,19 +411,19 @@ export function LevelGoalEditor({
                   [
                     {
                       id: "level",
-                      title: "A level",
+                      title: uiT("ui.a_level_4064e7a9"),
                       detail: "Go further",
                       icon: "locate-outline",
                     },
                     {
                       id: "duration",
-                      title: "A timeframe",
+                      title: uiT("ui.a_timeframe_e260fa63"),
                       detail: "Build momentum",
                       icon: "time-outline",
                     },
                     {
                       id: "date",
-                      title: "A date",
+                      title: uiT("ui.a_date_b6d843db"),
                       detail: "Aim for a day",
                       icon: "flag-outline",
                     },
@@ -503,7 +502,7 @@ export function LevelGoalEditor({
             <>
               {mode === "duration" ? (
                 <View
-                  accessibilityLabel="Goal timeframe"
+                  accessibilityLabel={uiT("ui.goal_timeframe_8ab222e6")}
                   style={{ flexDirection: "row", gap: 8 }}
                 >
                   {[14, 30, 90].map((days) => (
@@ -581,7 +580,7 @@ export function LevelGoalEditor({
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ gap: 4, paddingHorizontal: 6 }}
-                accessibilityLabel="Choose target level"
+                accessibilityLabel={uiT("ui.choose_target_level_69cf5046")}
               >
                 {Array.from(
                   { length: 60 - currentLevel },
@@ -638,8 +637,7 @@ export function LevelGoalEditor({
                 }}
               >
                 <Text style={{ color: muted, fontSize: 12 }}>
-                  At your recent pace
-                </Text>
+                  {uiT("ui.at_your_recent_pace_f1f4a67a")} </Text>
                 <Text
                   style={{
                     color: theme.textColor,
@@ -647,7 +645,7 @@ export function LevelGoalEditor({
                     fontSize: 13,
                   }}
                 >
-                  {arrival ? shortGoalDate(arrival) : "Estimate coming soon"}
+                  {arrival ? shortGoalDate(arrival) : uiT("ui.estimate_coming_soon_d398998a")}
                 </Text>
               </View>
             </>
@@ -670,13 +668,13 @@ export function LevelGoalEditor({
                   }}
                 >
                   <Text style={{ color: "#A6BEDB", fontSize: 14 }}>
-                    Level {currentLevel}
+                    {uiT("ui.level_1709305c")} {currentLevel}
                   </Text>
                   <Ionicons name="arrow-forward" size={22} color="#A3C8FF" />
                   <Text
                     style={{ color: "#fff", fontSize: 22, fontWeight: "800" }}
                   >
-                    Level {target}
+                    {uiT("ui.level_1709305c")} {target}
                   </Text>
                 </View>
                 <View style={{ height: 1, backgroundColor: "#34445B" }} />
@@ -687,14 +685,14 @@ export function LevelGoalEditor({
                   }}
                 >
                   <Text style={{ color: "#A6BEDB", fontSize: 12 }}>
-                    {effectiveDeadline ? "TARGET DATE" : "YOUR PACE"}
+                    {effectiveDeadline ? uiT("ui.target_date_8907e83e") : uiT("ui.your_pace_dfee29de")}
                   </Text>
                   <Text
                     style={{ color: "#fff", fontSize: 14, fontWeight: "700" }}
                   >
                     {effectiveDeadline
                       ? shortGoalDate(effectiveDeadline)
-                      : "No deadline"}
+                      : uiT("ui.no_deadline_cd52ba54")}
                   </Text>
                 </View>
               </View>
@@ -702,9 +700,7 @@ export function LevelGoalEditor({
               arrival &&
               localDateKey(new Date(arrival)) > effectiveDeadline ? (
                 <Text style={{ color: muted, fontSize: 12, lineHeight: 18 }}>
-                  An ambitious stretch at your current pace. You can adjust it
-                  anytime.
-                </Text>
+                  {uiT("ui.an_ambitious_stretch_at_your_current_pace_you_can_adjust_it_anyti_4b8911e2")} </Text>
               ) : null}
             </>
           )}
@@ -713,15 +709,14 @@ export function LevelGoalEditor({
               {confirmRemove ? (
                 <>
                   <Text style={{ color: muted, fontSize: 13 }}>
-                    Remove this goal and its card?
-                  </Text>
+                    {uiT("ui.remove_this_goal_and_its_card_53f79ed0")} </Text>
                   <View style={{ flexDirection: "row", gap: 16 }}>
                     {button("Keep goal", () => setConfirmRemove(false))}
                     {button("Remove goal", () => {
                       if (onRemove()) onClose();
                       else
                         setError(
-                          "Your goal could not be removed. Please try again.",
+                          uiT("ui.message_c1082e6cfea7"),
                         );
                     })}
                   </View>
@@ -790,6 +785,7 @@ function GoalCalendar({
   maxDate?: string;
   onChange: (value: string) => void;
 }) {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const [month, setMonth] = useState(() => new Date(`${value}T12:00:00`));
   const first = new Date(month.getFullYear(), month.getMonth(), 1, 12);
@@ -810,7 +806,7 @@ function GoalCalendar({
       >
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Previous month"
+          accessibilityLabel={uiT("ui.previous_month_6a276950")}
           onPress={() => {
             setMonth(
               new Date(month.getFullYear(), month.getMonth() - 1, 1, 12),
@@ -827,14 +823,14 @@ function GoalCalendar({
           <Ionicons name="chevron-back" size={20} color={theme.primary} />
         </Pressable>
         <Text style={{ color: theme.textColor, fontWeight: "600" }}>
-          {month.toLocaleDateString(undefined, {
+          {month.toLocaleDateString(interfaceLocale(), {
             month: "long",
             year: "numeric",
           })}
         </Text>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Next month"
+          accessibilityLabel={uiT("ui.next_month_74e53211")}
           onPress={() => {
             setMonth(
               new Date(month.getFullYear(), month.getMonth() + 1, 1, 12),
@@ -888,7 +884,7 @@ function GoalCalendar({
               accessibilityRole="button"
               accessibilityLabel={new Date(
                 `${date}T12:00:00`,
-              ).toLocaleDateString(undefined, {
+              ).toLocaleDateString(interfaceLocale(), {
                 day: "numeric",
                 month: "long",
                 year: "numeric",

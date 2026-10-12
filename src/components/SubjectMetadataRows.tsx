@@ -1,3 +1,4 @@
+import { uiT, useInterfaceLanguage } from "../features/interface-language/runtime";
 import React from "react";
 import {
   StyleSheet,
@@ -21,6 +22,7 @@ export default function SubjectMetadataRows({
   subject,
   style,
 }: SubjectMetadataRowsProps) {
+  useInterfaceLanguage();
   const showJLPTLevel = useSettingsStore((state) => state.showJLPTLevel);
   const showVocabularyFrequency = useSettingsStore(
     (state) => state.showVocabularyFrequency,
@@ -41,18 +43,16 @@ export default function SubjectMetadataRows({
       {showLevel ? (
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.textSecondary }]}>
-            JLPT Level
-          </Text>
+            {uiT("ui.jlpt_level_d8254872")} </Text>
           <Text selectable style={[styles.value, { color: theme.textColor }]}>
-            {level ?? "Not classified"}
+            {level ?? uiT("ui.not_classified_633816da")}
           </Text>
         </View>
       ) : null}
       {showFrequency ? (
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.textSecondary }]}>
-            Frequency
-          </Text>
+            {uiT("ui.frequency_16b6668d")} </Text>
           <View style={styles.frequencyValue}>
             <VocabularyFrequencyBadge subject={subject} variant="details" />
           </View>

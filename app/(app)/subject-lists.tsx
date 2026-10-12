@@ -1,3 +1,4 @@
+import { uiPluralSuffix, uiT, useInterfaceLanguage } from "../../src/features/interface-language/runtime";
 import { useLearningDisplay } from "../../src/features/turkish-content/display";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
@@ -69,6 +70,7 @@ function formatUpdatedAt(updatedAt: string): string {
 }
 
 export default function SubjectListsScreen() {
+  useInterfaceLanguage();
   const { theme } = useTheme();
   const display = useLearningDisplay();
   const [lists, setLists] = useState<SubjectList[]>([]);
@@ -213,7 +215,7 @@ export default function SubjectListsScreen() {
       });
     } catch (error) {
       console.error("Failed to create list:", error);
-      Alert.alert("Error", "Failed to create list.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_create_list_7e532f0e"));
     } finally {
       setIsCreating(false);
     }
@@ -233,7 +235,7 @@ export default function SubjectListsScreen() {
     try {
       const renamed = await renameSubjectList(renameTarget.id, targetName);
       if (!renamed) {
-        Alert.alert("Error", "Could not rename this list.");
+        Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.could_not_rename_this_list_679a3d0c"));
         return;
       }
 
@@ -246,7 +248,7 @@ export default function SubjectListsScreen() {
       setRenameValue("");
     } catch (error) {
       console.error("Failed to rename list:", error);
-      Alert.alert("Error", "Failed to rename list.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_rename_list_cc319b1d"));
     } finally {
       setIsRenaming(false);
     }
@@ -254,12 +256,12 @@ export default function SubjectListsScreen() {
 
   const handleDelete = (list: SubjectList) => {
     Alert.alert(
-      "Delete List",
-      `Delete "${list.name}"? This action cannot be undone.`,
+      uiT("ui.delete_list_ed620ecf"),
+      uiT("ui.delete_value_this_action_cannot_be_undone_6fc6feaf", {value1: (list.name)}),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: uiT("ui.cancel_19766ed6"), style: "cancel" },
         {
-          text: "Delete",
+          text: uiT("ui.delete_e2d0a549"),
           style: "destructive",
           onPress: async () => {
             await deleteSubjectList(list.id);
@@ -294,7 +296,7 @@ export default function SubjectListsScreen() {
       setLists(reordered);
     } catch (error) {
       console.error("Failed to reorder subject lists:", error);
-      Alert.alert("Error", "Failed to reorder lists.");
+      Alert.alert(uiT("ui.error_54a0e8c1"), uiT("ui.failed_to_reorder_lists_a4ca9100"));
       await reload();
     } finally {
       setIsSavingOrder(false);
@@ -324,8 +326,7 @@ export default function SubjectListsScreen() {
           variant={theme.isDark ? "colored" : "light"}
         />
         <Text style={[styles.headerTitle, { color: theme.textColor }]}>
-          Subject Lists
-        </Text>
+          {uiT("ui.subject_lists_20c1f7d1")} </Text>
         <View style={styles.headerActions}>
           <GlassButton
             iconName="add"
@@ -346,8 +347,7 @@ export default function SubjectListsScreen() {
       {isLoading ? (
         <View style={styles.centerState}>
           <Text style={[styles.stateText, { color: theme.textSecondary }]}>
-            Loading lists...
-          </Text>
+            {uiT("ui.loading_lists_ab8a0c9b")} </Text>
         </View>
       ) : (
         <FlatList
@@ -357,11 +357,9 @@ export default function SubjectListsScreen() {
           ListEmptyComponent={
             <View style={styles.centerState}>
               <Text style={[styles.emptyTitle, { color: theme.textColor }]}>
-                No Lists
-              </Text>
+                {uiT("ui.no_lists_6e0f3f25")} </Text>
               <Text style={[styles.emptyText, { color: theme.textSecondary }]}>
-                Create your first list to save subjects for custom study.
-              </Text>
+                {uiT("ui.create_your_first_list_to_save_subjects_for_custom_study_b01660d9")} </Text>
               <Image
                 source={noListsIllustration}
                 style={styles.emptyImage}
@@ -371,7 +369,7 @@ export default function SubjectListsScreen() {
                 style={[styles.emptyAction, { backgroundColor: theme.primary }]}
                 onPress={openCreateModal}
               >
-                <Text style={styles.emptyActionText}>Create List</Text>
+                <Text style={styles.emptyActionText}>{uiT("ui.create_list_71926dae")}</Text>
               </TouchableOpacity>
             </View>
           }
@@ -410,8 +408,7 @@ export default function SubjectListsScreen() {
                     <Text
                       style={[styles.listMeta, { color: theme.textSecondary }]}
                     >
-                      {item.subjectIds.length} item
-                      {item.subjectIds.length === 1 ? "" : "s"} • Updated{" "}
+                      {item.subjectIds.length} {uiT("ui.item_4a33eacd")} {uiPluralSuffix(item.subjectIds.length === 1 ? "" : "s")} {uiT("ui.updated_8c0df087")}{" "}
                       {formatUpdatedAt(item.updatedAt)}
                     </Text>
                     {showItemPreview && previewSubjects.length > 0 && (
@@ -526,7 +523,7 @@ export default function SubjectListsScreen() {
                       }}
                       accessibilityRole="button"
                       accessibilityLabel={`Review ${item.name}`}
-                      accessibilityHint="Opens Custom Review with this list selected"
+                      accessibilityHint={uiT("ui.opens_custom_review_with_this_list_selected_1f971e74")}
                     >
                       <Ionicons
                         name="play-circle-outline"
@@ -596,13 +593,12 @@ export default function SubjectListsScreen() {
                   { color: theme.textColor },
                 ]}
               >
-                Subject List Settings
-              </Text>
+                {uiT("ui.subject_list_settings_1918324c")} </Text>
               <TouchableOpacity
                 style={styles.settingsCloseButton}
                 onPress={() => setIsSettingsModalVisible(false)}
                 accessibilityRole="button"
-                accessibilityLabel="Close subject list settings"
+                accessibilityLabel={uiT("ui.close_subject_list_settings_8abbe65f")}
               >
                 <Ionicons name="close" size={22} color={theme.textSecondary} />
               </TouchableOpacity>
@@ -627,16 +623,14 @@ export default function SubjectListsScreen() {
                 </View>
                 <View style={styles.settingsRowText}>
                   <Text style={[styles.settingsRowTitle, { color: theme.textColor }]}>
-                    Item Preview
-                  </Text>
+                    {uiT("ui.item_preview_71655c17")} </Text>
                   <Text
                     style={[
                       styles.settingsRowDescription,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show sample items on list cards.
-                  </Text>
+                    {uiT("ui.show_sample_items_on_list_cards_af757959")} </Text>
                 </View>
                 <Switch
                   value={showItemPreview}
@@ -664,16 +658,14 @@ export default function SubjectListsScreen() {
                 </View>
                 <View style={styles.settingsRowText}>
                   <Text style={[styles.settingsRowTitle, { color: theme.textColor }]}>
-                    Move Arrows
-                  </Text>
+                    {uiT("ui.move_arrows_bcfb3531")} </Text>
                   <Text
                     style={[
                       styles.settingsRowDescription,
                       { color: theme.textSecondary },
                     ]}
                   >
-                    Show up and down controls for list order.
-                  </Text>
+                    {uiT("ui.show_up_and_down_controls_for_list_order_1a075a87")} </Text>
                 </View>
                 <Switch
                   value={showReorderControls}
@@ -704,8 +696,7 @@ export default function SubjectListsScreen() {
             ]}
           >
             <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-              New Subject List
-            </Text>
+              {uiT("ui.new_subject_list_6c6d74a0")} </Text>
             <TextInput
               style={[
                 styles.modalInput,
@@ -717,7 +708,7 @@ export default function SubjectListsScreen() {
               ]}
               value={newListName}
               onChangeText={setNewListName}
-              placeholder="List name"
+              placeholder={uiT("ui.list_name_6c1247b5")}
               placeholderTextColor={theme.textLight}
               autoFocus
               returnKeyType="done"
@@ -732,8 +723,7 @@ export default function SubjectListsScreen() {
                 <Text
                   style={[styles.modalButtonText, { color: theme.textColor }]}
                 >
-                  Cancel
-                </Text>
+                  {uiT("ui.cancel_19766ed6")} </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -747,7 +737,7 @@ export default function SubjectListsScreen() {
                 disabled={newListName.trim().length === 0 || isCreating}
               >
                 <Text style={styles.modalPrimaryButtonText}>
-                  {isCreating ? "Creating..." : "Create"}
+                  {isCreating ? uiT("ui.creating_def70944") : uiT("ui.create_4759498a")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -772,8 +762,7 @@ export default function SubjectListsScreen() {
             ]}
           >
             <Text style={[styles.modalTitle, { color: theme.textColor }]}>
-              Rename Subject List
-            </Text>
+              {uiT("ui.rename_subject_list_7dd253b6")} </Text>
             <TextInput
               style={[
                 styles.modalInput,
@@ -785,7 +774,7 @@ export default function SubjectListsScreen() {
               ]}
               value={renameValue}
               onChangeText={setRenameValue}
-              placeholder="List name"
+              placeholder={uiT("ui.list_name_6c1247b5")}
               placeholderTextColor={theme.textLight}
               autoFocus
               returnKeyType="done"
@@ -800,8 +789,7 @@ export default function SubjectListsScreen() {
                 <Text
                   style={[styles.modalButtonText, { color: theme.textColor }]}
                 >
-                  Cancel
-                </Text>
+                  {uiT("ui.cancel_19766ed6")} </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
@@ -815,7 +803,7 @@ export default function SubjectListsScreen() {
                 disabled={isRenaming}
               >
                 <Text style={styles.modalPrimaryButtonText}>
-                  {isRenaming ? "Renaming..." : "Rename"}
+                  {isRenaming ? uiT("ui.renaming_75595af6") : uiT("ui.rename_3064d79a")}
                 </Text>
               </TouchableOpacity>
             </View>

@@ -1,3 +1,4 @@
+import { uiT } from "../features/interface-language/runtime";
 import { useCallback, useEffect, useState } from "react";
 import {
   createSubjectList,
@@ -35,7 +36,7 @@ export function useSubjectLists(): UseSubjectListsState {
       setLists(nextLists);
     } catch (err) {
       console.error("Failed to load subject lists:", err);
-      setError("Failed to load lists.");
+      setError(uiT("ui.message_47283b5ecc9d"));
     } finally {
       setIsLoading(false);
     }
