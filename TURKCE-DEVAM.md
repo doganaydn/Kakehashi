@@ -3,7 +3,7 @@
 Fork: https://github.com/doganaydn/Kakehashi · Dal: turkish-content.
 Upstream: Portego-00/Kakehashi; e9d29f4 güncellemesi birleştirildi.
 
-- Derlenmiş kişisel Android sürümü: 1.5.0-tr.16 / code 41 / arm64-v8a. Son kaynak derleme/teslim sonucu ana projenin BUILD-MANIFEST-tr.16.json kaydında tutulur.
+- Derlenmiş kişisel Android sürümü: 1.5.0-tr.17 / code 42 / arm64-v8a. Son kaynak derleme/teslim sonucu ana projenin BUILD-MANIFEST-tr.17.json kaydında tutulur.
 - Uygulama kimliği: com.portego00.kakehashi.tr. Önceki kişisel imza ve kapalı upstream OTA korunur.
 - Kullanıcı önceki tr.15 APK'yı telefonunda sorunsuz kullandığını bildirdi; her özellik ayrı doğrulanmış sayılmaz.
 - Güncel dosya: translation-packages/wanikani-tr-v3.json, paket 1.5.0.

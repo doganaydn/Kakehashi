@@ -45,3 +45,11 @@ Model yayını: Jörg Tiedemann ve Santhosh Thottingal, [OPUS-MT — Building op
 1.5.0-tr.16 (code 41), arm64-v8a release derlemesi başarılı. Önceki kişisel APK ile aynı uygulama kimliği ve imza doğrulandı. 23 test grubunda 304 test; son eklemeler için 16 grupta 103 test geçti (örtüşen kümeler, toplam olarak toplanmaz). Kaynak denetimi 4.647 anahtar, 6.705 kullanım ve 314 dosyada geçti. 886 anahtar için kaynakla karşılaştırılmış düzeltme kaydı var; geri kalanı bağımsız dil kontrolünden geçmiş sayılmaz.
 
 Genel TypeScript kontrolü projedeki mevcut tip/eksik bağımlılık hataları nedeniyle geçmiyor; son değişikliklerin kontrolünde önceki hata listesine yeni hata eklenmedi. iOS widget testi yerel expo-widgets bundle bağımlılığı bulunmadığı için doğrulanamadı; Android testleri geçti. Fiziksel cihaz kontrolü bekliyor. Öğrenme paketi v1.5.0 değişmedi ve hesap işlemi yapılmadı.
+
+## tr.16 başlangıç hatası / tr.17 düzeltmesi
+
+Kullanıcının Galaxy A55 cihazında tr.16 açılışı durdu. ADB kaydı shouldPolyfill → locale eşleştirme zincirinde `Cannot read property prototype of undefined` hatasını doğruladı. Hermes ortamındaki eksik Intl.Locale desteği, çoğul polyfill modülü yüklenirken çöküyordu. startup-intl.ts artık canonicalization ve Locale desteğini çoğul kurallarından önce yükler. Eksik üç Intl API'sini taklit eden regresyon testi eklendi; üç test grubunda 13 test geçti. tr.16 otomatik testlerinin geçmesi fiziksel açılışın doğrulandığı anlamına gelmiyordu. tr.16 yerine tr.17 kullanılır; telefon doğrulama sonucu teslim manifestinde tutulur.
+
+Android widget instrumentation Java derleme kontrolü de başarılı (3 dakika 40 saniye); testler cihazda çalıştırılmış sayılmaz.
+
+tr.17 Galaxy A55 (SM-A556E) fiziksel kontrolü başarılı: tr.16 üzerine veri temizlemeden kuruldu; ana ekran açıldı; Ayarlar → Görünüm üzerinden Türkçe seçildi; yeniden açılışta Türkçe ana ekran ve devam eden ders kaydı korundu. Üç başlangıç/dil değişimi süreç kaydında TypeError, ReferenceError veya JavascriptException yok. Bu doğrulama bütün ekranlar, bildirim ve widget cihaz testlerinin tamamlandığı anlamına gelmez.
