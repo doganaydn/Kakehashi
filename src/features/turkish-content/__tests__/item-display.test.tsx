@@ -4,7 +4,7 @@ import {learningDisplay} from "../display";
 import {parseTranslationPackage} from "../resolver";
 import fs from "fs";
 import path from "path";
-const mockPacket = parseTranslationPackage(JSON.parse(fs.readFileSync(path.resolve("translation-packages/wanikani-tr.json"), "utf8")))!;
+const mockPacket = parseTranslationPackage(JSON.parse(fs.readFileSync(path.resolve("translation-packages/wanikani-tr-v3.json"), "utf8")))!;
 const [id, entry] = Object.entries(mockPacket.subjects).find(([, s]) => s.source.type === "kanji")!;
 const mockSubject = {id: Number(id), object: entry.source.type, data: {characters: entry.source.word, meanings: entry.source.meaningsEn.map((meaning: string) => ({meaning})), readings: entry.source.readingsJa.map((reading: string) => ({reading}))}};
 let mockEnabled = true;

@@ -81,14 +81,14 @@ it("loads the real level 8 import with 34 kanji and all 409 examples", () => {
   }
 });
 
-it("persists the full 1–60 package with level 8 sentences across restart", async () => {
+it("persists the current 1–60 package with levels 1–15 sentences across restart", async () => {
   const {readFileSync} = require("node:fs");
   const {resolve} = require("node:path");
-  const combined = parsePackageText(readFileSync(resolve(process.cwd(), "tests/fixtures/translation-packages/wanikani-tr-01-60-seviye08-cumleler.json"), "utf8"));
+  const combined = parsePackageText(readFileSync(resolve(process.cwd(), "translation-packages/wanikani-tr-v3.json"), "utf8"));
   const storage = memoryStorage(); const manager = createPackageManager(storage as any);
   await manager.activate(combined);
   const restarted = createPackageManager(storage as any); await restarted.hydrate();
-  expect(Object.keys(restarted.state.getState().packet!.subjects)).toHaveLength(8918);
-  expect(packageSummary(restarted.state.getState().packet!).sentences).toBe(409);
+  expect(Object.keys(restarted.state.getState().packet!.subjects)).toHaveLength(9409);
+  expect(packageSummary(restarted.state.getState().packet!).sentences).toBe(5522);
   await restarted.reset(); expect(storage.values.size).toBe(0);
 });

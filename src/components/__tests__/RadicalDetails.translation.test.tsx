@@ -26,7 +26,7 @@ jest.mock('../formatted-note',()=>({FormattedNoteText:()=>null}));
 jest.mock('../note-field-container',()=>({NoteFieldContainer:({children}:any)=>children}));
 jest.mock('../SrsLevelIcon',()=>()=>null);
 jest.mock('../SynonymsModal',()=>({SynonymsModal:()=>null}));
-const packet=parsePackageText(readFileSync(resolve(process.cwd(),'translation-packages/wanikani-tr.json'),'utf8'));
+const packet=parsePackageText(readFileSync(resolve(process.cwd(),'translation-packages/wanikani-tr-v3.json'),'utf8'));
 const r=packet.subjects['80'];const [kid,k]=Object.entries(packet.subjects).find(([_,v])=>v.source.type==='kanji')!;
 const related={id:Number(kid),characters:k.source.word!,meanings:k.source.meaningsEn,readings:k.source.readingsJa.map(reading=>({reading})),level:k.source.level};
 const radical={id:80,object:'radical',level:r.source.level,characters:r.source.word,meanings:r.source.meaningsEn.map((meaning,i)=>({meaning,primary:i===0})),mnemonic:'',imageUrl:null,amalgamationSubjects:[related]};

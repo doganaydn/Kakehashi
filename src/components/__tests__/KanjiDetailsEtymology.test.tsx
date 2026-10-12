@@ -247,7 +247,7 @@ it.each([false, true])("only shows the kanji JLPT row when enabled (%s)", (enabl
 
 it("shows translated Composition radicals and switches back to English",async()=>{
  mockSettings(false);await packageManager.hydrate();
- const packet=parsePackageText(readFileSync(resolve(process.cwd(),"translation-packages/wanikani-tr.json"),"utf8"));
+ const packet=parsePackageText(readFileSync(resolve(process.cwd(),"translation-packages/wanikani-tr-v3.json"),"utf8"));
  packageManager.state.setState({packet});useLearningContentStore.setState({language:"tr"});
  const e=packet.subjects["80"];
  const component={id:80,characters:e.source.word,meanings:e.source.meaningsEn,level:e.source.level};

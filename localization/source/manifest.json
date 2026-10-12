@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-12T06:45:20.325Z",
-  "sourceCommit": "fce218bb140df9a2f6892ab81c99b25a3e360b2e",
+  "generatedAt": "2026-10-12T06:58:13.134Z",
+  "sourceCommit": "74dde2d00637af86157957361d45e02a947c000a",
   "stage": "extracted-source-candidates; not runtime-wired or editorially complete",
-  "uiKeys": 11115,
+  "uiKeys": 11111,
   "reviewKeys": 23117,
-  "totalOccurrences": 96441,
-  "scannedFiles": 1424,
+  "totalOccurrences": 96432,
+  "scannedFiles": 1423,
   "excludedFiles": 839,
   "parseDiagnostics": 0,
   "nativeDynamic": 195,
@@ -24,9 +24,9 @@
       "reviewOccurrences": 174
     },
     "mobile": {
-      "scanned": 670,
+      "scanned": 669,
       "excluded": 305,
-      "uiOccurrences": 6821,
+      "uiOccurrences": 6817,
       "reviewOccurrences": 23055
     },
     "ios-native": {
@@ -70,12 +70,12 @@
   "artifactSha256": {
     "ARAYUZ-CEVIRI-KAPSAMI.md": "1962ed61121c8a9cedda4c0b942844bd4adc992453887e65dff643b3ea47cebb",
     "README.md": "8d4f5f4209b10e9d9e80a02641fd2d21e6683c187b7e6eccc67b1b5c7fa8c587",
-    "source\\COVERAGE.md": "a533809403c430fca5e9fda5276709b3278ef06e7bc5e7e481bddff0feb56ca7",
+    "source\\COVERAGE.md": "4ea86c7062fa4b65f9f38a1c31bb8d81587857b8e117154113f9be69e6a577fc",
     "source\\dynamic-rules.json": "e163defcb1d14c7c2eb4215fccc0332401df2d565adfddd32fd3573f047ff946",
-    "source\\en.json": "b2bbf5b31ade6ebca9f4509cf8916d30a52c180d01d34159a255f7724a6b86a2",
-    "source\\files.json": "ef74a2e2fd05911109c32ddfacf02bf6a0d837c0ec4baa583689a523906b84dd",
+    "source\\en.json": "fd561854702007aa4158d6f78c1ba9b2ba396e41af63c5d345bb0d6a52318bec",
+    "source\\files.json": "f2920f123eaf98dbcd9836ea95192ef043c6d2cbb777aad64edc89d03f280721",
     "source\\native-format-review.json": "03fb45b4d8f35d6397bc7b4ae8735e297e22d868e4750c1817b3c836c3ec416a",
-    "source\\occurrences.json.gz": "539315e0bf5faf7a81da49c34bd354c47f40cc12452b2b48a2b70a8d9d7bac78",
+    "source\\occurrences.json.gz": "33d6f3bdbf3750129ec7e9f61ce9af71d3f3bab1281d03bce541b00ae0c58331",
     "source\\parse-diagnostics.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
     "source\\review-needed.en.json": "30b28ebb17dd4e29572cc22e9c6b168c098c1fdd58d6322b0a67cc8e3b6d4520"
   }

@@ -25,10 +25,10 @@ it("keeps originals intact and uses English when disabled or sources change", ()
   expect(JSON.stringify(subject)).toBe(before);
 });
 it("loads the complete final test file and matches every kanji/vocabulary meaning", () => {
-  const combined = parsePackageText(readFileSync(resolve(process.cwd(), "tests/fixtures/translation-packages/wanikani-tr-01-60-seviye08-cumleler.json"), "utf8"));
+  const combined = parsePackageText(readFileSync(resolve(process.cwd(), "translation-packages/wanikani-tr-v3.json"), "utf8"));
   const summary = packageSummary(combined);
   expect(summary.kanji).toBe(2101); expect(summary.vocabulary + summary.kana_vocabulary).toBe(6817);
-  expect(summary.sentences).toBe(409); expect(summary.levels).toHaveLength(60);
+  expect(summary.sentences).toBe(5522); expect(summary.levels).toHaveLength(60);
   const display = learningDisplay(combined, true);
   for (const [id, record] of Object.entries(combined.subjects)) {
     expect(display.resolveMeaning({id: Number(id), object: record.source.type, characters: record.source.word,

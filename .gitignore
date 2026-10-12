@@ -65,3 +65,7 @@ app-example
 
 # Local build, validation and signature logs
 /.*.log
+
+# Local delivery archives and validation caches
+/paylasim/
+/.cache/

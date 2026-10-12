@@ -1,6 +1,6 @@
 # UI translation source coverage
 
-Source commit: fce218bb140df9a2f6892ab81c99b25a3e360b2e
+Source commit: 74dde2d00637af86157957361d45e02a947c000a
 
 Every tracked source file under mobile, web, website, shared and native roots has a disposition in files.json. This is a source inventory, not a claim that every runtime-generated label is ready for translation.
 
@@ -8,7 +8,7 @@ Every tracked source file under mobile, web, website, shared and native roots ha
 |---|---:|---:|---:|---:|
 | widgets | 28 | 193 | 455 | 10 |
 | native | 32 | 81 | 174 | 32 |
-| mobile | 670 | 6821 | 23055 | 305 |
+| mobile | 669 | 6817 | 23055 | 305 |
 | ios-native | 24 | 139 | 368 | 22 |
 | backend | 24 | 42 | 742 | 19 |
 | watch | 25 | 68 | 92 | 9 |
@@ -506,7 +506,6 @@ All scanned files are listed, including zero-candidate files. Names and line num
 - src/features/subject-history/SubjectHistory.tsx: 17 UI + 43 review candidates (86 literals audited)
 - src/features/turkish-content/ContentLanguageSetting.tsx: 17 UI + 25 review candidates (57 literals audited)
 - src/features/turkish-content/MeaningRows.tsx: 4 UI + 7 review candidates (23 literals audited)
-- src/features/turkish-content/OriginalMeaning.tsx: 4 UI + 0 review candidates (9 literals audited)
 - src/features/turkish-content/SentenceExplanation.tsx: 1 UI + 2 review candidates (6 literals audited)
 - src/features/turkish-content/display.ts: 0 UI + 9 review candidates (13 literals audited)
 - src/features/turkish-content/format.ts: 0 UI + 1 review candidates (1 literals audited)

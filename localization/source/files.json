@@ -5580,15 +5580,6 @@
     "review": 7
   },
   {
-    "file": "src/features/turkish-content/OriginalMeaning.tsx",
-    "surface": "mobile",
-    "status": "scanned",
-    "sha256": "d4d80436bedc97a35f2a7d39d51fc80e1ea2b8a2fbf89665e74a43ce1d22f1dc",
-    "literals": 9,
-    "ui": 4,
-    "review": 0
-  },
-  {
     "file": "src/features/turkish-content/SentenceExplanation.tsx",
     "surface": "mobile",
     "status": "scanned",

@@ -2,7 +2,7 @@ import React from "react";
 import {render, fireEvent} from "@testing-library/react-native";
 import ReviewResultsScreen from "../ReviewResultsScreen";
 import {parseTranslationPackage} from "../../features/turkish-content/resolver";
-import data from "../../../translation-packages/wanikani-tr.json";
+import data from "../../../translation-packages/wanikani-tr-v3.json";
 const mockPacket = parseTranslationPackage(data)!;
 let mockEnabled = true;
 jest.mock("../../features/turkish-content/display", () => {
