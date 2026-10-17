@@ -1,4 +1,4 @@
-import { useLearningDisplay } from "../features/turkish-content/display";
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { StatusBar } from "expo-status-bar";

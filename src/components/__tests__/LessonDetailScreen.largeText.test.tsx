@@ -1,9 +1,9 @@
-import {SentenceExplanation} from "../../features/turkish-content/SentenceExplanation";
+import {SentenceExplanation} from "../../features/translation-packages/SentenceExplanation";
 import {within} from "@testing-library/react-native";
 import translationData from "../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
-import {parseTranslationPackage} from "../../features/turkish-content/resolver";
-import {packageManager} from "../../features/turkish-content/package-store";
-import {useLearningContentStore} from "../../features/turkish-content/store";
+import {parseTranslationPackage} from "../../features/translation-packages/resolver";
+import {packageManager} from "../../features/translation-packages/package-store";
+import {useLearningContentStore} from "../../features/translation-packages/store";
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { Alert, Keyboard, KeyboardAvoidingView, Modal, Platform, StyleSheet, View } from "react-native";
@@ -895,8 +895,9 @@ describe("LessonDetailScreen synonym safety", () => {
 it.each([false, true])("shows package translations and usage in lesson context (single page: %s)", async singlePage => {
   const packet = parseTranslationPackage(translationData)!;
   const entry = packet.subjects["2761"];
+  await packageManager.hydrate();
   packageManager.state.setState({packet, hydrated: true});
-  useLearningContentStore.setState({language: "tr"});
+  useLearningContentStore.setState({enabled: true});
   mockSinglePageLessonView = singlePage; mockRenderContextTab = true;
   const subject = {id: 2761, object: "vocabulary", data: {characters: entry.source.word, level: 8,
     meanings: entry.source.meaningsEn.map((meaning, i) => ({meaning, primary: i === 0})),

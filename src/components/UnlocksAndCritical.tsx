@@ -1,4 +1,4 @@
-import { useItemMeaning } from "../features/turkish-content/item-display";
+import { useItemMeaning } from "../features/translation-packages/item-display";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SvgXml } from "react-native-svg";

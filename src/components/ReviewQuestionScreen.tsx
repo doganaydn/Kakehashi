@@ -1,4 +1,4 @@
-import { useLearningDisplay } from "../features/turkish-content/display";
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from "@expo/vector-icons";
 import { Audio, type AudioSound } from "@/src/utils/expoAvCompat";
 import { BlurView } from "expo-blur";

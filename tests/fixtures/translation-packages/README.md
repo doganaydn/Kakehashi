@@ -1,8 +1,3 @@
-# Legacy compatibility fixtures
+# Test-only compatibility fixtures
 
-These two small files are test inputs, not installation packages:
-
-- tr-learning-pilot.json: legacy parser/display/import tests and component scenarios.
-- wanikani-tr-seviye-08.json: v2 real-data import and source matching coverage.
-
-Complete-package resolution, rendering and chunked persistence tests use translation-packages/wanikani-tr-v3.json. Obsolete full-size v2 distributions were removed to avoid duplicate catalogues.
+The legacy v1 pilot and v2 level-8 files exercise old imports and source matching. They are not bundled learning content. V3 integration and transfer tests use the five-subject example in translation-packages/example-tr-v3.json; broad pagination tests synthesize IDs in memory with mocked API calls.

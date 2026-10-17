@@ -1,27 +1,4 @@
-# Optional translation package prototype
-
-This is a personal fork of [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi), updated through upstream commit [`8ac088c`](https://github.com/Portego-00/Kakehashi/commit/8ac088c), including Android details freeze fixes, review shortcuts, Bunpro study improvements and settings persistence. The original project and its design remain the foundation of this work.
-
-The `turkish-content` branch adds an optional, locally imported JSON translation package. The interface stays in English; learning content uses Turkish from a separate file. This prototype currently accepts `tr` packages only. Missing or outdated translations fall back to the original English.
-
-- Meanings for radicals, kanji, vocabulary and kana vocabulary.
-- Japanese example sentences with translated text and separate usage explanations.
-- Existing Primary/Alternative rows show translated meanings; Show original English reveals source meanings inline.
-- Subject details, lessons, composition cards, visually similar kanji, Subject List, Review Complete and Items lists use the active package. Lesson selection and Items lists show translated meanings without an original-meaning button.
-- Imports are checked against subject ID, type, characters, all source meanings and readings. Sentence translations also require matching original Japanese and English text.
-- Importing a display package stores it locally and does not change account synonyms or answer grading.
-- Import `translation-packages/wanikani-tr-v3.json` for display and explicit synonym suggestions; no catalog is bundled in the app. Older files remain display-only.
-- Translation package and synonym transfer settings are available under Appearance and can be found through the new settings search.
-- A separate [selective Turkish synonym transfer](docs/turkish-synonym-transfer.md) lets users choose levels, topic types, study states and individual meanings before explicitly confirming an account update. History supports pause/resume and undo of recorded additions.
-
-The implementation was developed with AI assistance as a working prototype. Earlier builds have been tested on an Android device. The latest merged build passed 266 focused tests and was compiled for Android arm64, but its device check is still pending. The full project TypeScript check still reports errors; this prototype needs maintainer review before being considered for the original app. This fork is not an official Kakehashi release.
-
-See [the feature and format guide](docs/optional-translation-packages.md). The current Turkish package, **v1.5.0**, includes **491 radical meanings, 2,101 kanji meanings, 6,757 vocabulary meanings, 60 kana vocabulary meanings, and 5,522 example sentences covering levels 1–15**. Meanings cover levels 1–60. Download [wanikani-tr-v3.json](translation-packages/wanikani-tr-v3.json), then use **Settings → Appearance → Import translation file → Use this package** in the personal Android app. The JSON package is separate from the APK; updating the APK does not automatically replace an imported package. Translation preparation, review and personal approval are separate. Sentence translations and usage explanations received a separate second pass with the same AI model, not an independent expert review; package validation does not certify linguistic accuracy.
-
-A separate [UI localization source inventory](localization/ARAYUZ-CEVIRI-KAPSAMI.md) covers mobile, web and native interface strings for future translation. It is a candidate inventory, including unresolved/dynamic cases; it does not change the current English interface.
-
----
-
+> Personal Android build: this fork now uses [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi) at 33578f0, including the developer's merged optional translation packages. The temporary native change increases Android AsyncStorage capacity to 64 MiB for full offline packages. Android application identity/signing remains compatible with Kakehashi Türkçe updates; official OTA is disabled. See [maintenance notes](TURKCE-DEVAM.md). The [Turkish content package](translation-packages/wanikani-tr-v3.json) is imported separately and is not bundled into the app.
 # Kakehashi
 
 Kakehashi is an unofficial mobile companion app for
@@ -148,6 +125,15 @@ details, including while a details button, tab, or link has keyboard focus.
 Closing details returns focus to the review so you can continue grading from
 the keyboard. This also works with a custom details key set in **Custom study
 keys**. Typing in notes and other editable fields keeps its normal behavior.
+
+## Learning pages
+
+Use **Settings → Appearance → Advanced settings → Learning Pages** to add filtered
+versions of Home, such as one page for radicals and kanji and another for vocabulary. Pages
+filter by item type, level range, JLPT level, SRS stage and critical items. A
+switcher at the top of Home moves between **All** and your pages; each page's
+counts, forecast, lessons and reviews include only matching items. Without any
+pages, Home is unchanged.
 
 ## Connecting Spotify
 

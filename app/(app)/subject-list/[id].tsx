@@ -1,4 +1,4 @@
-import { useLearningDisplay } from "../../../src/features/turkish-content/display";
+import { useLearningDisplay } from "../../../src/features/translation-packages/display";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -667,7 +667,7 @@ export default function SubjectListEditorScreen() {
     }
     return (
       <Text style={[styles.itemCharacter, fontStyles.japaneseText]}>
-        {hideMeanings ? "?" : display.meaning(item, "—")}
+        {hideMeanings ? "?" : display.meaning(item, item.data.meanings[0].meaning)}
       </Text>
     );
   };
@@ -1010,13 +1010,13 @@ export default function SubjectListEditorScreen() {
             <SubjectRadicalCharacter item={item} />
           ) : (
             <Text style={[styles.itemCharacter, fontStyles.japaneseText]}>
-              {item.data.characters || (hideMeanings ? "?" : display.meaning(item, "—"))}
+              {item.data.characters || (hideMeanings ? "?" : display.meaning(item, item.data.meanings[0].meaning))}
             </Text>
           )}
         </TouchableOpacity>
         <View style={styles.itemDetails}>
           <Text style={[styles.itemMeaning, { color: theme.textColor }]}>
-            {hideMeanings ? " " : display.meaning(item, "—")}
+            {hideMeanings ? " " : display.meaning(item, item.data.meanings[0].meaning)}
           </Text>
           <View style={styles.itemMetadata}>
             <Text style={[styles.itemType, { color: theme.textSecondary }]}>
@@ -1049,7 +1049,7 @@ export default function SubjectListEditorScreen() {
     return (
       <TouchableOpacity
         accessibilityRole="checkbox"
-        accessibilityLabel={`Select ${hideMeanings ? item.data.characters?.trim() || `${item.object} ${item.id}` : display.meaning(item, "—")} for list actions`}
+        accessibilityLabel={`Select ${hideMeanings ? item.data.characters?.trim() || `${item.object} ${item.id}` : display.meaning(item, item.data.meanings[0].meaning)} for list actions`}
         accessibilityState={{ checked: isActionSelected, disabled: isSaving }}
         disabled={isSaving}
         onPress={() => toggleActionSubject(item.id)}
@@ -1083,13 +1083,13 @@ export default function SubjectListEditorScreen() {
             <SubjectRadicalCharacter item={item} />
           ) : (
             <Text style={[styles.itemCharacter, fontStyles.japaneseText]}>
-              {item.data.characters || (hideMeanings ? "?" : display.meaning(item, "—"))}
+              {item.data.characters || (hideMeanings ? "?" : display.meaning(item, item.data.meanings[0].meaning))}
             </Text>
           )}
         </TouchableOpacity>
         <View style={styles.itemDetails}>
           <Text style={[styles.itemMeaning, { color: theme.textColor }]}>
-            {hideMeanings ? " " : display.meaning(item, "—")}
+            {hideMeanings ? " " : display.meaning(item, item.data.meanings[0].meaning)}
           </Text>
           <View style={styles.itemMetadata}>
             <Text style={[styles.itemType, { color: theme.textSecondary }]}>

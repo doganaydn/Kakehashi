@@ -5,12 +5,17 @@ import {
   SettingsIcon as MaterialCommunityIcons,
 } from "../../../ui/settings/settings-icon";
 import React from "react";
-import { ContentLanguageSetting } from "../../turkish-content/ContentLanguageSetting";
+import { ContentLanguageSetting } from "../../translation-packages/ContentLanguageSetting";
 import type { Href } from "expo-router";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
 
 import { useSettingsControllerContext } from "../SettingsControllerContext";
+import {
+  AdvancedSetting,
+  AdvancedSettingsGroup,
+} from "../components/AdvancedSettings";
 import { styles } from "../styles";
+import { LearningPagesSetting } from "../components/learning-pages-setting";
 import { formatAppTextSizeScale, useSettingsStore } from "../../../utils/store";
 
 const APP_TEXT_SIZE_SETTINGS_ROUTE = "/app-text-size-settings" as Href;
@@ -43,18 +48,6 @@ export function AppearanceSection() {
         >
           Appearance
         </Text>
-
-        <ContentLanguageSetting />
-        <TouchableOpacity style={styles.settingItem} accessibilityRole="button"
-          accessibilityLabel="Open Turkish synonym transfer"
-          onPress={() => router.push("/turkish-synonyms" as Href)}>
-          <Ionicons name="cloud-upload-outline" size={24} color={theme.primary} style={styles.settingIcon}/>
-          <View style={{flex: 1}}>
-            <SettingsLabel style={{color: theme.textColor, fontSize: 16}}>Add Turkish synonyms to WaniKani</SettingsLabel>
-            <Text style={{color: theme.textSecondary, fontSize: 14}}>Choose levels and review suggestions.</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={20} color={theme.textSecondary}/>
-        </TouchableOpacity>
 
         {showAppTextSizeSetting ? (
           <TouchableOpacity
@@ -180,6 +173,14 @@ export function AppearanceSection() {
             color={theme.textSecondary}
           />
         </TouchableOpacity>
+        <AdvancedSettingsGroup>
+          <AdvancedSetting>
+            <ContentLanguageSetting />
+          </AdvancedSetting>
+          <AdvancedSetting>
+            <LearningPagesSetting />
+          </AdvancedSetting>
+        </AdvancedSettingsGroup>
       </SettingsSectionSurface>
     </>
   );

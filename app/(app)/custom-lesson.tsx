@@ -529,7 +529,7 @@ export default function CustomLessonScreen() {
         "You've completed all your custom lessons!",
         [
           { 
-            text: "Return to Dashboard",
+            text: "Return to Dashboard", 
             onPress: () => {
               navigateToDashboard();
             }

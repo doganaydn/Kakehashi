@@ -1,4 +1,4 @@
-import { useItemMeaning } from "../../src/features/turkish-content/item-display";
+import { useItemMeaning } from "../../src/features/translation-packages/item-display";
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { useNavigation, useRouter } from "expo-router";
@@ -332,6 +332,7 @@ export default function BurnedItemsScreen() {
             id: subject.id,
             characters: subject.data.characters,
             meaning: subject.data.meanings[0].meaning,
+            source: subject,
             type: subject.object as WaniKaniItemType,
             partsOfSpeech: subject.data.parts_of_speech,
             dateBurned: assignment.data.burned_at || "",

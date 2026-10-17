@@ -1,6 +1,6 @@
-import {packageManager} from "../../features/turkish-content/package-store";
-import {parseTranslationPackage} from "../../features/turkish-content/resolver";
-import {SentenceExplanation} from "../../features/turkish-content/SentenceExplanation";
+import {packageManager} from "../../features/translation-packages/package-store";
+import {parseTranslationPackage} from "../../features/translation-packages/resolver";
+import {SentenceExplanation} from "../../features/translation-packages/SentenceExplanation";
 import { act, fireEvent, render, waitFor, within } from "@testing-library/react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -12,9 +12,8 @@ import { Audio } from "../../utils/expoAvCompat";
 import { resolveCustomVocabularyAudioForPlayback } from "../../features/custom-srs/audio-cache";
 import { getWaniKaniVocabularyPatterns } from "../../utils/wanikaniVocabularyPatterns";
 import pilotContent from "../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
-import { useLearningContentStore } from "../../features/turkish-content/store";
+import { useLearningContentStore } from "../../features/translation-packages/store";
 import { getAllSubjects } from "../../utils/cache";
-
 
 const mockSetPage = jest.fn();
 const mockSettings = {
@@ -100,7 +99,7 @@ const vocabulary = {
 beforeEach(() => {
   packageManager.state.setState({packet: parseTranslationPackage(pilotContent), hydrated: true});
   jest.clearAllMocks();
-  useLearningContentStore.setState({language: "tr"});
+  useLearningContentStore.setState({enabled: true});
   mockSettings.showJLPTLevel = false;
   mockSettings.showVocabularyFrequency = false;
   mockSettings.hideContextSentenceTranslations = false;
@@ -133,7 +132,7 @@ it("shows Turkish meaning and checked sentence usage, with optional original Eng
 });
 
 it("uses original English when Turkish content is disabled", async () => {
-  useLearningContentStore.setState({language: "en"});
+  useLearningContentStore.setState({enabled:false});
   const screen = render(<VocabularyDetails vocabulary={turkishFixture()} progressionStatus="success" initialTab="context" />);
   expect(screen.getByText("I don't know that yet.")).toBeTruthy();
   expect(screen.queryByText("Bunu henüz bilmiyorum.")).toBeNull();
@@ -186,7 +185,6 @@ it("matches similar vocabulary across English casing and whitespace without chan
   await waitFor(() => expect(screen.getByText("読み一致")).toBeTruthy());
   fireEvent.press(screen.getByText("読み一致"));
   expect(onSubjectPress).toHaveBeenCalledWith(2654);
-
 });
 
 it.each([

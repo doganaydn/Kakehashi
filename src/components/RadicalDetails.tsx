@@ -1,6 +1,6 @@
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
-import { useLearningDisplay } from "../features/turkish-content/display";
-import { MeaningRows } from "../features/turkish-content/MeaningRows";
+import { useLearningDisplay } from "../features/translation-packages/display";
+import { MeaningRows } from "../features/translation-packages/MeaningRows";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -774,7 +774,7 @@ export default function RadicalDetails({
                                   kanjiMeaning.length * 3,
                                 gridItemMaxWidth
                               ),
-                              minHeight: smallCardHeight,
+                              ...(translatedMeaning ? {minHeight: smallCardHeight} : {height: smallCardHeight}),
                               margin: gridSpacing / 2,
                               opacity: isAboveUserLevel ? 0.8 : 1,
                             },

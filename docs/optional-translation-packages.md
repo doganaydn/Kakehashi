@@ -1,38 +1,63 @@
 # Optional translation packages
 
-## Try the prototype
+Settings → Appearance → Advanced settings → Translation package → Import translation file.
+Review the package language, version and item counts, then choose Use this package.
+Activation replaces the current package; files are not merged. Disable the switch
+to show English, or remove the package to delete its local copy. No package is
+bundled or downloaded automatically. App UI and answer grading remain unchanged.
 
-In Settings → Appearance, enable **Optional translation package**, choose **Import translation file**, inspect the summary and select **Use this package**. Importing replaces the entire active package; packages are not merged. Disable the option to restore original English learning content. The interface language remains English.
+## Format and matching
 
-The current file `translation-packages/wanikani-tr-v3.json` (package v1.5.0) contains 491 radical names, 2,101 kanji meanings, 6,757 vocabulary meanings, 60 kana vocabulary meanings and 5,522 sentences across levels 1–15. It includes explicit reviewed synonym suggestions, but no personal account data or credentials. Unfinished examples are not exposed as ready translations.
+`translation-packages/example-tr-v3.json` is a small Turkish example; the JSON
+schema describes format v3. Display accepts language identifiers such as `tr`,
+`fr`, `pt-BR` and `zh-Hant`. Other languages preserve author casing; Turkish
+meaning labels use Turkish initials. Format v1/v2 imports remain display-compatible.
+The parser in `src/features/translation-packages/resolver.ts` is authoritative.
 
-## File contract
+Each subject is keyed by WaniKani ID and includes its original type, characters,
+English meanings and Japanese readings. These fields must match the live subject
+before translations appear. Image-only radicals use null characters in v2/v3.
+Examples match both original Japanese and English text, independent of order.
+Only entries marked editorial-reviewed are displayed; the marker is a publisher
+claim, not an app verification of translation accuracy or a digital signature.
+Source hashes are metadata, not a substitute for matching the actual source.
 
-The parser in `src/features/turkish-content/resolver.ts` is the authoritative schema. Use the sample JSON for an exact example of metadata and subject records. Records carry original source information, a translated primary meaning and alternatives, and optional examples with separate translations and usage explanations. Version 2 supports image-only radicals using a null character value. The current parser accepts Turkish (`tr`) packages only. Extending the parser and language setting to other language identifiers remains future work; the English settings wording presents the intended general feature.
+Files are limited to 20 MB, 12,000 subjects and 40,000 examples. Imports are
+validated before chunked storage and atomic activation. A malformed file or failed
+activation leaves the previous package active. Missing, draft or source-mismatched
+translations fall back to English. Mnemonics and hints are not translated.
 
-A translation is displayed only if its original source matches the live subject. Both source sentences must match for an example. Missing translations and source mismatches use original English. Local imports use chunked storage and atomic activation, and Settings can remove the imported package and return display meanings to original English. No demo package is bundled for display. The old pilot JSON is retained only as a test fixture.
+## Display coverage
 
-Mnemonic and hint translations are not implemented. Answer grading is unchanged. Imported meanings are not automatically accepted as review answers and are not sent to WaniKani. A separate [user-confirmed synonym transfer](turkish-synonym-transfer.md) uses explicit `synonymAnswers` from an imported format-v3 package. Legacy files remain display-only. No translation catalog is embedded in the app.
+Meaning and example sections in subject details and lessons; related radical,
+kanji and vocabulary cards; reading examples; similar kanji; lesson List View;
+Items, subject lists, critical/burned/unlocked lists and review result cards use
+the package. Detail meanings reveal original English inline on request. Compact
+lists use the translated primary meaning without an extra toggle. Sentence
+translation and usage explanation are separate; original English is optional.
 
-## Development and checks
+## Account changes are separate
 
-Install the dependencies using the original project's setup. From the repository root, run:
+Importing or enabling a package does not write to WaniKani and does not locally
+accept imported translations as correct review answers. The additional Turkish
+synonym transfer workflow is documented separately. Its code is a separate commit
+so the display feature can be reviewed independently.
+
+## Tests
+
+Run the project's Jest setup with:
 
 ```sh
-npx jest --runInBand --testPathPattern="src/features/turkish-content/__tests__|src/components/__tests__/(KanjiDetailsEtymology|RadicalDetails.translation|KanjiReadingExamples|VocabularyDetails.customSrs|LessonDetailScreen.largeText).test"
+npx jest --runInBand --testPathPattern="src/features/translation-packages/__tests__" --testPathIgnorePatterns="/output/"
 ```
 
-Tests and package samples live inside this repository; no parent project files are needed. Two small legacy package samples under `tests/fixtures/translation-packages` cover v1/v2 compatibility; complete-package tests use the current v3 distribution.
+Legacy compatibility fixtures are test data, not runtime imports. The small v3
+example exercises radical, image-only radical, kanji, vocabulary and kana records.
+Tests cover other package languages, exact source matching, fallback, activation
+failure, restart persistence, inline originals and explicit account writes.
 
-The personal Android variant uses `com.portego00.kakehashi.tr`. Version 1.5.0-tr.15 is an arm64 prototype. Local build caches, credentials and generated APKs are excluded from source control. The existing Android debug signing setup is suitable for this personal prototype; this repository does not introduce production release signing.
+## Opt-in boundary
 
-## Upstream updates
+Translations default to off. Importing a file only previews it; choosing **Use this package** activates it on this device. Turning it off keeps the file but restores the existing English text and layouts. The settings entry remains available to opt in later.
 
-Keep `main` as the upstream baseline and changes on `turkish-content`. Fetch upstream, merge its main branch into a trial branch, resolve conflicts and run the translation tests and Android build before updating the personal branch. Do not force-sync the feature branch to upstream.
-
-Review Complete result cards and Subject List browse/manage/add-item screens also resolve meanings from the active imported package. Source mismatches and disabled translations retain original English; review grading and list membership are unaffected.
-
-Format v3 adds optional per-subject `synonymAnswers: {values: string[], reviewStatus: "editorial-reviewed"}` and `scope: "display-and-synonyms"`. The supplied `wanikani-tr-v3.json` works for display and user-confirmed account transfer; `translation-package-v3.schema.json` documents the format. Do not import the schema file itself. Settings shows a compact summary with expandable details and compressed level ranges.
-
-
-The current format-v3 `translation-packages/wanikani-tr-v3.json` (package version 1.5.0) contains the same levels 1–60 meanings and synonym suggestions, plus 5,522 reviewed example translations and usage notes across levels 1–15. Existing examples are preserved. Import the updated JSON again to activate the new examples; no new APK is required. Sentence review is a separate pass by the same model, not an independent expert audit.
+Study screens do not hydrate packages while disabled. Summary lists validate against the complete subject that produced each current item, without loading a separate catalog snapshot. Review grading, scheduling, existing manual synonym saves, and Bunpro flows retain their existing behavior.

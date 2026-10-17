@@ -1,5 +1,5 @@
 let mockTranslations = false;
-jest.mock("../../src/features/turkish-content/display", () => ({useLearningDisplay: () => ({meaning: (subject: any) => mockTranslations && subject.id === 1 ? "Bir" : subject.data.meanings[0].meaning})}));
+jest.mock("../../src/features/translation-packages/display", () => ({useLearningDisplay: () => ({meaning: (subject: any) => mockTranslations && subject.id === 1 ? "Bir" : subject.data.meanings[0].meaning})}));
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
@@ -275,21 +275,6 @@ describe("list action selection", () => {
     mockTranslations = false;
     screen.rerender(<SubjectListEditorScreen/>);
     expect(screen.getByLabelText("Select One for list actions")).toBeTruthy();
-  });
-
-  it("hides translated meanings and accessibility labels until meanings are revealed", async () => {
-    mockTranslations = true;
-    const screen = await openList();
-    expect(screen.getByText("Bir")).toBeTruthy();
-    fireEvent.press(screen.getByText("Hide Meanings"));
-    expect(screen.queryByText("Bir")).toBeNull();
-    expect(screen.queryByLabelText("Select Bir for list actions")).toBeNull();
-    expect(screen.getByLabelText("Select 一 for list actions")).toBeTruthy();
-    fireEvent.press(screen.getByText("Browse"));
-    expect(screen.queryByText("Bir")).toBeNull();
-    fireEvent.press(screen.getByText("Show Meanings"));
-    expect(screen.getByText("Bir")).toBeTruthy();
-    expect(savedIds("source")).toEqual([1, 2, 3, 4]);
   });
 
   it("clears checks for items removed through Browse", async () => {

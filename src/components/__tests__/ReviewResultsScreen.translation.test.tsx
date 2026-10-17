@@ -1,12 +1,12 @@
 import React from "react";
 import {render, fireEvent} from "@testing-library/react-native";
 import ReviewResultsScreen from "../ReviewResultsScreen";
-import {parseTranslationPackage} from "../../features/turkish-content/resolver";
-import data from "../../../translation-packages/wanikani-tr-v3.json";
+import {parseTranslationPackage} from "../../features/translation-packages/resolver";
+import data from "../../../translation-packages/example-tr-v3.json";
 const mockPacket = parseTranslationPackage(data)!;
 let mockEnabled = true;
-jest.mock("../../features/turkish-content/display", () => {
- const original = jest.requireActual("../../features/turkish-content/display");
+jest.mock("../../features/translation-packages/display", () => {
+ const original = jest.requireActual("../../features/translation-packages/display");
  return {...original, useLearningDisplay: () => original.learningDisplay(mockPacket, mockEnabled)};
 });
 jest.mock("../../utils/theme",()=>({useTheme:()=>({theme:{textColor:"#111",textSecondary:"#555",primary:"#08f",border:"#ddd",cardBackground:"#fff",backgroundColor:"#fff"}})}));

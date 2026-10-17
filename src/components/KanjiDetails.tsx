@@ -1,11 +1,7 @@
-import { useLearningDisplay } from "../features/turkish-content/display";
-import { formatTurkishMeaning } from "../features/turkish-content/format";
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
 import { Ionicons } from "@expo/vector-icons";
-import { useActiveContent } from "../features/turkish-content/package-store";
-import { resolveTurkishMeaning } from "../features/turkish-content/resolver";
-import { useLearningContentStore } from "../features/turkish-content/store";
-import { MeaningRows } from "../features/turkish-content/MeaningRows";
+import { MeaningRows } from "../features/translation-packages/MeaningRows";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -184,7 +180,7 @@ const RadicalComponent = React.memo(
   }: RadicalComponentProps) {
     const [processedImageUrl, setProcessedImageUrl] = useState<string | null>(null);
     const contentDisplay = useLearningDisplay();
-    const componentMeaning = contentDisplay.meaning({...component, object: "radical"}, component.meanings[0] || "radical");
+    const componentMeaning = contentDisplay.meaning({...component, object: "radical"}, component.meanings[0] || "");
 
     // Pick best image from characterImages
     const bestImg = pickBestImage(component.characterImages);
@@ -225,10 +221,10 @@ const RadicalComponent = React.memo(
             ? undefined
             : reminderEnabled
               ? `${isExpanded ? "Hide" : "Show"} ${
-                  componentMeaning
+                  componentMeaning || "radical"
                 } radical reminder`
               : `Open full details for ${
-                  componentMeaning
+                  componentMeaning || "radical"
                 } radical`
         }
         accessibilityState={
@@ -488,15 +484,13 @@ export default function KanjiDetails({
   const readingPitchSnapInterval = readingPitchCardWidth + readingPitchCardGap;
 
   // Determine the primary meaning
-  const contentLanguage = useLearningContentStore(state => state.language);
   const contentDisplay = useLearningDisplay();
-  const turkishContent = useActiveContent();
-  const translatedMeaning = contentLanguage === "tr" ? resolveTurkishMeaning(turkishContent, kanji) : null;
+  const translatedMeaning = contentDisplay.resolveMeaning(kanji);
   const originalPrimaryMeaning =
     kanji.meanings.find((m) => m.primary)?.meaning ||
     kanji.meanings[0]?.meaning ||
     "";
-  const primaryMeaning = translatedMeaning ? formatTurkishMeaning(translatedMeaning.primary) : originalPrimaryMeaning;
+  const primaryMeaning = translatedMeaning ? contentDisplay.formatMeaning(translatedMeaning.primary) : originalPrimaryMeaning;
 
   // Determine the primary reading (fallback to first available reading)
   const primaryReading =
@@ -981,8 +975,35 @@ export default function KanjiDetails({
                   primary={translatedMeaning.primary} alternatives={translatedMeaning.alternatives}
                   english={originalPrimaryMeaning} englishAlternatives={kanji.meanings.filter(m => !m.primary && m.meaning !== originalPrimaryMeaning).map(m => m.meaning)}
                   rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
-                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Primary</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
-                  {kanji.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Alternative</Text><Text style={[styles.value, {color: theme.textColor}]}>{kanji.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
+                <View
+                  style={[
+                    styles.row,
+                    { marginBottom: kanji.meanings.length > 1 ? 8 : 8 },
+                  ]}
+                >
+                  <Text style={[styles.label, { color: theme.textSecondary }]}>
+                    Primary
+                  </Text>
+                  <Text style={[styles.value, { color: theme.textColor }]}>
+                    {primaryMeaning}
+                  </Text>
+                </View>
+
+                {kanji.meanings.length > 1 && (
+                  <View style={[styles.row, { marginBottom: 8 }]}>
+                    <Text
+                      style={[styles.label, { color: theme.textSecondary }]}
+                    >
+                      Alternative
+                    </Text>
+                    <Text style={[styles.value, { color: theme.textColor }]}>
+                      {kanji.meanings
+                        .filter((m) => !m.primary)
+                        .map((m) => m.meaning)
+                        .join(", ")}
+                    </Text>
+                  </View>
+                )}
                 </>}
 
                 <View style={styles.row}>
@@ -1404,7 +1425,7 @@ export default function KanjiDetails({
                           { color: theme.textColor },
                         ]}
                       >
-                        {contentDisplay.meaning({...expandedComponent, object: "radical"}, "Radical")}
+                        {contentDisplay.meaning({...expandedComponent, object: "radical"}, expandedComponent.meanings[0] || "Radical")}
                       </Text>
                       <Text
                         style={[
@@ -1467,7 +1488,7 @@ export default function KanjiDetails({
                       onPress={() => onSubjectPress(expandedComponent.id)}
                       accessibilityRole="button"
                       accessibilityLabel={`Open full details for ${
-                        contentDisplay.meaning({...expandedComponent, object: "radical"}, "radical")
+                        contentDisplay.meaning({...expandedComponent, object: "radical"}, expandedComponent.meanings[0] || "radical")
                       }`}
                     >
                       <Text

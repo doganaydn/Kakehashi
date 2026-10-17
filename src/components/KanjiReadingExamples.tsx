@@ -1,4 +1,4 @@
-import { useLearningDisplay } from "../features/turkish-content/display";
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import {
@@ -86,7 +86,7 @@ export default function KanjiReadingExamples({
     isLast: boolean
   ) => {
     const primaryReading = getPrimaryReading(example);
-    const primaryMeaning = display.meaning({...example, object: "vocabulary"}, "No meaning");
+    const primaryMeaning = display.meaning({...example, object: "vocabulary"}, example.meanings[0] ?? "No meaning");
 
     return (
       <TouchableOpacity

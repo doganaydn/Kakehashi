@@ -1,11 +1,7 @@
-import { useLearningDisplay } from "../features/turkish-content/display";
-import { formatTurkishMeaning } from "../features/turkish-content/format";
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
-import { useActiveContent } from "../features/turkish-content/package-store";
-import { resolveTurkishMeaning, resolveTurkishSentence } from "../features/turkish-content/resolver";
-import { useLearningContentStore } from "../features/turkish-content/store";
-import { MeaningRows } from "../features/turkish-content/MeaningRows";
-import { SentenceExplanation } from "../features/turkish-content/SentenceExplanation";
+import { MeaningRows } from "../features/translation-packages/MeaningRows";
+import { SentenceExplanation } from "../features/translation-packages/SentenceExplanation";
 import { Ionicons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import { useNavigation } from "@react-navigation/native";
@@ -613,14 +609,12 @@ export default function VocabularyDetails({
     null;
 
   // Determine the primary meaning
-  const contentLanguage = useLearningContentStore(state => state.language);
-  const turkishContent = useActiveContent();
-  const translatedMeaning = contentLanguage === "tr" ? resolveTurkishMeaning(turkishContent, vocabulary) : null;
+  const translatedMeaning = contentDisplay.resolveMeaning(vocabulary);
   const originalPrimaryMeaning =
     vocabulary.meanings.find((m) => m.primary)?.meaning ||
     vocabulary.meanings[0]?.meaning ||
     "";
-  const primaryMeaning = translatedMeaning ? formatTurkishMeaning(translatedMeaning.primary) : originalPrimaryMeaning;
+  const primaryMeaning = translatedMeaning ? contentDisplay.formatMeaning(translatedMeaning.primary) : originalPrimaryMeaning;
 
   // Determine the primary reading
   const primaryReading =
@@ -1752,8 +1746,7 @@ export default function VocabularyDetails({
         >
           {contextSentences.map((sentence, index) => {
             const sentenceId = `wk-${index}`;
-            const translatedSentence = contentLanguage === "tr"
-              ? resolveTurkishSentence(turkishContent, vocabulary, sentence) : null;
+            const translatedSentence = contentDisplay.sentence(vocabulary, sentence);
             return (
               <View
                 key={sentenceId}
@@ -2154,8 +2147,30 @@ export default function VocabularyDetails({
                   primary={translatedMeaning.primary} alternatives={translatedMeaning.alternatives}
                   english={originalPrimaryMeaning} englishAlternatives={vocabulary.meanings.filter(m => !m.primary && m.meaning !== originalPrimaryMeaning).map(m => m.meaning)}
                   rowStyle={styles.row} labelStyle={[styles.label, {color: theme.textSecondary}]} valueStyle={[styles.value, {color: theme.textColor}]} /> : <>
-                  <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Primary</Text><Text style={[styles.value, {color: theme.textColor}]}>{originalPrimaryMeaning}</Text></View>
-                  {vocabulary.meanings.length > 1 && <View style={styles.row}><Text style={[styles.label, {color: theme.textSecondary}]}>Alternative</Text><Text style={[styles.value, {color: theme.textColor}]}>{vocabulary.meanings.filter(m => !m.primary).map(m => m.meaning).join(", ")}</Text></View>}
+                <View style={[styles.row, { marginBottom: 8 }]}>
+                  <Text style={[styles.label, { color: theme.textSecondary }]}>
+                    Primary
+                  </Text>
+                  <Text style={[styles.value, { color: theme.textColor }]}>
+                    {primaryMeaning}
+                  </Text>
+                </View>
+
+                {vocabulary.meanings.length > 1 && (
+                  <View style={[styles.row, { marginBottom: 8 }]}>
+                    <Text
+                      style={[styles.label, { color: theme.textSecondary }]}
+                    >
+                      Alternative
+                    </Text>
+                    <Text style={[styles.value, { color: theme.textColor }]}>
+                      {vocabulary.meanings
+                        .filter((m) => !m.primary)
+                        .map((m) => m.meaning)
+                        .join(", ")}
+                    </Text>
+                  </View>
+                )}
                 </>}
 
                 <View
