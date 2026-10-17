@@ -1,9 +1,9 @@
 {
-  "version": "1.5.0",
-  "generatedAt": "2026-10-11T18:21:26.881165+00:00",
+  "version": "1.5.1",
+  "generatedAt": "2026-10-17T17:42:36.259Z",
   "subjects": 9409,
   "sentences": 5522,
-  "addedSentences": 2570,
+  "addedSentences": 0,
   "sentenceLevels": {
     "1": 112,
     "2": 238,
@@ -38,9 +38,9 @@
     "14": "b0e6426ab71a6283e210c3ff034e4a63f59e5bdea2439ee00703354679d2d8fe",
     "15": "6b1a810368b089c1172cdcfb22381483128e939f343273603d55005ed406cd02"
   },
-  "packageSha256": "8982af02762a5120f0702c770b45c2fc9f3b427ed5ee5e57bb7d3d69804507a7",
-  "bytes": 9621162,
-  "previousVersion": "1.4.0",
+  "packageSha256": "705a82c94d94279bfc0af1ad0cc8640b04d5847e9f6dfc3863e2731699e76972",
+  "bytes": 9621125,
+  "previousVersion": "1.5.0",
   "meaningsAndSynonymAnswersUnchanged": true,
   "previousExamplesUnchanged": true,
   "secondReview": "same-model separate pass; not independent expert review",
@@ -49,5 +49,8 @@
     "paylasim\\kakehashi-tr-dil-paketleri\\wanikani-tr-v3.json",
     "paylasim\\kakehashi-tr-android\\dil-paketi\\wanikani-tr-v3.json",
     "kakehashi-tr\\translation-packages\\wanikani-tr-v3.json"
-  ]
+  ],
+  "name": "Turkish Learning Content",
+  "metadataOnlyUpdate": true,
+  "changeDescription": "Simplified display name; learning content and package identity unchanged."
 }
