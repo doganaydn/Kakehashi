@@ -33,6 +33,6 @@ The merged `optional-translation-packages` branch remains in Git history. Do not
 
 ## Current prepared change
 
-`fix/lesson-similar-kanji-translations` contains only the lesson display correction and regression tests. The fix uses the existing translation resolver for visually similar kanji in kanji lessons and single-kanji vocabulary lessons. Translation opt-in and source-match fallback remain unchanged. No new JSON fields, grading changes, account writes or native changes are included.
+`fix/lesson-similar-kanji-translations` contains translation display corrections and regression tests for lesson visually similar kanji cards, Custom Lessons/Custom Review selection lists, and Similar Kanji matching options and answer reveals. The existing resolver preserves opt-in and source-match fallback. Matching retains original round labels if translations make choices indistinguishable; round data and grading remain unchanged. No new JSON fields, account writes or native changes are included. The branch name reflects the first fix; the PR title/body describe the complete scope.
 
 Review material: `paylasim/kakehashi-upstream-prs/lesson-similar-kanji/` in the parent project. The source correction was already delivered personally in tr.21; its clean upstream branch is independent of APK version commits. PR creation remains a separate explicit step.
