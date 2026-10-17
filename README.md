@@ -1,6 +1,6 @@
 # Optional translation package prototype
 
-This is a personal fork of [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi), updated through upstream commit [`e9d29f4`](https://github.com/Portego-00/Kakehashi/commit/e9d29f4bae5eb8c7f673cb43c0bd5adaf527304a), including Android home screen widgets and the settings redesign. The original project and its design remain the foundation of this work.
+This is a personal fork of [Portego-00/Kakehashi](https://github.com/Portego-00/Kakehashi), updated through upstream commit [`8ac088c`](https://github.com/Portego-00/Kakehashi/commit/8ac088c), including Android details freeze fixes, review shortcuts, Bunpro study improvements and settings persistence. The original project and its design remain the foundation of this work.
 
 The `turkish-content` branch adds an optional, locally imported JSON translation package. The interface stays in English; learning content uses Turkish from a separate file. This prototype currently accepts `tr` packages only. Missing or outdated translations fall back to the original English.
 
@@ -119,6 +119,14 @@ The option is off by default and works with grouped, meaning, and reading Anki
 cards. Components appear in word order, using the saved subject catalog for
 offline review; unavailable components are omitted.
 
+## Subject list word frequency
+
+When creating or editing a mobile Subject List, open **Browse → Filters → Word
+Frequency** and enter a maximum rank. The list editor uses the same frequency
+filter as Custom Review, including kana vocabulary. **Select Filtered** adds all
+confirmed matches, including those beyond the displayed results. Cached ranks
+work offline; remaining words can be checked with Jiten and retried if interrupted.
+
 ## Review character size
 
 Use **Settings → Review Settings → Review Character Size** on mobile, or
@@ -127,6 +135,19 @@ prompts down to 30% in 10% steps. The default is 100%; answer fields and other
 app text keep their own sizes. On the web, you can also change **Question text
 size** from the review session's settings button, including on a phone with the
 keyboard open.
+
+## Review keyboard shortcuts
+
+In the native app, including on a Mac with a keyboard, press **D** to open
+subject details from an Anki review, then press **D** again to return to the
+revealed review. If you customize the details shortcut, that key also returns
+to the review. The shortcut pauses while editing a note or using another dialog.
+
+On the web, press **D** after revealing an answer to open or close subject
+details, including while a details button, tab, or link has keyboard focus.
+Closing details returns focus to the review so you can continue grading from
+the keyboard. This also works with a custom details key set in **Custom study
+keys**. Typing in notes and other editable fields keeps its normal behavior.
 
 ## Connecting Spotify
 

@@ -1,11 +1,11 @@
 # Kakehashi Türkçe — güncel çalışma özeti
 
 Fork: https://github.com/doganaydn/Kakehashi · Dal: turkish-content.
-Upstream: Portego-00/Kakehashi; e9d29f4 güncellemesi birleştirildi.
+Upstream: Portego-00/Kakehashi; 8ac088c güncellemesine kadar 12–16 Ekim düzeltmeleri birleştirildi.
 
-- Kişisel Android sürümü: 1.5.0-tr.18 / code 43 / arm64-v8a.
+- Kişisel Android sürümü: 1.5.0-tr.19 / code 44 / arm64-v8a.
 - Uygulama kimliği: com.portego00.kakehashi.tr. Önceki kişisel imza ve kapalı upstream OTA korunur.
-- Önceki tr.15 sürümü kullanıcı tarafından sorunsuz kullanılmıştı. tr.18 geri dönüş APK'sının telefon kontrolü henüz yapılmadı.
+- Önceki tr.15 sürümü kullanıcı tarafından sorunsuz kullanılmıştı. tr.19 güncellemesinin telefon kontrolü henüz yapılmadı.
 - Güncel dosya: translation-packages/wanikani-tr-v3.json, paket 1.5.0.
 - 1–60 anlamları, 491 radikal, 1–15 seviyelerden 5.522 cümle ve kullanım açıklaması.
 - Veri APK'ya gömülü değildir; Settings → Appearance üzerinden içe aktarılır.
