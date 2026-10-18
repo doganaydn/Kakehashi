@@ -10,7 +10,7 @@ Import **wanikani-tr-v3.json** from **Settings → Appearance → Advanced setti
 - 9,441 example sentence translations and usage notes for levels 1–25.
 - Turkish synonym suggestions for optional, user-confirmed transfer to WaniKani.
 
-The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.5 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 2,591 mnemonic/hint fields for 1,152 subjects across levels 4 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
+The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.6 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 2,878 mnemonic/hint fields for 1,282 subjects across levels 3 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
 
 Missing or outdated translations fall back to the original content. Importing a package does not automatically add synonyms or change answer grading.
 
@@ -77,3 +77,7 @@ Adds 483 separately reviewed mnemonic/hint fields for 213 active level 5 subject
 ## Version 1.8.5 — level 4 mnemonics
 
 Adds 416 separately reviewed mnemonic/hint fields for 191 active subjects. All prior mnemonic fields, meanings, synonym suggestions and 9,441 examples are preserved. A final read-only API check matched the source snapshot. Coverage is now levels 4–9: 2,591 fields across 1,152 subjects. Same-model review and separate user approval remain as described above. Existing tr.26 supports the package without a new APK.
+
+## Version 1.8.6 — level 3 mnemonics
+
+Adds 287 separately reviewed mnemonic/hint fields for 130 active subjects. All prior mnemonic fields, meanings, synonym suggestions and 9,441 examples are preserved. A final read-only API check matched the source snapshot. Coverage is now levels 3–9: 2,878 fields across 1,282 subjects. Same-model review and separate user approval remain as described above. Existing tr.26 supports the package without a new APK.
