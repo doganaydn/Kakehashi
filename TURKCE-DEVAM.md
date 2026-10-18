@@ -6,7 +6,7 @@ Personal Android adaptations: com.portego00.kakehashi.tr, Kakehashi Türkçe, ka
 
 Temporary native fix: AsyncStorage_db_size_in_MB=64 instead of the library default 6 MiB. Official installed app logs showed SQLiteFullException. The full 9,409-subject package fails a simulated 6 MiB budget and activates/rehydrates at 64 MiB. This is a storage quota fix, not a claim about RAM usage or unlimited future capacity.
 
-Translation file: translation-packages/wanikani-tr-v3.json, v1.5.1, 5,522 sentences in levels 1–15. Distribution data is not bundled into the runtime. Use Settings → Appearance → Advanced settings. The developer's default is opt-in; enable the package if necessary after updating. No automatic synonym transfer or account changes.
+Translation file: translation-packages/wanikani-tr-v3.json, v1.6.0, 9,441 sentences in levels 1–25. Distribution data is not bundled into the runtime. Use Settings → Appearance → Advanced settings. The developer's default is opt-in; enable the package if necessary after updating. No automatic synonym transfer or account changes.
 
 Before replacement, the prototype was retained in Git history and local branch personal-prototype-before-upstream-base. Phone installation and package import must be checked separately after APK delivery.
 

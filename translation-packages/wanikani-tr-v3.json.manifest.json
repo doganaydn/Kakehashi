@@ -1,9 +1,10 @@
 {
-  "version": "1.5.1",
-  "generatedAt": "2026-10-17T17:42:36.259Z",
+  "version": "1.6.0",
+  "previousVersion": "1.5.1",
+  "generatedAt": "2026-10-18T10:41:35.409391+00:00",
   "subjects": 9409,
-  "sentences": 5522,
-  "addedSentences": 0,
+  "sentences": 9441,
+  "addedSentences": 3919,
   "sentenceLevels": {
     "1": 112,
     "2": 238,
@@ -19,7 +20,17 @@
     "12": 457,
     "13": 395,
     "14": 401,
-    "15": 396
+    "15": 396,
+    "16": 417,
+    "17": 381,
+    "18": 378,
+    "19": 376,
+    "20": 376,
+    "21": 342,
+    "22": 393,
+    "23": 380,
+    "24": 453,
+    "25": 423
   },
   "masterSha256": {
     "1": "66028d07f0e16578d05b466cf7b351563d69c1086a942d623dd05d1658ebec03",
@@ -36,21 +47,32 @@
     "12": "f05c05b571d4dedde5993c4d713988656705e2c1c0cb5457050d84f8ba67b149",
     "13": "c9b7e8b9799e5f84cbee37ade3c8ab8e772393adae21b86e7f2db74aec56daf9",
     "14": "b0e6426ab71a6283e210c3ff034e4a63f59e5bdea2439ee00703354679d2d8fe",
-    "15": "6b1a810368b089c1172cdcfb22381483128e939f343273603d55005ed406cd02"
+    "15": "6b1a810368b089c1172cdcfb22381483128e939f343273603d55005ed406cd02",
+    "16": "d743cfe3697d2e9df1166f6bbc9a406058f9031f0f1a9059033d11b68770ce11",
+    "17": "c023605c4be32eddea880f2148a67ac504faf6acfc6e3cb9ad5d7702a38eb40e",
+    "18": "f7f3e0d5bacf40b4ed1d1c37534b497a3de79e5aced4be2ffae8f627b4ccad78",
+    "19": "108d50855f2b323ba2e4c21b3c1812d711e8ac9ee4c0ef14732f4286f2fc0da0",
+    "20": "8732c8feaf91315cdbd7594216e13b5540bf2b0425767caefe9ece71b8adc3fe",
+    "21": "3ecfa16ebbed8ec04e81adb1fbe9c041e60271a0f72b9b4830e903ffdc19b2d4",
+    "22": "f6179bf80f385020ae073a29ef1f9a1f3baffe205b47ad92f024000809a9a048",
+    "23": "3dfec3bfea1b884d51c0249753727b95defa3e8938c8fd6995aa9423a4bf2a1c",
+    "24": "a347f49ff987c36e3b638eedfb3a9017243c0e5c416ce6ec12a975456081e8b0",
+    "25": "2f73c30060c24a8abeed66038cd145f394f36bb49142fd6829d53a9c724fad21"
   },
-  "packageSha256": "705a82c94d94279bfc0af1ad0cc8640b04d5847e9f6dfc3863e2731699e76972",
-  "bytes": 9621125,
-  "previousVersion": "1.5.0",
+  "packageSha256": "4fc8e7ada63bc377fdaa85f0abc476d7e747d53acd91f78b99058221627af1cb",
+  "bytes": 11818675,
   "meaningsAndSynonymAnswersUnchanged": true,
   "previousExamplesUnchanged": true,
   "secondReview": "same-model separate pass; not independent expert review",
+  "userApproval": "not changed by export",
   "remoteWrites": 0,
+  "mnemonics": 0,
   "copies": [
     "paylasim\\kakehashi-tr-dil-paketleri\\wanikani-tr-v3.json",
     "paylasim\\kakehashi-tr-android\\dil-paketi\\wanikani-tr-v3.json",
     "kakehashi-tr\\translation-packages\\wanikani-tr-v3.json"
   ],
-  "name": "Turkish Learning Content",
-  "metadataOnlyUpdate": true,
-  "changeDescription": "Simplified display name; learning content and package identity unchanged."
+  "sourceRefresh": {
+    "7549": "Current reviewed English meaning basis includes Plural Suffix and Plural Ending; Turkish meanings/synonyms unchanged."
+  }
 }
