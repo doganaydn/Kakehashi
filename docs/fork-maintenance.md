@@ -42,3 +42,8 @@ The same preparation branch now also includes Vocab Reading prompts/sentence hin
 Vocab Reading follow-up: accepted alternative/whitelisted prompts display the full translated subject meaning set; kanji vocabulary hints translate from complete cached records while saved English hints and accepted answers remain unchanged. Combined validation is now 26 suites / 226 tests, with targeted ESLint passing.
 
 User preference (2026-10-18): preserve the original reading UI. A recognized prompt shows a single translated primary meaning; other translations appear only through the existing Context Hint, alongside preserved sentence/kanji vocabulary hints. This supersedes the full-meaning-set headline above. 26 suites / 227 tests and targeted ESLint passed.
+
+
+## Mnemonic package infrastructure (18 October 2026)
+
+Separate branch `feature/translation-package-mnemonics` starts at upstream `33578f0`; it does not extend PR #124. Format v4 adds independently matched meaning/reading mnemonics and hints. Existing renderers and text-token colors are reused; translations switch to original English in place. The contribution is integrated into `turkish-content`, with no APK rebuild or version bump. The full personal content package remains format v3 (content v1.6.0), 9,441 sentences through level 25; no mnemonic translations are included. Preparation and validation records: parent project `paylasim/kakehashi-upstream-prs/mnemonic-translations/`. A new PR still requires an explicit request.
