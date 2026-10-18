@@ -1,6 +1,6 @@
 {
   "schemaVersion": 4,
-  "packageVersion": "1.7.0",
+  "packageVersion": "1.7.1",
   "subjects": 9409,
   "sentences": 9441,
   "mnemonicSubjects": 203,
@@ -8,10 +8,10 @@
   "mnemonicLevels": [
     9
   ],
-  "sha256": "53c8a0f449463d42b47e01fc27c8012041d2ed338b976b366038169a81b17aa3",
-  "bytes": 8450822,
+  "sha256": "d72395f0af2789ebb1b4e161604b1852703b6f10792e7aa17eb7c54d81f827a3",
+  "bytes": 8451062,
   "oldV3Preserved": true,
   "existingMeaningsSynonymsAndExamplesPreserved": true,
-  "userContentApproval": "not inferred from build request; test delivery authorized",
+  "userContentApproval": "user evaluation in progress; wording corrections pending examples",
   "remoteWrites": 0
 }

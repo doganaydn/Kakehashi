@@ -27,3 +27,7 @@ The adjacent manifest records counts, source hashes and the package checksum. It
 ## Version 1.7.0 — v4 pilot
 
 Adds level 9 meaning/reading mnemonics and their hints. Source text is matched independently for each field, and original English remains available through the existing toggle. Turkish sound cues use reading markup rather than mixed-case emphasis. Radical names follow the existing catalog; kanji and vocabulary meanings follow their context. This is a user-test package, with the same separate AI review process described above. The v3 package remains available unchanged.
+
+## Version 1.7.1 — paragraph formatting
+
+Adds paragraph breaks at editorial transitions in 76 mnemonic fields. Wording, markup, meanings, synonym suggestions and examples are unchanged. Re-import the updated v4 JSON; the existing tr.26 APK supports it without rebuilding. User feedback on the translation wording is still being collected.
