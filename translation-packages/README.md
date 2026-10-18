@@ -10,7 +10,7 @@ Import **wanikani-tr-v3.json** from **Settings → Appearance → Advanced setti
 - 9,441 example sentence translations and usage notes for levels 1–25.
 - Turkish synonym suggestions for optional, user-confirmed transfer to WaniKani.
 
-The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.6 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 2,878 mnemonic/hint fields for 1,282 subjects across levels 3 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
+The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.7 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 3,207 mnemonic/hint fields for 1,429 subjects across levels 2 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
 
 Missing or outdated translations fall back to the original content. Importing a package does not automatically add synonyms or change answer grading.
 
@@ -81,3 +81,9 @@ Adds 416 separately reviewed mnemonic/hint fields for 191 active subjects. All p
 ## Version 1.8.6 — level 3 mnemonics
 
 Adds 287 separately reviewed mnemonic/hint fields for 130 active subjects. All prior mnemonic fields, meanings, synonym suggestions and 9,441 examples are preserved. A final read-only API check matched the source snapshot. Coverage is now levels 3–9: 2,878 fields across 1,282 subjects. Same-model review and separate user approval remain as described above. Existing tr.26 supports the package without a new APK.
+
+## Version 1.8.7 — level 2 mnemonics
+
+Adds 329 separately reviewed mnemonic/hint fields for 147 active subjects. All prior mnemonic fields, meanings, synonym suggestions and 9,441 examples are preserved. A final read-only API check matched the source snapshot. Coverage is now levels 2–9: 3,207 fields across 1,429 subjects. Same-model review and separate user approval remain as described above. Existing tr.26 supports the package without a new APK.
+
+Source metadata update: WaniKani subject 7561 (一日) now lists One Day / The First Of The Month. Only its source matching metadata and fingerprint were refreshed from the final live snapshot; existing Turkish meanings, synonym suggestions and examples are unchanged. See seviye-02/KAYNAK-ESLESME-GUNCELLEMESI.json. The original v3 file remains unchanged.
