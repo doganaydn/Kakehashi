@@ -10,7 +10,7 @@ Import **wanikani-tr-v3.json** from **Settings → Appearance → Advanced setti
 - 9,441 example sentence translations and usage notes for levels 1–25.
 - Turkish synonym suggestions for optional, user-confirmed transfer to WaniKani.
 
-The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.3 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 1,692 mnemonic/hint fields for 748 subjects across levels 6 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
+The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.4 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 2,175 mnemonic/hint fields for 961 subjects across levels 5 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
 
 Missing or outdated translations fall back to the original content. Importing a package does not automatically add synonyms or change answer grading.
 
@@ -69,3 +69,7 @@ New stories follow the same vivid Turkish writing standard; familiar readings st
 ## Version 1.8.3 — level 6 mnemonics
 
 Adds 409 separately reviewed mnemonic/hint fields for 183 active level 6 subjects. The retired Cyclops radical (hidden by WaniKani in 2018) is preserved in the author's raw inventory and excluded from this active package. All level 7–9 fields, meanings, synonym suggestions and 9,441 sentences remain unchanged. The source was checked again against the live API; 3 suites / 18 tests passed. The same-model editorial review is not independent expert review or individual user approval. Re-import the JSON in tr.26; no APK rebuild is required. Level 5 is next.
+
+## Version 1.8.4 — level 5 mnemonics
+
+Adds 483 separately reviewed mnemonic/hint fields for 213 active level 5 subjects. All prior level 6–9 fields, meanings, synonym suggestions and 9,441 examples are preserved. The source snapshot matched a final read-only API check. Full mnemonic coverage is now levels 5–9, with 2,175 fields across 961 subjects. Same-model review and separate user approval remain as described above. Existing tr.26 supports the package without a new APK.
