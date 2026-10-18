@@ -37,3 +37,7 @@ Adds paragraph breaks at editorial transitions in 76 mnemonic fields. Wording, m
 Reviews all 462 level 9 fields and revises 253: every reading mnemonic, every reading hint, and 33 meaning/hint fields. Familiar readings are combined in plain language with a Latin-letter pronunciation and the Japanese spelling. Long vowels and sound changes remain explicit; paragraph breaks, radical names and useful story connections are preserved. The other 209 fields remain unchanged. Meanings, synonym suggestions and sentence records outside the mnemonic fields are identical to the v3 package. Re-import the JSON in tr.26; no APK update is needed.
 
 The file is compact JSON: removing formatting whitespace makes it smaller than the indented v3 file despite the added mnemonic data. The simplified wording also slightly reduces size. Subject or sentence coverage has not been reduced.
+
+## Version 1.7.3 — minimal reading reminders
+
+Follows the original mnemonic's teaching scope: familiar readings receive a short reminder rather than a repeated answer or romaji breakdown. New reading stories and necessary sound-change explanations remain. Removes the separate pronunciation row from reading mnemonics. Revises 178 reading fields; other content is unchanged. Re-import the JSON in the existing tr.26 application.
