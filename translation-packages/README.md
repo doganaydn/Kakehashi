@@ -10,7 +10,7 @@ Import **wanikani-tr-v3.json** from **Settings → Appearance → Advanced setti
 - 9,441 example sentence translations and usage notes for levels 1–25.
 - Turkish synonym suggestions for optional, user-confirmed transfer to WaniKani.
 
-The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. It preserves all existing meanings, synonym suggestions and 9,441 examples, and adds 462 mnemonic/hint fields for 203 level 9 subjects. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
+The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.1 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 871 mnemonic/hint fields for 384 subjects across levels 8 and 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
 
 Missing or outdated translations fall back to the original content. Importing a package does not automatically add synonyms or change answer grading.
 
@@ -53,3 +53,9 @@ Reviews all 462 level 9 fields and revises 254. Meaning stories and genuinely ne
 This is the continuing writing standard for future levels: keep the source's teaching link, adapt soundplay to natural Turkish, preserve radical catalog names and semantic tags, and avoid routine romaji, mixed-case emphasis, repeated pronunciation rows or formulaic endings. Vivid storytelling does not replace accurate readings or imply that invented scenes are historical facts. This package still covers mnemonic translations only at level 9; future levels have not been added.
 
 Previous meanings, synonym suggestions and 9,441 sentences are preserved. The same tr.26 APK supports this content update. Translations received a separate pass using the same model, not independent expert review; individual user review remains separate.
+
+## Version 1.8.1 — level 8 mnemonics
+
+Adds all 409 source mnemonic/hint fields for 181 level 8 subjects: 14 radicals, 34 kanji, 127 vocabulary and 6 kana vocabulary items. Level 9's 462 fields remain identical. New meaning and reading stories follow the vivid-story standard; familiar readings stay concise. Radical names follow the Turkish catalog, sound cues preserve kana distinctions, and hints follow their corresponding scenes.
+
+Drafts and a separate review pass are recorded locally; this is the same-model editorial process described above, not independent expert or individual user approval. Full-package loading, source-matched resolution, changed-source fallback, persistence and mnemonic rendering passed 3 suites / 18 tests. Re-import the JSON in the existing tr.26 APK; no rebuild is needed. Levels 7 down to 1 are the next mnemonic work, in that order, and are not included yet.
