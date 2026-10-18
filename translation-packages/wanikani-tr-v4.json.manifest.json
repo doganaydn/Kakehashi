@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 4,
+  "packageVersion": "1.7.0",
+  "subjects": 9409,
+  "sentences": 9441,
+  "mnemonicSubjects": 203,
+  "mnemonicFields": 462,
+  "mnemonicLevels": [
+    9
+  ],
+  "sha256": "53c8a0f449463d42b47e01fc27c8012041d2ed338b976b366038169a81b17aa3",
+  "bytes": 8450822,
+  "oldV3Preserved": true,
+  "existingMeaningsSynonymsAndExamplesPreserved": true,
+  "userContentApproval": "not inferred from build request; test delivery authorized",
+  "remoteWrites": 0
+}
