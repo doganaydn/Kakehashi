@@ -45,3 +45,11 @@ Follows the original mnemonic's teaching scope: familiar readings receive a shor
 ## Version 1.7.4 — kanji markup review
 
 Checks all 162 fields for the 41 level 9 kanji and corrects 40 fields. Restores missing reading tags on mnemonic sound cues, marks target kanji meanings where present, keeps punctuation outside sound tags, and preserves catalog names for the Infinity and Horns radicals. Original hints without highlighting remain uncluttered. No additional romaji, pronunciation rows, UI changes or APK update are introduced.
+
+## Version 1.8.0 — vivid level 9 stories
+
+Reviews all 462 level 9 fields and revises 254. Meaning stories and genuinely new reading mnemonics now use concrete actions, memorable details and natural paragraph breaks. Hints recall the same scene. Familiar reading reminders, direct compositions and clear visual radical descriptions stay concise where a longer story adds no learning value.
+
+This is the continuing writing standard for future levels: keep the source's teaching link, adapt soundplay to natural Turkish, preserve radical catalog names and semantic tags, and avoid routine romaji, mixed-case emphasis, repeated pronunciation rows or formulaic endings. Vivid storytelling does not replace accurate readings or imply that invented scenes are historical facts. This package still covers mnemonic translations only at level 9; future levels have not been added.
+
+Previous meanings, synonym suggestions and 9,441 sentences are preserved. The same tr.26 APK supports this content update. Translations received a separate pass using the same model, not independent expert review; individual user review remains separate.
