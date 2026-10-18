@@ -1,6 +1,6 @@
 {
   "schemaVersion": 4,
-  "packageVersion": "1.8.8",
+  "packageVersion": "1.8.9",
   "subjects": 9409,
   "sentences": 9441,
   "mnemonicSubjects": 1509,
@@ -27,8 +27,8 @@
     "8": 409,
     "9": 462
   },
-  "sha256": "355cedb479877eafaa610e9d765a447affb2fe7e683288e71a1023ecf7837f2d",
-  "bytes": 10260128,
+  "sha256": "b65b3d4bae4c0b3a6396eecf13430125def13337f2817c1d2fa873207d17206c",
+  "bytes": 10259625,
   "oldV3Preserved": true,
   "existingMeaningsSynonymsAndExamplesPreserved": true,
   "userContentApproval": "vivid story approach approved; individual records remain separately reviewable",
