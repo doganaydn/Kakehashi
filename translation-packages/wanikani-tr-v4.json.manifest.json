@@ -1,20 +1,22 @@
 {
   "schemaVersion": 4,
-  "packageVersion": "1.8.1",
+  "packageVersion": "1.8.2",
   "subjects": 9409,
   "sentences": 9441,
-  "mnemonicSubjects": 384,
-  "mnemonicFields": 871,
+  "mnemonicSubjects": 565,
+  "mnemonicFields": 1283,
   "mnemonicLevels": [
+    7,
     8,
     9
   ],
   "mnemonicFieldsByLevel": {
+    "7": 412,
     "8": 409,
     "9": 462
   },
-  "sha256": "8ed1f557e5d796b8b8db9384732734dd79facba6eb6f35453819f86268d6b5bb",
-  "bytes": 8744937,
+  "sha256": "7704bed3693add068c572133f0b9a3a99c67a4c5960b23fee9f360c29339ea66",
+  "bytes": 8998788,
   "oldV3Preserved": true,
   "existingMeaningsSynonymsAndExamplesPreserved": true,
   "userContentApproval": "vivid story approach approved; individual records remain separately reviewable",
