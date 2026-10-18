@@ -41,3 +41,7 @@ The file is compact JSON: removing formatting whitespace makes it smaller than t
 ## Version 1.7.3 — minimal reading reminders
 
 Follows the original mnemonic's teaching scope: familiar readings receive a short reminder rather than a repeated answer or romaji breakdown. New reading stories and necessary sound-change explanations remain. Removes the separate pronunciation row from reading mnemonics. Revises 178 reading fields; other content is unchanged. Re-import the JSON in the existing tr.26 application.
+
+## Version 1.7.4 — kanji markup review
+
+Checks all 162 fields for the 41 level 9 kanji and corrects 40 fields. Restores missing reading tags on mnemonic sound cues, marks target kanji meanings where present, keeps punctuation outside sound tags, and preserves catalog names for the Infinity and Horns radicals. Original hints without highlighting remain uncluttered. No additional romaji, pronunciation rows, UI changes or APK update are introduced.
