@@ -31,3 +31,9 @@ Adds level 9 meaning/reading mnemonics and their hints. Source text is matched i
 ## Version 1.7.1 — paragraph formatting
 
 Adds paragraph breaks at editorial transitions in 76 mnemonic fields. Wording, markup, meanings, synonym suggestions and examples are unchanged. Re-import the updated v4 JSON; the existing tr.26 APK supports it without rebuilding. User feedback on the translation wording is still being collected.
+
+## Version 1.7.2 — simpler mnemonic wording
+
+Reviews all 462 level 9 fields and revises 253: every reading mnemonic, every reading hint, and 33 meaning/hint fields. Familiar readings are combined in plain language with a Latin-letter pronunciation and the Japanese spelling. Long vowels and sound changes remain explicit; paragraph breaks, radical names and useful story connections are preserved. The other 209 fields remain unchanged. Meanings, synonym suggestions and sentence records outside the mnemonic fields are identical to the v3 package. Re-import the JSON in tr.26; no APK update is needed.
+
+The file is compact JSON: removing formatting whitespace makes it smaller than the indented v3 file despite the added mnemonic data. The simplified wording also slightly reduces size. Subject or sentence coverage has not been reduced.
