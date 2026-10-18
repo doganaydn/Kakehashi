@@ -10,7 +10,7 @@ Import **wanikani-tr-v3.json** from **Settings → Appearance → Advanced setti
 - 9,441 example sentence translations and usage notes for levels 1–25.
 - Turkish synonym suggestions for optional, user-confirmed transfer to WaniKani.
 
-The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.2 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 1,283 mnemonic/hint fields for 565 subjects across levels 7, 8 and 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
+The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.3 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 1,692 mnemonic/hint fields for 748 subjects across levels 6 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
 
 Missing or outdated translations fall back to the original content. Importing a package does not automatically add synonyms or change answer grading.
 
@@ -65,3 +65,7 @@ Drafts and a separate review pass are recorded locally; this is the same-model e
 Adds all 412 mnemonic/hint fields for 181 level 7 subjects: 20 radicals, 37 kanji, 122 vocabulary and 2 kana vocabulary items. All level 8 and 9 mnemonic fields remain identical. Meanings, synonym suggestions and 9,441 sentence translations are preserved.
 
 New stories follow the same vivid Turkish writing standard; familiar readings stay short. Each subject has a separate review record, including corrections to sound cues, kana length, grammatical distinctions and story/hint consistency. The review is a separate pass by the same model, not independent expert review or individual user approval. Re-import the v4 JSON in tr.26; no APK rebuild is needed. Level 6 is the next mnemonic work and is not included yet.
+
+## Version 1.8.3 — level 6 mnemonics
+
+Adds 409 separately reviewed mnemonic/hint fields for 183 active level 6 subjects. The retired Cyclops radical (hidden by WaniKani in 2018) is preserved in the author's raw inventory and excluded from this active package. All level 7–9 fields, meanings, synonym suggestions and 9,441 sentences remain unchanged. The source was checked again against the live API; 3 suites / 18 tests passed. The same-model editorial review is not independent expert review or individual user approval. Re-import the JSON in tr.26; no APK rebuild is required. Level 5 is next.
