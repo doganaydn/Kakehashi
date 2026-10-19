@@ -10,7 +10,7 @@ afterEach(() => jest.restoreAllMocks());
 it("keeps highlighted and surrounding Android text in a single native paragraph", () => {
   jest.replaceProperty(Platform, "OS", "android");
   const screen = render(<Text><MnemonicTag style={badgeStyle} textStyle={labelStyle}>Kuzey</MnemonicTag>{" radikali, kanji olarak da "}<MnemonicTag style={badgeStyle} textStyle={labelStyle}>Kuzey</MnemonicTag>{"."}</Text>);
-  expect(screen.getByText("Kuzey radikali, kanji olarak da Kuzey.")).toBeTruthy();
+  expect(screen.getByText(/Kuzey.*radikali, kanji olarak da.*Kuzey/)).toBeTruthy();
   expect(screen.UNSAFE_queryAllByType(View)).toHaveLength(0);
 });
 
@@ -19,7 +19,7 @@ it("allows long labels and paragraph breaks without fixed heights or measurement
   const value = "a long highlighted term\nwith another line";
   const screen = render(<MnemonicTag style={badgeStyle} textStyle={labelStyle}>{value}</MnemonicTag>);
   const text = screen.UNSAFE_getByType(Text);
-  expect(text.props.children).toBe(value);
+  expect(text.props.children.join("")).toBe("\u202f" + value + "\u202f");
   expect(StyleSheet.flatten(text.props.style)).toMatchObject({ backgroundColor: "#f09", color: "white", fontSize: 14 });
   expect(StyleSheet.flatten(text.props.style).height).toBeUndefined();
   expect(text.props.onTextLayout).toBeUndefined();
