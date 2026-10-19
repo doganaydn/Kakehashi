@@ -10,7 +10,7 @@ Import **wanikani-tr-v3.json** from **Settings → Appearance → Advanced setti
 - 9,441 example sentence translations and usage notes for levels 1–25.
 - Turkish synonym suggestions for optional, user-confirmed transfer to WaniKani.
 
-The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.8.9 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 3,378 mnemonic/hint fields for 1,509 subjects across levels 1 through 9. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
+The v3 package does not include mnemonics. For the personal mnemonic pilot, install **1.5.0-tr.26 or newer** and import **wanikani-tr-v4.json** instead. Version 1.9.0 preserves all existing meanings, synonym suggestions and 9,441 examples, and includes 6,002 mnemonic/hint fields for 2,637 subjects across levels 1 through 15. Format v4 requires the mnemonic extension; do not import it into older official builds that only support v3.
 
 Missing or outdated translations fall back to the original content. Importing a package does not automatically add synonyms or change answer grading.
 
@@ -98,3 +98,7 @@ Adds 171 separately reviewed mnemonic/hint fields for 80 active subjects. All pr
 Corrects 68 reported fields and one linked hint across levels 1–9; the other 3,309 mnemonic/hint fields are unchanged. Fixes Turkish grammar, meaning and reading distinctions, references to not-yet-taught levels, unnecessary editorial notes and paragraph flow. Existing useful stories and characters are preserved. Prior translations and reviews are retained locally; individual user approval remains separate from the same-model second review.
 
 All nine levels match a fresh read-only WaniKani source check. All 9,409 subject entries, meanings, synonym suggestions and 9,441 example translations remain unchanged outside the 69 mnemonic translations. Three suites / 18 tests passed, covering package loading, source matching, fallback, persistence and markup. Re-import the updated v4 JSON in the existing tr.26 APK; no APK rebuild is needed. This content-only update has not been separately tested on a phone.
+
+## Version 1.9.0 — levels 10–15 mnemonics
+
+Adds 2,624 mnemonic/hint fields for 1,128 subjects across levels 10–15. Separate same-model review corrected 39 draft fields; this is not independent expert or individual user approval. Final live source comparisons found no differences. All 3,378 existing mnemonic fields, meanings, synonym suggestions and 9,441 sentences are unchanged. Package loading and rendering passed 3 suites / 18 tests. Re-import the v4 JSON in the existing tr.26 APK; no rebuild is needed.
