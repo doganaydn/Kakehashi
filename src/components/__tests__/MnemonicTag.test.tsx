@@ -3,6 +3,8 @@ import { render } from "@testing-library/react-native";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { MnemonicTag } from "../MnemonicTag";
 
+jest.mock("../../utils/theme", () => ({ useTheme: () => ({ theme: { isDark: false } }) }));
+
 const badgeStyle = { backgroundColor: "#f09", borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, marginHorizontal: 2 };
 const labelStyle = { fontSize: 14, fontWeight: "bold" as const, color: "white" };
 afterEach(() => jest.restoreAllMocks());
@@ -20,13 +22,13 @@ it("allows long labels and paragraph breaks without fixed heights or measurement
   const screen = render(<MnemonicTag style={badgeStyle} textStyle={labelStyle}>{value}</MnemonicTag>);
   const text = screen.UNSAFE_getByType(Text);
   expect(text.props.children).toBe(value);
-  expect(StyleSheet.flatten(text.props.style)).toMatchObject({ backgroundColor: "#f09", color: "white", fontSize: 14 });
+  expect(StyleSheet.flatten(text.props.style)).toMatchObject({ backgroundColor: "#ffe0f3", color: "#850050", fontSize: 14 });
   expect(StyleSheet.flatten(text.props.style).height).toBeUndefined();
   expect(text.props.onTextLayout).toBeUndefined();
   expect(text.props.numberOfLines).toBeUndefined();
   expect(screen.UNSAFE_queryAllByType(View)).toHaveLength(0);
   screen.rerender(<MnemonicTag style={badgeStyle} textStyle={{ ...labelStyle, fontSize: 24, color: "black" }}>{value}</MnemonicTag>);
-  expect(StyleSheet.flatten(screen.UNSAFE_getByType(Text).props.style)).toMatchObject({ fontSize: 24, color: "black", backgroundColor: "#f09" });
+  expect(StyleSheet.flatten(screen.UNSAFE_getByType(Text).props.style)).toMatchObject({ fontSize: 24, color: "#850050", backgroundColor: "#ffe0f3" });
   expect(screen.UNSAFE_queryAllByType(View)).toHaveLength(0);
 });
 
