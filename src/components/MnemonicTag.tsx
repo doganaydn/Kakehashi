@@ -26,9 +26,8 @@ export function MnemonicTag({ children, style, textStyle }: MnemonicTagProps) {
   // A native text span shares the paragraph's wrapping and baseline from the
   // first render, including after font-scale and available-width changes.
   const badgeStyle = StyleSheet.flatten(style);
-  const fontSize = StyleSheet.flatten(textStyle)?.fontSize ?? 14;
   return (
-    <Text style={[textStyle, { backgroundColor: badgeStyle?.backgroundColor, lineHeight: fontSize + 4, includeFontPadding: false }]}>
+    <Text style={[textStyle, { backgroundColor: badgeStyle?.backgroundColor }]}>
       {"\u202f"}{children}{"\u202f"}
     </Text>
   );
