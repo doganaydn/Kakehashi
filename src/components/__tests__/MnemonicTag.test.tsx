@@ -1,26 +1,36 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { render } from "@testing-library/react-native";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { MnemonicTag } from "../MnemonicTag";
 
 const badgeStyle = { backgroundColor: "#f09", borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2, marginHorizontal: 2 };
 const labelStyle = { fontSize: 14, fontWeight: "bold" as const, color: "white" };
 afterEach(() => jest.restoreAllMocks());
-it("preserves original colors in a single rounded Android badge without height changes", () => {
+
+it("keeps highlighted and surrounding Android text in a single native paragraph", () => {
   jest.replaceProperty(Platform, "OS", "android");
-  const screen = render(<MnemonicTag style={badgeStyle} textStyle={labelStyle}>Kuzey</MnemonicTag>);
-  expect(screen.UNSAFE_getAllByType(View)).toHaveLength(1);
-  expect(StyleSheet.flatten(screen.UNSAFE_getByType(View).props.style)).toMatchObject({ backgroundColor: "#f09", borderRadius: 6, paddingHorizontal: 5, paddingVertical: 2 });
-  expect(StyleSheet.flatten(screen.UNSAFE_getByType(View).props.style).height).toBeUndefined();
-  expect(StyleSheet.flatten(screen.getByText("Kuzey").props.style)).toMatchObject({ color: "white", includeFontPadding: false });
-  fireEvent(screen.getByText("Kuzey"), "textLayout", { nativeEvent: { lines: [{ y: 0, height: 18, ascender: 14 }] } });
-  expect(StyleSheet.flatten(screen.UNSAFE_getByType(View).props.style).transform).toEqual([{ translateY: 6 }]);
-  expect(StyleSheet.flatten(screen.UNSAFE_getByType(View).props.style).height).toBeUndefined();
-  expect(screen.UNSAFE_getAllByType(View)).toHaveLength(1);
-  fireEvent(screen.getByText("Kuzey"), "textLayout", { nativeEvent: { lines: [{ y: 0, height: 27, ascender: 21 }] } });
-  expect(StyleSheet.flatten(screen.UNSAFE_getByType(View).props.style).transform).toEqual([{ translateY: 8 }]);
+  const screen = render(<Text><MnemonicTag style={badgeStyle} textStyle={labelStyle}>Kuzey</MnemonicTag>{" radikali, kanji olarak da "}<MnemonicTag style={badgeStyle} textStyle={labelStyle}>Kuzey</MnemonicTag>{"."}</Text>);
+  expect(screen.getByText("Kuzey radikali, kanji olarak da Kuzey.")).toBeTruthy();
+  expect(screen.UNSAFE_queryAllByType(View)).toHaveLength(0);
 });
-it("keeps the iOS badge styles unchanged", () => {
+
+it("allows long labels and paragraph breaks without fixed heights or measurement callbacks", () => {
+  jest.replaceProperty(Platform, "OS", "android");
+  const value = "a long highlighted term\nwith another line";
+  const screen = render(<MnemonicTag style={badgeStyle} textStyle={labelStyle}>{value}</MnemonicTag>);
+  const text = screen.UNSAFE_getByType(Text);
+  expect(text.props.children).toBe(value);
+  expect(StyleSheet.flatten(text.props.style)).toMatchObject({ backgroundColor: "#f09", color: "white", fontSize: 14 });
+  expect(StyleSheet.flatten(text.props.style).height).toBeUndefined();
+  expect(text.props.onTextLayout).toBeUndefined();
+  expect(text.props.numberOfLines).toBeUndefined();
+  expect(screen.UNSAFE_queryAllByType(View)).toHaveLength(0);
+  screen.rerender(<MnemonicTag style={badgeStyle} textStyle={{ ...labelStyle, fontSize: 24, color: "black" }}>{value}</MnemonicTag>);
+  expect(StyleSheet.flatten(screen.UNSAFE_getByType(Text).props.style)).toMatchObject({ fontSize: 24, color: "black", backgroundColor: "#f09" });
+  expect(screen.UNSAFE_queryAllByType(View)).toHaveLength(0);
+});
+
+it("leaves iOS rounded badge sizing and styles unchanged", () => {
   jest.replaceProperty(Platform, "OS", "ios");
   const screen = render(<MnemonicTag style={badgeStyle} textStyle={labelStyle}>north</MnemonicTag>);
   expect(screen.UNSAFE_getByType(View).props.style).toBe(badgeStyle);
