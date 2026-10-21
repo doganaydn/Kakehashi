@@ -47,3 +47,8 @@ User preference (2026-10-18): preserve the original reading UI. A recognized pro
 ## Mnemonic package infrastructure (18 October 2026)
 
 Separate branch `feature/translation-package-mnemonics` starts at upstream `33578f0`; it does not extend PR #124. Format v4 adds independently matched meaning/reading mnemonics and hints. Existing renderers and text-token colors are reused; translations switch to original English in place. The contribution is integrated into `turkish-content`, with no APK rebuild or version bump. The full personal content package remains format v3 (content v1.6.0), 9,441 sentences through level 25; no mnemonic translations are included. Preparation and validation records: parent project `paylasim/kakehashi-upstream-prs/mnemonic-translations/`. A new PR still requires an explicit request.
+
+
+## Personal cloud configuration (21 October 2026)
+
+Personal builds need the public Supabase client URL and anon key in the gitignored `.env.local` to use the existing session streak and study-time sync. Preserve this local file when moving the build workspace; never commit user credentials or copy another installation’s private app data. The build staging copy includes local environment files, and Expo loads `.env.local`. Validate the public configuration before building. tr.36/code61 confirmed streak38 and combined54h4m in both installations without clearing or replacing the official app. Local ledgers retain separate device IDs; existing verified RPC history merging handles synchronization. This personal build configuration does not belong in an upstream feature PR.
