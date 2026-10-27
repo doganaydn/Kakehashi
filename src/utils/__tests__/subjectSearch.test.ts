@@ -1,4 +1,4 @@
-import { rankSubjectsByQuery, type SearchableSubjectLike } from "../subjectSearch";
+import { createSubjectSearchIndex, rankSubjectsByQuery, type SearchableSubjectLike } from "../subjectSearch";
 
 const dokidoki: SearchableSubjectLike = {
   id: 9232,
@@ -58,4 +58,16 @@ describe("kana subject search", () => {
     };
     expect(rankSubjectsByQuery([bag], "cat")).toEqual([]);
   });
+});
+
+it("keeps identical results, scores and ordering with a prepared index", () => {
+ const subjects = [dokidoki, { ...dokidoki, id: 2, object: "kanji", data: { ...dokidoki.data, characters: "日", meanings: [{ meaning: "Sun", primary: true }, { meaning: "Day" }], readings: [{ reading: "にち", primary: true }] } },
+  { ...dokidoki, id: 3, data: { ...dokidoki.data, characters: "カバン", meanings: [{ meaning: "School Bag", primary: true }], readings: [{ reading: "かばん" }] } }];
+ const before = JSON.stringify(subjects);
+ const index = createSubjectSearchIndex(subjects);
+ for (const query of ["", "a", "sun", "school", "scool bag", "かばん", "kaban", "日", "dokidoki", "ドキ", "not found"]) {
+   for (const minScore of [undefined, 0, 620, 980])
+    expect(rankSubjectsByQuery(subjects, query, { minScore, index })).toEqual(rankSubjectsByQuery(subjects, query, { minScore }));
+ }
+ expect(JSON.stringify(subjects)).toBe(before);
 });

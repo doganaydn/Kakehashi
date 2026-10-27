@@ -1,4 +1,4 @@
-import { rankTranslatedSubjects } from "../features/translation-packages/search";
+import { createTranslatedSearchIndex, rankTranslatedSubjects } from "../features/translation-packages/search";
 import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
@@ -47,6 +47,7 @@ import { pickBestImage, useRemoteSvg } from "../utils/radicalSvg";
 import { getSubjectTypeColor } from "../utils/subjectColors";
 import { useAuthStore } from "../utils/store";
 import {
+  createSubjectSearchIndex,
   getDefaultSubjectSearchConfig,
   sortSubjectsByLevelAndType,
 } from "../utils/subjectSearch";
@@ -116,12 +117,7 @@ function useAdaptiveDebounce(value: string, baseDelay: number) {
 
   useEffect(() => {
     // Longer delay for shorter queries to reduce performance impact
-    const delay =
-      value.length <= 1
-        ? baseDelay * 3
-        : value.length <= 2
-        ? baseDelay * 2
-        : baseDelay;
+    const delay = baseDelay;
 
     const handler = setTimeout(() => {
       setDebouncedValue(value);
@@ -206,7 +202,9 @@ export default function SubjectSearchScreen({
   const hasLoadedSubjectSrsStagesRef = useRef(false);
   const subjectSrsLoadInFlightRef = useRef(false);
 
-  const debouncedSearchQuery = useAdaptiveDebounce(searchQuery, 300);
+  const searchIndex = useMemo(() => allSubjects ? createSubjectSearchIndex(allSubjects) : undefined, [allSubjects]);
+  const translatedIndex = useMemo(() => allSubjects ? createTranslatedSearchIndex(allSubjects, display) : undefined, [allSubjects, display]);
+  const debouncedSearchQuery = useAdaptiveDebounce(searchQuery, 160);
   const headerSearchQuery =
     typeof params.query === "string" ? params.query : "";
   const showInlineSearchBar = forceInlineSearchBar || !usesNativeTabSearch;
@@ -539,7 +537,7 @@ export default function SubjectSearchScreen({
           );
 
         const searchConfig = getDefaultSubjectSearchConfig(query.length);
-        const scoredMatches = rankTranslatedSubjects(filteredSubjects, query, display, searchConfig.minScore);
+        const scoredMatches = rankTranslatedSubjects(filteredSubjects, query, display, searchConfig.minScore, searchIndex, translatedIndex);
 
         const results = scoredMatches
           .slice(0, searchConfig.maxResults)
@@ -575,7 +573,7 @@ export default function SubjectSearchScreen({
         setIsLoading(false);
       }
     },
-    [allSubjects, subjectSrsStageMap, display]
+    [allSubjects, subjectSrsStageMap, display, searchIndex, translatedIndex]
   );
 
   const performSearch = useCallback(

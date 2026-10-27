@@ -189,17 +189,45 @@ function boundedLevenshteinDistance(
   return previousRow[target.length];
 }
 
+interface PreparedCandidate { lower: string; normalized: string }
+export interface SubjectSearchIndex {
+  candidates: Map<string, PreparedCandidate>;
+  romaji: Map<string, string>;
+}
+function prepareCandidate(value: string): PreparedCandidate {
+  return { lower: value.toLowerCase(), normalized: normalizeForFuzzyMatch(value) };
+}
+// Rebuilt when the subject snapshot changes; never modifies the cached subjects.
+export function createSubjectSearchIndex(subjects: SearchableSubjectLike[]): SubjectSearchIndex {
+  const index: SubjectSearchIndex = { candidates: new Map(), romaji: new Map() };
+  const add = (value: string) => {
+    if (value && !index.candidates.has(value)) index.candidates.set(value, prepareCandidate(value));
+  };
+  for (const subject of subjects) {
+    if (subject.data.characters) add(subject.data.characters);
+    for (const meaning of subject.data.meanings) add(meaning.meaning);
+    for (const reading of subject.data.readings ?? []) {
+      add(reading.reading);
+      if (!index.romaji.has(reading.reading)) index.romaji.set(reading.reading, wanakana.toRomaji(reading.reading));
+      add(index.romaji.get(reading.reading)!);
+    }
+  }
+  return index;
+}
+
 function scoreVariantAgainstCandidate(
   candidate: string,
   variant: QueryVariant,
-  allowTypos: boolean
+  allowTypos: boolean,
+  index?: SubjectSearchIndex
 ): number {
   if (!candidate || (!variant.raw && !variant.normalized)) {
     return CANDIDATE_EMPTY_SCORE;
   }
 
-  const candidateLower = candidate.toLowerCase();
-  const candidateNormalized = normalizeForFuzzyMatch(candidate);
+  const prepared = index?.candidates.get(candidate) ?? prepareCandidate(candidate);
+  const candidateLower = prepared.lower;
+  const candidateNormalized = prepared.normalized;
   let bestScore = CANDIDATE_EMPTY_SCORE;
 
   if (variant.raw.length > 0) {
@@ -250,7 +278,7 @@ function scoreVariantAgainstCandidate(
     }
 
     if (
-      allowTypos &&
+      allowTypos && bestScore < 700 &&
       variant.normalized.length >= 4 &&
       candidateNormalized.length >= 4
     ) {
@@ -284,13 +312,14 @@ function scoreVariantAgainstCandidate(
 function scoreCandidateWithVariants(
   candidate: string,
   variants: (QueryVariant | null)[],
-  allowTypos: boolean
+  allowTypos: boolean,
+  index?: SubjectSearchIndex
 ): number {
   let bestScore = CANDIDATE_EMPTY_SCORE;
 
   for (const variant of variants) {
     if (!variant) continue;
-    const score = scoreVariantAgainstCandidate(candidate, variant, allowTypos);
+    const score = scoreVariantAgainstCandidate(candidate, variant, allowTypos, index);
     if (score > bestScore) {
       bestScore = score;
     }
@@ -326,7 +355,8 @@ function createSearchQueryVariants(query: string): SearchQueryVariants {
 
 function getSubjectMatchScore(
   subject: SearchableSubjectLike,
-  queryVariants: SearchQueryVariants
+  queryVariants: SearchQueryVariants,
+  index?: SubjectSearchIndex
 ): number {
   let bestScore = CANDIDATE_EMPTY_SCORE;
 
@@ -334,7 +364,7 @@ function getSubjectMatchScore(
     const charactersScore = scoreCandidateWithVariants(
       subject.data.characters,
       [queryVariants.primary, queryVariants.kana, queryVariants.katakana],
-      false
+      false, index
     );
 
     if (charactersScore >= 0) {
@@ -346,7 +376,7 @@ function getSubjectMatchScore(
     const meaningScore = scoreCandidateWithVariants(
       meaning.meaning,
       [queryVariants.primary],
-      true
+      true, index
     );
 
     if (meaningScore >= 0) {
@@ -362,15 +392,15 @@ function getSubjectMatchScore(
       let readingScore = scoreCandidateWithVariants(
         reading.reading,
         [queryVariants.primary, queryVariants.kana, queryVariants.katakana],
-        false
+        false, index
       );
 
       if (queryVariants.hasLatin) {
-        const romajiReading = wanakana.toRomaji(reading.reading);
+        const romajiReading = index?.romaji.get(reading.reading) ?? wanakana.toRomaji(reading.reading);
         const romajiReadingScore = scoreCandidateWithVariants(
           romajiReading,
           [queryVariants.primary, queryVariants.romaji],
-          true
+          true, index
         );
 
         if (romajiReadingScore >= 0) {
@@ -393,7 +423,7 @@ function getSubjectMatchScore(
 export function rankSubjectsByQuery<T extends SearchableSubjectLike>(
   subjects: T[],
   query: string,
-  options: { minScore?: number } = {}
+  options: { minScore?: number; index?: SubjectSearchIndex } = {}
 ): RankedSubject<T>[] {
   const trimmedQuery = query.trim();
   if (!trimmedQuery) {
@@ -410,7 +440,7 @@ export function rankSubjectsByQuery<T extends SearchableSubjectLike>(
   const scoredMatches: RankedSubject<T>[] = [];
 
   for (const subject of subjects) {
-    const score = getSubjectMatchScore(subject, queryVariants);
+    const score = getSubjectMatchScore(subject, queryVariants, options.index);
     if (score >= minScore) {
       scoredMatches.push({ subject, score });
     }
