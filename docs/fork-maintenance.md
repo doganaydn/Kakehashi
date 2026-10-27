@@ -52,3 +52,10 @@ Separate branch `feature/translation-package-mnemonics` starts at upstream `3357
 ## Personal cloud configuration (21 October 2026)
 
 Personal builds need the public Supabase client URL and anon key in the gitignored `.env.local` to use the existing session streak and study-time sync. Preserve this local file when moving the build workspace; never commit user credentials or copy another installation’s private app data. The build staging copy includes local environment files, and Expo loads `.env.local`. Validate the public configuration before building. tr.36/code61 confirmed streak38 and combined54h4m in both installations without clearing or replacing the official app. Local ledgers retain separate device IDs; existing verified RPC history merging handles synchronization. This personal build configuration does not belong in an upstream feature PR.
+
+
+## Upstream integration and search labels (27 October 2026)
+
+Integrated upstream/main cef3b74 (updates #128, #129, #133 and merged #127) into turkish-content. Resolved parser changes by retaining v4 mnemonic fields alongside upstream per-entry validation and bounded text/list fields; all 9,409 subjects in personal v4 package 1.9.3 parse successfully. Retained personal identity, signing, disabled OTA, storage quota and gitignored cloud configuration.
+
+Focused contribution branch fix/search-result-translations starts at cef3b74. Main subject search and legacy search modal now render optional translated primary meanings using complete source records and the existing resolver. Ranking and query matching remain original; this does not implement translated-meaning search. Contribution validation: 2 suites / 9 tests; personal integration: same 9 tests; upstream merge regression: 6 suites / 253 tests. Targeted ESLint has no errors and eight existing component warnings; test file lint clean. Structural contribution check passed. PR draft: parent paylasim/kakehashi-upstream-prs/search-result-translations/. No PR or developer message published. tr.37/code62 build prepared for user testing; device validation must be recorded separately.
