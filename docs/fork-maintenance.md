@@ -64,3 +64,8 @@ Focused contribution branch fix/search-result-translations starts at cef3b74. Ma
 ### Translated search queries (27 October follow-up)
 
 The user also requested matching Turkish queries. This supersedes the label-only scope above. fix/search-result-translations now searches reviewed primary and alternative meanings through the existing source-matched resolver, preserving original search and filtered result limits. Turkish case/keyboard folding supports ışık/IŞIK/isik and gölet/golet. Translation-off, missing, draft and stale entries do not contribute aliases. Clean and personal validation: 4 suites / 41 tests; targeted lint zero errors/eight existing warnings; structural check passed. tr.38/code63 is the follow-up build. No PR or developer message was published.
+
+
+## Settings choice card rows (27 October 2026)
+
+Focused upstream branch fix/settings-choice-card-rows replaces fractional fixed-width flexWrap cards with explicit equal-flex rows, preserving existing column policy and large-text single columns. Incomplete rows retain empty cells to preserve card width. Source starts at cef3b74; separately integrated into turkish-content. Contribution and personal checks: 3 suites / 8 tests, lint clean, structural guard passed. English draft and exact test limits in parent paylasim/kakehashi-upstream-prs/settings-choice-card-rows/. tr.39/code64 prepared; no physical device layout validation yet. No PR or developer message published.
