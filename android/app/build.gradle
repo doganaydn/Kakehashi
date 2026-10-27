@@ -91,8 +91,8 @@ android {
         applicationId 'com.portego00.kakehashi.tr'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 64
-        versionName "1.5.0-tr.39"
+        versionCode 65
+        versionName "1.5.0-tr.40"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
