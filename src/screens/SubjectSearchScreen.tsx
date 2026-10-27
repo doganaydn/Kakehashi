@@ -45,6 +45,7 @@ import { pickBestImage, useRemoteSvg } from "../utils/radicalSvg";
 import { getSubjectTypeColor } from "../utils/subjectColors";
 import { useAuthStore } from "../utils/store";
 import {
+  createSubjectSearchIndex,
   getDefaultSubjectSearchConfig,
   rankSubjectsByQuery,
   sortSubjectsByLevelAndType,
@@ -114,12 +115,7 @@ function useAdaptiveDebounce(value: string, baseDelay: number) {
 
   useEffect(() => {
     // Longer delay for shorter queries to reduce performance impact
-    const delay =
-      value.length <= 1
-        ? baseDelay * 3
-        : value.length <= 2
-        ? baseDelay * 2
-        : baseDelay;
+    const delay = baseDelay;
 
     const handler = setTimeout(() => {
       setDebouncedValue(value);
@@ -202,7 +198,8 @@ export default function SubjectSearchScreen({
   const hasLoadedSubjectSrsStagesRef = useRef(false);
   const subjectSrsLoadInFlightRef = useRef(false);
 
-  const debouncedSearchQuery = useAdaptiveDebounce(searchQuery, 300);
+  const searchIndex = useMemo(() => allSubjects ? createSubjectSearchIndex(allSubjects) : undefined, [allSubjects]);
+  const debouncedSearchQuery = useAdaptiveDebounce(searchQuery, 160);
   const headerSearchQuery =
     typeof params.query === "string" ? params.query : "";
   const showInlineSearchBar = forceInlineSearchBar || !usesNativeTabSearch;
@@ -537,6 +534,7 @@ export default function SubjectSearchScreen({
         const searchConfig = getDefaultSubjectSearchConfig(query.length);
         const scoredMatches = rankSubjectsByQuery(filteredSubjects, query, {
           minScore: searchConfig.minScore,
+          index: searchIndex,
         });
 
         const results = scoredMatches
@@ -573,7 +571,7 @@ export default function SubjectSearchScreen({
         setIsLoading(false);
       }
     },
-    [allSubjects, subjectSrsStageMap]
+    [allSubjects, subjectSrsStageMap, searchIndex]
   );
 
   const performSearch = useCallback(

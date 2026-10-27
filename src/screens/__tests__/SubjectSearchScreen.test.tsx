@@ -4,6 +4,9 @@ import { FlatList } from "react-native";
 
 import SubjectSearchScreen from "../SubjectSearchScreen";
 
+jest.mock("react-native-worklets", () => jest.requireActual("react-native-worklets/lib/module/mock"));
+jest.mock("react-native-reanimated", () => jest.requireActual("react-native-reanimated/mock"));
+
 const mockRouter = { push: jest.fn() };
 const mockDashboardData = { assignments: [] };
 const mockSubjects = [
