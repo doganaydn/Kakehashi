@@ -1,11 +1,12 @@
-jest.mock("react-native-worklets", () => require("react-native-worklets/lib/module/mock"));
-jest.mock("react-native-reanimated", () => require("react-native-reanimated/mock"));
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { FlatList } from "react-native";
 
 import SubjectSearchScreen from "../SubjectSearchScreen";
 import SearchModal from "../../components/SearchModal";
+
+jest.mock("react-native-worklets", () => jest.requireActual("react-native-worklets/lib/module/mock"));
+jest.mock("react-native-reanimated", () => jest.requireActual("react-native-reanimated/mock"));
 
 const mockMeaning = jest.fn((subject, fallback) => fallback);
 jest.mock("../../features/translation-packages/display", () => ({
