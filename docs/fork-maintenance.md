@@ -69,3 +69,8 @@ The user also requested matching Turkish queries. This supersedes the label-only
 ## Settings choice card rows (27 October 2026)
 
 Focused upstream branch fix/settings-choice-card-rows replaces fractional fixed-width flexWrap cards with explicit equal-flex rows, preserving existing column policy and large-text single columns. Incomplete rows retain empty cells to preserve card width. Source starts at cef3b74; separately integrated into turkish-content. Contribution and personal checks: 3 suites / 8 tests, lint clean, structural guard passed. English draft and exact test limits in parent paylasim/kakehashi-upstream-prs/settings-choice-card-rows/. tr.39/code64 prepared; no physical device layout validation yet. No PR or developer message published.
+
+
+## Subject search performance (27 October 2026)
+
+Focused branch fix/search-performance starts at cef3b74. It prepares original candidate case/normalized forms and reading romaji once per subject snapshot, keeps existing scores and ordering, skips typo distance only when it cannot win, and changes debounce to 160 ms. Personal integration also caches source-validated translated aliases per loaded subjects/display package. New 4 suites / 43 tests passed; upstream 2 suites / 21 passed; lint zero errors/four existing warnings and structural check passed. Desktop corpus benchmark on 9,409 subjects: six queries had identical scores/IDs/order; before 70–85 ms, indexed 15–25 ms, one-time build 104 ms. These are not phone figures. User authorized on-device testing without clearing official app data. tr.40/code65 build prepared; device result recorded separately. English PR draft: parent paylasim/kakehashi-upstream-prs/search-performance/PR-DRAFT.md. No PR or developer message published.
