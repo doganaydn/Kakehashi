@@ -1,3 +1,4 @@
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
@@ -25,6 +26,7 @@ import { useAuthStore } from '../utils/store';
 import { useTheme } from '../utils/theme';
 
 interface SearchResult {
+  source: Subject;
   id: number;
   characters: string;
   meaning: string;
@@ -268,6 +270,7 @@ function subjectMatchesQueryExactly(subject: Subject, query: string, kanaQuery: 
 
 export default function SearchModal({ visible, onClose }: SearchModalProps) {
   const { theme } = useTheme();
+  const display = useLearningDisplay();
   const { apiToken } = useAuthStore();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -477,8 +480,9 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
           
           if (matches) {
             results.push({
+              source: subject,
               id: subject.id,
-              characters: subject.data.characters || subject.data.meanings[0]?.meaning || '',
+              characters: subject.data.characters || '',
               meaning: subject.data.meanings.find(m => m.primary)?.meaning || 
                       subject.data.meanings[0]?.meaning || '',
               type: subject.object as WaniKaniItemType,
@@ -548,11 +552,11 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
           numberOfLines={1}
           ellipsizeMode="tail"
         >
-          {item.characters || item.meaning}
+          {item.characters || display.meaning(item.source, item.meaning)}
         </Text>
       </View>
       <View style={styles.itemDetails}>
-        <Text style={[styles.itemMeaning, { color: theme.textColor }]}>{item.meaning}</Text>
+        <Text style={[styles.itemMeaning, { color: theme.textColor }]}>{display.meaning(item.source, item.meaning)}</Text>
         <View style={styles.itemMetadata}>
           <Text style={[styles.itemType, { color: theme.textSecondary }]}>{item.type}</Text>
           <Text style={[styles.itemLevel, { color: theme.textLight }]}>Level {item.level}</Text>
