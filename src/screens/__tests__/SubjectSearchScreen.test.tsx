@@ -8,9 +8,11 @@ import SearchModal from "../../components/SearchModal";
 jest.mock("react-native-worklets", () => jest.requireActual("react-native-worklets/lib/module/mock"));
 jest.mock("react-native-reanimated", () => jest.requireActual("react-native-reanimated/mock"));
 
+const mockResolveMeaning = jest.fn(() => null);
 const mockMeaning = jest.fn((subject, fallback) => fallback);
+const mockDisplay = { meaning: mockMeaning, resolveMeaning: mockResolveMeaning };
 jest.mock("../../features/translation-packages/display", () => ({
-  useLearningDisplay: () => ({ meaning: mockMeaning }),
+  useLearningDisplay: () => mockDisplay,
 }));
 
 const mockRouter = { push: jest.fn() };
@@ -109,7 +111,7 @@ jest.mock("../../utils/theme", () => ({
   }),
 }));
 
-beforeEach(() => jest.useFakeTimers());
+beforeEach(() => { jest.useFakeTimers(); mockResolveMeaning.mockReset(); });
 afterEach(() => jest.useRealTimers());
 
 it("finds ドキドキ by romaji and opens its subject details", async () => {
@@ -171,15 +173,25 @@ it("filters browsing and ranked search before result limits, and restores result
   expect(JSON.stringify(mockSubjects)).toBe(sourceSnapshot);
 });
 
-it("shows translations in modal search while preserving Japanese navigation and source data", async () => {
+it.each(["Pounding", "carpinti", "YÜREK"])("shows translated modal search results for %s", async query => {
+  mockResolveMeaning.mockImplementation(subject => subject.id === 9232 ? { primary: "Kalp Çarpıntısı", alternatives: ["Yürek"] } : null);
   mockMeaning.mockImplementation((subject, fallback) => subject.id === 9232 ? "Kalp Çarpıntısı" : fallback);
   const screen = render(<SearchModal visible onClose={jest.fn()} />);
   await screen.findByPlaceholderText("Search kanji, vocabulary, or meanings...");
-  fireEvent.changeText(screen.getByPlaceholderText("Search kanji, vocabulary, or meanings..."), "Pounding");
+  fireEvent.changeText(screen.getByPlaceholderText("Search kanji, vocabulary, or meanings..."), query);
   await act(async () => { jest.advanceTimersByTime(700); });
   expect(await screen.findByText("Kalp Çarpıntısı")).toBeTruthy();
   expect(mockMeaning).toHaveBeenCalledWith(mockSubjects.find(s => s.id === 9232), "Pounding Heart");
   mockMeaning.mockImplementation((subject, fallback) => fallback);
   screen.rerender(<SearchModal visible onClose={jest.fn()} />);
   expect(await screen.findByText("Pounding Heart")).toBeTruthy();
+});
+
+it.each(["Kalp Çarpıntısı", "YUREK", "yürek"])("finds Turkish primary and alternative meanings: %s", async query => {
+  mockResolveMeaning.mockImplementation(subject => subject.id === 9232 ? { primary: "Kalp Çarpıntısı", alternatives: ["Yürek"] } : null);
+  const screen = render(<SubjectSearchScreen />);
+  await waitFor(() => expect(screen.UNSAFE_getByType(FlatList).props.data).toHaveLength(200));
+  fireEvent.changeText(screen.getByPlaceholderText("Search kanji, vocabulary, or meanings..."), query);
+  await act(async () => { jest.advanceTimersByTime(400); });
+  await waitFor(() => expect(screen.UNSAFE_getByType(FlatList).props.data.map(item => item.id)).toContain(9232));
 });

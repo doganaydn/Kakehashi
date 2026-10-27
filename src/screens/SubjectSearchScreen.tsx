@@ -1,3 +1,4 @@
+import { rankTranslatedSubjects } from "../features/translation-packages/search";
 import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
@@ -47,7 +48,6 @@ import { getSubjectTypeColor } from "../utils/subjectColors";
 import { useAuthStore } from "../utils/store";
 import {
   getDefaultSubjectSearchConfig,
-  rankSubjectsByQuery,
   sortSubjectsByLevelAndType,
 } from "../utils/subjectSearch";
 import { useTheme } from "../utils/theme";
@@ -402,7 +402,7 @@ export default function SubjectSearchScreen({
     }
 
     performSearch(debouncedSearchQuery.trim());
-  }, [debouncedSearchQuery, allSubjects, filters, subjectSrsStageMap]);
+  }, [debouncedSearchQuery, allSubjects, filters, subjectSrsStageMap, display]);
 
   const loadAllSubjects = useCallback(async () => {
     if (!apiToken) return;
@@ -539,9 +539,7 @@ export default function SubjectSearchScreen({
           );
 
         const searchConfig = getDefaultSubjectSearchConfig(query.length);
-        const scoredMatches = rankSubjectsByQuery(filteredSubjects, query, {
-          minScore: searchConfig.minScore,
-        });
+        const scoredMatches = rankTranslatedSubjects(filteredSubjects, query, display, searchConfig.minScore);
 
         const results = scoredMatches
           .slice(0, searchConfig.maxResults)
@@ -577,7 +575,7 @@ export default function SubjectSearchScreen({
         setIsLoading(false);
       }
     },
-    [allSubjects, subjectSrsStageMap]
+    [allSubjects, subjectSrsStageMap, display]
   );
 
   const performSearch = useCallback(

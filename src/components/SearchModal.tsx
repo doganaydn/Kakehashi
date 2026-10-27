@@ -1,3 +1,4 @@
+import { matchesTranslatedSearch } from "../features/translation-packages/search";
 import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
@@ -309,7 +310,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
     }
 
     performSearch(debouncedSearchQuery.trim());
-  }, [debouncedSearchQuery, visible, allSubjects]);
+  }, [debouncedSearchQuery, visible, allSubjects, display]);
 
   // Function to fetch all subjects from API (used for cache repair)
   const fetchAllSubjectsFromApi = useCallback(async (token: string) => {
@@ -441,7 +442,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
           
           // Early termination: if we've processed many subjects but found few results,
           // and it's a short query, break early to avoid unnecessary processing
-          if (isShortQuery && i > 2000 && results.length < 5) {
+          if (!display.active && isShortQuery && i > 2000 && results.length < 5) {
             break;
           }
           
@@ -478,6 +479,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
             matches = subjectMatchesQuery(subject, query, kanaQuery);
           }
           
+          matches = matches || matchesTranslatedSearch(display, subject, query, isShortQuery);
           if (matches) {
             results.push({
               source: subject,
@@ -493,12 +495,12 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
 
         // Sort results: exact matches first, then by level (based on Swift implementation)
         results.sort((a, b) => {
-          const aMatchesExactly = subjectMatchesQueryExactly(
+          const aMatchesExactly = matchesTranslatedSearch(display, a.source, query, true) || subjectMatchesQueryExactly(
             allSubjects.find(s => s.id === a.id)!, 
             query, 
             kanaQuery
           );
-          const bMatchesExactly = subjectMatchesQueryExactly(
+          const bMatchesExactly = matchesTranslatedSearch(display, b.source, query, true) || subjectMatchesQueryExactly(
             allSubjects.find(s => s.id === b.id)!, 
             query, 
             kanaQuery
@@ -521,7 +523,7 @@ export default function SearchModal({ visible, onClose }: SearchModalProps) {
         setIsLoading(false);
       }
     }, 0);
-  }, [allSubjects]);
+  }, [allSubjects, display]);
 
   const handleSubjectPress = useCallback((subjectId: number) => {
     // Close the search modal first, then navigate to subject details
