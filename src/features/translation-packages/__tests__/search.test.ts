@@ -1,6 +1,6 @@
 import { learningDisplay } from "../display";
 import { parsePackageText } from "../resolver";
-import { rankTranslatedSubjects, matchesTranslatedSearch } from "../search";
+import { rankTranslatedSubjects, matchesTranslatedSearch, createTranslatedSearchIndex } from "../search";
 import data from "../../../../tests/fixtures/translation-packages/tr-learning-pilot.json";
 const packet = parsePackageText(JSON.stringify(data));
 const entry = packet.subjects["2761"];
@@ -29,4 +29,16 @@ it("keeps Japanese and English searchable and deduplicates results", () => {
  for (const query of [entry.source.word!, entry.source.meaningsEn[0], "ışık"])
   expect(rankTranslatedSubjects([subject], query, display, 980).map(item => item.subject.id)).toEqual([subject.id]);
  expect(matchesTranslatedSearch(display, subject, "", false)).toBe(false);
+});
+
+it("reuses source-validated aliases across searches and respects filtered subjects and package replacement", () => {
+ const display = learningDisplay(packet, true);
+ const index = createTranslatedSearchIndex([subject], display);
+ for (const query of ["ışık", "inci", "golet", "pond"]) {
+  expect(rankTranslatedSubjects([subject], query, display, 620, undefined, index)).toEqual(rankTranslatedSubjects([subject], query, display, 620));
+ }
+ expect(rankTranslatedSubjects([], "ışık", display, 620, undefined, index)).toEqual([]);
+ const disabled = learningDisplay(packet, false);
+ const newIndex = createTranslatedSearchIndex([subject], disabled);
+ expect(rankTranslatedSubjects([subject], "ışık", disabled, 980, undefined, newIndex)).toEqual([]);
 });
