@@ -1,8 +1,16 @@
+jest.mock("react-native-worklets", () => require("react-native-worklets/lib/module/mock"));
+jest.mock("react-native-reanimated", () => require("react-native-reanimated/mock"));
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
 import { FlatList } from "react-native";
 
 import SubjectSearchScreen from "../SubjectSearchScreen";
+import SearchModal from "../../components/SearchModal";
+
+const mockMeaning = jest.fn((subject, fallback) => fallback);
+jest.mock("../../features/translation-packages/display", () => ({
+  useLearningDisplay: () => ({ meaning: mockMeaning }),
+}));
 
 const mockRouter = { push: jest.fn() };
 const mockDashboardData = { assignments: [] };
@@ -55,10 +63,12 @@ jest.mock("../../hooks/useDashboardData", () => ({
 }));
 jest.mock("../../utils/store", () => ({ useAuthStore: () => ({ apiToken: "token" }) }));
 jest.mock("../../utils/cache", () => ({
+  checkSubjectsCacheHealth: jest.fn(() => Promise.resolve({ isHealthy: true, issues: [] })),
   getAllSubjects: jest.fn(() => Promise.resolve(mockSubjects)),
   saveToCache: jest.fn(),
 }));
 jest.mock("../../utils/api", () => ({
+  getSubjects: jest.fn(() => Promise.resolve({ data: mockSubjects })),
   getAllAssignmentsCached: jest.fn(() => Promise.resolve({ data: [] })),
 }));
 jest.mock("../../utils/nativeTabs", () => ({ supportsNativeTabs: () => false }));
@@ -143,4 +153,32 @@ it("filters browsing and ranked search before result limits, and restores result
 
   await waitFor(() => expect(screen.UNSAFE_getByType(FlatList).props.data.length).toBeGreaterThan(1));
   expect(screen.getByLabelText("Search filters")).toBeTruthy();
+});
+
+ it("renders translated meanings from full source records and updates when translations change", async () => {
+  const sourceSnapshot = JSON.stringify(mockSubjects);
+  mockMeaning.mockImplementation((subject, fallback) => subject.id === 9232 ? "Kalp Çarpıntısı" : fallback);
+  const screen = render(<SubjectSearchScreen />);
+  await waitFor(() => expect(screen.UNSAFE_getByType(FlatList).props.data).toHaveLength(200));
+  fireEvent.changeText(screen.getByPlaceholderText("Search kanji, vocabulary, or meanings..."), "Dokidoki");
+  await act(async () => { jest.advanceTimersByTime(400); });
+  expect(await screen.findByText("Kalp Çarpıntısı")).toBeTruthy();
+  expect(mockMeaning).toHaveBeenCalledWith(mockSubjects.find(s => s.id === 9232), "Pounding Heart");
+  mockMeaning.mockImplementation((subject, fallback) => fallback);
+  screen.rerender(<SubjectSearchScreen />);
+  expect(await screen.findByText("Pounding Heart")).toBeTruthy();
+  expect(JSON.stringify(mockSubjects)).toBe(sourceSnapshot);
+});
+
+it("shows translations in modal search while preserving Japanese navigation and source data", async () => {
+  mockMeaning.mockImplementation((subject, fallback) => subject.id === 9232 ? "Kalp Çarpıntısı" : fallback);
+  const screen = render(<SearchModal visible onClose={jest.fn()} />);
+  await screen.findByPlaceholderText("Search kanji, vocabulary, or meanings...");
+  fireEvent.changeText(screen.getByPlaceholderText("Search kanji, vocabulary, or meanings..."), "Pounding");
+  await act(async () => { jest.advanceTimersByTime(700); });
+  expect(await screen.findByText("Kalp Çarpıntısı")).toBeTruthy();
+  expect(mockMeaning).toHaveBeenCalledWith(mockSubjects.find(s => s.id === 9232), "Pounding Heart");
+  mockMeaning.mockImplementation((subject, fallback) => fallback);
+  screen.rerender(<SearchModal visible onClose={jest.fn()} />);
+  expect(await screen.findByText("Pounding Heart")).toBeTruthy();
 });

@@ -1,3 +1,4 @@
+import { useLearningDisplay } from "../features/translation-packages/display";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import React, {
@@ -58,6 +59,7 @@ interface SearchResultReading {
 }
 
 interface SearchResult {
+  source: Subject;
   id: number;
   characters: string;
   meaning: string;
@@ -135,6 +137,7 @@ function useAdaptiveDebounce(value: string, baseDelay: number) {
 
 function subjectToSearchResult(subject: Subject): SearchResult {
   return {
+    source: subject,
     id: subject.id,
     characters: subject.data.characters || "",
     meaning:
@@ -165,6 +168,7 @@ export default function SubjectSearchScreen({
   showNativeTopTitle = true,
 }: SubjectSearchScreenProps = {}) {
   const { theme } = useTheme();
+  const display = useLearningDisplay();
   const { apiToken } = useAuthStore();
   const { dashboardData } = useDashboardData();
   const router = useRouter();
@@ -639,7 +643,7 @@ export default function SubjectSearchScreen({
     } else {
       return (
         <Text style={[styles.itemCharacter, fontStyles.japaneseText]}>
-          {item.meaning}
+          {display.meaning(item.source, item.meaning)}
         </Text>
       );
     }
@@ -675,13 +679,13 @@ export default function SubjectSearchScreen({
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              {item.characters || item.meaning}
+              {item.characters || display.meaning(item.source, item.meaning)}
             </Text>
           )}
         </View>
         <View style={styles.itemDetails}>
           <Text style={[styles.itemMeaning, { color: theme.textColor }]}>
-            {item.meaning}
+            {display.meaning(item.source, item.meaning)}
           </Text>
           <View style={styles.itemMetadata}>
             {visibleReadings.length > 0 ? (
