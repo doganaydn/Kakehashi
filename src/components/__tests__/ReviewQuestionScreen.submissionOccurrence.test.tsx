@@ -2,7 +2,7 @@ import { act, fireEvent, render, waitFor, within } from "@testing-library/react-
 import { router } from "expo-router";
 import { ExpoSpeechRecognitionModule } from "expo-speech-recognition";
 import React from "react";
-import { Alert, AppState, Dimensions, Modal, ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Alert, AppState, Dimensions, Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import ReviewQuestionScreen from "../ReviewQuestionScreen";
 import ReviewPromptCharacters from "../ReviewPromptCharacters";
@@ -454,6 +454,18 @@ function getSubmitButton(screen: ReturnType<typeof render>) {
 }
 
 describe("ReviewQuestionScreen question occurrences", () => {
+  it("uses Android sans-serif for typed meaning answers while retaining the Japanese reading font", () => {
+    const platform = jest.replaceProperty(Platform, "OS", "android");
+    try {
+      const screen = renderQuestion();
+      expect(StyleSheet.flatten(screen.getByTestId("answer-input").props.style).fontFamily).toBe("sans-serif");
+      const item = { ...radicalItem, subject: { ...radicalItem.subject, object: "kanji" as const,
+        data: { ...radicalItem.subject.data, readings: [{ reading: "いち", type: "onyomi", primary: true, accepted_answer: true }] } } };
+      screen.rerender(<ReviewQuestionScreen item={item} questionType="reading" onAnswer={jest.fn()} />);
+      expect(StyleSheet.flatten(screen.getByTestId("answer-input").props.style).fontFamily).toBe("SourceHanSansJP-Regular");
+    } finally { platform.restore(); }
+  });
+
   it.each([false, true])("positions submit and voice controls for left-handed mode %s", async (leftHanded) => {
     mockSettings.reviewLeftHandedMode = leftHanded;
     mockSettings.voiceReviewAnswersEnabled = true;

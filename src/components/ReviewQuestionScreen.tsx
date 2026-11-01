@@ -7215,6 +7215,7 @@ export default function ReviewQuestionScreen({
                     ref={kanaInputRef}
                     style={[
                       styles.answerInput,
+                      questionType === "meaning" && Platform.OS === "android" && styles.answerInputMeaning,
                       questionType === "reading" && styles.answerInputReading,
                       isVoiceReviewEnabled &&
                         (isVoiceRecognizing
@@ -7263,6 +7264,7 @@ export default function ReviewQuestionScreen({
                         underlineColorAndroid="transparent"
                         style={[
                           styles.answerInput,
+                          questionType === "meaning" && Platform.OS === "android" && styles.answerInputMeaning,
                           questionType === "reading" && styles.answerInputReading,
                           isVoiceReviewEnabled &&
                             (isVoiceRecognizing
@@ -8018,6 +8020,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     includeFontPadding: false,
     textAlignVertical: "center",
+  },
+  answerInputMeaning: {
+    fontFamily: "sans-serif",
   },
   answerInputReading: {
     ...fontStyles.japaneseText,
