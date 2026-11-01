@@ -77,3 +77,8 @@ Focused branch fix/search-performance starts at cef3b74. It prepares original ca
 
 
 Device follow-up: tr.40/code65 installed over personal tr.38 via adb install -r; original application and its data were untouched. Galaxy A55 showed translated kalp results; yer/isik/kalp produced expected counts. ADB marker-to-search-completion log: one baseline kalp 9680 ms; initial tr.40 kalp 2268 ms and subsequent yer/isik/kalp 845/1088/1040 ms. These few timings include ADB input overhead and do not measure final rendered frames; they are not a controlled benchmark. See parent paylasim/kakehashi-tr-android/dil-paketi/BUILD-MANIFEST-tr.40.json.
+
+
+## Android review meaning input font (1 November 2026)
+
+Galaxy A55 / tr.40 displayed Turkish ı, ş and ğ in a visibly different serif font in the typed review meaning field; user's sample was captured before any changes. Android reports sans-serif maps to Roboto and the device font contains the tested Turkish glyphs. Focused branch fix/review-meaning-font explicitly chooses Android sans-serif on the editable meaning input and paused overlay, keeping Japanese reading font and other platforms unchanged. Integrated into turkish-content; 2 suites / 262 tests passed in each workspace; targeted ESLint clean and structural guard passed. tr.41/code66 built for physical testing; visual outcome must be documented after testing. No PR or developer message published. English draft in parent paylasim/kakehashi-upstream-prs/review-meaning-font/.
