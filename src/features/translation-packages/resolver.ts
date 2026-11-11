@@ -4,7 +4,7 @@ import { z } from "zod";
 export const PACKAGE_LIMITS = {
   subjects: 12000, meanings: 64, readings: 64, alternatives: 32,
   synonyms: 20, examplesPerSubject: 100, examples: 40000,
-  metadata: 256, schemaUrl: 1024, meaning: 256, sentence: 4096, usage: 8192,
+  metadata: 256, schemaUrl: 1024, meaning: 256, sentence: 4096, usage: 8192, mnemonic: 8192,
 } as const;
 const text = (max: number) => z.string().max(max).refine(value => value.trim().length > 0);
 const array = <T extends z.ZodType>(item: T, max: number) => z.preprocess(
@@ -15,7 +15,10 @@ const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const status = z.enum(["demo", "draft", "editorial-reviewed"]);
 export const mnemonicFields = ["meaningMnemonic", "readingMnemonic", "meaningHint", "readingHint"] as const;
 export type MnemonicField = (typeof mnemonicFields)[number];
-const mnemonicTextSchema = z.object({ source: text(PACKAGE_LIMITS.usage), sourceSha256: hash, translation: text(PACKAGE_LIMITS.usage), reviewStatus: status }).strict();
+const mnemonicTextSchema = z.object({
+  source: text(PACKAGE_LIMITS.mnemonic), sourceSha256: hash,
+  translation: text(PACKAGE_LIMITS.mnemonic), reviewStatus: status,
+}).strict();
 const mnemonicsSchema = z.object({
   meaningMnemonic: mnemonicTextSchema.optional(), readingMnemonic: mnemonicTextSchema.optional(),
   meaningHint: mnemonicTextSchema.optional(), readingHint: mnemonicTextSchema.optional(),
@@ -27,8 +30,8 @@ const entrySchema = z.object({
     readingsJa: array(text(PACKAGE_LIMITS.meaning), PACKAGE_LIMITS.readings),
     level: z.number().int().min(1).max(60), updatedAt: z.string().max(PACKAGE_LIMITS.metadata).nullable(), meaningBasisSha256: hash,
   }).strict(),
-  mnemonics: mnemonicsSchema.optional(),
   synonymAnswers: z.object({ values: array(text(PACKAGE_LIMITS.meaning), PACKAGE_LIMITS.synonyms), reviewStatus: status }).strict().optional(),
+  mnemonics: mnemonicsSchema.optional(),
   meaning: z.object({ primary: text(PACKAGE_LIMITS.meaning), alternatives: array(text(PACKAGE_LIMITS.meaning), PACKAGE_LIMITS.alternatives), reviewStatus: status }).strict(),
   examples: array(z.object({
     source: z.object({ ja: text(PACKAGE_LIMITS.sentence), en: text(PACKAGE_LIMITS.sentence) }).strict(), sourceSha256: hash,
@@ -68,9 +71,10 @@ export function parseTranslationPackage(value: unknown): TranslationPackage | nu
     const parsed = entrySchema.safeParse((rawSubjects as Record<string, unknown>)[id]);
     if (!parsed.success) return null;
     const entry = parsed.data;
-    if (entry.mnemonics && result.data.schemaVersion < 4) return null;
-    if ((entry.source.type === "radical" || entry.source.type === "kana_vocabulary") && (entry.mnemonics?.readingMnemonic || entry.mnemonics?.readingHint)) return null;
     if (result.data.schemaVersion < 3 && (result.data.scope !== "display-only" || entry.synonymAnswers)) return null;
+    if (entry.mnemonics && result.data.schemaVersion < 4) return null;
+    if ((entry.source.type === "radical" || entry.source.type === "kana_vocabulary") &&
+      (entry.mnemonics?.readingMnemonic || entry.mnemonics?.readingHint)) return null;
     if (entry.source.type !== "radical" && entry.source.word === null) return null;
     if (result.data.schemaVersion === 1 && entry.source.type === "radical") return null;
     if (entry.source.type === "radical" && (entry.examples.length || entry.source.readingsJa.length)) return null;

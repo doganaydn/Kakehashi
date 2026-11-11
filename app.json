@@ -2,13 +2,13 @@
   "expo": {
     "name": "Kakehashi Türkçe",
     "slug": "kakehashi-tr-personal",
-    "version": "1.5.0-tr.41",
+    "version": "1.6.0-tr.42",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "kakehashitr",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "version": "1.5.0",
+      "version": "1.6.0",
       "supportsTablet": true,
       "bundleIdentifier": "com.portego00.kakehashi",
       "icon": "./ios/Kakehashi.icon",
@@ -42,7 +42,7 @@
       "appleTeamId": "854C975NWV"
     },
     "android": {
-      "version": "1.5.0",
+      "version": "1.6.0",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon-foreground.png",
         "backgroundImage": "./assets/images/adaptive-icon-background.png",
@@ -85,7 +85,7 @@
         "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
         "android.permission.SYSTEM_ALERT_WINDOW"
       ],
-      "versionCode": 66
+      "versionCode": 67
     },
     "web": {
       "bundler": "metro",
@@ -129,6 +129,7 @@
         "react-native-vision-camera",
         {
           "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera to scan Japanese text.",
+          "enableLocation": false,
           "enableMicrophonePermission": false
         }
       ],
@@ -152,7 +153,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "15.5"
+            "deploymentTarget": "16.4"
           }
         }
       ],
@@ -221,7 +222,7 @@
         }
       }
     },
-    "runtimeVersion": "1.5.0",
+    "runtimeVersion": "1.6.0",
     "updates": {
       "enabled": false
     }

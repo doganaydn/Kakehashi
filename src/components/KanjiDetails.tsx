@@ -1,9 +1,10 @@
 import { TranslatedStudyText } from "../features/translation-packages/TranslatedStudyText";
+import type { ViewInstance } from "react-native";
 import { useLearningDisplay } from "../features/translation-packages/display";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
 import { Ionicons } from "@expo/vector-icons";
 import { MeaningRows } from "../features/translation-packages/MeaningRows";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router/react-navigation";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -16,6 +17,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   enableLayoutAnimations,
   FadeIn,
@@ -443,6 +445,8 @@ export default function KanjiDetails({
     showStrokeOrder || initialTab !== "stroke" ? initialTab : "meaning"
   );
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+  const headerTop = Math.max(HEADER_TOP_OFFSET, insets.top + 16);
   const [showAllSimilar, setShowAllSimilar] = useState(false);
   const [expandedComponentId, setExpandedComponentId] = useState<number | null>(
     null
@@ -453,7 +457,7 @@ export default function KanjiDetails({
   const [kunyomiPitchPage, setKunyomiPitchPage] = useState(0);
   const [nanoriPitchPage, setNanoriPitchPage] = useState(0);
   const { theme } = useTheme();
-  const mainCharacterRef = useRef<View>(null);
+  const mainCharacterRef = useRef<ViewInstance>(null);
   const {
     containerRef,
     tooltipVisible,
@@ -1981,16 +1985,23 @@ export default function KanjiDetails({
         ]}
       >
         {!embedded && (
-        <View style={styles.header}>
+        <View
+          style={[
+            styles.header,
+            { paddingTop: headerTop, paddingLeft: 16 + insets.left, paddingRight: 16 + insets.right },
+          ]}
+        >
           <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Back"
             onPress={() => navigation.goBack()}
-            style={styles.backButton}
+            style={[styles.backButton, { top: headerTop, left: 20 + insets.left }]}
             hitSlop={BACK_BUTTON_HIT_SLOP}
           >
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
 
-          <View style={styles.headerActions}>
+          <View style={[styles.headerActions, { top: headerTop, right: 16 + insets.right }]}>
             <SubjectHistoryButton subjectType="kanji" meaning={kanji.meanings.find(item => item.primary)?.meaning} subjectId={kanji.id} label={kanji.characters || "Radical"} />
             {onAddToList && (
               <TouchableOpacity
@@ -2018,7 +2029,7 @@ export default function KanjiDetails({
           {onOpenConstellation && (
             <TouchableOpacity
               onPress={onOpenConstellation}
-              style={styles.constellationButton}
+              style={[styles.constellationButton, { right: 20 + insets.right }]}
             >
               <Ionicons name="planet-outline" size={24} color="#fff" />
             </TouchableOpacity>

@@ -7,7 +7,7 @@ import { learningDisplay } from "../display";
 import { TranslatedStudyText } from "../TranslatedStudyText";
 import { createPackageManager, packageManager } from "../package-store";
 import { useLearningContentStore } from "../store";
-import { mnemonicFields, parseTranslationPackage, resolveSynonymAnswers, resolveTranslatedMnemonic } from "../resolver";
+import { PACKAGE_LIMITS, mnemonicFields, parseTranslationPackage, resolveSynonymAnswers, resolveTranslatedMnemonic } from "../resolver";
 import { tokenizeWaniKaniMnemonic } from "../../../utils/wanikaniMnemonic";
 
 jest.mock("../../../utils/theme", () => ({ useTheme: () => ({ theme: { primary: "#08f" } }) }));
@@ -127,4 +127,17 @@ it("persists and rehydrates the v4 fields without changing their source markup",
   const restarted = createPackageManager(storage);
   await restarted.hydrate();
   expect(resolveTranslatedMnemonic(restarted.state.getState().packet, subject(), "meaningMnemonic", source)?.translation).toBe(translation);
+});
+
+it.each(mnemonicFields)("bounds both source and translated %s while retaining v4 import limits", field => {
+  for (const key of ["source", "translation"] as const) {
+    const value = fixture();
+    value.subjects["440"].mnemonics[field][key] = "x".repeat(PACKAGE_LIMITS.mnemonic);
+    expect(parseTranslationPackage(value)).not.toBeNull();
+    value.subjects["440"].mnemonics[field][key] += "x";
+    expect(parseTranslationPackage(value)).toBeNull();
+  }
+  const value = fixture();
+  value.subjects["440"].meaning.alternatives = Array(PACKAGE_LIMITS.alternatives + 1).fill("x");
+  expect(parseTranslationPackage(value)).toBeNull();
 });

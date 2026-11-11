@@ -1,5 +1,6 @@
 import { useLearningDisplay } from "../../src/features/translation-packages/display";
 import { practiceClue, practiceAlternatives, type PracticeDisplay } from "../../src/features/translation-packages/practice-display";
+import type { ScrollViewInstance } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useActivityTracking } from "../../src/hooks/useActivityTracking";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -526,7 +527,7 @@ export default function CrosswordSessionScreen() {
 
   const inputRef = useRef<KanaInputHandle>(null);
   const lastTappedCellRef = useRef<string | null>(null);
-  const mainScrollRef = useRef<ScrollView>(null);
+  const mainScrollRef = useRef<ScrollViewInstance>(null);
   const subjectByIdRef = useRef<Map<number, ApiSubject>>(new Map());
   const vocabularySoundRef = useRef<AudioSound | null>(null);
   const vocabularyAudioRequestIdRef = useRef(0);

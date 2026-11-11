@@ -1,9 +1,10 @@
 import { TranslatedStudyText } from "../features/translation-packages/TranslatedStudyText";
+import type { ViewInstance } from "react-native";
 import { SubjectHistoryButton } from "../features/subject-history/SubjectHistory";
 import { useLearningDisplay } from "../features/translation-packages/display";
 import { MeaningRows } from "../features/translation-packages/MeaningRows";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router/react-navigation";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -170,7 +171,7 @@ export default function RadicalDetails({
         : null,
     [mnemonicSvgXml, theme.textColor, theme.isDark]
   );
-  const mainCharacterRef = useRef<View>(null);
+  const mainCharacterRef = useRef<ViewInstance>(null);
   const {
     containerRef,
     tooltipVisible,
@@ -183,6 +184,7 @@ export default function RadicalDetails({
 
   const { width: screenWidth } = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  const headerTop = Math.max(HEADER_TOP_OFFSET, insets.top + 16);
 
   // Scroll position for sticky header
   const scrollY = useSharedValue(0);
@@ -504,16 +506,23 @@ export default function RadicalDetails({
 
         {/* Header */}
         {!embedded && (
-        <View style={styles.header}>
+        <View
+          style={[
+            styles.header,
+            { paddingTop: headerTop, paddingLeft: 16 + insets.left, paddingRight: 16 + insets.right },
+          ]}
+        >
           <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Back"
             onPress={() => navigation.goBack()}
-            style={styles.backButton}
+            style={[styles.backButton, { top: headerTop, left: 20 + insets.left }]}
             hitSlop={BACK_BUTTON_HIT_SLOP}
           >
             <Ionicons name="arrow-back" size={24} color={radicalHeaderTextColor} />
           </TouchableOpacity>
 
-          <View style={styles.headerActions}>
+          <View style={[styles.headerActions, { top: headerTop, right: 16 + insets.right }]}>
             <SubjectHistoryButton subjectType="radical" iconColor={radicalHeaderTextColor} meaning={radical.meanings.find(item => item.primary)?.meaning} subjectId={radical.id} label={radical.characters || "Radical"} />
             {onAddToList && (
               <TouchableOpacity
@@ -541,7 +550,7 @@ export default function RadicalDetails({
           {onOpenConstellation && (
             <TouchableOpacity
               onPress={onOpenConstellation}
-              style={styles.constellationButton}
+              style={[styles.constellationButton, { right: 20 + insets.right }]}
             >
               <Ionicons
                 name="planet-outline"
@@ -1061,6 +1070,8 @@ export default function RadicalDetails({
             {
               backgroundColor: subjectColors.radical,
               paddingTop: insets.top + 8,
+              paddingLeft: 16 + insets.left,
+              paddingRight: 16 + insets.right,
               paddingBottom: 8,
               minHeight: insets.top + 68,
             },
@@ -1069,6 +1080,8 @@ export default function RadicalDetails({
           pointerEvents="box-none"
         >
           <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Back"
             onPress={() => navigation.goBack()}
             style={styles.stickyBackButton}
             hitSlop={BACK_BUTTON_HIT_SLOP}
