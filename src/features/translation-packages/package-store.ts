@@ -1,4 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
+import { nativePackageFiles, type PackageFiles } from "./package-files";
 import { create } from "zustand";
 import { useEffect } from "react";
 import { parsePackageText, type TranslationPackage } from "./resolver";
@@ -9,7 +11,7 @@ interface PackageState {
   hydrated: boolean;
   error: string | null;
 }
-export function createPackageManager(storage = AsyncStorage) {
+export function createPackageManager(storage = AsyncStorage, files?: PackageFiles) {
   const state = create<PackageState>(() => ({packet: null, hydrated: false, error: null}));
   let hydration: Promise<void> | undefined;
   type Pointer = {id: string; count: number};
@@ -23,16 +25,40 @@ export function createPackageManager(storage = AsyncStorage) {
   const cleanup = async (pointer: Pointer | null) => {
     if (pointer) await storage.multiRemove(Array.from({length: pointer.count}, (_, i) => `${pointer.id}-${i}`));
   };
+  const removeLegacy = async () => {
+    const saved = await storage.getItem(PACKAGE_STORAGE_KEY);
+    if (!saved) return;
+    let pointer: Pointer | null = null;
+    try { pointer = readPointer(saved); } catch {}
+    await storage.multiRemove([
+      PACKAGE_STORAGE_KEY,
+      ...Array.from({length: pointer?.count ?? 0}, (_, i) => `${pointer!.id}-${i}`),
+    ]);
+  };
   let writes = Promise.resolve();
   const hydrate = () => hydration ??= (async () => {
     try {
+      const filePacket = await files?.read();
+      if (filePacket) {
+        state.setState({packet: filePacket, error: null});
+        return;
+      }
       const saved = await storage.getItem(PACKAGE_STORAGE_KEY);
       let packet: TranslationPackage | null = null;
       if (saved) {
         const pointer = readPointer(saved);
         const chunks = await storage.multiGet(Array.from({length: pointer.count}, (_, i) => `${pointer.id}-${i}`));
         if (chunks.some(([, value]) => value === null)) throw new Error("Missing saved package chunk");
-        packet = parsePackageText(chunks.map(([, value]) => value).join(""));
+        const text = chunks.map(([, value]) => value).join("");
+        packet = parsePackageText(text);
+        if (files) {
+          try {
+            await files.write(text);
+            await removeLegacy();
+          } catch {
+            // The validated legacy package remains usable if migration cannot finish.
+          }
+        }
       }
       state.setState({packet, error: null});
     } catch {
@@ -48,6 +74,12 @@ export function createPackageManager(storage = AsyncStorage) {
     const text = JSON.stringify(packet);
     const validated = parsePackageText(text);
     await hydrate();
+    if (files) {
+      await files.write(text);
+      await removeLegacy().catch(() => {});
+      state.setState({packet: validated, error: null});
+      return;
+    }
     const previousText = await storage.getItem(PACKAGE_STORAGE_KEY);
     let previous: Pointer | null = null;
     try { if (previousText) previous = readPointer(previousText); } catch {}
@@ -67,6 +99,12 @@ export function createPackageManager(storage = AsyncStorage) {
   });
   const reset = () => enqueue(async () => {
     await hydrate();
+    if (files) {
+      await removeLegacy();
+      await files.remove();
+      state.setState({packet: null, error: null});
+      return;
+    }
     const previousText = await storage.getItem(PACKAGE_STORAGE_KEY);
     await storage.removeItem(PACKAGE_STORAGE_KEY);
     try { if (previousText) await cleanup(readPointer(previousText)); } catch {}
@@ -74,7 +112,7 @@ export function createPackageManager(storage = AsyncStorage) {
   });
   return {state, hydrate, activate, reset};
 }
-export const packageManager = createPackageManager();
+export const packageManager = createPackageManager(AsyncStorage, Platform.OS === "web" ? undefined : nativePackageFiles);
 export function useActiveContent(enabled = true) {
   const packet = packageManager.state(s => s.packet);
   useEffect(() => { if (enabled) void packageManager.hydrate(); }, [enabled]);

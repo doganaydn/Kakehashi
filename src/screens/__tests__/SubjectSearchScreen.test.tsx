@@ -5,8 +5,9 @@ import { FlatList, StyleSheet, View } from "react-native";
 import SubjectSearchScreen from "../SubjectSearchScreen";
 import SearchModal from "../../components/SearchModal";
 
-jest.mock("react-native-worklets", () => jest.requireActual("react-native-worklets/lib/module/mock"));
-jest.mock("react-native-reanimated", () => jest.requireActual("react-native-reanimated/mock"));
+jest.mock("@shopify/flash-list", () => ({
+  FlashList: jest.requireActual("react-native").FlatList,
+}));
 
 const mockResolveMeaning = jest.fn(() => null);
 const mockMeaning = jest.fn((subject, fallback) => fallback);

@@ -92,3 +92,35 @@ it("persists the v3 example across restart", async () => {
   expect(restarted.state.getState().packet).toEqual(combined);
   await restarted.reset(); expect(storage.values.size).toBe(0);
 });
+
+it("migrates legacy chunks to the native file without writing to AsyncStorage", async () => {
+  const storage = memoryStorage();
+  await createPackageManager(storage as any).activate(packet);
+  storage.multiSet.mockClear();
+  storage.setItem.mockClear();
+  storage.values.set("unrelated-setting", "keep");
+  let saved: string | null = null;
+  const files = {
+    read: jest.fn(async () => saved === null ? null : parsePackageText(saved)),
+    write: jest.fn(async (text: string) => { saved = text; }),
+    remove: jest.fn(async () => { saved = null; }),
+  };
+
+  const migrated = createPackageManager(storage as any, files);
+  await migrated.hydrate();
+  expect(migrated.state.getState().packet).toEqual(packet);
+  expect(storage.values).toEqual(new Map([["unrelated-setting", "keep"]]));
+  files.write.mockRejectedValueOnce(new Error("disk full"));
+  await expect(migrated.activate({...packet, version: "new"})).rejects.toThrow("disk full");
+
+  const restarted = createPackageManager(storage as any, files);
+  await restarted.hydrate();
+  expect(restarted.state.getState().packet).toEqual(packet);
+  await restarted.activate({...packet, version: "new"});
+  expect(restarted.state.getState().packet?.version).toBe("new");
+  expect(storage.multiSet).not.toHaveBeenCalled();
+  expect(storage.setItem).not.toHaveBeenCalled();
+  await restarted.reset();
+  expect(saved).toBeNull();
+  expect(storage.values.get("unrelated-setting")).toBe("keep");
+});
