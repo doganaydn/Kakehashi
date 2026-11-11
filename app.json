@@ -2,7 +2,7 @@
   "expo": {
     "name": "Kakehashi Türkçe",
     "slug": "kakehashi-tr-personal",
-    "version": "1.6.0-tr.42",
+    "version": "1.6.0-tr.43",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "kakehashitr",
@@ -85,7 +85,7 @@
         "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
         "android.permission.SYSTEM_ALERT_WINDOW"
       ],
-      "versionCode": 67
+      "versionCode": 68
     },
     "web": {
       "bundler": "metro",

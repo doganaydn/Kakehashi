@@ -21,7 +21,7 @@ it("treats script and HTML strings as literal text without following package URL
  data.language = "fr"; data.name = script; data.$schema = url;
  data.subjects["440"].meaning.primary = script;
  const raw = JSON.stringify(data);
- jest.mocked(File.pickFileAsync).mockResolvedValueOnce({size: raw.length, text: async () => raw} as any);
+ jest.mocked(File.pickFileAsync).mockResolvedValueOnce({canceled: false, result: {size: raw.length, text: async () => raw}} as any);
  const imported = (await selectTranslationPackage())!;
  const s = render(<><MeaningRows language="fr" primary={imported.subjects["440"].meaning.primary} alternatives={[]} english="English" englishAlternatives={[]} />
    <SentenceExplanation english="English" usage={url}/></>);
